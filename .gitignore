@@ -1,0 +1,11 @@
+.DS_Store
+/.build/
+/.swiftpm/
+/.index-build/
+/.cache/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.profdata
+*.profraw
+*.trace

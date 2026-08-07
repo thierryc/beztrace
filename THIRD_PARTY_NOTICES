@@ -1,0 +1,16 @@
+beztrace third-party notices
+
+This repository is currently documentation-only and bundles no third-party
+code or binary dependencies.
+
+The planned implementation is a derivative Swift port of img2bez:
+
+  Project: img2bez
+  Repository: https://github.com/eliheuer/img2bez
+  Source revision: 23073ca08ecdac61ad0e838bfae49a590bc2c7cc
+  Copyright: Copyright 2026 the img2bez Authors
+  License: Apache-2.0 OR MIT
+
+The corresponding license texts are distributed as LICENSE-APACHE and
+LICENSE-MIT. This file must be updated before any additional third-party source
+or binary dependency is added.
