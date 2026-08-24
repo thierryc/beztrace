@@ -4,9 +4,10 @@ These instructions apply to the entire beztrace repository.
 
 ## Current phase
 
-This repository is documentation-only. Do not add `Package.swift`, `Sources/`,
-an Xcode project, Swift code, tests, binaries, generated artifacts, or release
-automation until the user separately authorizes implementation.
+The reference checkpoint is complete and the repository is pre-implementation.
+It contains documentation, test infrastructure, and immutable fixtures. Do not
+add `Package.swift`, `Sources/`, an Xcode project, Swift production code, or
+release automation until the user separately authorizes Swift implementation.
 
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
@@ -29,6 +30,8 @@ discard unrelated changes.
 
 - beztrace must remain a standalone product with no Glyphs.app or Glyphs MCP
   runtime dependency.
+- The intended future role is a companion engine that returns neutral,
+  versioned paths for a separately versioned Glyphs MCP adapter to consume.
 - Do not edit the Glyphs MCP repository from a beztrace implementation task.
 - Do not add an MCP adapter here. Future consumers use the versioned neutral
   JSON contract.

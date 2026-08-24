@@ -9,3 +9,7 @@ DerivedData/
 *.profdata
 *.profraw
 *.trace
+__pycache__/
+*.pyc
+/test-work/
+/Tests/Fixtures/oracle/v1/work/

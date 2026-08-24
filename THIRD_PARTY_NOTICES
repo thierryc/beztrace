@@ -1,7 +1,7 @@
 beztrace third-party notices
 
-This repository is currently documentation-only and bundles no third-party
-code or binary dependencies.
+Reference capture is complete. This repository bundles two font binaries and
+one UFO source solely to reproduce test fixtures; none is a runtime dependency.
 
 The planned implementation is a derivative Swift port of img2bez:
 
@@ -12,5 +12,37 @@ The planned implementation is a derivative Swift port of img2bez:
   License: Apache-2.0 OR MIT
 
 The corresponding license texts are distributed as LICENSE-APACHE and
-LICENSE-MIT. This file must be updated before any additional third-party source
-or binary dependency is added.
+LICENSE-MIT.
+
+  Project: Noto Sans
+  Repository: https://github.com/google/fonts
+  Source revision: c28e08582e7bd36751febb3391142a5eb18bbb34
+  File: ofl/notosans/NotoSans[wdth,wght].ttf
+  Copyright: Copyright 2022 The Noto Project Authors
+  License: SIL Open Font License 1.1
+
+The exact font, metadata, and license text are stored under
+Tests/Fixtures/sources/noto-sans.
+
+  Project: Material Symbols
+  Repository: https://github.com/google/material-design-icons
+  Source revision: 50f0603134ce7b70b2d71b686cc13e8b57ccb74c
+  File: variablefont/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf
+  Copyright: Google LLC and contributors
+  License: Apache License 2.0
+
+The exact font, codepoint map, and license text are stored under
+Tests/Fixtures/sources/material-symbols.
+
+  Project: Virtua Grotesk
+  Repository: https://github.com/eliheuer/virtua-grotesk
+  Source revision: 797c1065abd0c1318217b7c44aff3d61074f7280
+  File: sources/VirtuaGrotesk-Regular.ufo
+  Copyright: Eli Heuer
+  License: SIL Open Font License 1.1
+
+The exact reference UFO and license text are stored under
+Tests/Fixtures/oracle/v1/reference-source.
+
+This file must be updated before any additional third-party source or binary
+dependency is added.

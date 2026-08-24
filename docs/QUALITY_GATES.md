@@ -14,8 +14,9 @@ SVG, or passing happy-path test is not sufficient.
   inflections, and H/V tangent intent for every fixture.
 - Coordinate deviation from the Rust oracle must remain within 0.25 canonical
   units before snapping and 1 unit after deterministic snapping/rounding.
-- Preserve or exceed the reported `0.964` mean structural score, with all 62
-  fixtures passing the same harness.
+- Preserve or exceed the replacement baseline's measured `0.961` mean
+  structural score, with all 62 fixtures passing the same harness. The
+  upstream `0.964` result is retained as historical, unreproduced context.
 
 ## Generated-image corpus
 

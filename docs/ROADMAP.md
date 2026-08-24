@@ -1,6 +1,6 @@
 # Roadmap
 
-## 0. Documentation bootstrap
+## 0. Documentation bootstrap — complete
 
 - Establish this documentation-only repository on `main`.
 - Create `lit/initial-swift-port` at the same baseline.
@@ -9,7 +9,7 @@
 Completion: project contract is internally consistent, links resolve, licenses
 are present, and both branches point to the documentation baseline.
 
-## 1. Reference capture
+## 1. Reference capture — complete
 
 - Freeze the pinned img2bez baseline and evaluation environment.
 - Capture stage fixtures, end-to-end results, structural scores, timings and
@@ -18,7 +18,20 @@ are present, and both branches point to the documentation baseline.
 
 Completion: the oracle and scoring loop run without beztrace implementation.
 
-## 2. Swift core foundations
+The completed public replacement baseline uses Virtua Grotesk commit
+`797c1065abd0c1318217b7c44aff3d61074f7280`: 62/62 glyphs pass with a measured
+mean structural score of `0.961`.
+
+## 1A. Stabilize checkpoint — complete
+
+- Sanitize and commit the immutable fixtures, oracle, tooling, and provenance.
+- Enforce the complete reference checkpoint in CI.
+- Verify the committed state from a clean local worktree.
+
+Completion: the branch is clean, the checkpoint is locally committed, and all
+strict reference checks pass without rewriting fixtures.
+
+## 2. Swift core foundations — next
 
 - Add the Swift package on `lit/initial-swift-port` after authorization.
 - Implement geometry, raster preparation, iso-contours and deterministic
@@ -64,8 +77,8 @@ Completion: beztrace is independently viable and consumable.
 
 ## 7. Future consumers
 
-Only after viability may another project prepare its own integration plan. A
-future Glyphs MCP adapter is expected to be read-only, accept path or base64
-input, invoke a checksum-pinned signed executable, return path data compatible
-with `pathDataVersion 2`, and leave application to the existing path mutation
-tool. None of that integration is part of this repository's initial work.
+The intended consumer is a future Glyphs MCP companion integration. Only after
+viability may that project prepare its adapter: accept path or base64 input,
+invoke a checksum-pinned signed executable, return path data compatible with
+`pathDataVersion 2`, and leave application to the existing path-mutation tool.
+None of that integration is part of this repository's initial work.

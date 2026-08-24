@@ -4,9 +4,10 @@
 glyph images into economical, type-design-quality cubic Bezier outlines.
 
 > [!IMPORTANT]
-> This repository is documentation-only. It contains no Swift package, tracing
-> engine, executable, MCP adapter, or production artifact. Do not represent it
-> as working software.
+> Reference capture is complete and Swift implementation has not started.
+> This repository contains documentation, test infrastructure, and immutable
+> image fixtures, but no Swift package, tracing engine, executable, MCP
+> adapter, or production artifact. Do not represent it as working software.
 
 ## Intended product
 
@@ -18,8 +19,11 @@ The product is deliberately split into two reusable layers:
 - `beztrace`, a signed command-line tool that exposes the library to local
   shell, batch, CI, and automation workflows.
 
-Glyphs MCP is a possible future consumer, not part of this product. No Glyphs
-integration may begin until the standalone viability gate in
+beztrace is intended to become a standalone companion engine for Glyphs MCP:
+it will turn raster glyphs and symbols into neutral, versioned path data that a
+future Glyphs MCP adapter can apply through the existing path-mutation tools.
+Glyphs MCP is a consumer, not a runtime dependency or target in this product.
+No integration may begin until the standalone viability gate in
 [Quality gates](docs/QUALITY_GATES.md) has passed and a versioned beztrace
 release has been separately authorized.
 
@@ -54,6 +58,7 @@ licensing, and distribution gate passes.
 - [Interfaces](docs/INTERFACES.md)
 - [Porting and licensing](docs/PORTING_AND_LICENSE.md)
 - [Quality gates](docs/QUALITY_GATES.md)
+- [Test workflow](docs/TESTING.md)
 - [Roadmap](docs/ROADMAP.md)
 
 ## License
