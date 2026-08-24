@@ -1,0 +1,89 @@
+{
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni006C",
+  "outline": {
+    "contours": [
+      {
+        "points": [
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 146.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 224.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 240.0,
+            "y": 272.0
+          },
+          {
+            "type": "line",
+            "x": 240.0,
+            "y": 328.0
+          },
+          {
+            "type": "line",
+            "x": 224.0,
+            "y": 342.0
+          },
+          {
+            "x": 183.0,
+            "y": 342.0
+          },
+          {
+            "x": 164.0,
+            "y": 351.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 164.0,
+            "y": 368.0
+          },
+          {
+            "type": "line",
+            "x": 160.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 144.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 80.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 64.0,
+            "y": 1008.0
+          },
+          {
+            "smooth": true,
+            "type": "line",
+            "x": 64.0,
+            "y": 364.0
+          },
+          {
+            "x": 64.0,
+            "y": 307.0
+          },
+          {
+            "x": 99.0,
+            "y": 256.0
+          }
+        ]
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "validated"
+}

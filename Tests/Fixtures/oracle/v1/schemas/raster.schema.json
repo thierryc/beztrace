@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beztrace.dev/test-schema/oracle-raster-v1.json",
+  "title": "beztrace img2bez prepared raster metadata v1",
+  "type": "object",
+  "required": ["schemaVersion", "sourceRevision", "fixtureID", "stage", "width", "height", "threshold", "invert", "rasterPNG_SHA256"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "sourceRevision": {"const": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"},
+    "fixtureID": {"type": "string", "minLength": 1},
+    "stage": {"const": "preparedRaster"},
+    "width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1},
+    "threshold": {"type": "integer", "minimum": 0, "maximum": 255},
+    "invert": {"type": "boolean"}, "rasterPNG_SHA256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "options": {"type": "object"}
+  },
+  "additionalProperties": false
+}

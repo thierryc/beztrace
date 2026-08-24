@@ -1,0 +1,60 @@
+{
+  "name": "symbol-right-arrow",
+  "advance": {
+    "width": 680.0
+  },
+  "unitsPerEm": 1024.0,
+  "outline": {
+    "contours": [
+      {
+        "points": [
+          {
+            "x": 340.0,
+            "y": 332.0,
+            "type": "line"
+          },
+          {
+            "x": 616.0,
+            "y": 608.0,
+            "type": "line"
+          },
+          {
+            "x": 340.0,
+            "y": 884.0,
+            "type": "line"
+          },
+          {
+            "x": 298.0,
+            "y": 842.0,
+            "type": "line"
+          },
+          {
+            "x": 498.0,
+            "y": 640.0,
+            "type": "line"
+          },
+          {
+            "x": 64.0,
+            "y": 638.0,
+            "type": "line"
+          },
+          {
+            "x": 64.0,
+            "y": 578.0,
+            "type": "line"
+          },
+          {
+            "x": 500.0,
+            "y": 578.0,
+            "type": "line"
+          },
+          {
+            "x": 298.0,
+            "y": 374.0,
+            "type": "line"
+          }
+        ]
+      }
+    ]
+  }
+}

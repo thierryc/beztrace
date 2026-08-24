@@ -1,0 +1,33 @@
+
+  img2bez · six
+
+  Threshold   Otsu = 127
+  Load        409x700 px, Otsu threshold, sub-pixel iso pipeline
+  Trace       2 contours → 12 curves + 4 lines  (scale ×1.55)
+  Clean       direction · grid snap · H/V snap
+  Result      2 contours · 40 points (16 on-curve)  (2527ms)
+  Threshold   Otsu = 127
+  Judge       wild 0.921  (iou 0.978  hv 0.88  micro 1  parsimony 1.00)
+
+  ✓ <img2bez-work>/output.ufo
+
+  Raster IoU  98.8%  (overlap=101990 traced=102942 ref=102272)
+  Diff        <img2bez-work>/six_raster_diff.png
+
+  Eval vs <reference-ufo>/glyphs/six.glif
+
+  Scale         548x776 vs 548x776  (1.00x)                  1.000
+  Shape         Hausdorff 10.4   mean 3.2    (normalized)      0.741
+  Points        18 vs 19 on-curve  (×0.95)                   0.947
+  Segments      12c+4l vs 12c+5l  (0.25 vs 0.29)            0.956
+  H/V handles   21/24  (88%)                                 0.875
+  Grid (2)      18/18  (100%)                                 1.000
+  Contours      2 vs 2                                       1.000
+
+  Overall       0.894
+  Render      src=409x700 img_scale=1.0857 font_scale=1.5543 s=0.698529
+  Render      rendered=444x760 ox=178 oy=20 padding=20
+  Render      dx=16.0 dy=0.0 y_offset=-256.0
+  Render      tx=166.82 ty=601.18
+  Compare     <img2bez-work>/six_comparison.png
+

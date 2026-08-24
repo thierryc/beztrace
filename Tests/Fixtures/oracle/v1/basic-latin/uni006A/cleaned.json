@@ -1,0 +1,165 @@
+{
+  "contours": [
+    {
+      "closed": true,
+      "index": 0,
+      "path": {
+        "elements": [
+          {
+            "type": "move",
+            "x": 0.0,
+            "y": 140.0
+          },
+          {
+            "type": "line",
+            "x": 0.0,
+            "y": 72.0
+          },
+          {
+            "type": "line",
+            "x": 16.0,
+            "y": 56.0
+          },
+          {
+            "type": "line",
+            "x": 70.0,
+            "y": 56.0
+          },
+          {
+            "points": [
+              [
+                125.0,
+                56.0
+              ],
+              [
+                200.0,
+                102.0
+              ],
+              [
+                200.0,
+                164.0
+              ]
+            ],
+            "type": "curve"
+          },
+          {
+            "type": "line",
+            "x": 204.0,
+            "y": 816.0
+          },
+          {
+            "type": "line",
+            "x": 188.0,
+            "y": 832.0
+          },
+          {
+            "type": "line",
+            "x": 124.0,
+            "y": 832.0
+          },
+          {
+            "type": "line",
+            "x": 108.0,
+            "y": 816.0
+          },
+          {
+            "type": "line",
+            "x": 108.0,
+            "y": 206.0
+          },
+          {
+            "points": [
+              [
+                108.0,
+                174.0
+              ],
+              [
+                97.0,
+                156.0
+              ],
+              [
+                76.0,
+                156.0
+              ]
+            ],
+            "type": "curve"
+          },
+          {
+            "type": "line",
+            "x": 16.0,
+            "y": 156.0
+          },
+          {
+            "type": "line",
+            "x": 0.0,
+            "y": 140.0
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    },
+    {
+      "closed": true,
+      "index": 1,
+      "path": {
+        "elements": [
+          {
+            "type": "move",
+            "x": 108.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 108.0,
+            "y": 928.0
+          },
+          {
+            "type": "line",
+            "x": 124.0,
+            "y": 912.0
+          },
+          {
+            "type": "line",
+            "x": 196.0,
+            "y": 912.0
+          },
+          {
+            "type": "line",
+            "x": 212.0,
+            "y": 928.0
+          },
+          {
+            "type": "line",
+            "x": 212.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 196.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 124.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 108.0,
+            "y": 1008.0
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni006A",
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "cleaned"
+}

@@ -1,0 +1,40 @@
+{
+  "contourIndex": 1,
+  "coordinateSpace": "pixel-y-up",
+  "fixtureID": "uni0034",
+  "path": {
+    "elements": [
+      {
+        "type": "move",
+        "x": 233.51188681655617,
+        "y": 524.4403790270896
+      },
+      {
+        "type": "line",
+        "x": 233.91857047299214,
+        "y": 338.9127312439466
+      },
+      {
+        "type": "line",
+        "x": 228.54453119424187,
+        "y": 333.44757522678066
+      },
+      {
+        "type": "line",
+        "x": 88.06684194926397,
+        "y": 333.9508567841501
+      },
+      {
+        "type": "line",
+        "x": 233.51188681655617,
+        "y": 524.4403790270896
+      },
+      {
+        "type": "close"
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "initialFit"
+}

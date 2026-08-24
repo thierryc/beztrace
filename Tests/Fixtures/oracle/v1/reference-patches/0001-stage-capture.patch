@@ -1,0 +1,260 @@
+diff --git a/src/lib.rs b/src/lib.rs
+index 8eb5e75..ba51216 100644
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -57,6 +57,7 @@
+ #![warn(missing_docs)]
+ #![allow(clippy::many_single_char_names)]
+ 
++mod capture;
+ mod font;
+ mod io;
+ mod ml;
+diff --git a/src/pipeline/preprocess.rs b/src/pipeline/preprocess.rs
+index ea216b7..7a36da8 100644
+--- a/src/pipeline/preprocess.rs
++++ b/src/pipeline/preprocess.rs
+@@ -23,12 +23,48 @@ pub(crate) fn trace_luma(
+     t_start: Option<Instant>,
+ ) -> Result<Outline, TraceError> {
+     let (raw, threshold, (upscaled, soft)) = preprocess_luma(raw, config);
++    #[cfg(feature = "cli")]
++    if crate::capture::enabled() {
++        let directory = std::path::PathBuf::from(
++            std::env::var_os("BEZTRACE_CAPTURE_DIR").unwrap(),
++        );
++        std::fs::create_dir_all(&directory).expect("create capture directory");
++        raw.save(directory.join("prepared-raster.png"))
++            .expect("save prepared raster");
++        crate::capture::write_json(
++            "prepared-raster",
++            &serde_json::json!({
++                "schemaVersion": 1,
++                "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
++                "fixtureID": crate::capture::fixture_id(),
++                "stage": "preparedRaster",
++                "width": raw.width(), "height": raw.height(), "threshold": threshold,
++                "invert": config.invert,
++                "rasterPNG_SHA256": "pending-wrapper-finalization",
++                "options": {"emHeight": config.em_height, "grid": config.grid, "smoothing": config.smoothing}
++            }),
++        );
++    }
+     let mut config = config.clone();
+     config.corner_smear = upscaled;
+     config.soft_source = soft;
+     let mut outline =
+         trace_subpixel_pipeline(raw, threshold, &config, t_start)?;
+     outline.normalize_starts(config.rtl_start);
++    #[cfg(feature = "cli")]
++    if crate::capture::enabled() {
++        crate::capture::write_json(
++            "validated",
++            &serde_json::json!({
++                "schemaVersion": 1,
++                "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
++                "fixtureID": crate::capture::fixture_id(),
++                "stage": "validated",
++                "coordinateSpace": "canonical-y-up",
++                "outline": outline
++            }),
++        );
++    }
+     Ok(outline)
+ }
+ 
+@@ -256,6 +292,7 @@ pub(crate) fn finish_trace(
+     } else {
+         cleanup::process(&curves, config)
+     };
++    crate::capture::write_paths("cleaned", &paths);
+ 
+     let mut steps: Vec<&str> = Vec::new();
+     if config.fix_direction {
+diff --git a/src/pipeline/vectorize/fit/mod.rs b/src/pipeline/vectorize/fit/mod.rs
+index fc48bd3..d07066f 100644
+--- a/src/pipeline/vectorize/fit/mod.rs
++++ b/src/pipeline/vectorize/fit/mod.rs
+@@ -251,6 +251,8 @@ pub fn trace_contour(
+     soft_source: bool,
+     raster: Option<&super::refine::RasterTarget>,
+ ) -> BezPath {
++    #[cfg(feature = "cli")]
++    let capture_index = crate::capture::next_contour_index();
+     let plan = match plan_contour(
+         contour,
+         smoothing,
+@@ -266,6 +268,23 @@ pub fn trace_contour(
+         }
+         PlanOutcome::Plan(plan) => plan,
+     };
++    #[cfg(feature = "cli")]
++    if crate::capture::enabled() {
++        let points: Vec<_> = plan
++            .smoothed
++            .iter()
++            .map(|&(x, y)| serde_json::json!({"x":x,"y":y,"kind":"sample"}))
++            .collect();
++        let splits: Vec<_> = plan.splits.iter().map(|split| serde_json::json!({"index":split.idx,"kind":format!("{:?}",split.kind)})).collect();
++        crate::capture::write_json(
++            &format!("structural-plan-{capture_index:03}"),
++            &serde_json::json!({
++                "schemaVersion":1,"sourceRevision":"23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
++                "fixtureID":crate::capture::fixture_id(),"stage":"structuralPlan","contourIndex":capture_index,
++                "coordinateSpace":"pixel-y-up","smoothed":points,"splits":splits,"lineSections":plan.line_sections
++            }),
++        );
++    }
+     let n = plan.smoothed.len();
+ 
+     // Raster refinement runs after G1 alignment (handle directions final)
+@@ -282,10 +301,34 @@ pub fn trace_contour(
+     let fitted = collapse_micro_lines(fitted);
+     let fitted = tame_short_cubic_handles(fitted);
+     let fitted = smooth_joins(fitted);
++    #[cfg(feature = "cli")]
++    if crate::capture::enabled() {
++        let path = contour_to_bezpath(&fitted);
++        crate::capture::write_json(
++            &format!("initial-fit-{capture_index:03}"),
++            &serde_json::json!({
++                "schemaVersion":1,"sourceRevision":"23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
++                "fixtureID":crate::capture::fixture_id(),"stage":"initialFit","contourIndex":capture_index,
++                "coordinateSpace":"pixel-y-up","path":crate::capture::path_value(&path)
++            }),
++        );
++    }
+     let fitted = match raster {
+         Some(rt) => super::refine::refine_contour(fitted, rt),
+         None => fitted,
+     };
++    #[cfg(feature = "cli")]
++    if crate::capture::enabled() {
++        let path = contour_to_bezpath(&fitted);
++        crate::capture::write_json(
++            &format!("raster-refined-{capture_index:03}"),
++            &serde_json::json!({
++                "schemaVersion":1,"sourceRevision":"23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
++                "fixtureID":crate::capture::fixture_id(),"stage":"rasterRefined","contourIndex":capture_index,
++                "coordinateSpace":"pixel-y-up","path":crate::capture::path_value(&path)
++            }),
++        );
++    }
+     let fitted = harmonize(fitted);
+     let fitted = cap_handle_reach(fitted);
+     contour_to_bezpath(&fitted)
+diff --git a/src/pipeline/vectorize/mod.rs b/src/pipeline/vectorize/mod.rs
+index 15c6665..b9ce371 100644
+--- a/src/pipeline/vectorize/mod.rs
++++ b/src/pipeline/vectorize/mod.rs
+@@ -82,6 +82,21 @@ pub fn trace_subpixel(
+     let min_area = (config.min_contour_area / (scale * scale)).max(2.0);
+ 
+     let contours = glyph_contours(gray, threshold, config, min_area);
++    #[cfg(feature = "cli")]
++    if crate::capture::enabled() {
++        let values: Vec<_> = contours.iter().enumerate().map(|(index, contour)| {
++            let points: Vec<_> = contour.points.iter().map(|&(x,y)| serde_json::json!({"x":x,"y":y,"kind":"sample"})).collect();
++            serde_json::json!({"index":index,"closed":true,"winding":if contour.signed_area2() < 0.0 {"clockwise"} else {"counterClockwise"},"points":points})
++        }).collect();
++        crate::capture::write_json(
++            "subpixel-contours",
++            &serde_json::json!({
++                "schemaVersion":1,"sourceRevision":"23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
++                "fixtureID":crate::capture::fixture_id(),"stage":"subpixelContours",
++                "coordinateSpace":"pixel-y-up","contours":values
++            }),
++        );
++    }
+ 
+     // Optional raster-loss refinement target (see `refine`).
+     let raster = config
+diff --git a/src/capture.rs b/src/capture.rs
+new file mode 100644
+index 0000000..480f634
+--- /dev/null
++++ b/src/capture.rs
+@@ -0,0 +1,83 @@
++// Copyright 2026 the img2bez Authors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! Test-only stage capture hooks used by beztrace's pinned oracle.
++
++#[cfg(feature = "cli")]
++use std::path::PathBuf;
++#[cfg(feature = "cli")]
++use std::sync::atomic::{AtomicUsize, Ordering};
++
++#[cfg(feature = "cli")]
++static CONTOUR_INDEX: AtomicUsize = AtomicUsize::new(0);
++
++pub(crate) fn enabled() -> bool {
++    std::env::var_os("BEZTRACE_CAPTURE_DIR").is_some()
++}
++
++#[cfg(feature = "cli")]
++fn directory() -> Option<PathBuf> {
++    std::env::var_os("BEZTRACE_CAPTURE_DIR").map(PathBuf::from)
++}
++
++#[cfg(feature = "cli")]
++pub(crate) fn fixture_id() -> String {
++    std::env::var("BEZTRACE_CAPTURE_FIXTURE")
++        .unwrap_or_else(|_| "unknown".into())
++}
++
++#[cfg(feature = "cli")]
++pub(crate) fn next_contour_index() -> usize {
++    CONTOUR_INDEX.fetch_add(1, Ordering::SeqCst)
++}
++
++#[cfg(feature = "cli")]
++pub(crate) fn write_json(name: &str, value: &serde_json::Value) {
++    let Some(directory) = directory() else { return };
++    std::fs::create_dir_all(&directory)
++        .expect("create beztrace capture directory");
++    let bytes =
++        serde_json::to_vec_pretty(value).expect("serialize beztrace stage");
++    std::fs::write(directory.join(format!("{name}.json")), bytes)
++        .expect("write beztrace stage");
++}
++
++#[cfg(not(feature = "cli"))]
++pub(crate) fn write_json(_name: &str, _value: &()) {}
++
++#[cfg(feature = "cli")]
++pub(crate) fn path_value(path: &kurbo::BezPath) -> serde_json::Value {
++    use kurbo::PathEl;
++    let elements: Vec<_> = path.elements().iter().map(|element| match element {
++        PathEl::MoveTo(p) => serde_json::json!({"type":"move","x":p.x,"y":p.y}),
++        PathEl::LineTo(p) => serde_json::json!({"type":"line","x":p.x,"y":p.y}),
++        PathEl::QuadTo(a,b) => serde_json::json!({"type":"quad","points":[[a.x,a.y],[b.x,b.y]]}),
++        PathEl::CurveTo(a,b,c) => serde_json::json!({"type":"curve","points":[[a.x,a.y],[b.x,b.y],[c.x,c.y]]}),
++        PathEl::ClosePath => serde_json::json!({"type":"close"}),
++    }).collect();
++    serde_json::json!({"elements": elements})
++}
++
++#[cfg(feature = "cli")]
++pub(crate) fn write_paths(stage: &str, paths: &[kurbo::BezPath]) {
++    if !enabled() {
++        return;
++    }
++    let contours: Vec<_> = paths.iter().enumerate().map(|(index, path)| {
++        serde_json::json!({"index": index, "closed": true, "path": path_value(path)})
++    }).collect();
++    write_json(
++        stage,
++        &serde_json::json!({
++            "schemaVersion": 1,
++            "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
++            "fixtureID": fixture_id(),
++            "stage": stage,
++            "coordinateSpace": "canonical-y-up",
++            "contours": contours
++        }),
++    );
++}
++
++#[cfg(not(feature = "cli"))]
++pub(crate) fn write_paths(_stage: &str, _paths: &[kurbo::BezPath]) {}

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8.0 -784.0 336.0 824.0" width="1200" height="1200">
+  <rect x="-8.0" y="-784.0" width="336.0" height="824.0" fill="#101010"/>
+  <g transform="scale(1,-1)">
+    <path d="M 204.0 0.0 L 272.0 0.0 L 288.0 16.0 L 288.0 728.0 L 272.0 744.0 L 220.0 744.0 L 204.0 728.0 C 188.0 644.0 112.0 608.0 48.0 608.0 L 32.0 592.0 L 32.0 552.0 L 48.0 536.0 L 180.0 536.0 L 188.0 528.0 L 188.0 16.0 L 204.0 0.0 Z" fill="none" stroke="#66ee88" stroke-width="3" opacity="0.85"/>
+    <path d="M 204.0 0.0 L 272.0 0.0 L 288.0 16.0 L 288.0 728.0 L 270.0 744.0 L 220.0 744.0 L 204.0 728.0 C 183.0 653.0 129.0 608.0 48.0 608.0 L 32.0 592.0 L 32.0 552.0 L 48.0 536.0 L 180.0 536.0 L 188.0 528.0 L 188.0 16.0 L 204.0 0.0 Z" fill="none" stroke="#ff684f" stroke-width="2" opacity="0.9"/>
+    <circle cx="204.0" cy="0.0" r="5" fill="#0a8f5a"/>
+    <circle cx="272.0" cy="0.0" r="5" fill="#0a8f5a"/>
+    <circle cx="288.0" cy="16.0" r="5" fill="#0a8f5a"/>
+    <circle cx="288.0" cy="728.0" r="5" fill="#0a8f5a"/>
+    <circle cx="272.0" cy="744.0" r="5" fill="#0a8f5a"/>
+    <circle cx="220.0" cy="744.0" r="5" fill="#0a8f5a"/>
+    <circle cx="204.0" cy="728.0" r="5" fill="#0a8f5a"/>
+    <circle cx="48.0" cy="608.0" r="5" fill="#0a8f5a"/>
+    <circle cx="32.0" cy="592.0" r="5" fill="#0a8f5a"/>
+    <circle cx="32.0" cy="552.0" r="5" fill="#0a8f5a"/>
+    <circle cx="48.0" cy="536.0" r="5" fill="#0a8f5a"/>
+    <circle cx="180.0" cy="536.0" r="5" fill="#0a8f5a"/>
+    <circle cx="188.0" cy="528.0" r="5" fill="#0a8f5a"/>
+    <circle cx="188.0" cy="16.0" r="5" fill="#0a8f5a"/>
+    <circle cx="204.0" cy="0.0" r="5" fill="#c4311c"/>
+    <circle cx="272.0" cy="0.0" r="5" fill="#c4311c"/>
+    <circle cx="288.0" cy="16.0" r="5" fill="#c4311c"/>
+    <circle cx="288.0" cy="728.0" r="5" fill="#c4311c"/>
+    <circle cx="270.0" cy="744.0" r="5" fill="#c4311c"/>
+    <circle cx="220.0" cy="744.0" r="5" fill="#c4311c"/>
+    <circle cx="204.0" cy="728.0" r="5" fill="#c4311c"/>
+    <circle cx="48.0" cy="608.0" r="5" fill="#c4311c"/>
+    <circle cx="32.0" cy="592.0" r="5" fill="#c4311c"/>
+    <circle cx="32.0" cy="552.0" r="5" fill="#c4311c"/>
+    <circle cx="48.0" cy="536.0" r="5" fill="#c4311c"/>
+    <circle cx="180.0" cy="536.0" r="5" fill="#c4311c"/>
+    <circle cx="188.0" cy="528.0" r="5" fill="#c4311c"/>
+    <circle cx="188.0" cy="16.0" r="5" fill="#c4311c"/>
+  </g>
+</svg>

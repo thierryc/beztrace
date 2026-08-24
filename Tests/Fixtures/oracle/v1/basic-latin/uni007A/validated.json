@@ -1,0 +1,95 @@
+{
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni007A",
+  "outline": {
+    "contours": [
+      {
+        "points": [
+          {
+            "type": "line",
+            "x": 48.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 456.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 472.0,
+            "y": 272.0
+          },
+          {
+            "type": "line",
+            "x": 472.0,
+            "y": 326.0
+          },
+          {
+            "type": "line",
+            "x": 456.0,
+            "y": 344.0
+          },
+          {
+            "type": "line",
+            "x": 160.0,
+            "y": 344.0
+          },
+          {
+            "type": "line",
+            "x": 456.0,
+            "y": 768.0
+          },
+          {
+            "type": "line",
+            "x": 456.0,
+            "y": 816.0
+          },
+          {
+            "type": "line",
+            "x": 440.0,
+            "y": 832.0
+          },
+          {
+            "type": "line",
+            "x": 56.0,
+            "y": 832.0
+          },
+          {
+            "type": "line",
+            "x": 40.0,
+            "y": 816.0
+          },
+          {
+            "type": "line",
+            "x": 40.0,
+            "y": 760.0
+          },
+          {
+            "type": "line",
+            "x": 56.0,
+            "y": 744.0
+          },
+          {
+            "type": "line",
+            "x": 322.0,
+            "y": 744.0
+          },
+          {
+            "type": "line",
+            "x": 32.0,
+            "y": 320.0
+          },
+          {
+            "type": "line",
+            "x": 32.0,
+            "y": 272.0
+          }
+        ]
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "validated"
+}

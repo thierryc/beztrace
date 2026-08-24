@@ -1,0 +1,125 @@
+{
+  "contours": [
+    {
+      "closed": true,
+      "index": 0,
+      "path": {
+        "elements": [
+          {
+            "type": "move",
+            "x": 80.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 80.0,
+            "y": 272.0
+          },
+          {
+            "type": "line",
+            "x": 96.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 168.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 272.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 598.0
+          },
+          {
+            "type": "line",
+            "x": 192.0,
+            "y": 606.0
+          },
+          {
+            "type": "line",
+            "x": 512.0,
+            "y": 606.0
+          },
+          {
+            "type": "line",
+            "x": 528.0,
+            "y": 622.0
+          },
+          {
+            "type": "line",
+            "x": 528.0,
+            "y": 678.0
+          },
+          {
+            "type": "line",
+            "x": 510.0,
+            "y": 694.0
+          },
+          {
+            "type": "line",
+            "x": 192.0,
+            "y": 694.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 702.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 924.0
+          },
+          {
+            "type": "line",
+            "x": 192.0,
+            "y": 932.0
+          },
+          {
+            "type": "line",
+            "x": 576.0,
+            "y": 932.0
+          },
+          {
+            "type": "line",
+            "x": 592.0,
+            "y": 948.0
+          },
+          {
+            "type": "line",
+            "x": 592.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 576.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 96.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 80.0,
+            "y": 1008.0
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni0046",
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "cleaned"
+}

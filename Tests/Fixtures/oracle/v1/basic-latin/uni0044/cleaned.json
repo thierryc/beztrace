@@ -1,0 +1,159 @@
+{
+  "contours": [
+    {
+      "closed": true,
+      "index": 0,
+      "path": {
+        "elements": [
+          {
+            "type": "move",
+            "x": 80.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 80.0,
+            "y": 272.0
+          },
+          {
+            "type": "line",
+            "x": 104.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 364.0,
+            "y": 256.0
+          },
+          {
+            "points": [
+              [
+                600.0,
+                256.0
+              ],
+              [
+                708.0,
+                420.0
+              ],
+              [
+                708.0,
+                646.0
+              ]
+            ],
+            "type": "curve"
+          },
+          {
+            "points": [
+              [
+                708.0,
+                961.0
+              ],
+              [
+                508.0,
+                1021.0
+              ],
+              [
+                386.0,
+                1022.0
+              ]
+            ],
+            "type": "curve"
+          },
+          {
+            "type": "line",
+            "x": 96.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 80.0,
+            "y": 1008.0
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    },
+    {
+      "closed": true,
+      "index": 1,
+      "path": {
+        "elements": [
+          {
+            "type": "move",
+            "x": 192.0,
+            "y": 928.0
+          },
+          {
+            "type": "line",
+            "x": 356.0,
+            "y": 928.0
+          },
+          {
+            "points": [
+              [
+                534.0,
+                928.0
+              ],
+              [
+                600.0,
+                798.0
+              ],
+              [
+                600.0,
+                632.0
+              ]
+            ],
+            "type": "curve"
+          },
+          {
+            "points": [
+              [
+                600.0,
+                442.0
+              ],
+              [
+                514.0,
+                352.0
+              ],
+              [
+                328.0,
+                352.0
+              ]
+            ],
+            "type": "curve"
+          },
+          {
+            "type": "line",
+            "x": 200.0,
+            "y": 352.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 360.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 920.0
+          },
+          {
+            "type": "line",
+            "x": 192.0,
+            "y": 928.0
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni0044",
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "cleaned"
+}

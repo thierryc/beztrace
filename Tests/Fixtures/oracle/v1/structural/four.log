@@ -1,0 +1,33 @@
+
+  img2bez · four
+
+  Threshold   Otsu = 128
+  Load        384x700 px, Otsu threshold, sub-pixel iso pipeline
+  Trace       2 contours → 0 curves + 23 lines  (scale ×1.55)
+  Clean       direction · grid snap · H/V snap
+  Result      2 contours · 23 points (23 on-curve)  (9ms)
+  Threshold   Otsu = 128
+  Judge       wild 0.851  (iou 0.978  hv 1.00  micro 3  parsimony 0.70)
+
+  ✓ <img2bez-work>/output.ufo
+
+  Raster IoU  98.3%  (overlap=88064 traced=89285 ref=88404)
+  Diff        <img2bez-work>/four_raster_diff.png
+
+  Eval vs <reference-ufo>/glyphs/four.glif
+
+  Scale         566x744 vs 566x744  (1.00x)                  1.000
+  Shape         Hausdorff 6.3    mean 2.2    (normalized)      0.844
+  Points        23 vs 28 on-curve  (×0.82)                   0.821
+  Segments      0c+21l vs 0c+26l  (1.00 vs 1.00)            1.000
+  H/V handles   0/0  (100%)                                 1.000
+  Grid (2)      23/23  (100%)                                 1.000
+  Contours      2 vs 2                                       1.000
+
+  Overall       0.935
+  Render      src=384x700 img_scale=1.0857 font_scale=1.5543 s=0.698529
+  Render      rendered=416x760 ox=192 oy=20 padding=20
+  Render      dx=48.0 dy=0.0 y_offset=-256.0
+  Render      tx=158.47 ty=601.18
+  Compare     <img2bez-work>/four_comparison.png
+

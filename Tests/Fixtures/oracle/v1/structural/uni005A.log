@@ -1,0 +1,33 @@
+
+  img2bez · Z
+
+  Threshold   Otsu = 127
+  Load        388x700 px, Otsu threshold, sub-pixel iso pipeline
+  Trace       1 contours → 0 curves + 18 lines  (scale ×1.55)
+  Clean       direction · grid snap · H/V snap
+  Result      1 contours · 18 points (18 on-curve)  (12ms)
+  Threshold   Otsu = 127
+  Judge       wild 0.839  (iou 0.977  hv 1.00  micro 0  parsimony 1.00)
+
+  ✓ <img2bez-work>/output.ufo
+
+  Raster IoU  98.0%  (overlap=97548 traced=97984 ref=99151)
+  Diff        <img2bez-work>/Z_raster_diff.png
+
+  Eval vs <reference-ufo>/glyphs/Z_.glif
+
+  Scale         570x768 vs 572x768  (1.00x)                  0.998
+  Shape         Hausdorff 6.0    mean 1.4    (normalized)      0.851
+  Points        18 vs 21 on-curve  (×0.86)                   0.857
+  Segments      0c+17l vs 0c+20l  (1.00 vs 1.00)            1.000
+  H/V handles   0/0  (100%)                                 1.000
+  Grid (2)      18/18  (100%)                                 1.000
+  Contours      1 vs 1                                       1.000
+
+  Overall       0.941
+  Render      src=388x700 img_scale=1.0857 font_scale=1.5543 s=0.698529
+  Render      rendered=421x760 ox=189 oy=20 padding=20
+  Render      dx=48.0 dy=0.0 y_offset=-256.0
+  Render      tx=155.47 ty=601.18
+  Compare     <img2bez-work>/Z_comparison.png
+

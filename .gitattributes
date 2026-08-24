@@ -1,0 +1,2 @@
+# Reference artifacts preserve upstream and generated whitespace byte-for-byte.
+Tests/Fixtures/** whitespace=-blank-at-eol,-blank-at-eof

@@ -1,0 +1,124 @@
+{
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni0041",
+  "outline": {
+    "contours": [
+      {
+        "points": [
+          {
+            "type": "line",
+            "x": 40.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 96.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 112.0,
+            "y": 272.0
+          },
+          {
+            "type": "line",
+            "x": 196.0,
+            "y": 488.0
+          },
+          {
+            "type": "line",
+            "x": 500.0,
+            "y": 488.0
+          },
+          {
+            "type": "line",
+            "x": 584.0,
+            "y": 272.0
+          },
+          {
+            "type": "line",
+            "x": 600.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 660.0,
+            "y": 256.0
+          },
+          {
+            "type": "line",
+            "x": 676.0,
+            "y": 274.0
+          },
+          {
+            "type": "line",
+            "x": 676.0,
+            "y": 320.0
+          },
+          {
+            "type": "line",
+            "x": 416.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 400.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 300.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 284.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 24.0,
+            "y": 320.0
+          },
+          {
+            "type": "line",
+            "x": 24.0,
+            "y": 272.0
+          }
+        ]
+      },
+      {
+        "points": [
+          {
+            "type": "line",
+            "x": 232.0,
+            "y": 576.0
+          },
+          {
+            "type": "line",
+            "x": 224.0,
+            "y": 584.0
+          },
+          {
+            "type": "line",
+            "x": 344.0,
+            "y": 928.0
+          },
+          {
+            "type": "line",
+            "x": 470.0,
+            "y": 584.0
+          },
+          {
+            "type": "line",
+            "x": 464.0,
+            "y": 576.0
+          }
+        ]
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "validated"
+}

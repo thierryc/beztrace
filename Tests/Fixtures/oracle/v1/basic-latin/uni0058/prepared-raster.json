@@ -1,0 +1,16 @@
+{
+  "fixtureID": "uni0058",
+  "height": 700,
+  "invert": false,
+  "options": {
+    "emHeight": 1088.0,
+    "grid": 2,
+    "smoothing": 1.0
+  },
+  "rasterPNG_SHA256": "f6857969272b64269b29c3acd873336430c9674ceb6b9aa72a35824b43287021",
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "preparedRaster",
+  "threshold": 127,
+  "width": 391
+}

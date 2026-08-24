@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beztrace.dev/test-schema/oracle-stage-v1.json",
+  "title": "beztrace img2bez oracle stage v1",
+  "type": "object",
+  "required": ["schemaVersion", "sourceRevision", "fixtureID", "stage"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "sourceRevision": {"const": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"},
+    "fixtureID": {"type": "string", "minLength": 1},
+    "stage": {"enum": ["subpixelContours", "structuralPlan", "initialFit", "rasterRefined", "cleaned", "validated"]},
+    "coordinateSpace": {"enum": ["pixel-y-down", "pixel-y-up", "canonical-y-up"]},
+    "contourIndex": {"type": "integer", "minimum": 0},
+    "smoothed": {"type": "array", "items": {"type": "object"}},
+    "splits": {"type": "array", "items": {"type": "object"}},
+    "lineSections": {"type": "array"},
+    "path": {"type": "object"},
+    "outline": {"type": "object"},
+    "contours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "closed"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "closed": {"const": true},
+          "winding": {"enum": ["clockwise", "counterClockwise", "unknown"]},
+          "path": {"type": "object"},
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["x", "y"],
+              "properties": {
+                "x": {"type": "number"}, "y": {"type": "number"},
+                "kind": {"enum": ["line", "curve", "offcurve", "sample", "split"]},
+                "smooth": {"type": "boolean"},
+                "reason": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

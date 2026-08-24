@@ -1,0 +1,16 @@
+{
+  "fixtureID": "uni006B",
+  "height": 700,
+  "invert": false,
+  "options": {
+    "emHeight": 1088.0,
+    "grid": 2,
+    "smoothing": 1.0
+  },
+  "rasterPNG_SHA256": "a4d2074f5e5e363b02f60b98cfcb0296b31a95b1a9e464efe273d53d13df4b9f",
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "preparedRaster",
+  "threshold": 127,
+  "width": 347
+}

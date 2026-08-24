@@ -1,0 +1,45 @@
+{
+  "name": "symbol-check",
+  "advance": {
+    "width": 690.0
+  },
+  "unitsPerEm": 1024.0,
+  "outline": {
+    "contours": [
+      {
+        "points": [
+          {
+            "x": 260.0,
+            "y": 440.0,
+            "type": "line"
+          },
+          {
+            "x": 626.0,
+            "y": 806.0,
+            "type": "line"
+          },
+          {
+            "x": 584.0,
+            "y": 848.0,
+            "type": "line"
+          },
+          {
+            "x": 260.0,
+            "y": 530.0,
+            "type": "line"
+          },
+          {
+            "x": 108.0,
+            "y": 678.0,
+            "type": "line"
+          },
+          {
+            "x": 64.0,
+            "y": 636.0,
+            "type": "line"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni004A",
+  "outline": {
+    "contours": [
+      {
+        "points": [
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 248.0,
+            "y": 240.0
+          },
+          {
+            "x": 462.0,
+            "y": 240.0
+          },
+          {
+            "x": 478.0,
+            "y": 406.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 478.0,
+            "y": 430.0
+          },
+          {
+            "type": "line",
+            "x": 480.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 464.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 392.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 378.0,
+            "y": 1008.0
+          },
+          {
+            "smooth": true,
+            "type": "line",
+            "x": 376.0,
+            "y": 458.0
+          },
+          {
+            "x": 376.0,
+            "y": 384.0
+          },
+          {
+            "x": 318.0,
+            "y": 336.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 244.0,
+            "y": 336.0
+          },
+          {
+            "x": 157.0,
+            "y": 336.0
+          },
+          {
+            "x": 120.0,
+            "y": 410.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 120.0,
+            "y": 450.0
+          },
+          {
+            "type": "line",
+            "x": 120.0,
+            "y": 532.0
+          },
+          {
+            "type": "line",
+            "x": 104.0,
+            "y": 548.0
+          },
+          {
+            "type": "line",
+            "x": 32.0,
+            "y": 548.0
+          },
+          {
+            "type": "line",
+            "x": 16.0,
+            "y": 530.0
+          },
+          {
+            "smooth": true,
+            "type": "line",
+            "x": 16.0,
+            "y": 480.0
+          },
+          {
+            "x": 16.0,
+            "y": 328.0
+          },
+          {
+            "x": 92.0,
+            "y": 240.0
+          }
+        ]
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "validated"
+}

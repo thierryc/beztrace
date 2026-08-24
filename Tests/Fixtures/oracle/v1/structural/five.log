@@ -1,0 +1,33 @@
+
+  img2bez · five
+
+  Threshold   Otsu = 127
+  Load        388x700 px, Otsu threshold, sub-pixel iso pipeline
+  Trace       1 contours → 8 curves + 15 lines  (scale ×1.55)
+  Clean       direction · grid snap · H/V snap
+  Result      1 contours · 38 points (22 on-curve)  (203ms)
+  Threshold   Otsu = 127
+  Judge       wild 0.826  (iou 0.979  hv 0.81  micro 1  parsimony 0.85)
+
+  ✓ <img2bez-work>/output.ufo
+
+  Raster IoU  98.7%  (overlap=94029 traced=94650 ref=94677)
+  Diff        <img2bez-work>/five_raster_diff.png
+
+  Eval vs <reference-ufo>/glyphs/five.glif
+
+  Scale         540x760 vs 540x760  (1.00x)                  1.000
+  Shape         Hausdorff 8.5    mean 3.5    (normalized)      0.786
+  Points        23 vs 25 on-curve  (×0.92)                   0.920
+  Segments      8c+14l vs 8c+16l  (0.64 vs 0.67)            0.970
+  H/V handles   13/16  (81%)                                 0.812
+  Grid (2)      23/23  (100%)                                 1.000
+  Contours      1 vs 1                                       1.000
+
+  Overall       0.897
+  Render      src=388x700 img_scale=1.0857 font_scale=1.5543 s=0.698529
+  Render      rendered=421x760 ox=189 oy=20 padding=20
+  Render      dx=32.0 dy=0.0 y_offset=-256.0
+  Render      tx=166.65 ty=601.18
+  Compare     <img2bez-work>/five_comparison.png
+

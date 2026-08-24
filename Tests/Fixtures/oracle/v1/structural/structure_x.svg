@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16.0 -808.0 640.0 848.0" width="1200" height="1200">
+  <rect x="-16.0" y="-808.0" width="640.0" height="848.0" fill="#101010"/>
+  <g transform="scale(1,-1)">
+    <path d="M 40.0 0.0 L 100.0 0.0 L 300.0 302.0 L 308.0 302.0 L 500.0 0.0 L 568.0 0.0 L 584.0 16.0 L 584.0 64.0 L 374.0 394.0 L 374.0 402.0 L 576.0 704.0 L 576.0 752.0 L 560.0 768.0 L 502.0 768.0 L 316.0 476.0 L 308.0 476.0 L 124.0 768.0 L 60.0 768.0 L 44.0 752.0 L 44.0 704.0 L 242.0 394.0 L 242.0 386.0 L 24.0 64.0 L 24.0 16.0 L 40.0 0.0 Z" fill="none" stroke="#66ee88" stroke-width="3" opacity="0.85"/>
+    <path d="M 40.0 0.0 L 100.0 2.0 L 306.0 302.0 L 500.0 0.0 L 568.0 0.0 L 584.0 18.0 L 584.0 64.0 L 376.0 404.0 L 576.0 704.0 L 576.0 752.0 L 560.0 768.0 L 502.0 768.0 L 312.0 470.0 L 124.0 768.0 L 60.0 768.0 L 44.0 752.0 L 44.0 704.0 L 242.0 388.0 L 24.0 64.0 L 24.0 16.0 L 40.0 0.0 Z" fill="none" stroke="#ff684f" stroke-width="2" opacity="0.9"/>
+    <circle cx="40.0" cy="0.0" r="5" fill="#0a8f5a"/>
+    <circle cx="100.0" cy="0.0" r="5" fill="#0a8f5a"/>
+    <circle cx="300.0" cy="302.0" r="5" fill="#0a8f5a"/>
+    <circle cx="308.0" cy="302.0" r="5" fill="#0a8f5a"/>
+    <circle cx="500.0" cy="0.0" r="5" fill="#0a8f5a"/>
+    <circle cx="568.0" cy="0.0" r="5" fill="#0a8f5a"/>
+    <circle cx="584.0" cy="16.0" r="5" fill="#0a8f5a"/>
+    <circle cx="584.0" cy="64.0" r="5" fill="#0a8f5a"/>
+    <circle cx="374.0" cy="394.0" r="5" fill="#0a8f5a"/>
+    <circle cx="374.0" cy="402.0" r="5" fill="#0a8f5a"/>
+    <circle cx="576.0" cy="704.0" r="5" fill="#0a8f5a"/>
+    <circle cx="576.0" cy="752.0" r="5" fill="#0a8f5a"/>
+    <circle cx="560.0" cy="768.0" r="5" fill="#0a8f5a"/>
+    <circle cx="502.0" cy="768.0" r="5" fill="#0a8f5a"/>
+    <circle cx="316.0" cy="476.0" r="5" fill="#0a8f5a"/>
+    <circle cx="308.0" cy="476.0" r="5" fill="#0a8f5a"/>
+    <circle cx="124.0" cy="768.0" r="5" fill="#0a8f5a"/>
+    <circle cx="60.0" cy="768.0" r="5" fill="#0a8f5a"/>
+    <circle cx="44.0" cy="752.0" r="5" fill="#0a8f5a"/>
+    <circle cx="44.0" cy="704.0" r="5" fill="#0a8f5a"/>
+    <circle cx="242.0" cy="394.0" r="5" fill="#0a8f5a"/>
+    <circle cx="242.0" cy="386.0" r="5" fill="#0a8f5a"/>
+    <circle cx="24.0" cy="64.0" r="5" fill="#0a8f5a"/>
+    <circle cx="24.0" cy="16.0" r="5" fill="#0a8f5a"/>
+    <circle cx="40.0" cy="0.0" r="5" fill="#c4311c"/>
+    <circle cx="100.0" cy="2.0" r="5" fill="#c4311c"/>
+    <circle cx="306.0" cy="302.0" r="5" fill="#c4311c"/>
+    <circle cx="500.0" cy="0.0" r="5" fill="#c4311c"/>
+    <circle cx="568.0" cy="0.0" r="5" fill="#c4311c"/>
+    <circle cx="584.0" cy="18.0" r="5" fill="#c4311c"/>
+    <circle cx="584.0" cy="64.0" r="5" fill="#c4311c"/>
+    <circle cx="376.0" cy="404.0" r="5" fill="#c4311c"/>
+    <circle cx="576.0" cy="704.0" r="5" fill="#c4311c"/>
+    <circle cx="576.0" cy="752.0" r="5" fill="#c4311c"/>
+    <circle cx="560.0" cy="768.0" r="5" fill="#c4311c"/>
+    <circle cx="502.0" cy="768.0" r="5" fill="#c4311c"/>
+    <circle cx="312.0" cy="470.0" r="5" fill="#c4311c"/>
+    <circle cx="124.0" cy="768.0" r="5" fill="#c4311c"/>
+    <circle cx="60.0" cy="768.0" r="5" fill="#c4311c"/>
+    <circle cx="44.0" cy="752.0" r="5" fill="#c4311c"/>
+    <circle cx="44.0" cy="704.0" r="5" fill="#c4311c"/>
+    <circle cx="242.0" cy="388.0" r="5" fill="#c4311c"/>
+    <circle cx="24.0" cy="64.0" r="5" fill="#c4311c"/>
+    <circle cx="24.0" cy="16.0" r="5" fill="#c4311c"/>
+  </g>
+</svg>

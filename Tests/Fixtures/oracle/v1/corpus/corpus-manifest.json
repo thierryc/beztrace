@@ -1,0 +1,205 @@
+{
+  "binarySHA256": "865d99b875669d20e5d4768492d7d85fe29b9dcca4e43b41f63cf323f6ea96f5",
+  "determinismRuns": 2,
+  "fixtures": [
+    {
+      "contours": 2,
+      "id": "glyph-upper-a",
+      "inputSHA256": "7287b7f907c4288ec5ee1cbebc223f604c74dfbe97be2eb1f1fb1163282b536c",
+      "jsonSHA256": "42cb4ba8357ebff41edda3f431ee2fb5fb968f920a308fdfdb918a461c2efe20",
+      "points": 12,
+      "statsSHA256": "096fcb96d04bf2e221278e6e07dba1dc7c62672d2f71df9c5b509070929d3fa7"
+    },
+    {
+      "contours": 3,
+      "id": "glyph-upper-b",
+      "inputSHA256": "b62966ef34c5ea928a591bb5fbfb188f1c1cd1977e6d750201a4c22bfbe0e5d0",
+      "jsonSHA256": "97baf3b0989ee2f48ab5ae39902ea71677829e06553b5a913880de8ba4d3bba3",
+      "points": 36,
+      "statsSHA256": "6006ad0893201ba043de2fb8533cf83d125e91e11ec49780c9d85d1b17488d57"
+    },
+    {
+      "contours": 2,
+      "id": "glyph-upper-o",
+      "inputSHA256": "1f0e5fa699441a9909a2522003f04df1cf102dbc706be219418b36d185c68a70",
+      "jsonSHA256": "422256fa081e947d5f0ed514aa4c361738b3587ee061f99fa908ca3d9590d71a",
+      "points": 24,
+      "statsSHA256": "95cc8037583c0b1fb7732846d85a4c441d7fcfacc5c2b5038fc8af85ad198e23"
+    },
+    {
+      "contours": 2,
+      "id": "glyph-upper-q",
+      "inputSHA256": "34c89382af249b8a0303838de27223253129e7780f1975aed340a03b64ddde83",
+      "jsonSHA256": "40aabc4eae04eb17ce4230666e6c912005f4f995dcc5eaa2bda7a8bc880b0f3e",
+      "points": 31,
+      "statsSHA256": "05c125e871e89124c192daf884e9a49ad30d624d20df44d5e6d3ae6a69001712"
+    },
+    {
+      "contours": 2,
+      "id": "glyph-lower-a",
+      "inputSHA256": "0a71a1dd718a9777e8558b87a9b29147b82b8f6d02c982bef738050f30611563",
+      "jsonSHA256": "e277beea1d4595d4633ab5219d2d90bcf1f15efed72cdcff3cb3ba2ad8e14d5c",
+      "points": 37,
+      "statsSHA256": "5a5b4d3beb0b927233b209f3902d3f1fcbfc16e40a44d57ce31914202dac6a75"
+    },
+    {
+      "contours": 2,
+      "id": "glyph-lower-g",
+      "inputSHA256": "bac64e823f47fc8bc3879c4a270252d78886565d82d96365632e8ff9a3d5a3c5",
+      "jsonSHA256": "1237163460d8f61d02d97531f9c629129beacf986b2ff946fb45701607957d4a",
+      "points": 41,
+      "statsSHA256": "27ef62f27199208c72a59c730f9607dc4a90c5cde0cd1c43ac3b99a6baf4cf35"
+    },
+    {
+      "contours": 1,
+      "id": "glyph-lower-n",
+      "inputSHA256": "8a0785f8a05a06d6d1dd4e542043e16dd31ec44ee58dc86e4e9c3c899fc5c3cb",
+      "jsonSHA256": "7addacdb59f3c757ef39d8cc32af38942444b027e11c8c20d73238213c28c491",
+      "points": 20,
+      "statsSHA256": "0e60ae04b9d2c6bdb2277420d7a6878450475c0ef5965d3febaf6fa976bce997"
+    },
+    {
+      "contours": 3,
+      "id": "glyph-8",
+      "inputSHA256": "95f266da666b6a325a563b7e328545b6b325794dbf825aafd9b5a4035011c5fb",
+      "jsonSHA256": "4848e44749939c9cb29579861ff38c68ac9f4495af2a777adcd239529e591182",
+      "points": 49,
+      "statsSHA256": "e72b740742a2f1506a4ee182c5bbc0c06f895fc52f02ee741b7b32e329174bed"
+    },
+    {
+      "contours": 1,
+      "id": "symbol-star",
+      "inputSHA256": "57c1b7e31bd73e9498daf352b8b767a40eb806659e9248120adb8e721843e0cb",
+      "jsonSHA256": "d268d72cb2a41c6339be6283d0f002dfed4e9134d33c2807a22d4681b36df8d7",
+      "points": 10,
+      "statsSHA256": "0a39af0f12b2e757009ab734e3d81d37c2d8e925df1a247d6dce0cf056bfafb8"
+    },
+    {
+      "contours": 1,
+      "id": "symbol-heart",
+      "inputSHA256": "5d86df2e6b346b4a31ab85b84964d2e7a85114cf82eb0810aa81318e5bd3f527",
+      "jsonSHA256": "e8a70142aea68e37923f66c32274f3bbc4b3e58d7796f65f7c3eaf59bf26709b",
+      "points": 24,
+      "statsSHA256": "eff4e316471ccd78b22600ca6a3095cd8ab8809c20fce4df8d41cab2043c1702"
+    },
+    {
+      "contours": 1,
+      "id": "symbol-right-arrow",
+      "inputSHA256": "c720ee5922ad88560dbf787588e6fde019eb91470c878e9118d4ec30e73f5ce6",
+      "jsonSHA256": "35cdb74ce752a242c671948caf87216b2d612fe0d464f1de757f233829fb8e16",
+      "points": 9,
+      "statsSHA256": "734beccde998bc44f8be12450fddf6fee255dd10fdf1734a0f1fe1ad12d4af97"
+    },
+    {
+      "contours": 1,
+      "id": "symbol-check",
+      "inputSHA256": "64aa4c789b35e67ec4b3f46312ab82ce4471b09841eaf74f5fcbf537737f5206",
+      "jsonSHA256": "be6b95935659cbb547f8fea21a009f71058f4277c3d52ed98f12e13f4cc4fbc8",
+      "points": 6,
+      "statsSHA256": "732be221997656829c50d0970ecf05d77aea3cb7cfd9d412483270217192ee88"
+    },
+    {
+      "contours": 2,
+      "id": "glyph-upper-r-generated",
+      "inputSHA256": "9ae18fe01b56db2715e95d9a748d01cfc69ef55156542941276300faa2601037",
+      "jsonSHA256": "980a19640144f9186036c303cbd1a10f81f580b3d075e342541997ae58ce37fb",
+      "points": 40,
+      "statsSHA256": "1b92af7af3e6acff1d6848007faedf2a713fc5599ba11671e30bb78511174442"
+    },
+    {
+      "contours": 1,
+      "id": "glyph-upper-s-generated",
+      "inputSHA256": "e007517d5376ceb0b1540c9a54c7944f468e9d71c1a32788970bcc116c895fd6",
+      "jsonSHA256": "0c24a644f70f8708e1b2a8f611e9e9b1514ab46b512dce16d4a174723d7662c7",
+      "points": 40,
+      "statsSHA256": "5080a129cf88be01808afdcc17d746d0fb9dc02b5aa12c10099dd9f6ac9f7ca9"
+    },
+    {
+      "contours": 1,
+      "id": "glyph-upper-m-generated",
+      "inputSHA256": "d1f35b23ab8f9838c4c3d34d6324b595730cd792ac8239aec4f56ed15dd24251",
+      "jsonSHA256": "4aace3a1078248803669658865b32499ede1ddfc711ac2256980810313948759",
+      "points": 12,
+      "statsSHA256": "b29adf8444e6ca3c679b0392f2ed581fd03817cbaeba054c984b2fe6db13f02d"
+    },
+    {
+      "contours": 2,
+      "id": "glyph-lower-e-generated",
+      "inputSHA256": "f026ec26e36f0c62c09dd15129cf3220ee518b0995b808f9b8d25234d7c6b2c5",
+      "jsonSHA256": "98dfd5ab4c007b6b33a10b8fca4b78f10c387bda55dc36155c430345c1f52214",
+      "points": 29,
+      "statsSHA256": "c2afc7271676498a351722e59c6bad42530f90fff0f0e6a847ccf2925195e92b"
+    },
+    {
+      "contours": 1,
+      "id": "glyph-lower-k-generated",
+      "inputSHA256": "dffcf039c1a9ffce3e306b21672d8ae685b5c022ef29d5f7530b0a5463fcb0da",
+      "jsonSHA256": "3e813a7df645bbb4c3937ec40e8e676adb80ade896c815fb0f1b6a661dd16c7b",
+      "points": 13,
+      "statsSHA256": "b620ae56bdab5adf423693c8d282cd596854f62a35d52a03727ca3f73ff80d08"
+    },
+    {
+      "contours": 1,
+      "id": "glyph-2-generated",
+      "inputSHA256": "35f6e8d2a47035abc29c4bd15b6c4a3fde2684352dea55c65202063d8e9d481b",
+      "jsonSHA256": "ae68077fb56d8df65622027b6648b126d27a09af510e513e39634e0daede5bc6",
+      "points": 25,
+      "statsSHA256": "8b449981474409ab3c2699d1169aad86e7d6ef1a76027562fd47683c991d2a27"
+    },
+    {
+      "contours": 3,
+      "id": "glyph-ampersand-generated",
+      "inputSHA256": "b921e4118852a5d13d22ffe3a115f274ada5ed8e224405b426fe8e13fd890f3d",
+      "jsonSHA256": "8c1071ab9a4189eca9f29234a22fdc8de01229157c8a139814902b2ce3cbbd7f",
+      "points": 74,
+      "statsSHA256": "8f5af28be7af46afe787895acc6b291b588972a4af2567c9cb0a28baf9566eeb"
+    },
+    {
+      "contours": 2,
+      "id": "glyph-at-generated",
+      "inputSHA256": "0e6d2eb0f84f3546607c17f0ce8f75d6a505e220a6d8b57a8ea10aace8523eef",
+      "jsonSHA256": "8ca66c7a697f881f7b23b68e79aa7bb8d1434ea469c7ede6369b914f7b2d0f4c",
+      "points": 65,
+      "statsSHA256": "2bd77051097897cd513eaa0fe78652924095b0cec649fb7de6c8048ab66d82e5"
+    },
+    {
+      "contours": 1,
+      "id": "symbol-lightning-generated",
+      "inputSHA256": "34d980b6db0c38addd01d316571e1b0825133d541c532d19dac80ea696f6c0f2",
+      "jsonSHA256": "21c1996b235dd2ef75cd0601efa18801350cfe12ba5b1d2b7b9d4815ff7baacf",
+      "points": 6,
+      "statsSHA256": "cb57edd7201eebe0f12c81d28276c666307ce96c39c0b35f730878b5fbf63b09"
+    },
+    {
+      "contours": 2,
+      "id": "symbol-location-pin-generated",
+      "inputSHA256": "b2143a68b2860a6fde874dbee67f8cc95588f1308286c263290b9f9f1caca07e",
+      "jsonSHA256": "facd0e239e15c4b7b1ef101187dce42761ef807120441da09438e2abc46bdbc5",
+      "points": 25,
+      "statsSHA256": "c9a982c5876a142f6bc34ddb1c00a3f38991c9fda93045ed4a17b2ff004cdc34"
+    },
+    {
+      "contours": 3,
+      "id": "symbol-infinity-generated",
+      "inputSHA256": "c03d62bb12bb0517e08540ebba2ffd85cc0cbaceac5bc7c5c6d33c79264217fc",
+      "jsonSHA256": "376ad3eee4497be25a3c0aaee4edaf942980eeb26559c0d566bdbd4eca8f6866",
+      "points": 50,
+      "statsSHA256": "6315d76f08ff741a3a4d08a7c578ee9ddbac4d15de93a2b6842a0d4a723d3265"
+    },
+    {
+      "contours": 1,
+      "id": "symbol-sparkle-generated",
+      "inputSHA256": "ad97f67b0afbd024568d4a1fe304abebf6a6b4c31cd4cb63c48419dc937b0514",
+      "jsonSHA256": "280d918c8ed50c1cb7d3e5db8fe3bb2c3a611588db7e7b47126ebd0bb3ede191",
+      "points": 22,
+      "statsSHA256": "69348deb728576a2da1f6024732bf2bb54a427a4d07afac311d410d080a16ad5"
+    }
+  ],
+  "options": {
+    "profile": "clean",
+    "targetHeight": 1088,
+    "yOffset": 0
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"
+}

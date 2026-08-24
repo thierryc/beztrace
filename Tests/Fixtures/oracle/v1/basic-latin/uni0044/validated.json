@@ -1,0 +1,127 @@
+{
+  "coordinateSpace": "canonical-y-up",
+  "fixtureID": "uni0044",
+  "outline": {
+    "contours": [
+      {
+        "points": [
+          {
+            "type": "line",
+            "x": 104.0,
+            "y": 256.0
+          },
+          {
+            "smooth": true,
+            "type": "line",
+            "x": 364.0,
+            "y": 256.0
+          },
+          {
+            "x": 600.0,
+            "y": 256.0
+          },
+          {
+            "x": 708.0,
+            "y": 420.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 708.0,
+            "y": 646.0
+          },
+          {
+            "x": 708.0,
+            "y": 961.0
+          },
+          {
+            "x": 508.0,
+            "y": 1021.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 386.0,
+            "y": 1022.0
+          },
+          {
+            "type": "line",
+            "x": 96.0,
+            "y": 1024.0
+          },
+          {
+            "type": "line",
+            "x": 80.0,
+            "y": 1008.0
+          },
+          {
+            "type": "line",
+            "x": 80.0,
+            "y": 272.0
+          }
+        ]
+      },
+      {
+        "points": [
+          {
+            "type": "line",
+            "x": 200.0,
+            "y": 352.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 360.0
+          },
+          {
+            "type": "line",
+            "x": 184.0,
+            "y": 920.0
+          },
+          {
+            "type": "line",
+            "x": 192.0,
+            "y": 928.0
+          },
+          {
+            "smooth": true,
+            "type": "line",
+            "x": 356.0,
+            "y": 928.0
+          },
+          {
+            "x": 534.0,
+            "y": 928.0
+          },
+          {
+            "x": 600.0,
+            "y": 798.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 600.0,
+            "y": 632.0
+          },
+          {
+            "x": 600.0,
+            "y": 442.0
+          },
+          {
+            "x": 514.0,
+            "y": 352.0
+          },
+          {
+            "smooth": true,
+            "type": "curve",
+            "x": 328.0,
+            "y": 352.0
+          }
+        ]
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "stage": "validated"
+}

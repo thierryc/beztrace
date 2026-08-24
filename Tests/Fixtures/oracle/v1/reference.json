@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/eliheuer/img2bez",
+  "commit": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "commitDate": "2026-08-04T03:41:08Z",
+  "archiveURL": "https://github.com/eliheuer/img2bez/archive/23073ca08ecdac61ad0e838bfae49a590bc2c7cc.tar.gz",
+  "archiveSHA256": "3a4a5e00daa3d5297a4878caac54e32148aad6287071d3d10d799198603b0509",
+  "declaredRustVersion": "1.88",
+  "focusedGlyphs": [
+    "ampersand",
+    "a",
+    "e",
+    "s",
+    "R",
+    "O",
+    "S",
+    "n"
+  ],
+  "basicLatinGlyphs": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  "expectedBasicLatinCount": 62,
+  "baselineKind": "beztrace-public-replacement",
+  "referenceUFORepository": "https://github.com/eliheuer/virtua-grotesk",
+  "referenceUFOCommit": "797c1065abd0c1318217b7c44aff3d61074f7280",
+  "referenceUFOLicense": "OFL-1.1",
+  "historicalUnreproducedMeanStructuralScore": 0.964,
+  "minimumMeanStructuralScore": 0.961,
+  "coordinateToleranceBeforeSnapping": 0.25,
+  "coordinateToleranceAfterSnapping": 1.0,
+  "instrumentationPatch": "reference-patches/0001-stage-capture.patch",
+  "instrumentationPatchSHA256": "ccabd3210f5621b2c251a239d41631211b53b4c9f7331e0b45b6202b23e3240b",
+  "corpusCapture": {
+    "status": "complete",
+    "fixtures": 24,
+    "determinismRuns": 2,
+    "manifest": "corpus/corpus-manifest.json"
+  },
+  "benchmark": "benchmarks/arm64-macos-26.6.json",
+  "verifiedEnvironment": {
+    "os": "macOS 26.6 (25G70)",
+    "architecture": "arm64",
+    "rustc": "1.88.0 (6b00bc388 2025-06-23)",
+    "cargo": "1.88.0 (873a06493 2025-05-10)",
+    "upstreamTests": {
+      "passed": 85,
+      "failed": 0
+    }
+  },
+  "focusedReferenceFingerprint": {
+    "ampersand": 35,
+    "a": 27,
+    "e": 18,
+    "s": 22,
+    "R": 26,
+    "O": 8,
+    "S": 20,
+    "n": 19
+  },
+  "captureStatus": "complete",
+  "referenceUFOSHA256": "846091bdabdc04ebeb18e699c8e9d6a85756bd1a9c4655a5294aac6cf63022f8"
+}

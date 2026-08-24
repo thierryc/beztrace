@@ -1,0 +1,33 @@
+
+  img2bez · seven
+
+  Threshold   Otsu = 127
+  Load        352x700 px, Otsu threshold, sub-pixel iso pipeline
+  Trace       1 contours → 2 curves + 12 lines  (scale ×1.55)
+  Clean       direction · grid snap · H/V snap
+  Result      1 contours · 18 points (14 on-curve)  (1095ms)
+  Threshold   Otsu = 127
+  Judge       wild 0.836  (iou 0.962  hv 0.25  micro 0  parsimony 0.92)
+
+  ✓ <img2bez-work>/output.ufo
+
+  Raster IoU  96.8%  (overlap=60932 traced=61348 ref=62544)
+  Diff        <img2bez-work>/seven_raster_diff.png
+
+  Eval vs <reference-ufo>/glyphs/seven.glif
+
+  Scale         516x744 vs 516x744  (1.00x)                  1.000
+  Shape         Hausdorff 6.7    mean 2.1    (normalized)      0.833
+  Points        14 vs 14 on-curve  (×1.00)                   1.000
+  Segments      2c+11l vs 2c+11l  (0.85 vs 0.85)            1.000
+  H/V handles   1/4  (25%)                                 0.250
+  Grid (2)      14/14  (100%)                                 1.000
+  Contours      1 vs 1                                       1.000
+
+  Overall       0.837
+  Render      src=352x700 img_scale=1.0857 font_scale=1.5543 s=0.698529
+  Render      rendered=382x760 ox=209 oy=20 padding=20
+  Render      dx=48.0 dy=0.0 y_offset=-256.0
+  Render      tx=175.47 ty=601.18
+  Compare     <img2bez-work>/seven_comparison.png
+

@@ -1,0 +1,26 @@
+{
+  "binarySHA256": "865d99b875669d20e5d4768492d7d85fe29b9dcca4e43b41f63cf323f6ea96f5",
+  "buildMode": "release",
+  "clock": "time.perf_counter_ns wall clock",
+  "environment": {
+    "machine": "arm64",
+    "platform": "macOS-26.6-arm64-arm-64bit-Mach-O"
+  },
+  "fixture": "glyph-upper-r-generated",
+  "fixtureSHA256": "9ae18fe01b56db2715e95d9a748d01cfc69ef55156542941276300faa2601037",
+  "medianMs": 1312.909,
+  "p95Ms": 1344.9,
+  "peakRSSBytes": 32391168,
+  "peakRSSMethod": "/usr/bin/time -l maximum resident set size; one matching release-mode run",
+  "sampleCount": 5,
+  "samplesMs": [
+    1312.909,
+    1315.024,
+    1307.388,
+    1311.83,
+    1344.9
+  ],
+  "schemaVersion": 1,
+  "sourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc",
+  "state": "one unrecorded warm-up followed by warm single-shot subprocess samples"
+}
