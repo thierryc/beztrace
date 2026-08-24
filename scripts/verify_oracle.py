@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 
 
@@ -19,6 +20,7 @@ STAGE_FILES = {
     "cleaned.json": "cleaned",
     "validated.json": "validated",
 }
+BASIC_LATIN = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 
 def sha256(path: Path) -> str:
@@ -127,6 +129,12 @@ def main() -> int:
             print(f"- {failure}")
         return 1
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if manifest.get("sourceRevision") != reference.get("commit"):
+        failures.append("oracle manifest source revision does not match reference metadata")
+    if manifest.get("referenceUFOSHA256") != reference.get("referenceUFOSHA256"):
+        failures.append("oracle manifest reference UFO hash does not match reference metadata")
+    if manifest.get("instrumentationPatchSHA256") != reference.get("instrumentationPatchSHA256"):
+        failures.append("oracle manifest patch hash does not match reference metadata")
     paths = [item["path"] for item in manifest.get("files", [])]
     if paths != sorted(paths) or len(paths) != len(set(paths)):
         failures.append("manifest file ordering is not unique and lexical")
@@ -156,6 +164,30 @@ def main() -> int:
                 failures.append(f"invalid JSON {item['path']}: {error}")
     if reference.get("captureStatus") != "complete":
         failures.append(f"reference capture status is {reference.get('captureStatus')!r}")
+    expected_directories = {f"uni{ord(character):04X}" for character in BASIC_LATIN}
+    basic_latin = root / "basic-latin"
+    actual_directories = (
+        {path.name for path in basic_latin.iterdir() if path.is_dir()}
+        if basic_latin.is_dir() else set()
+    )
+    if actual_directories != expected_directories:
+        failures.append("Basic Latin capture directories do not match the required 62 glyphs")
+    summary_path = root / "structural-summary.txt"
+    if not summary_path.is_file():
+        failures.append("structural-summary.txt is missing")
+    else:
+        summary = summary_path.read_text(encoding="utf-8")
+        values = dict(re.findall(r"^(mean_structural_score|glyphs_ok|glyphs_failed):\s+(\S+)", summary, re.MULTILINE))
+        try:
+            score = float(values["mean_structural_score"])
+            glyphs_ok = int(values["glyphs_ok"])
+            glyphs_failed = int(values["glyphs_failed"])
+            if score < float(reference["minimumMeanStructuralScore"]):
+                failures.append(f"structural mean {score:.3f} is below the required baseline")
+            if glyphs_ok != 62 or glyphs_failed != 0:
+                failures.append("structural summary is not 62 successes and zero failures")
+        except (KeyError, TypeError, ValueError):
+            failures.append("structural summary is malformed")
     failures.extend(privacy_failures(root))
     if failures:
         print("oracle verification failed:")

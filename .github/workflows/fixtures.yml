@@ -1,0 +1,33 @@
+name: Fixture integrity
+
+on:
+  push:
+    branches: [main, lit/initial-swift-port]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify immutable reference checkpoint
+        run: |
+          python3 scripts/verify_fixtures.py
+          python3 scripts/verify_oracle.py
+          python3 scripts/verify_repository.py
+          python3 scripts/check_reference_ufo.py Tests/Fixtures/oracle/v1/reference-source/VirtuaGrotesk-Regular.ufo
+      - name: Verify maintenance tooling
+        run: |
+          test -x scripts/generate_deterministic_fixtures.py
+          test -x scripts/capture_img2bez_oracle.sh
+          test -x scripts/sanitize_oracle_logs.py
+          python3 -m py_compile scripts/*.py
+          bash -n scripts/capture_img2bez_oracle.sh
+          python3 scripts/sanitize_oracle_logs.py Tests/Fixtures/oracle/v1/structural \
+            --img2bez-work test-work/img2bez-reference/img2bez/eval-harness/work \
+            --reference-ufo Tests/Fixtures/oracle/v1/reference-source/VirtuaGrotesk-Regular.ufo \
+            --check
+      - name: Confirm checks are read-only
+        run: |
+          git diff --exit-code
+          test -z "$(git status --porcelain --untracked-files=no)"
