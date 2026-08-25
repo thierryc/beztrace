@@ -1,4 +1,4 @@
-name: Reference and Swift internal pipeline
+name: Reference and standalone Swift tool
 
 on:
   push:
@@ -32,8 +32,8 @@ jobs:
           git diff --exit-code
           test -z "$(git status --porcelain --untracked-files=no)"
 
-  swift-pipeline:
-    name: Swift pipeline (${{ matrix.runner }})
+  swift-standalone:
+    name: Standalone Swift tool (${{ matrix.runner }})
     strategy:
       fail-fast: false
       matrix:
@@ -45,10 +45,12 @@ jobs:
         run: |
           swift --version
           uname -m
-      - name: Run internal pipeline and differential tests
+      - name: Run pipeline, public contract, and command tests
         run: swift test --configuration release --disable-swift-testing
-      - name: Build optimized library
+      - name: Build optimized library and executable
         run: swift build --configuration release
+      - name: Smoke-test executable
+        run: swift run --configuration release beztrace --version
       - name: Confirm checks are read-only
         run: |
           git diff --exit-code
