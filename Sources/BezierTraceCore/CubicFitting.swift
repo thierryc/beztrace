@@ -5,6 +5,18 @@
 import Foundation
 
 enum ContourFitter {
+    static func fitClosed(smoothed: [Point2D], accuracy: Double) -> FittedContour {
+        guard let first = smoothed.first else {
+            return FittedContour(segments: [], isLine: [], jointKinds: [])
+        }
+        let segments = fitOpenSamples(smoothed + [first], accuracy: accuracy)
+        return FittedContour(
+            segments: segments,
+            isLine: Array(repeating: false, count: segments.count),
+            jointKinds: Array(repeating: .fitterJoint, count: segments.count)
+        )
+    }
+
     static func fitInitial(plan: ContourPlan, accuracy: Double) -> FittedContour {
         var result = fitSections(plan: plan, accuracy: accuracy)
         result = FittingFinish.mergeCollinearLines(result)

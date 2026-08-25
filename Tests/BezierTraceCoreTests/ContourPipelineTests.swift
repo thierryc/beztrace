@@ -42,6 +42,33 @@ final class ContourPipelineTests: XCTestCase {
         }
     }
 
+    func testAllReviewedCorpusImagesTraceTwiceToIdenticalValidatedOutlines() throws {
+        let fixturesRoot = repositoryRoot.appendingPathComponent("Tests/Fixtures", isDirectory: true)
+        let decoder = JSONDecoder()
+        let manifest = try decoder.decode(
+            FixtureManifest.self,
+            from: Data(contentsOf: fixturesRoot.appendingPathComponent("manifest.json"))
+        )
+        let corpus = try decoder.decode(
+            CorpusManifest.self,
+            from: Data(contentsOf: fixturesRoot.appendingPathComponent("oracle/v1/corpus/corpus-manifest.json"))
+        )
+        let expectedCounts = Dictionary(uniqueKeysWithValues: corpus.fixtures.map { ($0.id, $0.contours) })
+        for fixture in manifest.fixtures {
+            let data = try Data(contentsOf: fixturesRoot.appendingPathComponent(fixture.path))
+            let first = try ContourPipeline.traceValidated(data: data)
+            let second = try ContourPipeline.traceValidated(data: data)
+            XCTAssertEqual(first.outline, second.outline, fixture.id)
+            XCTAssertEqual(first.outline.contours.count, expectedCounts[fixture.id], fixture.id)
+            for contour in first.outline.contours {
+                XCTAssertFalse(contour.points.isEmpty, fixture.id)
+                XCTAssertLessThan(contour.points.count, 4_096, fixture.id)
+                XCTAssertTrue(contour.points.allSatisfy(\.position.isFinite), fixture.id)
+                XCTAssertNotEqual(contour.points[0].kind, .offCurve, fixture.id)
+            }
+        }
+    }
+
     func testInvalidFoundationOptionsFailClosed() throws {
         let fixture = repositoryRoot.appendingPathComponent(
             "Tests/Fixtures/corpus/deterministic/glyphs/glyph-upper-a.png"

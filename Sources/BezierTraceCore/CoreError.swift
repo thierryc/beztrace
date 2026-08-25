@@ -13,4 +13,10 @@ enum CoreError: Error, Equatable, Sendable {
     case invalidOptions
     case nonFiniteGeometry
     case noContours
+    case invalidClosure(contour: Int)
+    case degenerateSegment(contour: Int, segment: Int)
+    case invalidWinding(contour: Int)
+    case selfIntersection(contour: Int)
+    case handleReachExceeded(contour: Int, segment: Int)
+    case pointLimitExceeded(contour: Int, actual: Int, limit: Int)
 }

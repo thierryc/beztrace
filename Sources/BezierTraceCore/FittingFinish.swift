@@ -5,6 +5,9 @@
 import Foundation
 
 enum FittingFinish {
+    private static let harmonizeMaximumShift = 2.0
+    private static let handleReachMaximum = 0.9
+
     static func mergeCollinearLines(_ input: FittedContour) -> FittedContour {
         var contour = input
         while contour.segments.count >= 3 {
@@ -187,6 +190,93 @@ enum FittingFinish {
             if !contour.isLine[index] {
                 contour.segments[index].control1 = joint + direction * outgoing.magnitude
             }
+        }
+        return contour
+    }
+
+    static func harmonize(_ input: FittedContour) -> FittedContour {
+        var contour = input
+        let count = contour.segments.count
+        for _ in 0..<2 {
+            for index in 0..<count {
+                let previous = (index + count - 1) % count
+                guard contour.jointKinds[index] != .corner,
+                      !contour.isLine[previous], !contour.isLine[index]
+                else { continue }
+                let firstFar = contour.segments[previous].control1
+                let firstNear = contour.segments[previous].control2
+                let joint = contour.segments[index].start
+                let secondNear = contour.segments[index].control1
+                let secondFar = contour.segments[index].control2
+                let joinDirection = secondNear - firstNear
+                guard joinDirection.magnitude >= 1e-9 else { continue }
+                let firstSide = joinDirection.cross(firstFar - firstNear)
+                let secondSide = joinDirection.cross(secondFar - secondNear)
+                guard firstSide * secondSide > 0,
+                      let intersection = lineIntersection(firstFar, firstNear, secondNear, secondFar)
+                else { continue }
+                let firstLength = firstFar.distance(to: firstNear)
+                let firstToIntersection = firstNear.distance(to: intersection)
+                let intersectionToSecond = intersection.distance(to: secondNear)
+                let secondLength = secondNear.distance(to: secondFar)
+                guard firstToIntersection >= 1e-9, secondLength >= 1e-9 else { continue }
+                let firstRatio = firstLength / firstToIntersection
+                let secondRatio = intersectionToSecond / secondLength
+                guard firstRatio.isFinite, secondRatio.isFinite, firstRatio > 0, secondRatio > 0 else {
+                    continue
+                }
+                let ratio = sqrt(firstRatio * secondRatio)
+                let parameter = ratio / (ratio + 1)
+                let target = firstNear.interpolated(to: secondNear, t: parameter)
+                var shift = target - joint
+                if shift.magnitude > harmonizeMaximumShift {
+                    shift = shift * (harmonizeMaximumShift / shift.magnitude)
+                }
+                let moved = joint + shift
+                contour.segments[previous].end = moved
+                contour.segments[index].start = moved
+            }
+        }
+        return contour
+    }
+
+    static func capHandleReach(_ input: FittedContour) -> FittedContour {
+        var contour = input
+        for index in contour.segments.indices where !contour.isLine[index] {
+            var segment = contour.segments[index]
+            let chordVector = segment.end - segment.start
+            let chord = chordVector.magnitude
+            guard chord >= 1e-9 else { continue }
+            var firstHandle = segment.control1 - segment.start
+            var secondHandle = segment.control2 - segment.end
+            let firstLength = firstHandle.magnitude
+            let secondLength = secondHandle.magnitude
+            if firstLength > 1e-9, secondLength > 1e-9,
+               let triangle = ContourRefiner.handleTriangle(
+                start: segment.start,
+                startDirection: firstHandle / firstLength,
+                end: segment.end,
+                endDirection: secondHandle / secondLength
+               )
+            {
+                if firstLength > triangle.0 {
+                    segment.control1 = segment.start + firstHandle * (triangle.0 / firstLength)
+                }
+                if secondLength > triangle.1 {
+                    segment.control2 = segment.end + secondHandle * (triangle.1 / secondLength)
+                }
+                firstHandle = segment.control1 - segment.start
+                secondHandle = segment.control2 - segment.end
+            }
+            let chordDirection = chordVector / chord
+            let reach = firstHandle.dot(chordDirection) - secondHandle.dot(chordDirection)
+            let limit = chord * handleReachMaximum
+            if reach > limit {
+                let scale = limit / reach
+                segment.control1 = segment.start + firstHandle * scale
+                segment.control2 = segment.end + secondHandle * scale
+            }
+            contour.segments[index] = segment
         }
         return contour
     }

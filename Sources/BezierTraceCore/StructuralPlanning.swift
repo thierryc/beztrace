@@ -16,6 +16,7 @@ struct TraceConfiguration: Equatable, Sendable {
     var structureGrid: Int
     var fixDirection: Bool
     var chamferSize: Double
+    var chamferMinimumEdge: Double
 
     static let capturedDefaults = TraceConfiguration(
         targetHeight: 1088,
@@ -28,7 +29,8 @@ struct TraceConfiguration: Equatable, Sendable {
         grid: 2,
         structureGrid: 0,
         fixDirection: true,
-        chamferSize: 0
+        chamferSize: 0,
+        chamferMinimumEdge: 40
     )
 }
 

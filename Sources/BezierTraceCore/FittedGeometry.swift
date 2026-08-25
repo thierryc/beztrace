@@ -42,6 +42,61 @@ struct FittedContour: Equatable, Sendable {
         result.append(.close)
         return result
     }
+
+    func scaled(by factor: Double) -> FittedContour {
+        func scale(_ point: Point2D) -> Point2D {
+            Point2D(x: point.x * factor, y: point.y * factor)
+        }
+        return FittedContour(
+            segments: segments.map {
+                CubicBezier(
+                    start: scale($0.start),
+                    control1: scale($0.control1),
+                    control2: scale($0.control2),
+                    end: scale($0.end)
+                )
+            },
+            isLine: isLine,
+            jointKinds: jointKinds
+        )
+    }
+}
+
+struct PathSegment: Equatable, Sendable {
+    var cubic: CubicBezier
+    var isLine: Bool
+}
+
+struct BezierPathContour: Equatable, Sendable {
+    var segments: [PathSegment]
+
+    init(segments: [PathSegment]) {
+        self.segments = segments
+    }
+
+    init(_ fitted: FittedContour) {
+        segments = fitted.segments.indices.map {
+            PathSegment(cubic: fitted.segments[$0], isLine: fitted.isLine[$0])
+        }
+    }
+
+    var pathElements: [InternalPathElement] {
+        guard let first = segments.first else { return [] }
+        var result: [InternalPathElement] = [.move(first.cubic.start)]
+        for segment in segments {
+            if segment.isLine {
+                result.append(.line(segment.cubic.end))
+            } else {
+                result.append(.curve(
+                    control1: segment.cubic.control1,
+                    control2: segment.cubic.control2,
+                    end: segment.cubic.end
+                ))
+            }
+        }
+        result.append(.close)
+        return result
+    }
 }
 
 struct CubicFitResult: Equatable, Sendable {
