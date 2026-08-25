@@ -354,10 +354,10 @@ enum ContourPlanner {
             var previousEnd = 0
             for offset in 1..<length {
                 let delta = coordinate(offset) - coordinate(offset - 1)
-                // Cross-language libm kernels can leave sub-ulp residue on
-                // an otherwise exact plateau. Treat it as the zero derivative
-                // the Rust planner observes so plateau midpoints stay stable.
-                let sign = abs(delta) <= 1e-12 ? 0 : numericSign(delta)
+                // Rust `f64::signum()` returns +1 for +0 and -1 for -0.
+                // Keep that signed-zero behavior because it determines how
+                // flat extrema are localized by the pinned planner.
+                let sign = delta.sign == .minus ? -1.0 : 1.0
                 if sign == 0 { continue }
                 if previousSign != 0, sign != previousSign {
                     let candidate = (previousEnd + offset - 1) / 2

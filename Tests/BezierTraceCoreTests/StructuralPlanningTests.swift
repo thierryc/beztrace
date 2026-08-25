@@ -110,53 +110,13 @@ final class StructuralPlanningTests: XCTestCase {
                 XCTAssertEqual(point.x, oracle.x, accuracy: 1e-9, identifier)
                 XCTAssertEqual(point.y, oracle.y, accuracy: 1e-9, identifier)
             }
-            let localizationAllowance = 14
-            func cyclicDistance(_ first: Int, _ second: Int) -> Int {
-                let distance = abs(first - second)
-                return min(distance, actual.smoothed.count - distance)
-            }
-            let comparableSplits = actual.splits.filter { split in
-                if expected.splits.contains(where: {
-                    $0.kind == split.kind.oracleName
-                        && cyclicDistance($0.index, split.index) <= localizationAllowance
-                }) {
-                    return true
-                }
-                let nearCorner = actual.splits.contains {
-                    ($0.kind == .corner || $0.kind == .tangent)
-                        && cyclicDistance($0.index, split.index) <= localizationAllowance
-                }
-                return !(nearCorner && (split.kind == .extremumX || split.kind == .extremumY))
-            }
-            let comparableExpected = expected.splits.filter { split in
-                if actual.splits.contains(where: {
-                    $0.kind.oracleName == split.kind
-                        && cyclicDistance($0.index, split.index) <= localizationAllowance
-                }) {
-                    return true
-                }
-                let nearAnchor = expected.splits.contains {
-                    ($0.kind == "Corner" || $0.kind == "Tangent")
-                        && cyclicDistance($0.index, split.index) <= localizationAllowance
-                }
-                return !(nearAnchor && (split.kind == "ExtremumX" || split.kind == "ExtremumY"))
-            }
             let actualDescription = actual.splits.map { "\($0.index):\($0.kind.oracleName)" }
             let expectedDescription = expected.splits.map { "\($0.index):\($0.kind)" }
             XCTAssertEqual(
-                comparableSplits.map(\.kind.oracleName),
-                comparableExpected.map(\.kind),
+                actualDescription,
+                expectedDescription,
                 "\(identifier) actual=\(actualDescription) expected=\(expectedDescription)"
             )
-            if comparableSplits.count == comparableExpected.count {
-                for (split, oracle) in zip(comparableSplits, comparableExpected) {
-                    XCTAssertLessThanOrEqual(
-                        cyclicDistance(split.index, oracle.index),
-                        localizationAllowance,
-                        identifier
-                    )
-                }
-            }
             XCTAssertEqual(
                 actual.lineSections.map { [$0.start, $0.end] },
                 expected.lineSections,
