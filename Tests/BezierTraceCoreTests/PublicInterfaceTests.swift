@@ -139,6 +139,26 @@ final class PublicInterfaceTests: XCTestCase {
         }
     }
 
+    func testVersionedJSONSchemaDescribesTheSerializedContract() throws {
+        let schemaURL = repositoryRoot.appendingPathComponent("Schemas/trace-result-v1.schema.json")
+        let schema = try XCTUnwrap(
+            JSONSerialization.jsonObject(with: Data(contentsOf: schemaURL)) as? [String: Any]
+        )
+        XCTAssertEqual(schema["$schema"] as? String, "https://json-schema.org/draft/2020-12/schema")
+        XCTAssertEqual(schema["$id"] as? String, "https://beztrace.dev/schema/trace-result-v1.json")
+        XCTAssertEqual(schema["additionalProperties"] as? Bool, false)
+        let required = try XCTUnwrap(schema["required"] as? [String])
+        XCTAssertEqual(Set(required), [
+            "schemaVersion", "engine", "source", "resolvedOptions", "pathDataVersion",
+            "metadataPolicy", "paths", "bounds", "placement", "statistics", "timingsMs", "warnings",
+        ])
+
+        let data = try fixtureData("corpus/deterministic/glyphs/glyph-upper-a.png")
+        let result = try TraceSerializer.json(BezierTracer.trace(.init(imageData: data)))
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: result) as? [String: Any])
+        XCTAssertEqual(Set(object.keys), Set(required))
+    }
+
     private func fixtureData(_ path: String) throws -> Data {
         try Data(contentsOf: repositoryRoot
             .appendingPathComponent("Tests/Fixtures", isDirectory: true)
