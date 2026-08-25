@@ -1,4 +1,4 @@
-name: Fixture integrity
+name: Reference and Swift foundations
 
 on:
   push:
@@ -27,6 +27,28 @@ jobs:
             --img2bez-work test-work/img2bez-reference/img2bez/eval-harness/work \
             --reference-ufo Tests/Fixtures/oracle/v1/reference-source/VirtuaGrotesk-Regular.ufo \
             --check
+      - name: Confirm checks are read-only
+        run: |
+          git diff --exit-code
+          test -z "$(git status --porcelain --untracked-files=no)"
+
+  swift-foundations:
+    name: Swift foundations (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-26, macos-26-intel]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record Swift environment
+        run: |
+          swift --version
+          uname -m
+      - name: Run foundation and differential tests
+        run: swift test --disable-swift-testing
+      - name: Build optimized library
+        run: swift build --configuration release
       - name: Confirm checks are read-only
         run: |
           git diff --exit-code
