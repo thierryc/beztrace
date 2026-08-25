@@ -3,7 +3,7 @@ beztrace third-party notices
 Reference capture is complete. This repository bundles two font binaries and
 one UFO source solely to reproduce test fixtures; none is a runtime dependency.
 
-The planned implementation is a derivative Swift port of img2bez:
+The implementation is a derivative Swift port of img2bez:
 
   Project: img2bez
   Repository: https://github.com/eliheuer/img2bez
@@ -13,6 +13,10 @@ The planned implementation is a derivative Swift port of img2bez:
 
 The corresponding license texts are distributed as LICENSE-APACHE and
 LICENSE-MIT.
+
+The Swift foundations add no third-party runtime dependencies. Image decoding
+uses Apple system frameworks and local geometry replaces Rust dependency
+implementations.
 
   Project: Noto Sans
   Repository: https://github.com/google/fonts

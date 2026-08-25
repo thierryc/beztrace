@@ -2,9 +2,9 @@
 
 ## Test-first rule
 
-Phase 0 must be reproducible before Swift tracing code is added. Tests read
-fixtures but never rewrite them. Fixture generation and oracle capture are
-explicit maintenance operations whose diffs require review.
+The reference checkpoint must remain reproducible throughout implementation.
+Tests read fixtures but never rewrite them. Fixture generation and oracle
+capture are explicit maintenance operations whose diffs require review.
 
 ## Fixture corpus
 
@@ -83,7 +83,32 @@ figure remains historical and unreproduced; it is not a release blocker.
 Coordinate deviation may not exceed 0.25 canonical units before
 snapping or 1 unit after snapping.
 
-## Future Swift stages
+## Swift foundations
+
+The Swift package currently covers deterministic geometry, bounded PNG/JPEG
+preparation, and subpixel contour extraction. It intentionally has no public
+tracing API or executable yet. Run the complete XCTest gate on the current
+architecture with:
+
+```sh
+swift test --disable-swift-testing
+```
+
+The package uses XCTest only; disabling Swift Testing avoids launching an
+empty second runner and is required for the local Rosetta cross-architecture
+command:
+
+```sh
+arch -x86_64 swift test --disable-swift-testing \
+  --triple x86_64-apple-macosx13.0 \
+  --scratch-path .build/x86_64-target
+```
+
+The 28-test gate includes exact point comparison for all 62 Basic Latin
+subpixel captures and topology checks for all 24 reviewed input fixtures. CI
+runs the same suite on native Apple Silicon and Intel hosts.
+
+## Later Swift stages
 
 Each implementation stage starts with unit and differential tests against the
 smallest relevant immutable fixture. Public JSON and SVG tests must prove that

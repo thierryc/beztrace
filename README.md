@@ -1,23 +1,25 @@
 # beztrace
 
-`beztrace` is a planned macOS-native tracing engine for converting clean raster
-glyph images into economical, type-design-quality cubic Bezier outlines.
+`beztrace` is a macOS-native tracing engine under active implementation for
+converting clean raster glyph images into economical, type-design-quality
+cubic Bezier outlines.
 
 > [!IMPORTANT]
-> Reference capture is complete and Swift implementation has not started.
-> This repository contains documentation, test infrastructure, and immutable
-> image fixtures, but no Swift package, tracing engine, executable, MCP
-> adapter, or production artifact. Do not represent it as working software.
+> Reference capture and Swift core foundations are complete. The repository
+> now contains a tested Swift package for geometry, raster preparation, and
+> subpixel contour extraction. Structural planning, cubic fitting, cleanup,
+> public path serialization, the executable, and Glyphs MCP integration do not
+> exist yet. Do not represent beztrace as a complete tracing tool.
 
 ## Intended product
 
 The product is deliberately split into two reusable layers:
 
-- `BezierTraceCore`, a Swift library that owns image preparation, subpixel
+- `BezierTraceCore`, a Swift library that will own image preparation, subpixel
   contour extraction, structural analysis, cubic fitting, raster refinement,
   typographic cleanup, placement, validation, and serialization.
-- `beztrace`, a signed command-line tool that exposes the library to local
-  shell, batch, CI, and automation workflows.
+- `beztrace`, a future signed command-line tool that exposes the library to
+  local shell, batch, CI, and automation workflows.
 
 beztrace is intended to become a standalone companion engine for Glyphs MCP:
 it will turn raster glyphs and symbols into neutral, versioned path data that a
@@ -38,7 +40,7 @@ release has been separately authorized.
   matching, UFO/GLIF writing, learned models, network access, or Glyphs.app
   dependency in v1.
 
-The planned implementation is a one-time derivative Swift port of img2bez
+The implementation is a one-time derivative Swift port of img2bez
 commit `23073ca08ecdac61ad0e838bfae49a590bc2c7cc`, licensed under
 `Apache-2.0 OR MIT`. It will not automatically track later upstream changes.
 
@@ -57,13 +59,14 @@ licensing, and distribution gate passes.
 - [Architecture](docs/ARCHITECTURE.md)
 - [Interfaces](docs/INTERFACES.md)
 - [Porting and licensing](docs/PORTING_AND_LICENSE.md)
+- [Port map](docs/PORT_MAP.md)
 - [Quality gates](docs/QUALITY_GATES.md)
 - [Test workflow](docs/TESTING.md)
 - [Roadmap](docs/ROADMAP.md)
 
 ## License
 
-The planned project is dual-licensed under the Apache License 2.0 or the MIT
+The project is dual-licensed under the Apache License 2.0 or the MIT
 License. Ported files must preserve upstream copyright and SPDX attribution.
 See [Porting and licensing](docs/PORTING_AND_LICENSE.md) and
 [third-party notices](THIRD_PARTY_NOTICES).

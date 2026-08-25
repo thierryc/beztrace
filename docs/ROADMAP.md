@@ -31,15 +31,17 @@ mean structural score of `0.961`.
 Completion: the branch is clean, the checkpoint is locally committed, and all
 strict reference checks pass without rewriting fixtures.
 
-## 2. Swift core foundations — next
+## 2. Swift core foundations — complete
 
 - Add the Swift package on `lit/initial-swift-port` after authorization.
 - Implement geometry, raster preparation, iso-contours and deterministic
   intermediate types with unit and differential tests.
 
-Completion: prepared rasters and contour fixtures match the oracle.
+Completion: 28 Swift tests pass on `arm64` and `x86_64`; all 62 Basic Latin
+subpixel contours match the pinned oracle point-for-point within `1e-9`, and
+all 24 reviewed images produce their declared raw contour topology.
 
-## 3. Structural fitting
+## 3. Structural fitting — next
 
 - Implement structural planning, constrained cubics, fallback subdivision,
   join correction and raster-loss refinement.

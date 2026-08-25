@@ -1,5 +1,10 @@
 # Architecture
 
+> [!NOTE]
+> Geometry, bounded raster preparation, and subpixel contour extraction are
+> implemented. Structural planning and every stage to its right in the diagram
+> remain planned.
+
 ## Product shape
 
 ```text
@@ -26,11 +31,12 @@ batch orchestration, and serializers selected by the user. Future consumers
 must call the versioned library or CLI contract rather than duplicating trace
 logic.
 
-## Planned package products
+## Package products
 
-- `BezierTraceCore`: public Swift library.
-- `beztrace`: executable depending only on `BezierTraceCore` and Apple system
-  frameworks.
+- `BezierTraceCore`: Swift library target; its public tracing contract remains
+  intentionally unstabilized.
+- `beztrace`: planned executable depending only on `BezierTraceCore` and Apple
+  system frameworks.
 
 No Glyphs-specific target, MCP server, daemon, XPC service, plugin, or GUI is
 part of v1.

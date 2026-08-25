@@ -13,6 +13,9 @@ The only authorized img2bez source baseline is:
 The baseline must be archived or checksum-recorded before implementation so
 future upstream changes cannot silently enter the port.
 
+The file-level translation inventory and material differences are recorded in
+[Port map](PORT_MAP.md).
+
 ## Nature of the work
 
 beztrace is a permitted derivative translation and adaptation of img2bez's
