@@ -159,6 +159,58 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertEqual(Set(object.keys), Set(required))
     }
 
+    func testPublicErrorsPreserveInputAndResourceFailures() {
+        XCTAssertThrowsError(try BezierTracer.trace(.init(imageData: Data()))) { error in
+            XCTAssertEqual(error as? TraceError, .emptyInput)
+        }
+        XCTAssertThrowsError(try BezierTracer.trace(.init(imageData: Data("not an image".utf8)))) { error in
+            XCTAssertEqual(error as? TraceError, .malformedImage)
+        }
+        let oversized = Data(repeating: 0, count: 16 * 1024 * 1024 + 1)
+        XCTAssertThrowsError(try BezierTracer.trace(.init(imageData: oversized))) { error in
+            XCTAssertEqual(
+                error as? TraceError,
+                .encodedInputTooLarge(actual: oversized.count, limit: 16 * 1024 * 1024)
+            )
+        }
+    }
+
+    func testOtherHorizontalPlacementModesResolveDeterministically() throws {
+        let data = try fixtureData("corpus/deterministic/glyphs/glyph-upper-a.png")
+        let fixed = try BezierTracer.trace(.init(
+            imageData: data,
+            placement: PlacementOptions(
+                targetYMin: 0,
+                targetYMax: 700,
+                horizontalMode: .advance(width: 800, left: 50)
+            )
+        ))
+        XCTAssertEqual(fixed.placement?.advanceWidth, 800)
+        XCTAssertEqual(fixed.placement?.leftSideBearing, 50)
+
+        let centered = try BezierTracer.trace(.init(
+            imageData: data,
+            placement: PlacementOptions(
+                targetYMin: 0,
+                targetYMax: 700,
+                horizontalMode: .centered(advance: 900)
+            )
+        ))
+        let report = try XCTUnwrap(centered.placement)
+        XCTAssertEqual(report.advanceWidth, 900)
+        XCTAssertEqual(report.leftSideBearing, report.rightSideBearing, accuracy: 2.001)
+    }
+
+    func testSummaryDiagnosticsAreExplicitlyOptIn() throws {
+        let data = try fixtureData("corpus/deterministic/glyphs/glyph-upper-a.png")
+        let result = try BezierTracer.trace(.init(
+            imageData: data,
+            options: TraceOptions(diagnostics: .summary)
+        ))
+        XCTAssertEqual(result.timingsMs.keys.sorted(), ["total"])
+        XCTAssertGreaterThan(result.timingsMs["total"] ?? 0, 0)
+    }
+
     private func fixtureData(_ path: String) throws -> Data {
         try Data(contentsOf: repositoryRoot
             .appendingPathComponent("Tests/Fixtures", isDirectory: true)

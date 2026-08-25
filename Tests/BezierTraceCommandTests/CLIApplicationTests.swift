@@ -133,6 +133,44 @@ final class CLIApplicationTests: XCTestCase {
         XCTAssertTrue(result.standardOutput.isEmpty)
     }
 
+    func testInvalidOptionCombinationsFailBeforeInputAccess() {
+        let cases: [([String], String)] = [
+            (["trace", "missing.png"], "--format is required"),
+            (["trace", "missing.png", "--format", "json", "--threshold", "256"],
+             "threshold must be auto or 0...255"),
+            (["trace", "missing.png", "--format", "json", "--target-y-min", "0"],
+             "placement requires --target-y-min and --target-y-max"),
+            (["trace", "missing.png", "--format", "json", "--target-y-min", "0",
+              "--target-y-max", "700", "--lsb", "40", "--rsb", "40",
+              "--center-in-advance", "800"],
+             "select exactly one horizontal placement mode"),
+            (["batch", "-", "--format", "json", "--output-dir", "/tmp/beztrace-invalid"],
+             "batch input must be a local path"),
+            (["inspect", "missing.png", "--format", "svg"], "inspect format must be json"),
+        ]
+        for (arguments, message) in cases {
+            let result = CLIApplication.run(arguments: arguments)
+            XCTAssertEqual(result.exitCode, 2, arguments.joined(separator: " "))
+            XCTAssertTrue(result.standardOutput.isEmpty)
+            XCTAssertEqual(String(decoding: result.standardError, as: UTF8.self), "beztrace: \(message)\n")
+        }
+    }
+
+    func testMalformedBytesReturnInputExitCodeAndJSONError() throws {
+        let result = CLIApplication.run(
+            arguments: ["trace", "-", "--format", "json", "--json-errors"],
+            standardInput: Data("not an image".utf8)
+        )
+        XCTAssertEqual(result.exitCode, 3)
+        XCTAssertTrue(result.standardOutput.isEmpty)
+        let object = try XCTUnwrap(
+            JSONSerialization.jsonObject(with: result.standardError) as? [String: Any]
+        )
+        XCTAssertEqual(object["exitCode"] as? Int, 3)
+        let detail = try XCTUnwrap(object["error"] as? [String: Any])
+        XCTAssertEqual(detail["type"] as? String, "input")
+    }
+
     private func fixture(_ path: String) -> URL {
         repositoryRoot.appendingPathComponent("Tests/Fixtures", isDirectory: true)
             .appendingPathComponent(path)
