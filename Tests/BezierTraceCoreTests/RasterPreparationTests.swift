@@ -149,6 +149,41 @@ final class RasterPreparationTests: XCTestCase {
         XCTAssertEqual(result.raster.pixels.count, 320 * 320)
     }
 
+    func testLowResolutionRecoveryNeverExceedsDecodedDimensionLimit() throws {
+        var pixels = Array(repeating: UInt8(255), count: RasterPreparer.maximumDimension * 64)
+        for y in 20..<30 {
+            for x in 20..<30 {
+                pixels[y * RasterPreparer.maximumDimension + x] = 0
+            }
+        }
+        let raster = try GrayRaster(
+            width: RasterPreparer.maximumDimension,
+            height: 64,
+            pixels: pixels
+        )
+        let result = try RasterPreparer.prepare(
+            raster: raster,
+            sourceFormat: .png,
+            usedAlphaMask: false,
+            options: .init(threshold: .fixed(127), collapseBlockedScale: false)
+        )
+
+        XCTAssertFalse(result.didUpscaleLowResolution)
+        XCTAssertEqual(result.raster.width, RasterPreparer.maximumDimension)
+        XCTAssertEqual(result.raster.height, 64)
+    }
+
+    func testFullyTransparentImageProducesNoContours() throws {
+        let transparent = try encodedImage(
+            width: 32,
+            height: 32,
+            rgba: Array(repeating: UInt8(0), count: 32 * 32 * 4)
+        )
+        XCTAssertThrowsError(try ContourPipeline.extract(data: transparent)) { error in
+            XCTAssertEqual(error as? CoreError, .noContours)
+        }
+    }
+
     func testInputAndDecodedDimensionLimitsFailClosed() throws {
         XCTAssertThrowsError(try RasterPreparer.prepare(data: Data())) { error in
             XCTAssertEqual(error as? CoreError, .emptyInput)

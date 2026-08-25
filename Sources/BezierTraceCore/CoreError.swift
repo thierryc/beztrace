@@ -10,6 +10,7 @@ enum CoreError: Error, Equatable, Sendable {
     case decodedImageTooLarge(width: Int, height: Int, limit: Int)
     case invalidPixelStorage(expected: Int, actual: Int)
     case pixelBufferAllocationFailed
+    case invalidOptions
     case nonFiniteGeometry
     case noContours
 }

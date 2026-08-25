@@ -334,7 +334,9 @@ enum RasterPreparer {
         guard extent > 0, extent < lowResolutionMaximumExtent else { return nil }
         let factor = min(
             ceil(Double(lowResolutionTargetExtent) / Double(extent)),
-            lowResolutionMaximumFactor
+            lowResolutionMaximumFactor,
+            Double(maximumDimension) / Double(raster.width),
+            Double(maximumDimension) / Double(raster.height)
         )
         guard factor >= 2 else { return nil }
         let width = max(1, Int((Double(raster.width) * factor).rounded()))

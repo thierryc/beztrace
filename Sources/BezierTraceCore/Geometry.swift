@@ -254,13 +254,13 @@ struct CubicBezier: Equatable, Sendable {
     }
 }
 
-enum Winding: Equatable, Sendable {
+enum Winding: Equatable, Hashable, Sendable {
     case clockwise
     case counterClockwise
     case degenerate
 }
 
-func signedArea<C: Collection>(of points: C) -> Double where C.Element == Point2D {
+func polygonSignedArea<C: Collection>(of points: C) -> Double where C.Element == Point2D {
     let values = Array(points)
     guard values.count >= 3 else { return 0 }
     var twiceArea = 0.0
@@ -271,9 +271,18 @@ func signedArea<C: Collection>(of points: C) -> Double where C.Element == Point2
     return twiceArea / 2
 }
 
-func winding<C: Collection>(of points: C, epsilon: Double = 1e-12) -> Winding
+func signedArea<C: Collection>(of points: C) -> Double where C.Element == Point2D {
+    polygonSignedArea(of: points)
+}
+
+func polygonWinding<C: Collection>(of points: C, epsilon: Double = 1e-12) -> Winding
 where C.Element == Point2D {
-    let area = signedArea(of: points)
+    let area = polygonSignedArea(of: points)
     guard area.isFinite, abs(area) > epsilon else { return .degenerate }
     return area > 0 ? .counterClockwise : .clockwise
+}
+
+func winding<C: Collection>(of points: C, epsilon: Double = 1e-12) -> Winding
+where C.Element == Point2D {
+    polygonWinding(of: points, epsilon: epsilon)
 }
