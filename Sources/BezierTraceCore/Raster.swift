@@ -71,6 +71,8 @@ struct GrayRaster: Equatable, Sendable {
 
 struct PreparedRaster: Equatable, Sendable {
     let raster: GrayRaster
+    let sourceWidth: Int
+    let sourceHeight: Int
     let threshold: UInt8
     let invert: Bool
     let sourceFormat: ImageFormat
@@ -125,6 +127,8 @@ enum RasterPreparer {
         let decoded = try decode(image: image, orientation: orientation)
         return try prepare(
             raster: decoded.raster,
+            sourceWidth: decoded.raster.width,
+            sourceHeight: decoded.raster.height,
             sourceFormat: format,
             usedAlphaMask: decoded.usedAlphaMask,
             options: options
@@ -133,6 +137,8 @@ enum RasterPreparer {
 
     static func prepare(
         raster: GrayRaster,
+        sourceWidth: Int? = nil,
+        sourceHeight: Int? = nil,
         sourceFormat: ImageFormat,
         usedAlphaMask: Bool,
         options: RasterPreparationOptions
@@ -154,6 +160,8 @@ enum RasterPreparer {
         }
         return PreparedRaster(
             raster: prepared,
+            sourceWidth: sourceWidth ?? raster.width,
+            sourceHeight: sourceHeight ?? raster.height,
             threshold: resolveThreshold(in: prepared, method: options.threshold),
             invert: options.invert,
             sourceFormat: sourceFormat,

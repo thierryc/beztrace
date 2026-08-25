@@ -27,6 +27,13 @@ enum ContourPipeline {
             throw CoreError.invalidOptions
         }
         let prepared = try RasterPreparer.prepare(data: data, options: options)
+        return try extract(prepared: prepared, options: options)
+    }
+
+    static func extract(
+        prepared: PreparedRaster,
+        options: RasterPreparationOptions
+    ) throws -> ContourExtractionResult {
         let scale = options.targetHeight / Double(prepared.raster.height)
         let minimumAreaPixels = max(options.minimumContourArea / (scale * scale), 2)
         let contours = SubpixelExtractor.glyphContours(
@@ -59,7 +66,22 @@ enum ContourPipeline {
 
         var options = rasterOptions
         options.targetHeight = configuration.targetHeight
-        let extraction = try extract(data: data, options: options)
+        let prepared = try RasterPreparer.prepare(data: data, options: options)
+        return try traceValidated(
+            prepared: prepared,
+            configuration: configuration,
+            rasterOptions: options
+        )
+    }
+
+    static func traceValidated(
+        prepared: PreparedRaster,
+        configuration: TraceConfiguration,
+        rasterOptions: RasterPreparationOptions
+    ) throws -> InternalTraceResult {
+        var options = rasterOptions
+        options.targetHeight = configuration.targetHeight
+        let extraction = try extract(prepared: prepared, options: options)
         let prepared = extraction.preparedRaster
         let scale = configuration.targetHeight / Double(prepared.raster.height)
         let accuracy = min(max(configuration.fitAccuracy / scale, 0.5), 3)
