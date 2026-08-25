@@ -5,19 +5,19 @@ converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 > [!IMPORTANT]
-> Reference capture and Swift core foundations are complete. The repository
-> now contains a tested Swift package for geometry, raster preparation, and
-> subpixel contour extraction. Structural planning, cubic fitting, cleanup,
-> public path serialization, the executable, and Glyphs MCP integration do not
-> exist yet. Do not represent beztrace as a complete tracing tool.
+> Reference capture and the internal Swift tracing pipeline through structural
+> planning, cubic fitting, raster refinement, cleanup, and validation are
+> complete. Public path serialization, placement, the executable, and Glyphs
+> MCP integration do not exist yet. Do not represent beztrace as a complete
+> tracing tool or usable companion binary.
 
 ## Intended product
 
 The product is deliberately split into two reusable layers:
 
-- `BezierTraceCore`, a Swift library that will own image preparation, subpixel
-  contour extraction, structural analysis, cubic fitting, raster refinement,
-  typographic cleanup, placement, validation, and serialization.
+- `BezierTraceCore`, a Swift library that owns the implemented internal image
+  preparation, contour, fitting, cleanup, and validation pipeline and will own
+  the public placement and serialization contracts.
 - `beztrace`, a future signed command-line tool that exposes the library to
   local shell, batch, CI, and automation workflows.
 

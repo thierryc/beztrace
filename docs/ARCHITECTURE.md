@@ -1,9 +1,9 @@
 # Architecture
 
 > [!NOTE]
-> Geometry, bounded raster preparation, and subpixel contour extraction are
-> implemented. Structural planning and every stage to its right in the diagram
-> remain planned.
+> The internal pipeline through typographic cleanup and validation is
+> implemented. Placement, stable public request/result types, JSON/SVG
+> serialization, and the CLI remain planned for Milestone 4.
 
 ## Product shape
 
@@ -33,8 +33,8 @@ logic.
 
 ## Package products
 
-- `BezierTraceCore`: Swift library target; its public tracing contract remains
-  intentionally unstabilized.
+- `BezierTraceCore`: Swift library target with an internal validated-outline
+  pipeline; its public tracing contract remains intentionally unstabilized.
 - `beztrace`: planned executable depending only on `BezierTraceCore` and Apple
   system frameworks.
 
@@ -93,10 +93,10 @@ reconstruct corners, even/cap handles, and round deterministically.
 
 ### Placement and validation
 
-Tracing remains neutral. Optional placement consumes explicit caller intent.
-Validation checks finite values, topology, closure, winding, degeneracy,
-self-intersection, handle reach, counts, and serialization invariants before a
-result leaves the core.
+Tracing remains neutral. Validation is implemented and checks finite values,
+topology, closure, winding, degeneracy, self-intersection, handle reach, and
+point counts before an internal result leaves the core. Optional placement and
+serialization invariants enter with the public Milestone 4 contract.
 
 ## Concurrency and performance
 

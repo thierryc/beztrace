@@ -83,15 +83,16 @@ figure remains historical and unreproduced; it is not a release blocker.
 Coordinate deviation may not exceed 0.25 canonical units before
 snapping or 1 unit after snapping.
 
-## Swift foundations
+## Swift internal pipeline
 
-The Swift package currently covers deterministic geometry, bounded PNG/JPEG
-preparation, and subpixel contour extraction. It intentionally has no public
-tracing API or executable yet. Run the complete XCTest gate on the current
-architecture with:
+The Swift package covers deterministic geometry, bounded PNG/JPEG preparation,
+subpixel contours, structural planning, constrained cubic fitting, raster
+refinement, ordered typographic cleanup, and validated internal outlines. It
+intentionally has no public tracing API, serializer, or executable yet. Run the
+complete optimized XCTest gate on the current architecture with:
 
 ```sh
-swift test --disable-swift-testing
+swift test --configuration release --disable-swift-testing
 ```
 
 The package uses XCTest only; disabling Swift Testing avoids launching an
@@ -100,17 +101,38 @@ command:
 
 ```sh
 arch -x86_64 swift test --disable-swift-testing \
+  --configuration release \
   --triple x86_64-apple-macosx13.0 \
   --scratch-path .build/x86_64-target
 ```
 
-The 28-test gate includes exact point comparison for all 62 Basic Latin
-subpixel captures and topology checks for all 24 reviewed input fixtures. CI
-runs the same suite on native Apple Silicon and Intel hosts.
+The gate includes exact point comparison for all 62 Basic Latin subpixel
+captures; exact split kinds, indices, line sections, topology, and ordering for
+all 86 structural plans; and topology-preserving numeric comparisons for the
+86 initial and raster-refined fits. All 62 cleaned/validated captures are
+checked after scaling and snapping, and all 24 reviewed glyph and symbol images
+must trace twice to identical finite, closed, correctly wound internal
+outlines. CI runs the optimized suite on native Apple Silicon and Intel hosts.
+
+The test-only evaluator export is an explicit maintenance operation. It writes
+only below the caller-selected external work directory and is skipped by
+ordinary tests and CI:
+
+```sh
+BEZTRACE_EXTERNAL_WORK=/Volumes/T9/beztrace/milestone-3 \
+  swift test --configuration release --disable-swift-testing \
+  --filter CleanupValidationTests/testMaintenanceExportWritesBasicLatinEvaluationUFO
+```
+
+The Milestone 3 candidate export passes all 62 pinned structural reports with
+a mean score of `0.964`; the public replacement acceptance floor remains
+`0.961`. Overlays, transient evaluation data, reports, and provisional
+benchmarks belong outside the repository and are not CI inputs.
 
 ## Later Swift stages
 
-Each implementation stage starts with unit and differential tests against the
-smallest relevant immutable fixture. Public JSON and SVG tests must prove that
-both serializers describe the same validated outline. Generated images are
-reviewed acceptance fixtures and are never treated as exact coordinate oracles.
+Milestone 4 starts with tests for stable public request/result and placement
+types. JSON and SVG tests must prove that both serializers describe the same
+validated outline, followed by CLI stream, batch, diagnostic, and exit-code
+contracts. Generated images remain reviewed acceptance fixtures and are never
+treated as exact coordinate oracles.

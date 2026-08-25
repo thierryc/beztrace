@@ -41,15 +41,19 @@ Completion: 28 Swift tests pass on `arm64` and `x86_64`; all 62 Basic Latin
 subpixel contours match the pinned oracle point-for-point within `1e-9`, and
 all 24 reviewed images produce their declared raw contour topology.
 
-## 3. Structural fitting — next
+## 3. Structural fitting — complete
 
 - Implement structural planning, constrained cubics, fallback subdivision,
   join correction and raster-loss refinement.
 - Port cleanup and validation in the required order.
 
-Completion: the 62-glyph differential topology and numeric gates pass.
+Completion: all 86 captured contours match the pinned structural plans,
+initial fits, and raster-refined fits; all 62 cleaned and validated outlines
+match their captured structure and numeric gates; and the test-only evaluator
+reports 62/62 passing with a `0.964` mean structural score. All 24 reviewed
+glyph and symbol images trace twice to identical, validated internal outlines.
 
-## 4. Standalone interfaces
+## 4. Standalone interfaces — next
 
 - Stabilize `BezierTraceCore`.
 - Implement JSON schema v1, SVG, trace, batch, inspect, streams and exit codes.
