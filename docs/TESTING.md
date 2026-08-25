@@ -83,13 +83,14 @@ figure remains historical and unreproduced; it is not a release blocker.
 Coordinate deviation may not exceed 0.25 canonical units before
 snapping or 1 unit after snapping.
 
-## Swift internal pipeline
+## Swift pipeline
 
 The Swift package covers deterministic geometry, bounded PNG/JPEG preparation,
 subpixel contours, structural planning, constrained cubic fitting, raster
 refinement, ordered typographic cleanup, and validated internal outlines. It
-intentionally has no public tracing API, serializer, or executable yet. Run the
-complete optimized XCTest gate on the current architecture with:
+also covers the neutral public API, explicit placement, deterministic JSON/SVG,
+and the standalone command-line adapter. Run the complete optimized XCTest
+gate on the current architecture with:
 
 ```sh
 swift test --configuration release --disable-swift-testing
@@ -129,10 +130,22 @@ a mean score of `0.964`; the public replacement acceptance floor remains
 `0.961`. Overlays, transient evaluation data, reports, and provisional
 benchmarks belong outside the repository and are not CI inputs.
 
-## Later Swift stages
+## Standalone interface and CLI
 
-Milestone 4 starts with tests for stable public request/result and placement
-types. JSON and SVG tests must prove that both serializers describe the same
-validated outline, followed by CLI stream, batch, diagnostic, and exit-code
-contracts. Generated images remain reviewed acceptance fixtures and are never
-treated as exact coordinate oracles.
+The Milestone 4 suite imports the library without `@testable` and exercises the
+stable request/result and placement types across all 24 reviewed images. It
+requires identical repeated `TraceResult` values and JSON bytes, proves JSON
+and SVG serialize the same outline stream, validates schema v1, and covers all
+placement modes and malformed or oversized input.
+
+CLI tests exercise both the command adapter and the built release process:
+standard input and output, path input, batch ordering and the 64-input bound,
+JSON/SVG output, diagnostics, JSON errors, stable exit codes, and cross-process
+byte determinism. Process tests must find the architecture-specific release
+executable and fail if it is absent; they never skip silently.
+
+The complete optimized checkpoint runs 73 XCTest cases with one intentional
+maintenance-export skip and zero failures on Apple Silicon and local x86_64
+under Rosetta. CI repeats the suite on native Apple Silicon and Intel runners.
+Generated images remain reviewed acceptance fixtures and are never treated as
+exact coordinate oracles.

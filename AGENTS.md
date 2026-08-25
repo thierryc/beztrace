@@ -4,11 +4,12 @@ These instructions apply to the entire beztrace repository.
 
 ## Current phase
 
-The reference checkpoint and Milestone 2 Swift foundations are complete.
-The repository contains documentation, immutable fixtures, and a Swift package
-covering geometry, raster preparation, and subpixel contours. Structural
-planning and fitting are next. Do not add an executable, stabilize public APIs,
-or add release automation before their documented milestones are authorized.
+The reference checkpoint and Milestones 2 through 4 are complete. The
+repository contains immutable fixtures, the complete Swift tracing pipeline,
+the versioned neutral public API and JSON/SVG contracts, and a standalone CLI.
+Performance and release hardening are next. Do not add release automation,
+signing, notarization, installation, or publication work before its documented
+milestone is separately authorized.
 
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never

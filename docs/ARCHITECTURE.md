@@ -1,9 +1,9 @@
 # Architecture
 
 > [!NOTE]
-> The internal pipeline through typographic cleanup and validation is
-> implemented. Placement, stable public request/result types, JSON/SVG
-> serialization, and the CLI remain planned for Milestone 4.
+> The complete standalone pipeline, placement, stable public request/result
+> types, JSON/SVG serialization, and CLI are implemented. Performance and
+> release hardening remain for Milestone 5.
 
 ## Product shape
 
@@ -33,9 +33,9 @@ logic.
 
 ## Package products
 
-- `BezierTraceCore`: Swift library target with an internal validated-outline
-  pipeline; its public tracing contract remains intentionally unstabilized.
-- `beztrace`: planned executable depending only on `BezierTraceCore` and Apple
+- `BezierTraceCore`: Swift library target exposing `BezierTracer`, neutral
+  geometry, explicit placement, and deterministic JSON/SVG serialization.
+- `beztrace`: executable target depending only on `BezierTraceCore` and Apple
   system frameworks.
 
 No Glyphs-specific target, MCP server, daemon, XPC service, plugin, or GUI is
@@ -93,10 +93,11 @@ reconstruct corners, even/cap handles, and round deterministically.
 
 ### Placement and validation
 
-Tracing remains neutral. Validation is implemented and checks finite values,
-topology, closure, winding, degeneracy, self-intersection, handle reach, and
-point counts before an internal result leaves the core. Optional placement and
-serialization invariants enter with the public Milestone 4 contract.
+Tracing remains neutral. Validation checks finite values, topology, closure,
+winding, degeneracy, self-intersection, handle reach, and point counts before a
+result leaves the core. Optional explicit placement fits a caller-selected
+source box into a target band and resolves only caller-supplied horizontal
+metrics. JSON and SVG serialize that same validated outline.
 
 ## Concurrency and performance
 

@@ -5,21 +5,20 @@ converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 > [!IMPORTANT]
-> Reference capture and the internal Swift tracing pipeline through structural
-> planning, cubic fitting, raster refinement, cleanup, and validation are
-> complete. Public path serialization, placement, the executable, and Glyphs
-> MCP integration do not exist yet. Do not represent beztrace as a complete
-> tracing tool or usable companion binary.
+> Reference capture, the Swift tracing pipeline, neutral public API, placement,
+> versioned JSON/SVG, and the standalone command-line tool are implemented and
+> tested. Performance hardening, the 100-image release corpus, universal
+> packaging, signing, notarization, publication, and Glyphs MCP integration are
+> not complete. Do not represent this local checkpoint as a released product.
 
 ## Intended product
 
 The product is deliberately split into two reusable layers:
 
-- `BezierTraceCore`, a Swift library that owns the implemented internal image
-  preparation, contour, fitting, cleanup, and validation pipeline and will own
-  the public placement and serialization contracts.
-- `beztrace`, a future signed command-line tool that exposes the library to
-  local shell, batch, CI, and automation workflows.
+- `BezierTraceCore`, a Swift library that owns image preparation, tracing,
+  placement, validation, and the neutral public result contract.
+- `beztrace`, a standalone command-line tool exposing JSON/SVG tracing to local
+  shell, batch, CI, and automation workflows. It is not yet packaged or signed.
 
 beztrace is intended to become a standalone companion engine for Glyphs MCP:
 it will turn raster glyphs and symbols into neutral, versioned path data that a
@@ -43,6 +42,20 @@ release has been separately authorized.
 The implementation is a one-time derivative Swift port of img2bez
 commit `23073ca08ecdac61ad0e838bfae49a590bc2c7cc`, licensed under
 `Apache-2.0 OR MIT`. It will not automatically track later upstream changes.
+
+## Local command-line use
+
+Build and trace without installing anything:
+
+```sh
+swift build --configuration release
+swift run --configuration release beztrace trace input.png --format json
+swift run --configuration release beztrace trace input.png --format svg --output outline.svg
+```
+
+Use `beztrace --help` for batch, inspection, tracing, and placement options.
+JSON schema v1 is committed at
+[`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
 ## Repository policy
 

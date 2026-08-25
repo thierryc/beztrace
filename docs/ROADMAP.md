@@ -53,15 +53,19 @@ match their captured structure and numeric gates; and the test-only evaluator
 reports 62/62 passing with a `0.964` mean structural score. All 24 reviewed
 glyph and symbol images trace twice to identical, validated internal outlines.
 
-## 4. Standalone interfaces — next
+## 4. Standalone interfaces — complete
 
 - Stabilize `BezierTraceCore`.
 - Implement JSON schema v1, SVG, trace, batch, inspect, streams and exit codes.
 - Complete malformed-input, determinism and generated-corpus testing.
 
-Completion: the public interface and quality gates pass without Glyphs.
+Completion: the byte-stable neutral Swift API, explicit placement, JSON schema
+v1, SVG, `trace`, `batch`, `inspect`, standard streams, diagnostics, and stable
+exit codes pass without Glyphs. The optimized suite runs 73 tests with one
+explicit maintenance-only skip and zero failures on Apple Silicon and local
+x86_64 under Rosetta; native Intel remains enforced by CI.
 
-## 5. Performance and release hardening
+## 5. Performance and release hardening — next
 
 - Optimize measured bottlenecks without changing output.
 - Build and validate universal artifacts.

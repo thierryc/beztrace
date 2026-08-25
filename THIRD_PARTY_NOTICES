@@ -14,9 +14,9 @@ The implementation is a derivative Swift port of img2bez:
 The corresponding license texts are distributed as LICENSE-APACHE and
 LICENSE-MIT.
 
-The Swift foundations add no third-party runtime dependencies. Image decoding
-uses Apple system frameworks and local geometry replaces Rust dependency
-implementations.
+The Swift implementation and standalone executable add no third-party runtime
+dependencies. Image decoding and hashing use Apple system frameworks, and
+local geometry replaces Rust dependency implementations.
 
   Project: Noto Sans
   Repository: https://github.com/google/fonts

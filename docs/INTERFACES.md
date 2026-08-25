@@ -1,11 +1,11 @@
-# Planned interfaces
+# Standalone interfaces
 
-This document specifies the intended v1 contract. It is not evidence that an
-implementation exists.
+This document specifies the implemented pre-release v1 contract. The contract
+is exercised locally and in CI, but no signed or published release exists yet.
 
 ## Swift library
 
-`BezierTraceCore` will expose value-oriented, sendable request/result types:
+`BezierTraceCore` exposes value-oriented, sendable request/result types:
 
 - `TraceRequest`: image bytes, trace options, and optional placement.
 - `TraceOptions`: generated-image profile, threshold, inversion, minimum
@@ -19,7 +19,9 @@ implementation exists.
   kinds `line`, `curve`, and `offcurve`, plus smooth/corner intent.
 
 The core entry point accepts image data, not a filesystem path. It performs no
-network, filesystem, process, UI, or logging work.
+network, filesystem, process, UI, or logging work. Call
+`BezierTracer.trace(_:)` to trace, then use `TraceSerializer.json(_:)` or
+`TraceSerializer.svg(_:)` to serialize the same validated geometry.
 
 ## CLI
 
@@ -35,7 +37,8 @@ beztrace --version
 
 `INPUT` is a local PNG/JPEG path or `-` for raw image bytes on stdin. Batch
 input is path-only in v1. `inspect` runs preparation and tracing and returns the
-same diagnostics without writing a second output format.
+same JSON result without writing a second output format. Batch processing is
+deterministic, sequential, and limited to 64 inputs per invocation.
 
 ### Trace options
 
@@ -49,9 +52,12 @@ same diagnostics without writing a second output format.
 - `--structure-grid INTEGER`, default `0`.
 - `--refine-raster` or `--no-refine-raster`, default enabled.
 - `--rtl-start`, default false.
+- `--diagnostics none|summary`, default `none`.
 
 Resolved options are always reported in JSON. Invalid ranges fail before image
-processing.
+processing. Default output omits timing samples and is byte-stable for the same
+input and options. Summary diagnostics are explicitly opt-in and may include
+run-specific timing values.
 
 ### Placement options
 
@@ -117,6 +123,9 @@ explicit placement resolves horizontal metrics, JSON additionally contains
 
 Schema additions must be backward-compatible within v1. Renaming, deleting,
 or changing the meaning of a field requires a new schema version.
+
+The machine-readable schema is committed at
+`Schemas/trace-result-v1.schema.json`.
 
 ## SVG
 
