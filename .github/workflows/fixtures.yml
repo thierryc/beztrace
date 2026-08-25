@@ -1,4 +1,4 @@
-name: Reference and Swift foundations
+name: Reference and Swift internal pipeline
 
 on:
   push:
@@ -32,8 +32,8 @@ jobs:
           git diff --exit-code
           test -z "$(git status --porcelain --untracked-files=no)"
 
-  swift-foundations:
-    name: Swift foundations (${{ matrix.runner }})
+  swift-pipeline:
+    name: Swift pipeline (${{ matrix.runner }})
     strategy:
       fail-fast: false
       matrix:
@@ -45,8 +45,8 @@ jobs:
         run: |
           swift --version
           uname -m
-      - name: Run foundation and differential tests
-        run: swift test --disable-swift-testing
+      - name: Run internal pipeline and differential tests
+        run: swift test --configuration release --disable-swift-testing
       - name: Build optimized library
         run: swift build --configuration release
       - name: Confirm checks are read-only
