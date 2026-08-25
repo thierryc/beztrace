@@ -201,6 +201,23 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertEqual(report.leftSideBearing, report.rightSideBearing, accuracy: 2.001)
     }
 
+    func testSidebearingsCannotResolveANonpositiveAdvance() throws {
+        let data = try fixtureData("corpus/deterministic/glyphs/glyph-upper-a.png")
+        XCTAssertThrowsError(try BezierTracer.trace(.init(
+            imageData: data,
+            placement: PlacementOptions(
+                targetYMin: 0,
+                targetYMax: 700,
+                horizontalMode: .sidebearings(left: -2_000, right: -2_000)
+            )
+        ))) { error in
+            XCTAssertEqual(
+                error as? TraceError,
+                .invalidPlacement("resolved advance must be positive and finite")
+            )
+        }
+    }
+
     func testSummaryDiagnosticsAreExplicitlyOptIn() throws {
         let data = try fixtureData("corpus/deterministic/glyphs/glyph-upper-a.png")
         let result = try BezierTracer.trace(.init(

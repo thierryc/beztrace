@@ -117,6 +117,9 @@ enum PlacementEngine {
             dx = snap((width - bounds.width) / 2 - bounds.minX)
             advance = width
         }
+        guard advance.isFinite, advance > 0 else {
+            throw TraceError.invalidPlacement("resolved advance must be positive and finite")
+        }
         let placed = outline.transformed(dx: dx, dy: dy)
         guard let final = placed.tightBounds else { throw TraceError.noContours }
         let left = bounds.minX + dx
