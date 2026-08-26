@@ -53,6 +53,21 @@ accepted. Test the report generator without tracing fixtures with:
 python3 scripts/trace_generated_review_test.py
 ```
 
+Milestone 6 expands that review to the frozen 100-image corpus:
+
+```sh
+python3 scripts/trace_corpus_review_test.py
+python3 scripts/trace_corpus_review.py
+```
+
+The generated report stays under `/Volumes/T9/beztrace/milestone-6`. Its four
+views compare the raster source, default transform-free SVG, preserve-mode SVG,
+and a review-only transform-free node/handle/direction overlay. The overlay
+bakes every on-curve, off-curve, control handle, and arrow coordinate and adds
+an explicit padded view box; it does not use an SVG transform group. The page
+exports a manifest-bound human acceptance document but never edits committed
+fixture state.
+
 After building both release architectures, compare the serialized JSON for
 the entire corpus with:
 
@@ -201,3 +216,36 @@ result are recorded with each checkpoint rather than treated as an interface
 contract.
 Generated images remain reviewed acceptance fixtures and are never treated as
 exact coordinate oracles.
+
+## Viability evidence
+
+The standalone packaged workflow and formal viability evaluator have isolated
+unit tests:
+
+```sh
+python3 scripts/verify_packaged_workflow_test.py
+python3 scripts/verify_viability_test.py
+```
+
+Exercise the staged ZIP without installing it, then write the formal decision:
+
+```sh
+python3 scripts/verify_packaged_workflow.py
+python3 scripts/verify_viability.py
+```
+
+Both evidence files are written below the external Milestone 6 work directory.
+Missing, pending, failed, and unauthorized required evidence always produces a
+reject decision. `--require-approve` makes that decision fail the command for a
+release-gate invocation.
+
+For a final local checkpoint, run the complete command matrix from a detached
+clean worktree:
+
+```sh
+python3 scripts/run_viability_tests.py
+```
+
+The evidence records every command, exit status, duration, bounded output tail,
+revision, and clean-worktree state. The normal run includes optimized arm64,
+x86_64/Rosetta, and AddressSanitizer tests.

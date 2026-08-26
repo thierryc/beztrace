@@ -91,7 +91,7 @@ Apple Silicon and x86_64/Rosetta with one maintenance-only skip, and JSON is
 byte-identical across those architectures for all 100 inputs. Trace-quality
 review of the newly selected sources is still pending. Same-machine Swift/Rust
 relative timing and peak RSS pass; the
-absolute one-second CLI p95 gate remains red on four of five benchmark inputs.
+absolute one-second CLI p95 gate remains red on three of five benchmark inputs.
 An unsigned universal release candidate, SBOM, checksums, and package tooling
 exist locally. Signing, notarization, and installation remain outside the
 currently authorized identity boundary.
@@ -104,6 +104,12 @@ currently authorized identity boundary.
 - If approved and separately authorized, publish the first versioned release.
 
 Completion: beztrace is independently viable and consumable.
+
+Current checkpoint: the review workflow is implemented and the first formal
+decision is **reject**. Human trace acceptance is pending, three of five
+benchmark fixtures fail the absolute one-second CLI p95 gate, and Developer ID
+signing/notarization has not been authorized. The decision may be rerun after
+those blockers are resolved; it does not silently revise the gates.
 
 ## 7. Future consumers
 

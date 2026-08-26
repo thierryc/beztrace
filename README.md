@@ -9,9 +9,10 @@ cubic Bezier outlines.
 > versioned JSON/SVG, and the standalone command-line tool are implemented and
 > tested. The 100-image release-candidate input corpus is frozen and passes
 > automatic topology and determinism checks; human trace acceptance remains in
-> progress. Performance hardening, signed/notarized packaging, publication, and
-> Glyphs MCP integration are not complete. Do not represent this local
-> checkpoint as a released product.
+> progress. The first Milestone 6 viability review rejects merge while human
+> acceptance, the absolute performance gate, and signed/notarized packaging
+> remain incomplete. Publication and Glyphs MCP integration are not authorized.
+> Do not represent this local checkpoint as a released product.
 
 ## Intended product
 
@@ -87,6 +88,7 @@ licensing, and distribution gate passes.
 - [Quality gates](docs/QUALITY_GATES.md)
 - [Test workflow](docs/TESTING.md)
 - [Roadmap](docs/ROADMAP.md)
+- [Milestone 6 viability review](docs/VIABILITY_REVIEW.md)
 
 ## License
 

@@ -7,9 +7,10 @@ These instructions apply to the entire beztrace repository.
 The reference checkpoint and Milestones 2 through 4 are complete. The
 repository contains immutable fixtures, the complete Swift tracing pipeline,
 the versioned neutral public API and JSON/SVG contracts, and a standalone CLI.
-Performance and release hardening are next. Do not add release automation,
-signing, notarization, installation, or publication work before its documented
-milestone is separately authorized.
+Milestone 5 hardening is incomplete and the first Milestone 6 viability review
+rejects merge until its documented blockers pass. Do not add signing,
+notarization, installation, publication, merge-to-main, or Glyphs integration
+work before the exact action is separately authorized.
 
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
