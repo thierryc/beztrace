@@ -36,7 +36,7 @@ final class CLIProcessTests: XCTestCase {
 
     func testBuiltExecutableReadsRawImageFromStandardInput() throws {
         let input = repositoryRoot.appendingPathComponent(
-            "Tests/Fixtures/corpus/deterministic/symbols/symbol-heart.png"
+            "Tests/Fixtures/corpus/deterministic/glyphs/glyph-upper-a.png"
         )
         let result = try launch(
             ["trace", "-", "--format", "svg"],
@@ -44,7 +44,32 @@ final class CLIProcessTests: XCTestCase {
         )
         XCTAssertEqual(result.status, 0)
         XCTAssertTrue(result.error.isEmpty)
-        XCTAssertTrue(String(decoding: result.output, as: UTF8.self).hasPrefix("<svg "))
+        let defaultSVG = String(decoding: result.output, as: UTF8.self)
+        XCTAssertTrue(defaultSVG.hasPrefix("<svg "))
+        XCTAssertFalse(defaultSVG.contains("transform="))
+
+        let explicitBake = try launch(
+            ["trace", "-", "--format", "svg", "--svg-transform", "bake"],
+            input: Data(contentsOf: input)
+        )
+        XCTAssertEqual(explicitBake.status, 0)
+        XCTAssertEqual(explicitBake.output, result.output)
+
+        let preserve = try launch(
+            ["trace", "-", "--format", "svg", "--svg-transform", "preserve"],
+            input: Data(contentsOf: input)
+        )
+        XCTAssertEqual(preserve.status, 0)
+        XCTAssertTrue(String(decoding: preserve.output, as: UTF8.self).contains("transform="))
+
+        let invalid = try launch([
+            "trace", input.path, "--format", "svg", "--svg-transform", "invalid",
+        ])
+        XCTAssertEqual(invalid.status, 2)
+        XCTAssertEqual(
+            String(decoding: invalid.error, as: UTF8.self),
+            "beztrace: svg transform must be bake or preserve\n"
+        )
     }
 
     private func launch(
