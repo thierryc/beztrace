@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beztrace.dev/schemas/test/trace-acceptance-v1.json",
+  "title": "beztrace human trace acceptance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "reviewer",
+    "reviewStatus",
+    "corpusManifestSHA256",
+    "decisions"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "reviewer": {"const": "project-owner"},
+    "reviewStatus": {"enum": ["in-progress", "complete"]},
+    "reviewedOn": {"type": "string", "format": "date-time"},
+    "corpusManifestSHA256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "decisions": {
+      "type": "array",
+      "minItems": 100,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "notes"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "status": {
+            "enum": ["pending", "accepted", "accepted-with-optical-notes", "rejected"]
+          },
+          "notes": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -33,6 +33,17 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def production_source_sha256() -> str:
+    digest = hashlib.sha256()
+    paths = [ROOT / "Package.swift", *sorted((ROOT / "Sources").rglob("*.swift"))]
+    for path in paths:
+        digest.update(path.relative_to(ROOT).as_posix().encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
 def percentile(values: list[float], fraction: float) -> float:
     ordered = sorted(values)
     return ordered[min(len(ordered) - 1, math.ceil(len(ordered) * fraction) - 1)]
@@ -152,6 +163,7 @@ def main() -> int:
         "engine": "img2bez-rust" if args.engine == "rust" else "beztrace-swift",
         "revision": revision,
         "binarySHA256": sha256(binary),
+        "productionSourceSHA256": production_source_sha256() if args.engine == "swift" else None,
         "environment": {
             "hardware": platform.processor() or platform.machine(),
             "os": platform.platform(),
