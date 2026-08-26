@@ -5,7 +5,13 @@ from __future__ import annotations
 
 import unittest
 
-from verify_viability import acceptance_gate, benchmark_gates, release_gate, viability_decision
+from verify_viability import (
+    acceptance_gate,
+    benchmark_gates,
+    command_evidence_gate,
+    release_gate,
+    viability_decision,
+)
 
 
 class VerifyViabilityTests(unittest.TestCase):
@@ -83,6 +89,20 @@ class VerifyViabilityTests(unittest.TestCase):
             ]),
             "reject",
         )
+
+    def test_command_gate_ignores_a_script_named_only_as_a_compile_argument(self) -> None:
+        evidence = {
+            "commands": [
+                {"command": ["python3", "scripts/verify_oracle.py"], "status": "pass"},
+                {
+                    "command": ["python3", "-m", "py_compile", "scripts/verify_oracle.py"],
+                    "status": "pass",
+                },
+            ]
+        }
+        result = command_evidence_gate("oracle", "Oracle", evidence, "verify_oracle.py")
+        self.assertEqual(result["status"], "pass")
+        self.assertEqual(len(result["details"]["matches"]), 1)
 
 
 if __name__ == "__main__":

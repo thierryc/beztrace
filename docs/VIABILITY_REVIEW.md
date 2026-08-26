@@ -12,7 +12,7 @@ machine-readable result is generated outside the repository by
 
 The implementation is not eligible to merge into `main` or become a Glyphs
 MCP dependency while any required gate is pending, failed, missing, or outside
-the authorized boundary. The current checkpoint has three known blockers:
+the authorized boundary. The current checkpoint has four known blockers:
 
 1. The project owner has not completed trace-quality acceptance for the
    100-image corpus. At least 95 traces must be accepted without topology
@@ -22,6 +22,11 @@ the authorized boundary. The current checkpoint has three known blockers:
    they do not supersede the absolute limit.
 3. The universal ZIP and installer are unsigned and unnotarized. Developer ID
    use, notarization, installation, and publication have not been authorized.
+4. The detached local AddressSanitizer test built successfully but could not
+   launch because the installed Xcode sanitizer runtime was rejected by macOS
+   platform-signature policy. The native CI sanitizer job must supply passing
+   evidence for the final commit; this environment failure is not recorded as
+   a beztrace test pass.
 
 Explicit project-owner merge approval is also required after the technical
 gates pass. Publication remains a separate authorization after merge
@@ -66,8 +71,8 @@ authorizations.
 
 | Gate | Required outcome | Current checkpoint |
 | --- | --- | --- |
-| Optimized tests and clean-worktree replay | All pass, no rewrite | Revalidation in progress |
-| 100-image automatic trace checks | 100/100, twice, deterministic | Revalidation in progress |
+| Optimized tests and clean-worktree replay | All pass, no rewrite | arm64/x86_64 pass; local ASan launch blocked by platform policy |
+| 100-image automatic trace checks | 100/100, twice, deterministic | Pass |
 | Human trace acceptance | At least 95/100 | Pending project-owner review |
 | Swift/Rust performance | Median and p95 at most 1.5× Rust | Pass in recorded evidence |
 | Absolute process time | Every fixture p95 below 1 second | Fail: 2/5 passes |
@@ -77,7 +82,7 @@ authorizations.
 | Product and license boundary | Standalone, system-only runtime; SPDX/notices complete | Pass in repository audit |
 | Universal distribution | arm64 and x86_64 | Pass for unsigned candidate |
 | Signing and notarization | All artifacts verified | Not authorized; not complete |
-| Packaged non-Glyphs workflow | JSON and SVG succeed | Revalidation in progress |
+| Packaged non-Glyphs workflow | JSON and SVG succeed | Pass |
 | Merge approval | Explicit project-owner approval | Pending |
 
 The report records evidence status exactly. It does not infer approval from a
@@ -90,9 +95,10 @@ to a pass, or treat publication authorization as implicit.
 2. Fix or explicitly revise the absolute performance requirement through a
    reviewed requirements change; do not waive it inside the evaluator.
 3. Re-run all evidence at the final implementation commit.
-4. Obtain separate authorization for Developer ID signing, notarization, and
+4. Obtain a green native CI AddressSanitizer run for the final commit.
+5. Obtain separate authorization for Developer ID signing, notarization, and
    installation testing, then verify those artifacts.
-5. Request explicit merge approval. Request publication authorization only
+6. Request explicit merge approval. Request publication authorization only
    after the standalone viability decision is `approve`.
 
 No Glyphs MCP adapter work begins during this remediation.

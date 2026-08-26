@@ -181,7 +181,8 @@ def evidence_gate(identifier: str, title: str, document: dict | None, predicate)
 def command_evidence_gate(identifier: str, title: str, document: dict | None, script_name: str) -> dict:
     matches = [] if document is None else [
         item for item in document.get("commands", [])
-        if any(script_name in part for part in item.get("command", []))
+        if len(item.get("command", [])) >= 2
+        and Path(item["command"][1]).name == script_name
     ]
     valid = len(matches) == 1 and matches[0].get("status") == "pass"
     return gate(
