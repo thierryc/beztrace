@@ -1,0 +1,25 @@
+#!/bin/sh
+# Copyright 2026 beztrace contributors
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+
+set -eu
+
+target_volume="${3:-/}"
+link_path="$target_volume/usr/local/bin/beztrace"
+expected_target="/Library/Application Support/beztrace/bin/beztrace"
+
+if [ -L "$link_path" ]; then
+    current_target="$(readlink "$link_path")"
+    if [ "$current_target" = "$expected_target" ]; then
+        exit 0
+    fi
+    echo "beztrace installer: $link_path is an unrelated symlink; refusing to replace it" >&2
+    exit 1
+fi
+
+if [ -e "$link_path" ]; then
+    echo "beztrace installer: $link_path already exists and is not managed by beztrace" >&2
+    exit 1
+fi
+
+exit 0

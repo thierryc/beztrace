@@ -7,9 +7,11 @@ cubic Bezier outlines.
 > [!IMPORTANT]
 > Reference capture, the Swift tracing pipeline, neutral public API, placement,
 > versioned JSON/SVG, and the standalone command-line tool are implemented and
-> tested. Performance hardening, the 100-image release corpus, universal
-> packaging, signing, notarization, publication, and Glyphs MCP integration are
-> not complete. Do not represent this local checkpoint as a released product.
+> tested. The 100-image release-candidate input corpus is frozen and passes
+> automatic topology and determinism checks; human trace acceptance remains in
+> progress. Performance hardening, signed/notarized packaging, publication, and
+> Glyphs MCP integration are not complete. Do not represent this local
+> checkpoint as a released product.
 
 ## Intended product
 

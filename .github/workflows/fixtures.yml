@@ -13,6 +13,7 @@ jobs:
       - name: Verify immutable reference checkpoint
         run: |
           python3 scripts/verify_fixtures.py
+          python3 scripts/verify_milestone5.py
           python3 scripts/verify_oracle.py
           python3 scripts/verify_repository.py
           python3 scripts/check_reference_ufo.py Tests/Fixtures/oracle/v1/reference-source/VirtuaGrotesk-Regular.ufo
@@ -21,13 +22,47 @@ jobs:
           test -x scripts/generate_deterministic_fixtures.py
           test -x scripts/capture_img2bez_oracle.sh
           test -x scripts/sanitize_oracle_logs.py
+          test -x scripts/generate_malformed_corpus.py
+          test -x scripts/promote_generated_fixtures.py
+          test -x scripts/trace_generated_review.py
+          test -x scripts/verify_cross_arch_corpus.py
+          test -x scripts/build_release_candidate.sh
           python3 -m py_compile scripts/*.py
           bash -n scripts/capture_img2bez_oracle.sh
+          bash -n scripts/build_release_candidate.sh
+          bash -n release/package-scripts/preinstall
+          python3 scripts/generate_deterministic_fixtures.py --check
+          python3 scripts/generate_malformed_corpus.py --check
+          python3 scripts/promote_generated_fixtures.py --check
           python3 scripts/sanitize_oracle_logs.py Tests/Fixtures/oracle/v1/structural \
             --img2bez-work test-work/img2bez-reference/img2bez/eval-harness/work \
             --reference-ufo Tests/Fixtures/oracle/v1/reference-source/VirtuaGrotesk-Regular.ufo \
             --check
       - name: Confirm checks are read-only
+        run: |
+          git diff --exit-code
+          test -z "$(git status --porcelain --untracked-files=no)"
+
+  sanitizer-smoke:
+    name: AddressSanitizer malformed-input smoke
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run committed mutation corpus under ASan
+        run: >-
+          swift test --configuration release --disable-swift-testing
+          --sanitize=address --filter MalformedCorpusTests
+
+  universal-unsigned:
+    name: Universal unsigned release staging
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and verify unsigned universal candidate
+        env:
+          BEZTRACE_EXTERNAL_WORK: /private/tmp/beztrace-milestone-5-ci
+        run: scripts/build_release_candidate.sh
+      - name: Confirm repository remains read-only
         run: |
           git diff --exit-code
           test -z "$(git status --porcelain --untracked-files=no)"

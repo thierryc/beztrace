@@ -71,7 +71,7 @@ tools; preserve retains the legacy y-up path plus rendering transform. JSON,
 raw SVG path data, schema v1, `pathDataVersion 2`, and traced outlines are
 unchanged.
 
-## 5. Performance and release hardening — next
+## 5. Performance and release hardening — in progress
 
 - Optimize measured bottlenecks without changing output.
 - Build and validate universal artifacts.
@@ -81,6 +81,20 @@ unchanged.
 
 Completion: every standalone viability gate passes. Signing, publishing, and
 remote creation still require explicit authorization.
+
+Current checkpoint: the source corpus is frozen at 100 images (50
+deterministic and 50 generated; 64 glyphs and 36 symbols). The project owner
+selected all 38 newly generated sources, their original and normalized hashes
+are pinned, and all 100 inputs pass repeated optimized tracing with the
+declared contour counts. The complete optimized suite passes 82 tests on both
+Apple Silicon and x86_64/Rosetta with one maintenance-only skip, and JSON is
+byte-identical across those architectures for all 100 inputs. Trace-quality
+review of the newly selected sources is still pending. Same-machine Swift/Rust
+relative timing and peak RSS pass; the
+absolute one-second CLI p95 gate remains red on four of five benchmark inputs.
+An unsigned universal release candidate, SBOM, checksums, and package tooling
+exist locally. Signing, notarization, and installation remain outside the
+currently authorized identity boundary.
 
 ## 6. Viability review
 

@@ -8,21 +8,54 @@ capture are explicit maintenance operations whose diffs require review.
 
 ## Fixture corpus
 
-The initial corpus contains 24 reviewed 1024x1024 PNG files: eight
-deterministic glyphs, eight generated glyphs, four deterministic symbols, and
-four generated symbols. `Tests/Fixtures/manifest.json` records source,
-generation prompt, license, checksum, topology, and structural expectations.
+The release-candidate corpus contains 100 reviewed-source 1024x1024 PNG files:
+50 deterministic and 50 generated inputs, comprising 64 glyphs and 36 symbols.
+The 24-image initial corpus remains part of that set. `Tests/Fixtures/manifest.json`
+records source, prompt or accurately labeled prompt summary, license, source
+and normalized checksums, selection evidence, topology, and structural
+expectations. Source selection and traced-output acceptance are separate
+review states.
 
 Regenerate the deterministic half with the bundled Python runtime:
 
 ```sh
 python3 scripts/generate_deterministic_fixtures.py
 python3 scripts/generate_deterministic_fixtures.py --check
+python3 scripts/promote_generated_fixtures.py --check
 python3 scripts/verify_fixtures.py
+python3 scripts/verify_milestone5.py
 ```
 
 The pinned source files live beside their license texts in
 `Tests/Fixtures/sources`. Do not replace them with an unpinned web download.
+The 38 added generated concepts were produced as two-candidate pools under
+`/Volumes/T9/beztrace/milestone-5`, selected by the project owner, then
+normalized through the explicit promotion command. The committed selection
+and selected-source manifests pin the candidate number, original SHA-256, and
+normalized SHA-256. Candidate pools and trace-review output stay on the
+external volume.
+
+Build the read-only traced-output review after an optimized build with:
+
+```sh
+python3 scripts/trace_generated_review.py
+```
+
+The command traces every newly selected source twice in JSON and SVG, rejects
+nondeterministic, non-finite, empty, open, or source-hash-mismatched results,
+and writes clean SVG plus review-only padded node/handle views to the external
+Milestone 5 report directory. It never marks a trace accepted.
+
+After building both release architectures, compare the serialized JSON for
+the entire corpus with:
+
+```sh
+python3 scripts/verify_cross_arch_corpus.py
+```
+
+The Milestone 5 checkpoint records byte-identical arm64/x86_64 JSON for all
+100 fixtures. The optimized XCTest suite passes 82 tests on both Apple Silicon
+and x86_64/Rosetta with zero failures and one explicit maintenance-export skip.
 
 ## Rust reference
 
@@ -113,7 +146,9 @@ all 86 structural plans; and topology-preserving numeric comparisons for the
 86 initial and raster-refined fits. All 62 cleaned/validated captures are
 checked after scaling and snapping, and all 24 reviewed glyph and symbol images
 must trace twice to identical finite, closed, correctly wound internal
-outlines. CI runs the optimized suite on native Apple Silicon and Intel hosts.
+outlines. The complete 100-image corpus must trace twice to identical finite,
+closed outlines with its declared contour counts. CI runs the optimized suite
+on native Apple Silicon and Intel hosts.
 
 The test-only evaluator export is an explicit maintenance operation. It writes
 only below the caller-selected external work directory and is skipped by
@@ -133,7 +168,7 @@ benchmarks belong outside the repository and are not CI inputs.
 ## Standalone interface and CLI
 
 The Milestone 4 suite imports the library without `@testable` and exercises the
-stable request/result and placement types across all 24 reviewed images. It
+stable request/result and placement types across the reviewed corpus. It
 requires identical repeated `TraceResult` values and JSON bytes, proves JSON
 and SVG serialize the same outline stream, validates schema v1, and covers all
 placement modes and malformed or oversized input.
@@ -147,7 +182,7 @@ resolved view-box reflection formula for all line endpoints, curve endpoints,
 and cubic controls. A test-only M/L/C/Z canonicalizer applies the preserve
 matrix and compares both modes point-for-point; focused counter glyphs are also
 rasterized with nonzero fill and must have identical coverage. Both modes run
-twice across all 24 fixtures, and CLI coverage includes streams, files, batch,
+twice across the corpus, and CLI coverage includes streams, files, batch,
 invalid combinations, and real subprocess behavior. Process tests must find
 the architecture-specific release executable and fail if it is absent; they
 never skip silently.

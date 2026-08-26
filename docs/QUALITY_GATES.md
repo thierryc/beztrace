@@ -20,8 +20,9 @@ SVG, or passing happy-path test is not sufficient.
 
 ## Generated-image corpus
 
-- Retain at least 100 reviewed clean generated images with prompts/source
-  provenance and stable fixture hashes.
+- Retain at least 100 reviewed clean input images, evenly divided between
+  deterministic vector-backed renders and generated sources, with
+  prompts/source provenance and stable fixture hashes.
 - Cover uppercase, lowercase, numerals, punctuation, counters, multiple
   contours, bowls, diagonals, joins, terminals, sharp tips, near-flats,
   inflections, and simple symbols.
