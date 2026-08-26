@@ -32,16 +32,54 @@ def png_dimensions(path: Path) -> tuple[int, int]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--allow-pending", action="store_true")
+    parser.add_argument(
+        "--require-complete",
+        action="store_true",
+        help="require the complete 100-image Milestone 5 corpus",
+    )
     args = parser.parse_args()
     manifest = json.loads((FIXTURES / "manifest.json").read_text(encoding="utf-8"))
+    plan = json.loads(
+        (FIXTURES / "corpus" / "milestone-5-plan.json").read_text(encoding="utf-8")
+    )
     failures: list[str] = []
     entries = manifest.get("fixtures", [])
-    if len(entries) != 24:
-        failures.append(f"expected 24 fixtures, found {len(entries)}")
-    if sum(item["sourceKind"] == "generated" for item in entries) != 12:
-        failures.append("expected exactly 12 generated fixtures")
-    if sum(item["sourceKind"] == "deterministic" for item in entries) != 12:
-        failures.append("expected exactly 12 deterministic fixtures")
+    target = plan["target"]
+    counts = {
+        "total": len(entries),
+        "deterministic": sum(item.get("sourceKind") == "deterministic" for item in entries),
+        "generated": sum(item.get("sourceKind") == "generated" for item in entries),
+        "glyphs": sum(item.get("category") == "glyph" for item in entries),
+        "symbols": sum(item.get("category") == "symbol" for item in entries),
+    }
+    expected = target
+    for key in ("total", "deterministic", "generated", "glyphs", "symbols"):
+        if counts[key] != expected[key]:
+            failures.append(f"expected {expected[key]} {key}, found {counts[key]}")
+
+    identifiers = [item.get("id") for item in entries]
+    paths = [item.get("path") for item in entries]
+    if len(identifiers) != len(set(identifiers)):
+        failures.append("fixture identifiers must be unique")
+    if len(paths) != len(set(paths)):
+        failures.append("fixture paths must be unique")
+
+    manifested_paths = set(paths)
+    corpus_paths = {
+        str(path.relative_to(FIXTURES))
+        for directory in (
+            FIXTURES / "corpus" / "deterministic" / "glyphs",
+            FIXTURES / "corpus" / "deterministic" / "symbols",
+            FIXTURES / "corpus" / "generated" / "glyphs",
+            FIXTURES / "corpus" / "generated" / "symbols",
+        )
+        for path in directory.glob("*.png")
+    }
+    if manifested_paths != corpus_paths:
+        for path in sorted(corpus_paths - manifested_paths):
+            failures.append(f"unmanifested corpus input: {path}")
+        for path in sorted(manifested_paths - corpus_paths):
+            failures.append(f"manifested corpus input is absent: {path}")
 
     for item in entries:
         path = FIXTURES / item["path"]
@@ -64,6 +102,8 @@ def main() -> int:
             failures.append(f"{item['id']}: SHA-256 mismatch ({actual})")
         if item.get("reviewStatus") != "reviewed" and not args.allow_pending:
             failures.append(f"{item['id']}: fixture has not been reviewed")
+        if item.get("sourceKind") == "generated" and not item.get("prompt"):
+            failures.append(f"{item['id']}: generated fixture lacks prompt provenance")
         for field in ("expectedTopology", "structuralFeatures", "license", "attribution"):
             if not item.get(field):
                 failures.append(f"{item['id']}: missing {field}")

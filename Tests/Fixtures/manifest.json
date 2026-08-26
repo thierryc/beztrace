@@ -104,7 +104,7 @@
       "path": "corpus/generated/glyphs/glyph-upper-r.png", "content": "R", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold uppercase R, black silhouette centered on white, with counter and diagonal leg",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "9ae18fe01b56db2715e95d9a748d01cfc69ef55156542941276300faa2601037", "reviewStatus": "reviewed",
+      "sha256": "9ae18fe01b56db2715e95d9a748d01cfc69ef55156542941276300faa2601037", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["vertical stem", "bowl", "counter", "diagonal leg"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -112,7 +112,7 @@
       "path": "corpus/generated/glyphs/glyph-upper-s.png", "content": "S", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold uppercase S, black silhouette centered on white, balanced bowls",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "e007517d5376ceb0b1540c9a54c7944f468e9d71c1a32788970bcc116c895fd6", "reviewStatus": "reviewed",
+      "sha256": "e007517d5376ceb0b1540c9a54c7944f468e9d71c1a32788970bcc116c895fd6", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one open-form closed silhouette", "structuralFeatures": ["two bowls", "terminals", "inflection transitions", "extrema"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -120,7 +120,7 @@
       "path": "corpus/generated/glyphs/glyph-upper-m.png", "content": "M", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold uppercase M, black silhouette centered on white, vertical stems and diagonal joins",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "d1f35b23ab8f9838c4c3d34d6324b595730cd792ac8239aec4f56ed15dd24251", "reviewStatus": "reviewed",
+      "sha256": "d1f35b23ab8f9838c4c3d34d6324b595730cd792ac8239aec4f56ed15dd24251", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one closed silhouette", "structuralFeatures": ["vertical stems", "diagonals", "sharp joins", "baseline flats"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -128,7 +128,7 @@
       "path": "corpus/generated/glyphs/glyph-lower-e.png", "content": "e", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold lowercase e, black silhouette centered on white, one counter and open aperture",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "f026ec26e36f0c62c09dd15129cf3220ee518b0995b808f9b8d25234d7c6b2c5", "reviewStatus": "reviewed",
+      "sha256": "f026ec26e36f0c62c09dd15129cf3220ee518b0995b808f9b8d25234d7c6b2c5", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one contour with one counter and an open aperture", "structuralFeatures": ["counter", "crossbar", "aperture", "terminal"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -136,7 +136,7 @@
       "path": "corpus/generated/glyphs/glyph-lower-k.png", "content": "k", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold lowercase k, black silhouette centered on white, vertical stem and diagonal arms",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "dffcf039c1a9ffce3e306b21672d8ae685b5c022ef29d5f7530b0a5463fcb0da", "reviewStatus": "reviewed",
+      "sha256": "dffcf039c1a9ffce3e306b21672d8ae685b5c022ef29d5f7530b0a5463fcb0da", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one closed silhouette", "structuralFeatures": ["vertical stem", "diagonal arms", "sharp join", "terminals"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -144,7 +144,7 @@
       "path": "corpus/generated/glyphs/glyph-2.png", "content": "2", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold numeral 2, black silhouette centered on white, curved top and horizontal base",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "35f6e8d2a47035abc29c4bd15b6c4a3fde2684352dea55c65202063d8e9d481b", "reviewStatus": "reviewed",
+      "sha256": "35f6e8d2a47035abc29c4bd15b6c4a3fde2684352dea55c65202063d8e9d481b", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one open-form closed silhouette", "structuralFeatures": ["curved top", "diagonal transition", "horizontal base", "terminals"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -152,7 +152,7 @@
       "path": "corpus/generated/glyphs/glyph-ampersand.png", "content": "&", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold ampersand, black silhouette centered on white, classic intertwined form and counters",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "b921e4118852a5d13d22ffe3a115f274ada5ed8e224405b426fe8e13fd890f3d", "reviewStatus": "reviewed",
+      "sha256": "b921e4118852a5d13d22ffe3a115f274ada5ed8e224405b426fe8e13fd890f3d", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one outer contour with two counters", "structuralFeatures": ["two counters", "crossing", "curves", "terminal"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -160,7 +160,7 @@
       "path": "corpus/generated/glyphs/glyph-at.png", "content": "@", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original bold at-sign, black silhouette centered on white, central counter and surrounding spiral",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "0e6d2eb0f84f3546607c17f0ce8f75d6a505e220a6d8b57a8ea10aace8523eef", "reviewStatus": "reviewed",
+      "sha256": "0e6d2eb0f84f3546607c17f0ce8f75d6a505e220a6d8b57a8ea10aace8523eef", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "outer spiral silhouette with a central counter", "structuralFeatures": ["counter", "spiral", "terminal", "inflection transitions"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -168,7 +168,7 @@
       "path": "corpus/generated/symbols/symbol-lightning.png", "content": "lightning bolt", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original solid lightning bolt, black geometric silhouette centered on white",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "34d980b6db0c38addd01d316571e1b0825133d541c532d19dac80ea696f6c0f2", "reviewStatus": "reviewed",
+      "sha256": "34d980b6db0c38addd01d316571e1b0825133d541c532d19dac80ea696f6c0f2", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one closed contour", "structuralFeatures": ["sharp tips", "diagonal runs", "concave corners"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -176,7 +176,7 @@
       "path": "corpus/generated/symbols/symbol-location-pin.png", "content": "location pin", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original solid location pin, black teardrop silhouette centered on white with one round counter",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "b2143a68b2860a6fde874dbee67f8cc95588f1308286c263290b9f9f1caca07e", "reviewStatus": "reviewed",
+      "sha256": "b2143a68b2860a6fde874dbee67f8cc95588f1308286c263290b9f9f1caca07e", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["round counter", "bowl", "sharp bottom tip", "smooth transitions"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -184,7 +184,7 @@
       "path": "corpus/generated/symbols/symbol-infinity.png", "content": "infinity loop", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original solid infinity loop, black even-thickness silhouette centered on white with two counters",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "c03d62bb12bb0517e08540ebba2ffd85cc0cbaceac5bc7c5c6d33c79264217fc", "reviewStatus": "reviewed",
+      "sha256": "c03d62bb12bb0517e08540ebba2ffd85cc0cbaceac5bc7c5c6d33c79264217fc", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one connected silhouette with two counters", "structuralFeatures": ["two counters", "crossing", "inflections", "horizontal extrema"], "opticalAllowances": ["subtle generated edge softness"]
     },
     {
@@ -192,8 +192,1530 @@
       "path": "corpus/generated/symbols/symbol-sparkle.png", "content": "four-point sparkle", "source": "OpenAI built-in image generation",
       "generator": "OpenAI built-in image generation; model version not exposed; 2026-08-07", "prompt": "Single original solid four-point sparkle, black silhouette centered on white with curved transitions",
       "license": "Project test fixture under repository dual license", "attribution": "Generated for beztrace with OpenAI image generation", "modifications": "Resampled from 1254x1254 to 1024x1024 with Lanczos",
-      "sha256": "ad97f67b0afbd024568d4a1fe304abebf6a6b4c31cd4cb63c48419dc937b0514", "reviewStatus": "reviewed",
+      "sha256": "ad97f67b0afbd024568d4a1fe304abebf6a6b4c31cd4cb63c48419dc937b0514", "reviewStatus": "reviewed", "reviewedBy": "project-owner", "sourceReviewStatus": "source-selected",
       "expectedTopology": "one closed contour", "structuralFeatures": ["four sharp tips", "curved transitions", "vertical and horizontal extrema"], "opticalAllowances": ["subtle generated edge softness"]
+    },
+    {
+      "id": "glyph-upper-c", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-c.png", "content": "C",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "d0bf4a237cf4145ab8bf68fae97b2972de3e771fd82c04b2eb9fc75712bdb749", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette", "structuralFeatures": ["bowl", "aperture", "terminals", "extrema"], "opticalAllowances": ["overshoot"]
+    },
+    {
+      "id": "glyph-upper-d", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-d.png", "content": "D",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "29d80be6ca2fddc62fbcabb784a0f1fcf64e3af2ab731dc7c3e92e7d26105f77", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["vertical stem", "bowl", "counter", "line-curve joins"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-e", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-e.png", "content": "E",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "3b98802e416f70587f1998481682d7a9b1d4c92934b4295e5f9c1154ebec934f", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["vertical stem", "three horizontal runs", "corners", "terminals"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-g", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-g.png", "content": "G",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "891abaab272ad7697e9394826e71e8c89791980dc4de958a7c6698bfe44a2cda", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette", "structuralFeatures": ["bowl", "aperture", "horizontal bar", "line-curve joins"], "opticalAllowances": ["overshoot"]
+    },
+    {
+      "id": "glyph-upper-h", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-h.png", "content": "H",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "a5be4f60439b1557dad329875570add68c7e57e6430e5e6dd9eb55dfe1a13af8", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["two vertical stems", "horizontal crossbar", "corners", "baseline flats"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-k", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-k.png", "content": "K",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "66dbb46ae01d000b054fa2ab2e9d28ef3fabd19f824d9bd32a3a8ebe91246160", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["vertical stem", "two diagonal arms", "sharp joins", "terminals"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-n", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-n.png", "content": "N",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "1d78ed0ff8443f5cfdf5c2c39f080f7d42f60c859e5965e01de52fe9974ed37c", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["two vertical stems", "diagonal join", "corners", "baseline flats"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-p", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-p.png", "content": "P",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "5a0408d46fc3c9882a96fc61cac635ab6aa976853de7c70ceea4abbbbcb77e1b", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["vertical stem", "bowl", "counter", "terminal"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-t", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-t.png", "content": "T",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "3fc0af86a5586c877fc6f538aba314053b5a36f45eea326db5f2df162081df46", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["horizontal cap", "vertical stem", "corners", "baseline flat"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-u", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-u.png", "content": "U",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "da79d5db8f4113e05ca30af9ecdcab6922f174d87c2f4fef03ccfdf13dc28b98", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["two vertical stems", "curved base", "line-curve boundaries", "extrema"], "opticalAllowances": ["overshoot"]
+    },
+    {
+      "id": "glyph-upper-v", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-v.png", "content": "V",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "431014f3895d74a7c4fae8591e7cb8cb62fdb71f9db92738b220ab7a43f54754", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["two diagonals", "bottom tip", "top terminals", "sharp joins"], "opticalAllowances": ["overshoot"]
+    },
+    {
+      "id": "glyph-upper-x", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-upper-x.png", "content": "X",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "49fbb519b0ea565e8fb67cbf9c03abbd1351884f41f0eca976901055d697e470", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["crossing diagonals", "concave corners", "four terminals", "sharp joins"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-lower-b", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-b.png", "content": "b",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "23f394a4e90757acc81e27c579abfd575ae6dc49198968d8268f43daad30f5d0", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["ascender stem", "bowl", "counter", "line-curve join"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-lower-f", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-f.png", "content": "f",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "24ff528528395303a95bc9792073f00302f37150e07978c6b8d926015e5765c9", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["ascender", "crossbar", "curved terminal", "line-curve joins"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-lower-h", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-h.png", "content": "h",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "961fa503e618d167e552e8808e4ba09750769efa0b016d08785055c2eeb0e880", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["ascender stem", "arch", "second stem", "near-flat shoulder"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-lower-m", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-m.png", "content": "m",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "4e62cad2f5231b10c8b0547951b44f20bc8f35f70ad2331f81de640c43c9916c", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["three stems", "two arches", "near-flat shoulders", "line-curve joins"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-lower-o", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-o.png", "content": "o",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "e21887bde0622d10366cce4c12de221819461729cc1463e5230ebfebb45ceac0", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["continuous bowl", "counter", "horizontal extrema", "vertical extrema"], "opticalAllowances": ["overshoot"]
+    },
+    {
+      "id": "glyph-lower-p", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-p.png", "content": "p",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "de4f06a95456885a50c36ba78a7080103cb354174544a77c28492418c58dfcff", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["descender stem", "bowl", "counter", "line-curve join"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-lower-r", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-r.png", "content": "r",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "9866508284bde424242adf9e09b28a19f35189c31c379ee9459de0cbf18e81d4", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["vertical stem", "shoulder", "terminal", "line-curve joins"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-lower-s", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-lower-s.png", "content": "s",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "4fbefd35e3ca4ea597c4c6a313e80a3974d9acef34d1ed61717a57d38ee8a464", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette", "structuralFeatures": ["two bowls", "terminals", "inflection transitions", "extrema"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-0", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-0.png", "content": "0",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "934f1d0e4fa7d6036eee0301d5285e9b7a4ffda2629d7465d4f912de3ee716c7", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["continuous bowl", "counter", "horizontal extrema", "vertical extrema"], "opticalAllowances": ["overshoot"]
+    },
+    {
+      "id": "glyph-3", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-3.png", "content": "3",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "5bc6d6ecc4c7a4b556f713d2c1c2d0d91322a864080d1240a41819b5a1f006cd", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette", "structuralFeatures": ["two bowls", "waist", "terminals", "inflection transitions"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-4", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-4.png", "content": "4",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "74ea1bb46a56909532c17ef71215568d89af7f7b54388397f0f49f39489dbe42", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter", "structuralFeatures": ["diagonal", "vertical stem", "horizontal crossbar", "counter"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-question", "category": "glyph", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/glyphs/glyph-question.png", "content": "?",
+      "source": "noto-sans@c28e08582e7bd36751febb3391142a5eb18bbb34", "generator": "Pillow 12.2.0, 800 px font size, default variation axes",
+      "license": "OFL-1.1", "attribution": "Copyright 2022 The Noto Project Authors", "modifications": "Rasterized and centered on a 1024x1024 canvas",
+      "sha256": "9ccb195586ee999fb241b8ea5d8a6565b0583e34d288b4f2c0c3fb3e590c2bfa", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one hook contour and one dot contour", "structuralFeatures": ["curved hook", "terminal", "separate dot", "multiple contours"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-plus", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-plus.png", "content": "Material symbol add",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "0e3531e2b70565d3879d577bf3c544391d1db61a9d733d0e2859e1d6cf5935f7", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["horizontal run", "vertical run", "right-angle joins", "terminals"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-minus", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-minus.png", "content": "Material symbol remove",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "6619f1c81f980963a23517e2c8b5f563aebd6e5f1e39902b77aaa0698b1cbe35", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["horizontal run", "parallel flats", "four corners"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-close", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-close.png", "content": "Material symbol close",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "f8a81e197ef4b2d1514efcdbad7dc4c3bc64ccbc305ea7badd82e51dcde5ff25", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["crossing diagonals", "concave corners", "four terminals"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-play", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-play.png", "content": "Material symbol play_arrow",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "2fc7c513daaf91825dc4c377cda16680de7e096ca4268eb50639a95860b4cfc5", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one triangular closed contour", "structuralFeatures": ["three corners", "diagonal runs", "sharp tip"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-pause", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-pause.png", "content": "Material symbol pause",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "b97df7da8537fa08e49f501486374d7f69439e2897f429099ceb6f9c2cf4102a", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "two disconnected closed contours", "structuralFeatures": ["two vertical bars", "parallel flats", "multiple contours"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-power", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-power.png", "content": "Material symbol power_settings_new",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "b41f0ccb4b7f1d2a6562808977322f14875fb816a0eaff316eb4fe5a29d1142f", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one open-ring contour and one stem contour", "structuralFeatures": ["circular arc", "rounded terminals", "separate vertical stem", "multiple contours"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-lock", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-lock.png", "content": "Material symbol lock",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "1fbd177ead18bfb89d2050f680838da85dcf0f3be04b54579e636ac919bfeeba", "reviewStatus": "reviewed", "expectedContours": 3,
+      "expectedTopology": "three opposed closed contours", "structuralFeatures": ["rounded shackle", "rectangular body", "internal negative spaces", "multiple contours"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-eye", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-eye.png", "content": "Material symbol visibility",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "f5c261e36e30f05169316749408edd646cd5f3ec53213bb9aef82ee7498f0905", "reviewStatus": "reviewed", "expectedContours": 3,
+      "expectedTopology": "outer eye, inner counter, and pupil contours", "structuralFeatures": ["almond silhouette", "counter", "circular pupil", "multiple contours"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-speech-bubble", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-speech-bubble.png", "content": "Material symbol chat_bubble",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "4a4954dfcfa77eb734c8bccac7d847267c6243604d80cd68f28984134cf585c5", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["rounded body", "integrated tail", "corners", "line-curve joins"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-cloud", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-cloud.png", "content": "Material symbol cloud",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "d60432d4852feba10e35e06aa3b079e8f6b44ce773442b1021de167d74c90b9e", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["multiple bowls", "near-flat base", "smooth joins", "extrema"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-bell", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-bell.png", "content": "Material symbol notifications",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "855d80000895f4745b0646e6b423fadadc23819bf13c9d0f03677935258ceafb", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one bell contour and one clapper contour", "structuralFeatures": ["curved crown", "flared base", "separate clapper", "multiple contours"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-shield", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-shield.png", "content": "Material symbol shield",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "c1bc7ded803076086f2a4d06f899a4b244f306df060f0209f1c425decff18bb1", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed contour", "structuralFeatures": ["symmetry", "curved sides", "top shoulders", "bottom tip"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-crescent-moon", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-crescent-moon.png", "content": "Material symbol dark_mode",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "7850efc572ec8861e89cf7e3ee01a29ecc0367ee88fc31e265c31a5abed638a2", "reviewStatus": "reviewed", "expectedContours": 1,
+      "expectedTopology": "one closed crescent contour", "structuralFeatures": ["convex outer arc", "concave inner arc", "two tips", "extrema"], "opticalAllowances": []
+    },
+    {
+      "id": "symbol-gear", "category": "symbol", "sourceKind": "deterministic",
+      "path": "corpus/deterministic/symbols/symbol-gear.png", "content": "Material symbol settings",
+      "source": "material-symbols-outlined@50f0603134ce7b70b2d71b686cc13e8b57ccb74c", "generator": "Pillow 12.2.0, fill=1 grade=0 opsz=48 weight=500",
+      "license": "Apache-2.0", "attribution": "Google Material Symbols", "modifications": "Rasterized, centered, and given a deterministic two-pixel dark-coverage expansion to close FreeType composite seams",
+      "sha256": "b1f1f8d55218812586f67c1b1b44b55f564d139aeadd332a3ccc39c37a5626dd", "reviewStatus": "reviewed", "expectedContours": 2,
+      "expectedTopology": "one outer contour and one center counter", "structuralFeatures": ["radial teeth", "circular counter", "repeated corners", "multiple extrema"], "opticalAllowances": []
+    },
+    {
+      "id": "glyph-upper-c-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-c.png",
+      "content": "C",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black C silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "0ceb7edb1b1d039ff67f743ae93795b46d3dd930aa5bf576fd191ba484bf80de",
+      "sha256": "3f15acc59be4502ab9805868f1aaed3034014be881e77e928640235082a9d516",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette",
+      "structuralFeatures": [
+        "bowl",
+        "aperture",
+        "terminals",
+        "extrema"
+      ],
+      "opticalAllowances": [
+        "overshoot",
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-d-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-d.png",
+      "content": "D",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black D silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "f6160ced6dcdb5ebe04563c81d63f42a5d955ca900e749ff2ddb52c97f500fc0",
+      "sha256": "7bccddb2f8f549423bf7ca23d5b487e988dd94b54c2c9deeb16ce1174a6bd523",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter",
+      "structuralFeatures": [
+        "vertical stem",
+        "bowl",
+        "counter",
+        "line-curve joins"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-e-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-e.png",
+      "content": "E",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black E silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "8913e67d95c65046ef94d672a4189d6c8d9fd86f9043c89e1f73973b51ae9185",
+      "sha256": "108d1b236434a139a974f4090f91539ee0b8e59f6661c4edd71e31617c98091e",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "vertical stem",
+        "three horizontal runs",
+        "corners",
+        "terminals"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-g-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-g.png",
+      "content": "G",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black G silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "145080db34370885773bec24ed4248c42ca5f1f53133d82fd15e1d1ca45a4e39",
+      "sha256": "02b2c923727ce81d11104aeb181ed78fc59828662f65b03f7c60b245aee10005",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette",
+      "structuralFeatures": [
+        "bowl",
+        "aperture",
+        "horizontal bar",
+        "line-curve joins"
+      ],
+      "opticalAllowances": [
+        "overshoot",
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-h-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-h.png",
+      "content": "H",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black H silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "9f1d1b6dfea0885fe4a0b8266a1802a8adb7a8d92edcfdb627f4655f5197bedc",
+      "sha256": "85ecfc70c91059af818456ad4b9f64bf558c33962bbc87d764a6a6e96ad1d7fd",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "two vertical stems",
+        "horizontal crossbar",
+        "corners",
+        "baseline flats"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-k-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-k.png",
+      "content": "K",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black K silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "1f84e94a4014fc456ca4f49387d76a3cdfb47d68513b552aa2e0ce88da479a00",
+      "sha256": "6d139bd7121313d3b28939dc77108740c375b45705b343d2d4fc872ea3c166fd",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "vertical stem",
+        "two diagonal arms",
+        "sharp joins",
+        "terminals"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-n-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-n.png",
+      "content": "N",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black N silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "9c2b50bae725bea45bca0a5d7febde9722c4bd3055e374526b23aa728d41a305",
+      "sha256": "f0d5ebb1637570737ca56bafe6e09b5b7bd2400b661ceb418c40de178ff4e752",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "two vertical stems",
+        "diagonal join",
+        "corners",
+        "baseline flats"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-p-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-p.png",
+      "content": "P",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black P silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "13d19f5c6155f6d36814f145ab9c72909434ccc9aead5b5b93ea86fead50b727",
+      "sha256": "ab8427560df824f75bb02de5221aa81e7c2de8f2d559bcd5167ec7f23f9d8ec5",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter",
+      "structuralFeatures": [
+        "vertical stem",
+        "bowl",
+        "counter",
+        "terminal"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-t-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-t.png",
+      "content": "T",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black T silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "a29e0d42618e0d0be14f8876848bf8cb2eb03c04557cb46c898c0059918c083c",
+      "sha256": "d7d1002c1f8eff139b10434c1ca079cc9413152fdf022558eb8f970fa18c3706",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "horizontal cap",
+        "vertical stem",
+        "corners",
+        "baseline flat"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-u-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-u.png",
+      "content": "U",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black U silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "c40fd6a8f3a2132257a839bc124cee1b17dd5257061623aba13e5e09fca793e2",
+      "sha256": "01c7d670daf76731ebc6b31d870f905b38e47806fdd6df97b637e284142d5f45",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "two vertical stems",
+        "curved base",
+        "line-curve boundaries",
+        "extrema"
+      ],
+      "opticalAllowances": [
+        "overshoot",
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-v-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-v.png",
+      "content": "V",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black V silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "8f064ac4c535e8ce0a1bda4a50aced1374b3e09e471baefc1d010a6f65b71535",
+      "sha256": "887f74f05edad1c9fccbd631389bf3cd45853c0ce27d43651f4fbec8d8d32e9c",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "two diagonals",
+        "bottom tip",
+        "top terminals",
+        "sharp joins"
+      ],
+      "opticalAllowances": [
+        "overshoot",
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-upper-x-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-upper-x.png",
+      "content": "X",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black X silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "571a932c8fda8e52a38371ff0705a283b8341adf8f7ebe94cefca3dda30e3087",
+      "sha256": "4993e03f1471dd2a40f65728ae0359e13b391eb4173e072b1fa30714d2f7d2e1",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "crossing diagonals",
+        "concave corners",
+        "four terminals",
+        "sharp joins"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-b-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-b.png",
+      "content": "b",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black b silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "7eaace56d82178b129c3d9f6dd1d6fb19a6130a8a4c7850a9e66d38aeaf3ab23",
+      "sha256": "91c126475122e96ddd94249f7331b153d785c5c000871d19344287db1df017ad",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter",
+      "structuralFeatures": [
+        "ascender stem",
+        "bowl",
+        "counter",
+        "line-curve join"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-f-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-f.png",
+      "content": "f",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black f silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "61de8da4f7726f4a5db4963d4a20b8c44fd51c9334078af4f6c1587f6c6cc363",
+      "sha256": "393c7d2afd9f524ed69717adb6f24fbd38858f6510726e086c095ed918a85d44",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "ascender",
+        "crossbar",
+        "curved terminal",
+        "line-curve joins"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-h-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-h.png",
+      "content": "h",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black h silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "d9b1d79aa0ba0f6d00acd661e5f062f394f05f408392aabc7501f165419d23f4",
+      "sha256": "072c45f6f51912401268a402b417d147c0ecb67484152cfdce68c98cc6fcab49",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "ascender stem",
+        "arch",
+        "second stem",
+        "near-flat shoulder"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-m-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-m.png",
+      "content": "m",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black m silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "3de0b637ab575f8535d9aebe38f23ed02e4792e1917c121fd3b14bbd163f233b",
+      "sha256": "c4990714b64d343f488e0529891a125bbc7ad0da8af448eaa78257a60055c474",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "three stems",
+        "two arches",
+        "near-flat shoulders",
+        "line-curve joins"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-o-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-o.png",
+      "content": "o",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black o silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 2 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 2,
+      "sourceImageSHA256": "c6821cb8d98da52352a6f1e6298157731303a4a4af9e124e8b7ad1fa6a2252bc",
+      "sha256": "91cf363f206a8acd060c2f456cb4e1778d7a20af00e9baf8d4e6933f42a01571",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter",
+      "structuralFeatures": [
+        "continuous bowl",
+        "counter",
+        "horizontal extrema",
+        "vertical extrema"
+      ],
+      "opticalAllowances": [
+        "overshoot",
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-p-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-p.png",
+      "content": "p",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black p silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "b59867b851dc51235681b514857c86395d68fe22b77f6b5d8f9c50402059d15f",
+      "sha256": "16bac7f7224a0351abf36c07e679570ab44c108cb3181bb72e30ed52a3cd97d7",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter",
+      "structuralFeatures": [
+        "descender stem",
+        "bowl",
+        "counter",
+        "line-curve join"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-r-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-r.png",
+      "content": "r",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black r silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 2 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 2,
+      "sourceImageSHA256": "887506294459b841f6da63ee41199d3030c180f50a2cb7c6911af0312dab995c",
+      "sha256": "461ec19fcac90988f78c8976dcfb1afe82ed503a82177455c861351b7e7068a6",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "vertical stem",
+        "shoulder",
+        "terminal",
+        "line-curve joins"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-lower-s-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-lower-s.png",
+      "content": "s",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black s silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "13232c370dc7b518435e28668bd3e77401ac6cb82c00ec924f70680270742717",
+      "sha256": "41b74f8a5df9d2f1a1634dfd89a292a1771e0d9a8d609cd0e3b3045469b7cddf",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette",
+      "structuralFeatures": [
+        "two bowls",
+        "terminals",
+        "inflection transitions",
+        "extrema"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-0-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-0.png",
+      "content": "0",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black 0 silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 2 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 2,
+      "sourceImageSHA256": "c89eee98a41bd2e7cd049c6a12f290c2a6d2c3bddf1be4fc663d7459a62597ab",
+      "sha256": "0db1137f57f0f4cba8a0b98ce70224f2cb4d27d0ae739f12b759324da205774b",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter",
+      "structuralFeatures": [
+        "continuous bowl",
+        "counter",
+        "horizontal extrema",
+        "vertical extrema"
+      ],
+      "opticalAllowances": [
+        "overshoot",
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-3-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-3.png",
+      "content": "3",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black 3 silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 2 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 2,
+      "sourceImageSHA256": "32b60a91088d0a70d13f8128df656747811a7a5257554ec377ff4b805ae65e06",
+      "sha256": "7a8405b6be8f5edf462a8690a59378c926ffa1a00698c0e6b894391babedcc02",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed open-form silhouette",
+      "structuralFeatures": [
+        "two bowls",
+        "waist",
+        "terminals",
+        "inflection transitions"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-4-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-4.png",
+      "content": "4",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black 4 silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "d23db24d6153968f49f6bcbcdbd98a4431d6c4b5c97caf8aaf4cc5355af4da34",
+      "sha256": "4b8af27acbf6c83c28a73b9887230724df642f0745aa159e28bf2e27c2ccee5e",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one counter",
+      "structuralFeatures": [
+        "diagonal",
+        "vertical stem",
+        "horizontal crossbar",
+        "counter"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "glyph-question-generated",
+      "category": "glyph",
+      "sourceKind": "generated",
+      "path": "corpus/generated/glyphs/glyph-question.png",
+      "content": "?",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black ? silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 2 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 2,
+      "sourceImageSHA256": "eb9ff14816bddf67836ae10e2458dfafb2308a17a7995b6a3db7f903b7d3c60f",
+      "sha256": "fc09d4b7c40527f209a6dcafd9ebbbdd53f3d16c5fdebda1c74fe12ce65e1fc4",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one hook contour and one dot contour",
+      "structuralFeatures": [
+        "curved hook",
+        "terminal",
+        "separate dot",
+        "multiple contours"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-plus-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-plus.png",
+      "content": "plus",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black plus silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "e4af67f35866bff9f788164d8bcaa4802b217283aa48d42ad2e182027e9f2523",
+      "sha256": "d31155c22224dbf31be48d5f7271d9fea141bc9053539ced14e9ad02a44d24a9",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "horizontal run",
+        "vertical run",
+        "right-angle joins",
+        "terminals"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-minus-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-minus.png",
+      "content": "minus",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black minus silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "f6bea4ffb301fb7b231c388e50c727f1bf6989838775329da78c32aede681331",
+      "sha256": "c30422edbd9a6af9e4b2d24cda99a073c21887e661b8ce42d782ebfcae65cd7b",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "horizontal run",
+        "parallel flats",
+        "four corners"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-close-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-close.png",
+      "content": "close/X",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black close/X silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "c86802c361ee19ce6eb0f2b36c81b6efb0a38cc523b65086e123a7151199ce3d",
+      "sha256": "cdda8b17c765e0c3f62eabb8b37c36a054bad31f6122e5b6e09b24759911816e",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "crossing diagonals",
+        "concave corners",
+        "four terminals"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-play-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-play.png",
+      "content": "play",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black play silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "ccf53bbc72fbd55fc59d8f750714029ab350dc59f165089a430113cd22660f21",
+      "sha256": "092c9ab8a2ee6bc5b2316ae89f55c0cad2bfb5ff9a0641e12048596cbb206e7f",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one triangular closed contour",
+      "structuralFeatures": [
+        "three corners",
+        "diagonal runs",
+        "sharp tip"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-pause-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-pause.png",
+      "content": "pause",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black pause silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "e65a2c1a82de1fa88ad0aed67cdac59f5866074aed5ee4e06a23ff3eac67007a",
+      "sha256": "09882fef171ef2f06e555f66c34d0748dc03ff657e913844e8b103813d2de24c",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "two disconnected closed contours",
+      "structuralFeatures": [
+        "two vertical bars",
+        "parallel flats",
+        "multiple contours"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-power-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-power.png",
+      "content": "power",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black power silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "8082cc84c19f3750a3ef1c93793009a582872d54697bc7991a120141b49b29a6",
+      "sha256": "7be6abf9a776346f3ddbc35353993bbc18899ed42a9b7839b57907664ada67e0",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one open-ring contour and one stem contour",
+      "structuralFeatures": [
+        "circular arc",
+        "rounded terminals",
+        "separate vertical stem",
+        "multiple contours"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-lock-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-lock.png",
+      "content": "lock",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black lock silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "2a804591acc408337f9269c3ade0898bb295a6f0bf9d9f52755abce287878c00",
+      "sha256": "11ab2b7b04c947b91c46436d3db9083438ec5647ef4f566b994eaf36313261a5",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 3,
+      "expectedTopology": "three opposed closed contours",
+      "structuralFeatures": [
+        "rounded shackle",
+        "rectangular body",
+        "internal negative spaces",
+        "multiple contours"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-eye-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-eye.png",
+      "content": "eye",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black eye silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "d3aa74496a012bb47c28b22e86bc149cb1f75d521f5d578863ceba21b467583a",
+      "sha256": "85ebbe6c4dc88c87c9f1a9bc9e8d2bf3d1c234cc680e9f5330e98afb644f93ea",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 3,
+      "expectedTopology": "outer eye, inner counter, and pupil contours",
+      "structuralFeatures": [
+        "almond silhouette",
+        "counter",
+        "circular pupil",
+        "multiple contours"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-speech-bubble-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-speech-bubble.png",
+      "content": "speech bubble",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black speech bubble silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "65ccc369eed7fa311055d268682ccfabec6b515520b12338900431b7a1e1249d",
+      "sha256": "7b2172920e4ffc275528205c345f2078eac35e8f0f59ec77ca9cb76ba7e32f1a",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "rounded body",
+        "integrated tail",
+        "corners",
+        "line-curve joins"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-cloud-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-cloud.png",
+      "content": "cloud",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black cloud silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "a51952b61e64d3da12adbbea750223df41e5e032aa89e4827143be9272df7824",
+      "sha256": "70924c6b6a8959eab0f37a8277f8b965afd56c204c2e5302a1a37991caecc813",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "multiple bowls",
+        "near-flat base",
+        "smooth joins",
+        "extrema"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-bell-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-bell.png",
+      "content": "bell",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black bell silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 2 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 2,
+      "sourceImageSHA256": "58838b1aa7b287d83ad64974c1ae985bfa5210c588c126cd7c025ed0c8696dc5",
+      "sha256": "491cd2be7c3cf1b17842939b88935b856631bbdf37e2fc01cf63751e1585dac1",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 3,
+      "expectedTopology": "one outer bell contour, one internal counter, and one clapper contour",
+      "structuralFeatures": [
+        "curved crown",
+        "flared base",
+        "separate clapper",
+        "multiple contours"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-shield-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-shield.png",
+      "content": "shield",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black shield silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "2ad6f41f532fda35054aa63b6fe77a529ac75e3ad2080bb8f15a726ca7eae4dc",
+      "sha256": "41e6c50874f69050257e127a92e125d9b4e5fb0d81e9672f2f06a361f9ef92bb",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed contour",
+      "structuralFeatures": [
+        "symmetry",
+        "curved sides",
+        "top shoulders",
+        "bottom tip"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-crescent-moon-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-crescent-moon.png",
+      "content": "crescent moon",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black crescent moon silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "88e3f238596fd204168c8da542c172847fadd52ab3b8eb3f72ee75de90d85cbb",
+      "sha256": "803405f7e8d4666f0c7ab53a6670d03d9b4d44c53ed5f2ca70e9aa19bfc7d9bf",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 1,
+      "expectedTopology": "one closed crescent contour",
+      "structuralFeatures": [
+        "convex outer arc",
+        "concave inner arc",
+        "two tips",
+        "extrema"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
+    },
+    {
+      "id": "symbol-gear-generated",
+      "category": "symbol",
+      "sourceKind": "generated",
+      "path": "corpus/generated/symbols/symbol-gear.png",
+      "content": "gear",
+      "source": "OpenAI built-in image generation",
+      "generator": "OpenAI built-in image generation; exact model version not exposed; 2026-08-26",
+      "prompt": "Prompt summary (exact wording not retained): single isolated bold black gear silhouette centered on a white or transparent square canvas, without decoration, suitable for path tracing",
+      "promptRecordKind": "summary-not-verbatim",
+      "license": "Project test fixture under repository dual license",
+      "attribution": "Generated for beztrace with OpenAI image generation",
+      "modifications": "Selected candidate 1 by project owner; composited over white, converted to grayscale, and resampled from 1254x1254 to 1024x1024 with Pillow 12.0.0 Lanczos",
+      "selectedCandidate": 1,
+      "sourceImageSHA256": "2a227b6846ed8f2f16968e83f9029a76769971163872a74fb56c7c44649fc21e",
+      "sha256": "84a238ee54de84264143ddac97346bf64a22a4233a2f56ea752181b0453cf416",
+      "reviewStatus": "reviewed",
+      "reviewedBy": "project-owner",
+      "sourceReviewStatus": "source-selected",
+      "acceptanceStatus": "pending-human-trace-review",
+      "expectedContours": 2,
+      "expectedTopology": "one outer contour and one center counter",
+      "structuralFeatures": [
+        "radial teeth",
+        "circular counter",
+        "repeated corners",
+        "multiple extrema"
+      ],
+      "opticalAllowances": [
+        "subtle generated edge softness"
+      ]
     }
   ]
 }

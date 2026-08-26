@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "generator": "OpenAI built-in image generation; exact model version not exposed",
+  "generationDate": "2026-08-26",
+  "reviewer": "project-owner",
+  "reviewStatus": "source-selected",
+  "normalization": "Composite RGBA over white, convert to grayscale, resize complete canvas to 1024x1024 with Pillow 12.0.0 Lanczos, save PNG compression level 9 without metadata",
+  "sources": [
+    {
+      "id": "glyph-upper-c",
+      "candidate": 1,
+      "sourceSHA256": "0ceb7edb1b1d039ff67f743ae93795b46d3dd930aa5bf576fd191ba484bf80de",
+      "normalizedSHA256": "3f15acc59be4502ab9805868f1aaed3034014be881e77e928640235082a9d516",
+      "sourceMode": "RGBA",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-d",
+      "candidate": 1,
+      "sourceSHA256": "f6160ced6dcdb5ebe04563c81d63f42a5d955ca900e749ff2ddb52c97f500fc0",
+      "normalizedSHA256": "7bccddb2f8f549423bf7ca23d5b487e988dd94b54c2c9deeb16ce1174a6bd523",
+      "sourceMode": "RGBA",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-e",
+      "candidate": 1,
+      "sourceSHA256": "8913e67d95c65046ef94d672a4189d6c8d9fd86f9043c89e1f73973b51ae9185",
+      "normalizedSHA256": "108d1b236434a139a974f4090f91539ee0b8e59f6661c4edd71e31617c98091e",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-g",
+      "candidate": 1,
+      "sourceSHA256": "145080db34370885773bec24ed4248c42ca5f1f53133d82fd15e1d1ca45a4e39",
+      "normalizedSHA256": "02b2c923727ce81d11104aeb181ed78fc59828662f65b03f7c60b245aee10005",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-h",
+      "candidate": 1,
+      "sourceSHA256": "9f1d1b6dfea0885fe4a0b8266a1802a8adb7a8d92edcfdb627f4655f5197bedc",
+      "normalizedSHA256": "85ecfc70c91059af818456ad4b9f64bf558c33962bbc87d764a6a6e96ad1d7fd",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-k",
+      "candidate": 1,
+      "sourceSHA256": "1f84e94a4014fc456ca4f49387d76a3cdfb47d68513b552aa2e0ce88da479a00",
+      "normalizedSHA256": "6d139bd7121313d3b28939dc77108740c375b45705b343d2d4fc872ea3c166fd",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-n",
+      "candidate": 1,
+      "sourceSHA256": "9c2b50bae725bea45bca0a5d7febde9722c4bd3055e374526b23aa728d41a305",
+      "normalizedSHA256": "f0d5ebb1637570737ca56bafe6e09b5b7bd2400b661ceb418c40de178ff4e752",
+      "sourceMode": "RGBA",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-p",
+      "candidate": 1,
+      "sourceSHA256": "13d19f5c6155f6d36814f145ab9c72909434ccc9aead5b5b93ea86fead50b727",
+      "normalizedSHA256": "ab8427560df824f75bb02de5221aa81e7c2de8f2d559bcd5167ec7f23f9d8ec5",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-t",
+      "candidate": 1,
+      "sourceSHA256": "a29e0d42618e0d0be14f8876848bf8cb2eb03c04557cb46c898c0059918c083c",
+      "normalizedSHA256": "d7d1002c1f8eff139b10434c1ca079cc9413152fdf022558eb8f970fa18c3706",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-u",
+      "candidate": 1,
+      "sourceSHA256": "c40fd6a8f3a2132257a839bc124cee1b17dd5257061623aba13e5e09fca793e2",
+      "normalizedSHA256": "01c7d670daf76731ebc6b31d870f905b38e47806fdd6df97b637e284142d5f45",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-v",
+      "candidate": 1,
+      "sourceSHA256": "8f064ac4c535e8ce0a1bda4a50aced1374b3e09e471baefc1d010a6f65b71535",
+      "normalizedSHA256": "887f74f05edad1c9fccbd631389bf3cd45853c0ce27d43651f4fbec8d8d32e9c",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-upper-x",
+      "candidate": 1,
+      "sourceSHA256": "571a932c8fda8e52a38371ff0705a283b8341adf8f7ebe94cefca3dda30e3087",
+      "normalizedSHA256": "4993e03f1471dd2a40f65728ae0359e13b391eb4173e072b1fa30714d2f7d2e1",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-b",
+      "candidate": 1,
+      "sourceSHA256": "7eaace56d82178b129c3d9f6dd1d6fb19a6130a8a4c7850a9e66d38aeaf3ab23",
+      "normalizedSHA256": "91c126475122e96ddd94249f7331b153d785c5c000871d19344287db1df017ad",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-f",
+      "candidate": 1,
+      "sourceSHA256": "61de8da4f7726f4a5db4963d4a20b8c44fd51c9334078af4f6c1587f6c6cc363",
+      "normalizedSHA256": "393c7d2afd9f524ed69717adb6f24fbd38858f6510726e086c095ed918a85d44",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-h",
+      "candidate": 1,
+      "sourceSHA256": "d9b1d79aa0ba0f6d00acd661e5f062f394f05f408392aabc7501f165419d23f4",
+      "normalizedSHA256": "072c45f6f51912401268a402b417d147c0ecb67484152cfdce68c98cc6fcab49",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-m",
+      "candidate": 1,
+      "sourceSHA256": "3de0b637ab575f8535d9aebe38f23ed02e4792e1917c121fd3b14bbd163f233b",
+      "normalizedSHA256": "c4990714b64d343f488e0529891a125bbc7ad0da8af448eaa78257a60055c474",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-o",
+      "candidate": 2,
+      "sourceSHA256": "c6821cb8d98da52352a6f1e6298157731303a4a4af9e124e8b7ad1fa6a2252bc",
+      "normalizedSHA256": "91cf363f206a8acd060c2f456cb4e1778d7a20af00e9baf8d4e6933f42a01571",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-p",
+      "candidate": 1,
+      "sourceSHA256": "b59867b851dc51235681b514857c86395d68fe22b77f6b5d8f9c50402059d15f",
+      "normalizedSHA256": "16bac7f7224a0351abf36c07e679570ab44c108cb3181bb72e30ed52a3cd97d7",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-r",
+      "candidate": 2,
+      "sourceSHA256": "887506294459b841f6da63ee41199d3030c180f50a2cb7c6911af0312dab995c",
+      "normalizedSHA256": "461ec19fcac90988f78c8976dcfb1afe82ed503a82177455c861351b7e7068a6",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-lower-s",
+      "candidate": 1,
+      "sourceSHA256": "13232c370dc7b518435e28668bd3e77401ac6cb82c00ec924f70680270742717",
+      "normalizedSHA256": "41b74f8a5df9d2f1a1634dfd89a292a1771e0d9a8d609cd0e3b3045469b7cddf",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-0",
+      "candidate": 2,
+      "sourceSHA256": "c89eee98a41bd2e7cd049c6a12f290c2a6d2c3bddf1be4fc663d7459a62597ab",
+      "normalizedSHA256": "0db1137f57f0f4cba8a0b98ce70224f2cb4d27d0ae739f12b759324da205774b",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-3",
+      "candidate": 2,
+      "sourceSHA256": "32b60a91088d0a70d13f8128df656747811a7a5257554ec377ff4b805ae65e06",
+      "normalizedSHA256": "7a8405b6be8f5edf462a8690a59378c926ffa1a00698c0e6b894391babedcc02",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-4",
+      "candidate": 1,
+      "sourceSHA256": "d23db24d6153968f49f6bcbcdbd98a4431d6c4b5c97caf8aaf4cc5355af4da34",
+      "normalizedSHA256": "4b8af27acbf6c83c28a73b9887230724df642f0745aa159e28bf2e27c2ccee5e",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "glyph-question",
+      "candidate": 2,
+      "sourceSHA256": "eb9ff14816bddf67836ae10e2458dfafb2308a17a7995b6a3db7f903b7d3c60f",
+      "normalizedSHA256": "fc09d4b7c40527f209a6dcafd9ebbbdd53f3d16c5fdebda1c74fe12ce65e1fc4",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-plus",
+      "candidate": 1,
+      "sourceSHA256": "e4af67f35866bff9f788164d8bcaa4802b217283aa48d42ad2e182027e9f2523",
+      "normalizedSHA256": "d31155c22224dbf31be48d5f7271d9fea141bc9053539ced14e9ad02a44d24a9",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-minus",
+      "candidate": 1,
+      "sourceSHA256": "f6bea4ffb301fb7b231c388e50c727f1bf6989838775329da78c32aede681331",
+      "normalizedSHA256": "c30422edbd9a6af9e4b2d24cda99a073c21887e661b8ce42d782ebfcae65cd7b",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-close",
+      "candidate": 1,
+      "sourceSHA256": "c86802c361ee19ce6eb0f2b36c81b6efb0a38cc523b65086e123a7151199ce3d",
+      "normalizedSHA256": "cdda8b17c765e0c3f62eabb8b37c36a054bad31f6122e5b6e09b24759911816e",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-play",
+      "candidate": 1,
+      "sourceSHA256": "ccf53bbc72fbd55fc59d8f750714029ab350dc59f165089a430113cd22660f21",
+      "normalizedSHA256": "092c9ab8a2ee6bc5b2316ae89f55c0cad2bfb5ff9a0641e12048596cbb206e7f",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-pause",
+      "candidate": 1,
+      "sourceSHA256": "e65a2c1a82de1fa88ad0aed67cdac59f5866074aed5ee4e06a23ff3eac67007a",
+      "normalizedSHA256": "09882fef171ef2f06e555f66c34d0748dc03ff657e913844e8b103813d2de24c",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-power",
+      "candidate": 1,
+      "sourceSHA256": "8082cc84c19f3750a3ef1c93793009a582872d54697bc7991a120141b49b29a6",
+      "normalizedSHA256": "7be6abf9a776346f3ddbc35353993bbc18899ed42a9b7839b57907664ada67e0",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-lock",
+      "candidate": 1,
+      "sourceSHA256": "2a804591acc408337f9269c3ade0898bb295a6f0bf9d9f52755abce287878c00",
+      "normalizedSHA256": "11ab2b7b04c947b91c46436d3db9083438ec5647ef4f566b994eaf36313261a5",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-eye",
+      "candidate": 1,
+      "sourceSHA256": "d3aa74496a012bb47c28b22e86bc149cb1f75d521f5d578863ceba21b467583a",
+      "normalizedSHA256": "85ebbe6c4dc88c87c9f1a9bc9e8d2bf3d1c234cc680e9f5330e98afb644f93ea",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-speech-bubble",
+      "candidate": 1,
+      "sourceSHA256": "65ccc369eed7fa311055d268682ccfabec6b515520b12338900431b7a1e1249d",
+      "normalizedSHA256": "7b2172920e4ffc275528205c345f2078eac35e8f0f59ec77ca9cb76ba7e32f1a",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-cloud",
+      "candidate": 1,
+      "sourceSHA256": "a51952b61e64d3da12adbbea750223df41e5e032aa89e4827143be9272df7824",
+      "normalizedSHA256": "70924c6b6a8959eab0f37a8277f8b965afd56c204c2e5302a1a37991caecc813",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-bell",
+      "candidate": 2,
+      "sourceSHA256": "58838b1aa7b287d83ad64974c1ae985bfa5210c588c126cd7c025ed0c8696dc5",
+      "normalizedSHA256": "491cd2be7c3cf1b17842939b88935b856631bbdf37e2fc01cf63751e1585dac1",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-shield",
+      "candidate": 1,
+      "sourceSHA256": "2ad6f41f532fda35054aa63b6fe77a529ac75e3ad2080bb8f15a726ca7eae4dc",
+      "normalizedSHA256": "41e6c50874f69050257e127a92e125d9b4e5fb0d81e9672f2f06a361f9ef92bb",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-crescent-moon",
+      "candidate": 1,
+      "sourceSHA256": "88e3f238596fd204168c8da542c172847fadd52ab3b8eb3f72ee75de90d85cbb",
+      "normalizedSHA256": "803405f7e8d4666f0c7ab53a6670d03d9b4d44c53ed5f2ca70e9aa19bfc7d9bf",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "symbol-gear",
+      "candidate": 1,
+      "sourceSHA256": "2a227b6846ed8f2f16968e83f9029a76769971163872a74fb56c7c44649fc21e",
+      "normalizedSHA256": "84a238ee54de84264143ddac97346bf64a22a4233a2f56ea752181b0453cf416",
+      "sourceMode": "RGB",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  ]
+}
+

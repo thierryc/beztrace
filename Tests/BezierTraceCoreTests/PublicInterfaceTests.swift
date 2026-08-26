@@ -144,7 +144,8 @@ final class PublicInterfaceTests: XCTestCase {
             Manifest.self,
             from: Data(contentsOf: root.appendingPathComponent("manifest.json"))
         )
-        XCTAssertEqual(manifest.fixtures.count, 24)
+        XCTAssertFalse(manifest.fixtures.isEmpty)
+        XCTAssertEqual(Set(manifest.fixtures.map(\.id)).count, manifest.fixtures.count)
         for fixture in manifest.fixtures {
             let data = try Data(contentsOf: root.appendingPathComponent(fixture.path))
             let firstResult = try BezierTracer.trace(.init(imageData: data))
