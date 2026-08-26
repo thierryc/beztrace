@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beztrace.dev/test-schema/benchmark-v1.json",
+  "title": "beztrace benchmark evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "engine", "revision", "environment", "protocol", "fixtures"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "engine": {"enum": ["beztrace-swift", "img2bez-rust"]},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "environment": {
+      "type": "object",
+      "required": ["hardware", "os", "architecture", "toolchain", "buildMode"],
+      "additionalProperties": {"type": ["string", "number", "boolean"]}
+    },
+    "protocol": {
+      "type": "object",
+      "required": ["warmups", "samples", "percentileMethod", "timingScope"],
+      "properties": {
+        "warmups": {"const": 3},
+        "samples": {"const": 30},
+        "percentileMethod": {"const": "nearest-rank"},
+        "timingScope": {"type": "string"}
+      }
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "sha256", "coldMs", "samplesMs", "medianMs", "p95Ms", "peakRSSBytes"],
+        "properties": {
+          "id": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "coldMs": {"type": "number", "minimum": 0},
+          "samplesMs": {"type": "array", "minItems": 30, "maxItems": 30, "items": {"type": "number", "minimum": 0}},
+          "medianMs": {"type": "number", "minimum": 0},
+          "p95Ms": {"type": "number", "minimum": 0},
+          "peakRSSBytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  }
+}

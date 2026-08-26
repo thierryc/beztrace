@@ -46,6 +46,24 @@ final class RasterRefinementTests: XCTestCase {
         )
     }
 
+    func testSignedDistanceUsesTheCyclicVertexPseudoNormal() {
+        let corner = [
+            Point2D(x: 0, y: 0),
+            Point2D(x: 10, y: 0),
+            Point2D(x: 10, y: 10),
+        ]
+        XCTAssertEqual(
+            ContourRefiner.signedDistance(Point2D(x: 11, y: -1), to: corner),
+            -sqrt(2),
+            accuracy: 1e-12
+        )
+        XCTAssertEqual(
+            ContourRefiner.signedDistance(Point2D(x: 9, y: 1), to: corner),
+            1,
+            accuracy: 1e-12
+        )
+    }
+
     func testRasterWithoutGradientReturnsUnrefinedFit() throws {
         let raster = try GrayRaster(width: 16, height: 16, pixels: Array(repeating: 255, count: 256))
         let target = RasterTarget(raster: raster, invert: false, pixelsPerUnit: 1)

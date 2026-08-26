@@ -97,6 +97,17 @@ enum RasterPreparer {
         guard data.count <= maximumEncodedBytes else {
             throw CoreError.encodedInputTooLarge(actual: data.count, limit: maximumEncodedBytes)
         }
+        // ImageIO can terminate the process for some CRC-corrupt PNG deflate
+        // streams before returning an error. Validate the bounded PNG
+        // container first so untrusted mutations fail through CoreError.
+        if data.starts(with: pngSignature) {
+            try validatePNGContainer(data)
+        } else if !data.starts(with: jpegSignature),
+                  !data.starts(with: littleEndianTIFFSignature),
+                  !data.starts(with: bigEndianTIFFSignature)
+        {
+            throw CoreError.malformedImage
+        }
         guard let source = CGImageSourceCreateWithData(data as CFData, [
             kCGImageSourceShouldCache: false,
         ] as CFDictionary) else {
@@ -220,6 +231,75 @@ enum RasterPreparer {
         default:
             throw CoreError.unsupportedImageFormat(type)
         }
+    }
+
+    private static let pngSignature: [UInt8] = [137, 80, 78, 71, 13, 10, 26, 10]
+    private static let jpegSignature: [UInt8] = [255, 216, 255]
+    private static let littleEndianTIFFSignature: [UInt8] = [73, 73, 42, 0]
+    private static let bigEndianTIFFSignature: [UInt8] = [77, 77, 0, 42]
+
+    private static let pngCRCTable: [UInt32] = (0..<256).map { value in
+        var crc = UInt32(value)
+        for _ in 0..<8 {
+            crc = (crc & 1) == 1 ? 0xEDB8_8320 ^ (crc >> 1) : crc >> 1
+        }
+        return crc
+    }
+
+    private static func validatePNGContainer(_ data: Data) throws {
+        let bytes = [UInt8](data)
+        guard bytes.count >= 8 + 12 else { throw CoreError.malformedImage }
+        var offset = 8
+        var sawHeader = false
+        var sawImageData = false
+        var sawEnd = false
+        while offset < bytes.count {
+            guard offset <= bytes.count - 12 else { throw CoreError.malformedImage }
+            let length = Int(bigEndianUInt32(bytes, at: offset))
+            guard length <= bytes.count - offset - 12 else { throw CoreError.malformedImage }
+            let typeStart = offset + 4
+            let payloadStart = typeStart + 4
+            let crcOffset = payloadStart + length
+            let type = Array(bytes[typeStart..<(typeStart + 4)])
+            guard type.allSatisfy({ (65...90).contains($0) || (97...122).contains($0) }) else {
+                throw CoreError.malformedImage
+            }
+            var crc: UInt32 = 0xFFFF_FFFF
+            for byte in bytes[typeStart..<crcOffset] {
+                crc = pngCRCTable[Int((crc ^ UInt32(byte)) & 0xFF)] ^ (crc >> 8)
+            }
+            guard crc ^ 0xFFFF_FFFF == bigEndianUInt32(bytes, at: crcOffset) else {
+                throw CoreError.malformedImage
+            }
+            switch type {
+            case [73, 72, 68, 82]: // IHDR
+                guard !sawHeader, offset == 8, length == 13 else { throw CoreError.malformedImage }
+                sawHeader = true
+            case [73, 68, 65, 84]: // IDAT
+                guard sawHeader, !sawEnd else { throw CoreError.malformedImage }
+                sawImageData = true
+            case [73, 69, 78, 68]: // IEND
+                guard sawHeader, sawImageData, !sawEnd, length == 0 else {
+                    throw CoreError.malformedImage
+                }
+                sawEnd = true
+            default:
+                guard sawHeader, !sawEnd else { throw CoreError.malformedImage }
+            }
+            offset = crcOffset + 4
+            if sawEnd {
+                guard offset == bytes.count else { throw CoreError.malformedImage }
+                break
+            }
+        }
+        guard sawHeader, sawImageData, sawEnd else { throw CoreError.malformedImage }
+    }
+
+    private static func bigEndianUInt32(_ bytes: [UInt8], at offset: Int) -> UInt32 {
+        UInt32(bytes[offset]) << 24
+            | UInt32(bytes[offset + 1]) << 16
+            | UInt32(bytes[offset + 2]) << 8
+            | UInt32(bytes[offset + 3])
     }
 
     private static func decode(image: CGImage, orientation: Int) throws -> (raster: GrayRaster, usedAlphaMask: Bool) {

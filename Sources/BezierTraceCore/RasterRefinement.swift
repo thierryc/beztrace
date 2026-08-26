@@ -10,6 +10,59 @@ struct RefinementBandPoint: Sendable {
     let fixedSignedDistance: Double
 }
 
+/// Caches the point-independent vertex normals used by repeated distance
+/// queries. A refinement loss evaluates one candidate polyline against many
+/// raster samples, so rebuilding these normals for every sample dominated the
+/// Milestone 5 baseline profile without changing any geometric decision.
+private struct PreparedDistancePolyline {
+    struct Segment {
+        let start: Point2D
+        let direction: Vector2D
+        let lengthSquared: Double
+    }
+
+    let points: [Point2D]
+    let segments: [Segment]
+    let vertexPseudoNormals: [Vector2D]
+
+    init(_ points: [Point2D]) {
+        self.points = points
+        segments = points.indices.dropLast().map { index in
+            let start = points[index]
+            let direction = points[index + 1] - start
+            return Segment(
+                start: start,
+                direction: direction,
+                lengthSquared: direction.dot(direction)
+            )
+        }
+        vertexPseudoNormals = points.indices.map { vertex in
+            var pseudoNormal = Vector2D.zero
+            var backward = vertex
+            while backward > 0 {
+                backward -= 1
+                let candidate = points[vertex] - points[backward]
+                if candidate.magnitude > 1e-9 {
+                    let unit = candidate.normalized()!
+                    pseudoNormal = pseudoNormal + Vector2D(dx: -unit.dy, dy: unit.dx)
+                    break
+                }
+            }
+            var forward = vertex
+            while forward + 1 < points.count {
+                forward += 1
+                let candidate = points[forward] - points[vertex]
+                if candidate.magnitude > 1e-9 {
+                    let unit = candidate.normalized()!
+                    pseudoNormal = pseudoNormal + Vector2D(dx: -unit.dy, dy: unit.dx)
+                    break
+                }
+            }
+            return pseudoNormal
+        }
+    }
+}
+
 enum ContourRefiner {
     private static let bandRadius = 2.0
     private static let minimumHandleFraction = 0.02
@@ -92,46 +145,33 @@ enum ContourRefiner {
     }
 
     static func signedDistance(_ point: Point2D, to polyline: [Point2D]) -> Double {
+        signedDistance(point, to: PreparedDistancePolyline(polyline))
+    }
+
+    private static func signedDistance(
+        _ point: Point2D,
+        to polyline: PreparedDistancePolyline
+    ) -> Double {
         var bestSquaredDistance = Double.infinity
         var bestSign = 1.0
-        guard polyline.count >= 2 else { return bestSquaredDistance }
-        for index in 0..<(polyline.count - 1) {
-            let start = polyline[index]
-            let direction = polyline[index + 1] - start
-            let lengthSquared = direction.dot(direction)
-            guard lengthSquared >= 1e-18 else { continue }
-            let parameter = min(max((point - start).dot(direction) / lengthSquared, 0), 1)
-            let projection = start + direction * parameter
+        let points = polyline.points
+        guard !polyline.segments.isEmpty else { return bestSquaredDistance }
+        for (index, segment) in polyline.segments.enumerated() {
+            guard segment.lengthSquared >= 1e-18 else { continue }
+            let parameter = min(
+                max((point - segment.start).dot(segment.direction) / segment.lengthSquared, 0),
+                1
+            )
+            let projection = segment.start + segment.direction * parameter
             let difference = point - projection
             let squaredDistance = difference.dot(difference)
             guard squaredDistance < bestSquaredDistance else { continue }
             bestSquaredDistance = squaredDistance
             if parameter <= 1e-9 || parameter >= 1 - 1e-9 {
                 let vertex = parameter <= 1e-9 ? index : index + 1
-                var pseudoNormal = Vector2D.zero
-                var backward = vertex
-                while backward > 0 {
-                    backward -= 1
-                    let candidate = polyline[vertex] - polyline[backward]
-                    if candidate.magnitude > 1e-9 {
-                        let unit = candidate.normalized()!
-                        pseudoNormal = pseudoNormal + Vector2D(dx: -unit.dy, dy: unit.dx)
-                        break
-                    }
-                }
-                var forward = vertex
-                while forward + 1 < polyline.count {
-                    forward += 1
-                    let candidate = polyline[forward] - polyline[vertex]
-                    if candidate.magnitude > 1e-9 {
-                        let unit = candidate.normalized()!
-                        pseudoNormal = pseudoNormal + Vector2D(dx: -unit.dy, dy: unit.dx)
-                        break
-                    }
-                }
-                bestSign = (point - polyline[vertex]).dot(pseudoNormal) >= 0 ? 1 : -1
+                bestSign = (point - points[vertex]).dot(polyline.vertexPseudoNormals[vertex]) >= 0 ? 1 : -1
             } else {
-                bestSign = direction.cross(point - start) >= 0 ? 1 : -1
+                bestSign = segment.direction.cross(point - segment.start) >= 0 ? 1 : -1
             }
         }
         return bestSign * sqrt(bestSquaredDistance)
@@ -162,15 +202,17 @@ enum ContourRefiner {
             }
         }
 
+        let preparedRegion = PreparedDistancePolyline(region)
+        let preparedFixed = fixed.map(PreparedDistancePolyline.init)
         var band: [RefinementBandPoint] = []
         for y in minimumY...maximumY {
             for x in minimumX...maximumX {
                 guard mask[(y - minimumY) * bandWidth + x - minimumX] else { continue }
                 let point = Point2D(x: Double(x) + 0.5, y: Double(y) + 0.5)
-                let distance = signedDistance(point, to: region)
+                let distance = signedDistance(point, to: preparedRegion)
                 guard abs(distance) <= bandRadius else { continue }
                 var fixedDistance = Double.infinity
-                for polyline in fixed {
+                for polyline in preparedFixed {
                     let candidate = signedDistance(point, to: polyline)
                     if abs(candidate) < abs(fixedDistance) { fixedDistance = candidate }
                 }
@@ -190,8 +232,9 @@ enum ContourRefiner {
         inkLeft: Bool
     ) -> Double {
         guard !band.isEmpty else { return 0 }
+        let preparedCandidate = PreparedDistancePolyline(candidate)
         let sum = band.reduce(0) { result, sample in
-            let candidateDistance = signedDistance(sample.point, to: candidate)
+            let candidateDistance = signedDistance(sample.point, to: preparedCandidate)
             let distance = abs(sample.fixedSignedDistance) < abs(candidateDistance)
                 ? sample.fixedSignedDistance
                 : candidateDistance
