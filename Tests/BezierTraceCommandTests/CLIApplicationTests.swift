@@ -50,7 +50,23 @@ final class CLIApplicationTests: XCTestCase {
         )
         XCTAssertEqual(svg.exitCode, 0)
         XCTAssertTrue(svg.standardError.isEmpty)
-        XCTAssertTrue(String(decoding: svg.standardOutput, as: UTF8.self).hasPrefix("<svg "))
+        let defaultSVG = String(decoding: svg.standardOutput, as: UTF8.self)
+        XCTAssertTrue(defaultSVG.hasPrefix("<svg "))
+        XCTAssertFalse(defaultSVG.contains("transform="))
+
+        let explicitBake = CLIApplication.run(
+            arguments: ["trace", "-", "--format", "svg", "--svg-transform", "bake"],
+            standardInput: try Data(contentsOf: input)
+        )
+        XCTAssertEqual(explicitBake.exitCode, 0)
+        XCTAssertEqual(explicitBake.standardOutput, svg.standardOutput)
+
+        let preserve = CLIApplication.run(
+            arguments: ["trace", "-", "--format", "svg", "--svg-transform", "preserve"],
+            standardInput: try Data(contentsOf: input)
+        )
+        XCTAssertEqual(preserve.exitCode, 0)
+        XCTAssertTrue(String(decoding: preserve.standardOutput, as: UTF8.self).contains("transform="))
     }
 
     func testTraceOutputPlacementAndInspectContracts() throws {
@@ -105,6 +121,51 @@ final class CLIApplicationTests: XCTestCase {
         }
     }
 
+    func testSVGTransformModesReachFileAndBatchOutputs() throws {
+        let temporary = FileManager.default.temporaryDirectory
+            .appendingPathComponent("beztrace-svg-mode-tests-\(UUID().uuidString)", isDirectory: true)
+        let bakedDirectory = temporary.appendingPathComponent("baked", isDirectory: true)
+        let preservedDirectory = temporary.appendingPathComponent("preserved", isDirectory: true)
+        try FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporary) }
+        let input = fixture("corpus/deterministic/glyphs/glyph-upper-a.png")
+
+        let file = temporary.appendingPathComponent("upper-a.svg")
+        let single = CLIApplication.run(arguments: [
+            "trace", input.path, "--format", "svg", "--svg-transform", "preserve",
+            "--output", file.path,
+        ])
+        XCTAssertEqual(single.exitCode, 0, String(decoding: single.standardError, as: UTF8.self))
+        XCTAssertTrue(single.standardOutput.isEmpty)
+        XCTAssertTrue(String(decoding: try Data(contentsOf: file), as: UTF8.self).contains("transform="))
+
+        let bakedBatch = CLIApplication.run(arguments: [
+            "batch", input.path, "--format", "svg", "--svg-transform", "bake",
+            "--output-dir", bakedDirectory.path,
+        ])
+        XCTAssertEqual(
+            bakedBatch.exitCode,
+            0,
+            String(decoding: bakedBatch.standardError, as: UTF8.self)
+        )
+        let baked = try Data(contentsOf: bakedDirectory.appendingPathComponent("glyph-upper-a.svg"))
+        XCTAssertFalse(String(decoding: baked, as: UTF8.self).contains("transform="))
+
+        let preservedBatch = CLIApplication.run(arguments: [
+            "batch", input.path, "--format", "svg", "--svg-transform", "preserve",
+            "--output-dir", preservedDirectory.path,
+        ])
+        XCTAssertEqual(
+            preservedBatch.exitCode,
+            0,
+            String(decoding: preservedBatch.standardError, as: UTF8.self)
+        )
+        let preserved = try Data(
+            contentsOf: preservedDirectory.appendingPathComponent("glyph-upper-a.svg")
+        )
+        XCTAssertTrue(String(decoding: preserved, as: UTF8.self).contains("transform="))
+    }
+
     func testInputAndNoContourFailuresUseDocumentedExitCodes() throws {
         let missing = CLIApplication.run(arguments: [
             "trace", "/definitely/missing/beztrace.png", "--format", "json",
@@ -147,6 +208,14 @@ final class CLIApplicationTests: XCTestCase {
             (["batch", "-", "--format", "json", "--output-dir", "/tmp/beztrace-invalid"],
              "batch input must be a local path"),
             (["inspect", "missing.png", "--format", "svg"], "inspect format must be json"),
+            (["trace", "missing.png", "--format", "svg", "--svg-transform", "invalid"],
+             "svg transform must be bake or preserve"),
+            (["trace", "missing.png", "--format", "json", "--svg-transform", "bake"],
+             "--svg-transform is valid only with --format svg"),
+            (["inspect", "missing.png", "--format", "json", "--svg-transform", "preserve"],
+             "--svg-transform is valid only with --format svg"),
+            (["inspect", "missing.png", "--format", "svg", "--svg-transform", "bake"],
+             "--svg-transform is not valid with inspect"),
         ]
         for (arguments, message) in cases {
             let result = CLIApplication.run(arguments: arguments)

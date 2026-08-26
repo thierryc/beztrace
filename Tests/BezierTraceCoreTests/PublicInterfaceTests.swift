@@ -41,7 +41,7 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertNotNil(first.bounds)
     }
 
-    func testJSONRoundTripsAndSVGUsesTheSameOutline() throws {
+    func testJSONRoundTripsAndSVGTransformModesUseTheSameOutline() throws {
         let data = try fixtureData("corpus/deterministic/glyphs/glyph-upper-o.png")
         let result = try BezierTracer.trace(TraceRequest(
             imageData: data,
@@ -62,12 +62,26 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertNotNil(object["paths"] as? [[String: Any]])
         XCTAssertNil(object["outline"])
 
-        let svg = try TraceSerializer.svg(result)
-        XCTAssertTrue(svg.hasPrefix("<svg xmlns=\"http://www.w3.org/2000/svg\""))
-        XCTAssertTrue(svg.contains("fill-rule=\"nonzero\""))
-        XCTAssertTrue(svg.contains("<path d=\"\(TraceSerializer.svgPathData(for: decoded.outline))\""))
-        XCTAssertFalse(svg.contains("/Users/"))
-        XCTAssertFalse(svg.contains("glyph-upper-o.png"))
+        let baked = try TraceSerializer.svg(result)
+        let explicitBake = try TraceSerializer.svg(result, transformMode: .bake)
+        XCTAssertEqual(baked, explicitBake)
+        XCTAssertTrue(baked.hasPrefix("<svg xmlns=\"http://www.w3.org/2000/svg\""))
+        XCTAssertTrue(baked.contains("fill-rule=\"nonzero\""))
+        XCTAssertFalse(baked.contains("<g"))
+        XCTAssertFalse(baked.contains("transform="))
+
+        let preserved = try TraceSerializer.svg(result, transformMode: .preserve)
+        XCTAssertTrue(preserved.contains("<g transform=\"translate(0 "))
+        XCTAssertTrue(preserved.contains(" scale(1 -1)\">"))
+        XCTAssertTrue(preserved.contains(
+            "<path d=\"\(TraceSerializer.svgPathData(for: decoded.outline))\""
+        ))
+        XCTAssertNotEqual(baked, preserved)
+
+        for svg in [baked, preserved] {
+            XCTAssertFalse(svg.contains("/Users/"))
+            XCTAssertFalse(svg.contains("glyph-upper-o.png"))
+        }
     }
 
     func testExplicitPlacementFitsInkAndResolvesMetrics() throws {
@@ -133,9 +147,31 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertEqual(manifest.fixtures.count, 24)
         for fixture in manifest.fixtures {
             let data = try Data(contentsOf: root.appendingPathComponent(fixture.path))
-            let first = try TraceSerializer.json(BezierTracer.trace(.init(imageData: data)))
-            let second = try TraceSerializer.json(BezierTracer.trace(.init(imageData: data)))
-            XCTAssertEqual(first, second, fixture.id)
+            let firstResult = try BezierTracer.trace(.init(imageData: data))
+            let secondResult = try BezierTracer.trace(.init(imageData: data))
+            XCTAssertEqual(firstResult, secondResult, fixture.id)
+            XCTAssertFalse(firstResult.outline.contours.isEmpty, fixture.id)
+            XCTAssertTrue(firstResult.outline.contours.allSatisfy(\.closed), fixture.id)
+            XCTAssertTrue(
+                firstResult.outline.contours.flatMap(\.nodes).allSatisfy {
+                    $0.x.isFinite && $0.y.isFinite
+                },
+                fixture.id
+            )
+
+            let firstJSON = try TraceSerializer.json(firstResult)
+            let secondJSON = try TraceSerializer.json(secondResult)
+            XCTAssertEqual(firstJSON, secondJSON, fixture.id)
+
+            let firstBake = try TraceSerializer.svg(firstResult, transformMode: .bake)
+            let secondBake = try TraceSerializer.svg(secondResult, transformMode: .bake)
+            let firstPreserve = try TraceSerializer.svg(firstResult, transformMode: .preserve)
+            let secondPreserve = try TraceSerializer.svg(secondResult, transformMode: .preserve)
+            XCTAssertEqual(firstBake, secondBake, fixture.id)
+            XCTAssertEqual(firstPreserve, secondPreserve, fixture.id)
+            XCTAssertFalse(firstBake.contains("transform="), fixture.id)
+            XCTAssertTrue(firstPreserve.contains("transform="), fixture.id)
+            XCTAssertEqual(svgCommandCounts(firstBake), svgCommandCounts(firstPreserve), fixture.id)
         }
     }
 
@@ -232,6 +268,14 @@ final class PublicInterfaceTests: XCTestCase {
         try Data(contentsOf: repositoryRoot
             .appendingPathComponent("Tests/Fixtures", isDirectory: true)
             .appendingPathComponent(path))
+    }
+
+    private func svgCommandCounts(_ svg: String) -> [Character: Int] {
+        Dictionary(uniqueKeysWithValues: ["M", "L", "C", "Z"].map { command in
+            (command, svg.reduce(into: 0) { count, character in
+                if character == command { count += 1 }
+            })
+        })
     }
 
     private var repositoryRoot: URL {

@@ -30,6 +30,7 @@ enum CLIApplication {
         let format: OutputFormat
         let output: String?
         let outputDirectory: String?
+        let svgTransformMode: SVGTransformMode
         let options: TraceOptions
         let placement: PlacementOptions?
     }
@@ -86,7 +87,11 @@ enum CLIApplication {
             options: parsed.options,
             placement: parsed.placement
         ))
-        let encoded = try serialize(result, format: parsed.format)
+        let encoded = try serialize(
+            result,
+            format: parsed.format,
+            svgTransformMode: parsed.svgTransformMode
+        )
         if let output = parsed.output {
             try write(encoded, to: output)
             return success()
@@ -122,7 +127,14 @@ enum CLIApplication {
                 options: parsed.options,
                 placement: parsed.placement
             ))
-            records.append((directory.appendingPathComponent(name), try serialize(result, format: parsed.format)))
+            records.append((
+                directory.appendingPathComponent(name),
+                try serialize(
+                    result,
+                    format: parsed.format,
+                    svgTransformMode: parsed.svgTransformMode
+                )
+            ))
         }
         do {
             try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -133,14 +145,18 @@ enum CLIApplication {
         return success()
     }
 
-    private static func serialize(_ result: TraceResult, format: OutputFormat) throws -> Data {
+    private static func serialize(
+        _ result: TraceResult,
+        format: OutputFormat,
+        svgTransformMode: SVGTransformMode
+    ) throws -> Data {
         switch format {
         case .json:
             var data = try TraceSerializer.json(result)
             data.append(0x0A)
             return data
         case .svg:
-            return Data(try TraceSerializer.svg(result).utf8)
+            return Data(try TraceSerializer.svg(result, transformMode: svgTransformMode).utf8)
         }
     }
 
@@ -177,6 +193,8 @@ enum CLIApplication {
         var format: OutputFormat?
         var output: String?
         var outputDirectory: String?
+        var svgTransformMode: SVGTransformMode = .bake
+        var svgTransformWasSet = false
         var threshold: TraceThreshold = .automatic
         var invert = false
         var accuracy = 2.0
@@ -231,6 +249,17 @@ enum CLIApplication {
                 format = parsed
             case "--output": output = try value(after: argument)
             case "--output-dir": outputDirectory = try value(after: argument)
+            case "--svg-transform":
+                let raw = try value(after: argument)
+                guard let mode = SVGTransformMode(rawValue: raw) else {
+                    throw Failure(
+                        code: 2,
+                        type: "argument",
+                        message: "svg transform must be bake or preserve"
+                    )
+                }
+                svgTransformMode = mode
+                svgTransformWasSet = true
             case "--threshold":
                 let raw = try value(after: argument)
                 if raw == "auto" {
@@ -299,6 +328,16 @@ enum CLIApplication {
         guard let format else {
             throw Failure(code: 2, type: "argument", message: "--format is required")
         }
+        if svgTransformWasSet, format != .svg {
+            throw Failure(
+                code: 2,
+                type: "argument",
+                message: "--svg-transform is valid only with --format svg"
+            )
+        }
+        if svgTransformWasSet, command == .inspect {
+            throw Failure(code: 2, type: "argument", message: "--svg-transform is not valid with inspect")
+        }
         if command == .inspect, format != .json {
             throw Failure(code: 2, type: "argument", message: "inspect format must be json")
         }
@@ -354,6 +393,7 @@ enum CLIApplication {
             format: format,
             output: output,
             outputDirectory: outputDirectory,
+            svgTransformMode: svgTransformMode,
             options: TraceOptions(
                 threshold: threshold,
                 invert: invert,
@@ -416,8 +456,8 @@ enum CLIApplication {
 
     private static let help = """
     Usage:
-      beztrace trace INPUT --format json|svg [--output PATH] [options]
-      beztrace batch INPUT... --format json|svg --output-dir DIRECTORY [options]
+      beztrace trace INPUT --format json|svg [--svg-transform bake|preserve] [--output PATH] [options]
+      beztrace batch INPUT... --format json|svg [--svg-transform bake|preserve] --output-dir DIRECTORY [options]
       beztrace inspect INPUT --format json [options]
       beztrace --version
 

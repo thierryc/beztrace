@@ -3,6 +3,11 @@
 
 import Foundation
 
+public enum SVGTransformMode: String, Codable, Equatable, Sendable {
+    case bake
+    case preserve
+}
+
 public enum TraceSerializer {
     public static func json(_ result: TraceResult, pretty: Bool = false) throws -> Data {
         let encoder = JSONEncoder()
@@ -15,7 +20,10 @@ public enum TraceSerializer {
         }
     }
 
-    public static func svg(_ result: TraceResult) throws -> String {
+    public static func svg(
+        _ result: TraceResult,
+        transformMode: SVGTransformMode = .bake
+    ) throws -> String {
         guard let geometricBounds = result.bounds else {
             throw TraceError.serialization("outline has no bounds")
         }
@@ -33,26 +41,42 @@ public enum TraceSerializer {
         guard viewBounds.isFiniteAndOrdered else {
             throw TraceError.serialization("SVG view box is invalid")
         }
-        let path = svgPathData(for: result.outline)
         let flip = viewBounds.minY + viewBounds.maxY
-        return "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"\(number(viewBounds.minX)) \(number(viewBounds.minY)) \(number(viewBounds.width)) \(number(viewBounds.height))\"><g transform=\"translate(0 \(number(flip))) scale(1 -1)\"><path d=\"\(path)\" fill=\"black\" fill-rule=\"nonzero\"/></g></svg>\n"
+        let opening = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"\(number(viewBounds.minX)) \(number(viewBounds.minY)) \(number(viewBounds.width)) \(number(viewBounds.height))\">"
+        switch transformMode {
+        case .bake:
+            let path = svgPathData(for: result.outline) { flip - $0 }
+            return "\(opening)<path d=\"\(path)\" fill=\"black\" fill-rule=\"nonzero\"/></svg>\n"
+        case .preserve:
+            let path = svgPathData(for: result.outline)
+            return "\(opening)<g transform=\"translate(0 \(number(flip))) scale(1 -1)\"><path d=\"\(path)\" fill=\"black\" fill-rule=\"nonzero\"/></g></svg>\n"
+        }
     }
 
     public static func svgPathData(for outline: Outline) -> String {
+        svgPathData(for: outline) { $0 }
+    }
+
+    private static func svgPathData(
+        for outline: Outline,
+        transformY: (Double) -> Double
+    ) -> String {
         outline.contours.compactMap { contour -> String? in
             guard let first = contour.nodes.first(where: { $0.type != .offcurve }) else { return nil }
-            var commands = ["M\(number(first.x)) \(number(first.y))"]
+            var commands = ["M\(number(first.x)) \(number(transformY(first.y)))"]
             for segment in contour.segments() {
                 if segment.cubic.end.distance(to: first.point) < 1e-9, segment.isLine {
                     continue
                 }
                 if segment.isLine {
-                    commands.append("L\(number(segment.cubic.end.x)) \(number(segment.cubic.end.y))")
+                    commands.append(
+                        "L\(number(segment.cubic.end.x)) \(number(transformY(segment.cubic.end.y)))"
+                    )
                 } else {
                     commands.append(
-                        "C\(number(segment.cubic.control1.x)) \(number(segment.cubic.control1.y)) "
-                            + "\(number(segment.cubic.control2.x)) \(number(segment.cubic.control2.y)) "
-                            + "\(number(segment.cubic.end.x)) \(number(segment.cubic.end.y))"
+                        "C\(number(segment.cubic.control1.x)) \(number(transformY(segment.cubic.control1.y))) "
+                            + "\(number(segment.cubic.control2.x)) \(number(transformY(segment.cubic.control2.y))) "
+                            + "\(number(segment.cubic.end.x)) \(number(transformY(segment.cubic.end.y)))"
                     )
                 }
             }
