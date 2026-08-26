@@ -65,6 +65,12 @@ exit codes pass without Glyphs. The optimized suite runs 73 tests with one
 explicit maintenance-only skip and zero failures on Apple Silicon and local
 x86_64 under Rosetta; native Intel remains enforced by CI.
 
+Pre-release interoperability correction: SVG now has explicit `bake` and
+`preserve` transform modes. Bake is the transform-free default for design
+tools; preserve retains the legacy y-up path plus rendering transform. JSON,
+raw SVG path data, schema v1, `pathDataVersion 2`, and traced outlines are
+unchanged.
+
 ## 5. Performance and release hardening — next
 
 - Optimize measured bottlenecks without changing output.

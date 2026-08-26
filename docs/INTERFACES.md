@@ -21,16 +21,20 @@ is exercised locally and in CI, but no signed or published release exists yet.
 The core entry point accepts image data, not a filesystem path. It performs no
 network, filesystem, process, UI, or logging work. Call
 `BezierTracer.trace(_:)` to trace, then use `TraceSerializer.json(_:)` or
-`TraceSerializer.svg(_:)` to serialize the same validated geometry.
+`TraceSerializer.svg(_:transformMode:)` to serialize the same validated
+geometry. `SVGTransformMode.bake` is the default; `.preserve` retains the
+legacy y-up path plus SVG group transform. `TraceSerializer.svgPathData(for:)`
+always returns y-up neutral path data and does not apply SVG presentation
+policy.
 
 ## CLI
 
 ### Commands
 
 ```text
-beztrace trace INPUT --format json|svg [--output PATH] [options]
-beztrace trace - --format json|svg [--output PATH] [options]
-beztrace batch INPUT... --format json|svg --output-dir DIRECTORY [options]
+beztrace trace INPUT --format json|svg [--svg-transform bake|preserve] [--output PATH] [options]
+beztrace trace - --format json|svg [--svg-transform bake|preserve] [--output PATH] [options]
+beztrace batch INPUT... --format json|svg [--svg-transform bake|preserve] --output-dir DIRECTORY [options]
 beztrace inspect INPUT --format json [options]
 beztrace --version
 ```
@@ -39,6 +43,10 @@ beztrace --version
 input is path-only in v1. `inspect` runs preparation and tracing and returns the
 same JSON result without writing a second output format. Batch processing is
 deterministic, sequential, and limited to 64 inputs per invocation.
+
+`--svg-transform` is valid only for SVG output from `trace` and `batch`. It
+defaults to `bake`. Supplying it with JSON or `inspect`, or supplying a value
+other than `bake` or `preserve`, is an argument error with exit code `2`.
 
 ### Trace options
 
@@ -130,12 +138,27 @@ The machine-readable schema is committed at
 ## SVG
 
 - SVG is serialized from the same final `Outline` returned in JSON.
+- JSON and `TraceSerializer.svgPathData(for:)` use y-up font coordinates and
+  remain the authoritative neutral geometry contract.
+- `bake`, the default, reflects every line endpoint, cubic control point, and
+  curve endpoint with `svgY = viewBox.minY + viewBox.maxY - jsonY`. It emits the
+  path directly with no group or transform attribute, for design-tool-friendly
+  import.
+- `preserve` emits y-up path coordinates byte-for-byte in the legacy form and
+  renders them with `<g transform="translate(0 FLIP) scale(1 -1)">`.
+- Reflection does not reverse contour order or starts. Outer and counter
+  winding signs reverse together in SVG coordinates and remain opposed under
+  nonzero fill.
 - The view box is the final geometric bounds unless explicit placement supplies
   an advance/target box.
 - Paths use nonzero winding and no stroke.
 - Numeric precision and contour order are deterministic.
 - Metadata may identify beztrace and its version but must not embed source
   image bytes or local paths.
+
+Changing the default to `bake` intentionally changes pre-release SVG bytes but
+does not change engine version `0.1.0`, JSON schema v1, `pathDataVersion 2`, or
+trace geometry because no versioned release or tag predates this correction.
 
 ## Exit codes
 

@@ -97,7 +97,12 @@ Tracing remains neutral. Validation checks finite values, topology, closure,
 winding, degeneracy, self-intersection, handle reach, and point counts before a
 result leaves the core. Optional explicit placement fits a caller-selected
 source box into a target band and resolves only caller-supplied horizontal
-metrics. JSON and SVG serialize that same validated outline.
+metrics. JSON and SVG serialize that same validated outline. JSON and the raw
+SVG path-data helper retain y-up neutral coordinates. SVG serialization owns
+the presentation conversion: its default mode reflects every path coordinate
+into the resolved SVG view box, while preserve mode emits the y-up path under
+an SVG rendering transform. Neither mode mutates, reorders, or reverses the
+validated outline.
 
 ## Concurrency and performance
 

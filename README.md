@@ -51,9 +51,18 @@ Build and trace without installing anything:
 swift build --configuration release
 swift run --configuration release beztrace trace input.png --format json
 swift run --configuration release beztrace trace input.png --format svg --output outline.svg
+swift run --configuration release beztrace trace input.png --format svg \
+  --svg-transform preserve --output outline-y-up.svg
 ```
 
-Use `beztrace --help` for batch, inspection, tracing, and placement options.
+SVG defaults to transform-free, visually upright coordinates for Sketch,
+Illustrator, Figma, and similar consumers. Use `--svg-transform preserve` when
+the SVG path itself must remain in the same y-up coordinates as JSON and be
+rendered through an SVG group transform. JSON remains the authoritative
+neutral path format for the future Glyphs MCP companion adapter.
+
+Use `beztrace --help` for batch, inspection, tracing, placement, and SVG
+transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 

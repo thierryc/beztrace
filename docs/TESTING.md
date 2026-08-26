@@ -141,11 +141,21 @@ placement modes and malformed or oversized input.
 CLI tests exercise both the command adapter and the built release process:
 standard input and output, path input, batch ordering and the 64-input bound,
 JSON/SVG output, diagnostics, JSON errors, stable exit codes, and cross-process
-byte determinism. Process tests must find the architecture-specific release
-executable and fail if it is absent; they never skip silently.
+byte determinism. SVG transform-mode tests prove default and explicit bake
+equivalence, exact legacy preserve bytes, transform-free baked output, and the
+resolved view-box reflection formula for all line endpoints, curve endpoints,
+and cubic controls. A test-only M/L/C/Z canonicalizer applies the preserve
+matrix and compares both modes point-for-point; focused counter glyphs are also
+rasterized with nonzero fill and must have identical coverage. Both modes run
+twice across all 24 fixtures, and CLI coverage includes streams, files, batch,
+invalid combinations, and real subprocess behavior. Process tests must find
+the architecture-specific release executable and fail if it is absent; they
+never skip silently.
 
-The complete optimized checkpoint runs 73 XCTest cases with one intentional
-maintenance-export skip and zero failures on Apple Silicon and local x86_64
-under Rosetta. CI repeats the suite on native Apple Silicon and Intel runners.
+The complete optimized checkpoint includes one intentional maintenance-export
+skip. It runs on Apple Silicon and local x86_64 under Rosetta, while CI repeats
+the suite on native Apple Silicon and Intel runners. The exact test count and
+result are recorded with each checkpoint rather than treated as an interface
+contract.
 Generated images remain reviewed acceptance fixtures and are never treated as
 exact coordinate oracles.
