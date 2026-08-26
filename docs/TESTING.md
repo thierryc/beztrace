@@ -43,8 +43,15 @@ python3 scripts/trace_generated_review.py
 
 The command traces every newly selected source twice in JSON and SVG, rejects
 nondeterministic, non-finite, empty, open, or source-hash-mismatched results,
-and writes clean SVG plus review-only padded node/handle views to the external
-Milestone 5 report directory. It never marks a trace accepted.
+and writes baked and preserve-mode SVG renders plus review-only padded
+node/handle/direction views to the external Milestone 5 report directory. The
+report labels each contour's JSON Y-up winding and reflected baked-SVG winding
+so direction is not inferred from rendering alone. It never marks a trace
+accepted. Test the report generator without tracing fixtures with:
+
+```sh
+python3 scripts/trace_generated_review_test.py
+```
 
 After building both release architectures, compare the serialized JSON for
 the entire corpus with:

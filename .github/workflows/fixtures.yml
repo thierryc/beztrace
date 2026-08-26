@@ -28,6 +28,7 @@ jobs:
           test -x scripts/verify_cross_arch_corpus.py
           test -x scripts/build_release_candidate.sh
           python3 -m py_compile scripts/*.py
+          python3 scripts/trace_generated_review_test.py
           bash -n scripts/capture_img2bez_oracle.sh
           bash -n scripts/build_release_candidate.sh
           bash -n release/package-scripts/preinstall
