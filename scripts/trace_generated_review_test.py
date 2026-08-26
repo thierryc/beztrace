@@ -58,6 +58,9 @@ class TraceGeneratedReviewTests(unittest.TestCase):
         document = inspection_svg(sample_trace())
         self.assertIn('id="direction-arrow"', document)
         self.assertEqual(document.count('class="direction"'), 2)
+        self.assertNotIn("transform=", document)
+        self.assertIn('viewBox="-64 -64 138 138"', document)
+        self.assertIn('<path d="M 0 10 L 10 10 L 10 0 L 0 0 L 0 10 Z"/>', document)
         self.assertIn("Contour 1: outer; JSON Y-up counterclockwise; baked SVG clockwise", document)
         self.assertIn("Contour 2: counter; JSON Y-up clockwise; baked SVG counterclockwise", document)
 

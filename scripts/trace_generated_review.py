@@ -9,6 +9,7 @@ import json
 import math
 import subprocess
 from pathlib import Path
+from typing import Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "Tests" / "Fixtures"
@@ -55,36 +56,44 @@ def contour_directions(trace: dict) -> list[dict]:
     return result
 
 
-def path_data(contour: dict) -> tuple[str, list[tuple[float, float, str]], list[tuple[float, float, float, float]]]:
+def path_data(
+    contour: dict,
+    transform_y: Callable[[float], float] = lambda value: value,
+) -> tuple[str, list[tuple[float, float, str]], list[tuple[float, float, float, float]]]:
     ordered = ordered_nodes(contour)
     first = ordered[0]
-    commands = [f"M {fmt(first['x'])} {fmt(first['y'])}"]
-    points = [(first["x"], first["y"], first["type"])]
+    commands = [f"M {fmt(first['x'])} {fmt(transform_y(first['y']))}"]
+    points = [(first["x"], transform_y(first["y"]), first["type"])]
     handles: list[tuple[float, float, float, float]] = []
     pending: list[dict] = []
     previous = first
     for node in ordered[1:] + [first]:
         if node["type"] == "offcurve":
             pending.append(node)
-            points.append((node["x"], node["y"], "offcurve"))
+            points.append((node["x"], transform_y(node["y"]), "offcurve"))
             continue
         if node["type"] == "curve":
             if len(pending) != 2:
                 raise ValueError("curve segment does not have exactly two controls")
             commands.append(
-                f"C {fmt(pending[0]['x'])} {fmt(pending[0]['y'])} "
-                f"{fmt(pending[1]['x'])} {fmt(pending[1]['y'])} {fmt(node['x'])} {fmt(node['y'])}"
+                f"C {fmt(pending[0]['x'])} {fmt(transform_y(pending[0]['y']))} "
+                f"{fmt(pending[1]['x'])} {fmt(transform_y(pending[1]['y']))} "
+                f"{fmt(node['x'])} {fmt(transform_y(node['y']))}"
             )
-            handles.append((previous["x"], previous["y"], pending[0]["x"], pending[0]["y"]))
-            handles.append((pending[1]["x"], pending[1]["y"], node["x"], node["y"]))
+            handles.append(
+                (previous["x"], transform_y(previous["y"]), pending[0]["x"], transform_y(pending[0]["y"]))
+            )
+            handles.append(
+                (pending[1]["x"], transform_y(pending[1]["y"]), node["x"], transform_y(node["y"]))
+            )
         elif node["type"] == "line":
             if pending:
                 raise ValueError("line segment has unexpected controls")
-            commands.append(f"L {fmt(node['x'])} {fmt(node['y'])}")
+            commands.append(f"L {fmt(node['x'])} {fmt(transform_y(node['y']))}")
         else:
             raise ValueError(f"unknown node type: {node['type']}")
         if node is not first:
-            points.append((node["x"], node["y"], node["type"]))
+            points.append((node["x"], transform_y(node["y"]), node["type"]))
         pending = []
         previous = node
     commands.append("Z")
@@ -111,13 +120,14 @@ def inspection_svg(trace: dict) -> str:
     pad = max(64.0, 0.08 * max(max_x - min_x, max_y - min_y))
     view_box = f"{fmt(min_x-pad)} {fmt(min_y-pad)} {fmt(max_x-min_x+2*pad)} {fmt(max_y-min_y+2*pad)}"
     flip = min_y + max_y
+    transform_y = lambda value: flip - value
     paths: list[str] = []
     control_lines: list[str] = []
     markers: list[str] = []
     directions: list[str] = []
     metadata = contour_directions(trace)
     for contour, direction in zip(trace["paths"], metadata):
-        data, points, handles = path_data(contour)
+        data, points, handles = path_data(contour, transform_y)
         paths.append(f'<path d="{data}"/>')
         for x1, y1, x2, y2 in handles:
             control_lines.append(
@@ -129,6 +139,8 @@ def inspection_svg(trace: dict) -> str:
             else:
                 markers.append(f'<rect class="on" x="{fmt(x-6)}" y="{fmt(y-6)}" width="12" height="12"/>')
         x1, y1, x2, y2 = direction_segment(contour)
+        y1 = transform_y(y1)
+        y2 = transform_y(y2)
         label = (
             f"Contour {direction['index']}: {direction['role']}; "
             f"JSON Y-up {direction['jsonWinding']}; baked SVG {direction['svgWinding']}"
@@ -143,13 +155,13 @@ def inspection_svg(trace: dict) -> str:
         '<defs><marker id="direction-arrow" viewBox="0 0 10 10" refX="8" refY="5" '
         'markerWidth="10" markerHeight="10" orient="auto-start-reverse" markerUnits="userSpaceOnUse">'
         '<path d="M 0 0 L 10 5 L 0 10 Z" fill="#ff5a36"/></marker></defs>\n'
-        '<rect width="100%" height="100%" fill="white"/>\n'
-        f'<g transform="translate(0 {fmt(flip)}) scale(1 -1)">\n'
+        f'<rect x="{fmt(min_x-pad)}" y="{fmt(min_y-pad)}" '
+        f'width="{fmt(max_x-min_x+2*pad)}" height="{fmt(max_y-min_y+2*pad)}" fill="white"/>\n'
         f'<g fill="black" fill-rule="nonzero">{"".join(paths)}</g>\n'
         f'<g fill="none" stroke="#1683ff" stroke-width="2">{"".join(control_lines)}</g>\n'
         f'<g class="nodes" stroke="#1683ff" stroke-width="2"><g fill="white">{"".join(markers)}</g></g>\n'
         f'<g fill="none" stroke="#ff5a36" stroke-width="5">{"".join(directions)}</g>\n'
-        '</g>\n</svg>\n'
+        '</svg>\n'
     )
 
 
