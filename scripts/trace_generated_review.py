@@ -121,14 +121,14 @@ def inspection_svg(trace: dict) -> str:
     view_box = f"{fmt(min_x-pad)} {fmt(min_y-pad)} {fmt(max_x-min_x+2*pad)} {fmt(max_y-min_y+2*pad)}"
     flip = min_y + max_y
     transform_y = lambda value: flip - value
-    paths: list[str] = []
+    outline_subpaths: list[str] = []
     control_lines: list[str] = []
     markers: list[str] = []
     directions: list[str] = []
     metadata = contour_directions(trace)
     for contour, direction in zip(trace["paths"], metadata):
         data, points, handles = path_data(contour, transform_y)
-        paths.append(f'<path d="{data}"/>')
+        outline_subpaths.append(data)
         for x1, y1, x2, y2 in handles:
             control_lines.append(
                 f'<line x1="{fmt(x1)}" y1="{fmt(y1)}" x2="{fmt(x2)}" y2="{fmt(y2)}"/>'
@@ -157,7 +157,7 @@ def inspection_svg(trace: dict) -> str:
         '<path d="M 0 0 L 10 5 L 0 10 Z" fill="#ff5a36"/></marker></defs>\n'
         f'<rect x="{fmt(min_x-pad)}" y="{fmt(min_y-pad)}" '
         f'width="{fmt(max_x-min_x+2*pad)}" height="{fmt(max_y-min_y+2*pad)}" fill="white"/>\n'
-        f'<g fill="black" fill-rule="nonzero">{"".join(paths)}</g>\n'
+        f'<g fill="black" fill-rule="nonzero"><path class="outline" d="{" ".join(outline_subpaths)}"/></g>\n'
         f'<g fill="none" stroke="#1683ff" stroke-width="2">{"".join(control_lines)}</g>\n'
         f'<g class="nodes" stroke="#1683ff" stroke-width="2"><g fill="white">{"".join(markers)}</g></g>\n'
         f'<g fill="none" stroke="#ff5a36" stroke-width="5">{"".join(directions)}</g>\n'

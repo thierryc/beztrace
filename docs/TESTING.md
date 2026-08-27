@@ -64,7 +64,9 @@ The generated report stays under `/Volumes/T9/beztrace/milestone-6`. Its four
 views compare the raster source, default transform-free SVG, preserve-mode SVG,
 and a review-only transform-free node/handle/direction overlay. The overlay
 bakes every on-curve, off-curve, control handle, and arrow coordinate and adds
-an explicit padded view box; it does not use an SVG transform group. The page
+an explicit padded view box; it does not use an SVG transform group. All
+contours share one compound filled path so nonzero winding keeps counters open
+instead of painting them as separate black shapes. The page
 exports a manifest-bound human acceptance document but never edits committed
 fixture state.
 

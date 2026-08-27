@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import unittest
+import xml.etree.ElementTree as ET
 
 from trace_generated_review import contour_directions, inspection_svg, render_page
 
@@ -60,9 +61,21 @@ class TraceGeneratedReviewTests(unittest.TestCase):
         self.assertEqual(document.count('class="direction"'), 2)
         self.assertNotIn("transform=", document)
         self.assertIn('viewBox="-64 -64 138 138"', document)
-        self.assertIn('<path d="M 0 10 L 10 10 L 10 0 L 0 0 L 0 10 Z"/>', document)
+        self.assertIn('d="M 0 10 L 10 10 L 10 0 L 0 0 L 0 10 Z ', document)
         self.assertIn("Contour 1: outer; JSON Y-up counterclockwise; baked SVG clockwise", document)
         self.assertIn("Contour 2: counter; JSON Y-up clockwise; baked SVG counterclockwise", document)
+
+    def test_inspection_svg_uses_one_compound_path_so_counters_remain_holes(self) -> None:
+        root = ET.fromstring(inspection_svg(sample_trace()))
+        namespace = {"svg": "http://www.w3.org/2000/svg"}
+        fill_group = next(
+            group for group in root.findall("svg:g", namespace)
+            if group.attrib.get("fill") == "black"
+        )
+        outlines = fill_group.findall("svg:path", namespace)
+        self.assertEqual(len(outlines), 1)
+        self.assertEqual(outlines[0].attrib.get("class"), "outline")
+        self.assertEqual(outlines[0].attrib["d"].count("M "), 2)
 
     def test_render_page_compares_both_svg_modes_and_direction_overlay(self) -> None:
         record = {
