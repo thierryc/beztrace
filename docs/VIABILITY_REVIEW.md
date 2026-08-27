@@ -8,29 +8,23 @@ machine-readable result is generated outside the repository by
 
 ## Current decision
 
-**Reject merge and publication until the blocking gates pass.**
+**Reject merge and publication until the remaining blocking gate passes.**
 
 The implementation is not eligible to merge into `main` or become a Glyphs
 MCP dependency while any required gate is pending, failed, missing, or outside
-the authorized boundary. The current checkpoint has four known blockers:
+the authorized boundary. The current checkpoint has one known required
+blocker: the universal ZIP and installer are unsigned and unnotarized.
+Developer ID use, notarization, and installation have not been separately
+authorized.
 
-1. The project owner has not completed trace-quality acceptance for the
-   100-image corpus. At least 95 traces must be accepted without topology
-   repair.
-2. The current single-shot 1024×1024 CLI p95 is below one second for only two
-   of five benchmark fixtures. Relative Swift/Rust timing and memory pass, but
-   they do not supersede the absolute limit.
-3. The universal ZIP and installer are unsigned and unnotarized. Developer ID
-   use, notarization, installation, and publication have not been authorized.
-4. The detached local AddressSanitizer test built successfully but could not
-   launch because the installed Xcode sanitizer runtime was rejected by macOS
-   platform-signature policy. The native CI sanitizer job must supply passing
-   evidence for the final commit; this environment failure is not recorded as
-   a beztrace test pass.
-
-Explicit project-owner merge approval is also required after the technical
-gates pass. Publication remains a separate authorization after merge
-eligibility; Milestone 6 does not grant it.
+The project owner completed trace-quality acceptance for all 100 images,
+including six accepted-with-optical-notes decisions. All five single-shot
+1024×1024 CLI p95 measurements are below one second. The complete optimized
+Apple Silicon and x86_64/Rosetta suites pass, and the focused malformed-input
+AddressSanitizer test passes with the installed Xcode beta toolchain. The
+project owner explicitly approved merge, but that approval does not waive the
+signed-artifact requirement. Publication remains a separate authorization
+after merge eligibility; Milestone 6 does not grant it.
 
 ## Review evidence
 
@@ -71,11 +65,11 @@ authorizations.
 
 | Gate | Required outcome | Current checkpoint |
 | --- | --- | --- |
-| Optimized tests and clean-worktree replay | All pass, no rewrite | arm64/x86_64 pass; local ASan launch blocked by platform policy |
+| Optimized tests and clean-worktree replay | All pass, no rewrite | Pass: arm64, x86_64/Rosetta, and focused ASan in a detached clean worktree |
 | 100-image automatic trace checks | 100/100, twice, deterministic | Pass |
-| Human trace acceptance | At least 95/100 | Pending project-owner review |
+| Human trace acceptance | At least 95/100 | Pass: 100/100 accepted; six carry optical notes |
 | Swift/Rust performance | Median and p95 at most 1.5× Rust | Pass in recorded evidence |
-| Absolute process time | Every fixture p95 below 1 second | Fail: 2/5 passes |
+| Absolute process time | Every fixture p95 below 1 second | Pass: 5/5; recorded p95 range 280.770–702.895 ms |
 | Peak RSS | Every fixture below 256 MiB | Pass in recorded evidence |
 | Cross-architecture output | 100/100 byte-identical | Pass in recorded evidence |
 | Malformed-input campaign | At least 50,000 safe rejections | Pass in recorded evidence |
@@ -83,7 +77,7 @@ authorizations.
 | Universal distribution | arm64 and x86_64 | Pass for unsigned candidate |
 | Signing and notarization | All artifacts verified | Not authorized; not complete |
 | Packaged non-Glyphs workflow | JSON and SVG succeed | Pass |
-| Merge approval | Explicit project-owner approval | Pending |
+| Merge approval | Explicit project-owner approval | Pass |
 
 The report records evidence status exactly. It does not infer approval from a
 successful build, ignore a missing file, convert an unauthorized identity step
@@ -91,14 +85,13 @@ to a pass, or treat publication authorization as implicit.
 
 ## Remediation order
 
-1. Complete the 100-image review and export the acceptance JSON.
-2. Fix or explicitly revise the absolute performance requirement through a
-   reviewed requirements change; do not waive it inside the evaluator.
-3. Re-run all evidence at the final implementation commit.
-4. Obtain a green native CI AddressSanitizer run for the final commit.
-5. Obtain separate authorization for Developer ID signing, notarization, and
-   installation testing, then verify those artifacts.
-6. Request explicit merge approval. Request publication authorization only
-   after the standalone viability decision is `approve`.
+1. Obtain separate authorization for Developer ID signing, notarization, and
+   installation testing, and make valid signing identities available on the
+   build host.
+2. Build and verify the signed universal ZIP and notarized installer.
+3. Re-run all evidence at the final implementation commit and require the
+   formal decision to be `approve`.
+4. Merge the implementation branch into `main`. Request publication
+   authorization separately after merge eligibility.
 
 No Glyphs MCP adapter work begins during this remediation.

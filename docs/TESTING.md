@@ -77,8 +77,8 @@ the entire corpus with:
 python3 scripts/verify_cross_arch_corpus.py
 ```
 
-The Milestone 5 checkpoint records byte-identical arm64/x86_64 JSON for all
-100 fixtures. The optimized XCTest suite passes 82 tests on both Apple Silicon
+The Milestone 6 checkpoint records byte-identical arm64/x86_64 JSON for all
+100 fixtures. The optimized XCTest suite passes 84 tests on both Apple Silicon
 and x86_64/Rosetta with zero failures and one explicit maintenance-export skip.
 
 ## Rust reference
@@ -250,4 +250,15 @@ python3 scripts/run_viability_tests.py
 
 The evidence records every command, exit status, duration, bounded output tail,
 revision, and clean-worktree state. The normal run includes optimized arm64,
-x86_64/Rosetta, and AddressSanitizer tests.
+x86_64/Rosetta, and AddressSanitizer tests. If the stable Xcode sanitizer
+runtime is rejected by local macOS platform-signature policy, select another
+installed Swift toolchain explicitly rather than skipping the gate:
+
+```sh
+python3 scripts/run_viability_tests.py \
+  --asan-swift /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift
+```
+
+The final Milestone 6 local evidence uses that Xcode beta toolchain for the
+focused malformed-input AddressSanitizer run; every other command uses the
+default project toolchain.

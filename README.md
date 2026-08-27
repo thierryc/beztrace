@@ -8,11 +8,13 @@ cubic Bezier outlines.
 > Reference capture, the Swift tracing pipeline, neutral public API, placement,
 > versioned JSON/SVG, and the standalone command-line tool are implemented and
 > tested. The 100-image release-candidate input corpus is frozen and passes
-> automatic topology and determinism checks; human trace acceptance remains in
-> progress. The first Milestone 6 viability review rejects merge while human
-> acceptance, the absolute performance gate, and signed/notarized packaging
-> remain incomplete. Publication and Glyphs MCP integration are not authorized.
-> Do not represent this local checkpoint as a released product.
+> automatic topology and determinism checks, and the project owner accepted all
+> 100 reviewed traces. The optimized test matrix, performance, memory,
+> cross-architecture, fuzz, and packaged-workflow gates pass. The current
+> Milestone 6 viability review rejects merge only because Developer ID signing
+> and Apple notarization have not been separately authorized or completed.
+> Publication and Glyphs MCP integration are not authorized. Do not represent
+> this local checkpoint as a released product.
 
 ## Intended product
 

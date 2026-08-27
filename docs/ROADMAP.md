@@ -86,15 +86,15 @@ Current checkpoint: the source corpus is frozen at 100 images (50
 deterministic and 50 generated; 64 glyphs and 36 symbols). The project owner
 selected all 38 newly generated sources, their original and normalized hashes
 are pinned, and all 100 inputs pass repeated optimized tracing with the
-declared contour counts. The complete optimized suite passes 82 tests on both
-Apple Silicon and x86_64/Rosetta with one maintenance-only skip, and JSON is
-byte-identical across those architectures for all 100 inputs. Trace-quality
-review of the newly selected sources is still pending. Same-machine Swift/Rust
-relative timing and peak RSS pass; the
-absolute one-second CLI p95 gate remains red on three of five benchmark inputs.
-An unsigned universal release candidate, SBOM, checksums, and package tooling
-exist locally. Signing, notarization, and installation remain outside the
-currently authorized identity boundary.
+declared contour counts. The project owner accepted all 100 traces: 94 without
+notes and six with documented optical notes. The complete optimized suite
+passes 84 tests on Apple Silicon and x86_64/Rosetta with one
+maintenance-only skip, the focused malformed-input AddressSanitizer run passes,
+and JSON is byte-identical across architectures for all 100 inputs.
+Same-machine Swift/Rust relative timing, peak RSS, and all five absolute
+one-second CLI p95 measurements pass. An unsigned universal release candidate,
+SBOM, checksums, and package tooling exist locally. Signing, notarization, and
+installation remain outside the currently authorized identity boundary.
 
 ## 6. Viability review
 
@@ -105,11 +105,12 @@ currently authorized identity boundary.
 
 Completion: beztrace is independently viable and consumable.
 
-Current checkpoint: the review workflow is implemented and the first formal
-decision is **reject**. Human trace acceptance is pending, three of five
-benchmark fixtures fail the absolute one-second CLI p95 gate, and Developer ID
-signing/notarization has not been authorized. The decision may be rerun after
-those blockers are resolved; it does not silently revise the gates.
+Current checkpoint: the review workflow is implemented and the formal decision
+remains **reject**. Every engineering and review gate passes, and the project
+owner explicitly approved merge, but Developer ID signing and Apple
+notarization have not been separately authorized or completed. That sole
+required blocker must pass before the implementation branch can merge; the
+decision does not silently revise the gate.
 
 ## 7. Future consumers
 
