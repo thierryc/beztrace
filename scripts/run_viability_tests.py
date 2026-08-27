@@ -13,6 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = Path("/Volumes/T9/beztrace/milestone-6/reports/test-evidence.json")
 
 
+def asan_command(swift_executable: str) -> list[str]:
+    return [
+        swift_executable, "test", "--configuration", "release", "--disable-swift-testing",
+        "--sanitize=address", "--filter", "MalformedCorpusTests",
+    ]
+
+
 def execute(command: list[str]) -> dict:
     started = time.monotonic()
     process = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
@@ -41,6 +48,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--skip-x86", action="store_true")
     parser.add_argument("--skip-asan", action="store_true")
+    parser.add_argument("--asan-swift", default="swift")
     args = parser.parse_args()
     python_tests = sorted(str(path.relative_to(ROOT)) for path in (ROOT / "scripts").glob("*_test.py"))
     commands = [
@@ -67,10 +75,7 @@ def main() -> int:
         ["git", "diff", "--check"],
     ]
     if not args.skip_asan:
-        commands.append([
-            "swift", "test", "--configuration", "release", "--disable-swift-testing",
-            "--sanitize=address", "--filter", "MalformedCorpusTests",
-        ])
+        commands.append(asan_command(args.asan_swift))
     if not args.skip_x86:
         commands.append([
             "arch", "-x86_64", "swift", "test", "--disable-swift-testing",

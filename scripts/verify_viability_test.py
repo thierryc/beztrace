@@ -10,6 +10,7 @@ from verify_viability import (
     benchmark_gates,
     command_evidence_gate,
     release_gate,
+    test_matrix_gate,
     viability_decision,
 )
 
@@ -121,6 +122,36 @@ class VerifyViabilityTests(unittest.TestCase):
         result = command_evidence_gate("oracle", "Oracle", evidence, "verify_oracle.py")
         self.assertEqual(result["status"], "pass")
         self.assertEqual(len(result["details"]["matches"]), 1)
+
+    def test_automated_test_gate_rejects_a_skipped_sanitizer(self) -> None:
+        evidence = {
+            "allPassed": True,
+            "cleanWorktree": True,
+            "commands": [
+                {
+                    "command": ["swift", "test", "--configuration", "release", "--disable-swift-testing"],
+                    "status": "pass",
+                },
+                {
+                    "command": [
+                        "arch", "-x86_64", "swift", "test", "--disable-swift-testing",
+                        "--configuration", "release", "--triple", "x86_64-apple-macosx13.0",
+                    ],
+                    "status": "pass",
+                },
+            ],
+        }
+        self.assertEqual(test_matrix_gate(evidence)["status"], "fail")
+        evidence["commands"].append({
+            "command": [
+                "/Applications/Xcode-beta.app/Contents/Developer/Toolchains/"
+                "XcodeDefault.xctoolchain/usr/bin/swift",
+                "test", "--configuration", "release", "--disable-swift-testing",
+                "--sanitize=address", "--filter", "MalformedCorpusTests",
+            ],
+            "status": "pass",
+        })
+        self.assertEqual(test_matrix_gate(evidence)["status"], "pass")
 
 
 if __name__ == "__main__":

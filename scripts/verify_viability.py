@@ -203,6 +203,61 @@ def command_evidence_gate(identifier: str, title: str, document: dict | None, sc
     )
 
 
+def test_matrix_gate(document: dict | None) -> dict:
+    commands = [] if document is None else document.get("commands", [])
+
+    def passed(predicate) -> bool:
+        return any(item.get("status") == "pass" and predicate(item.get("command", [])) for item in commands)
+
+    def is_swift_test(command: list[str]) -> bool:
+        return len(command) >= 2 and Path(command[0]).name == "swift" and command[1] == "test"
+
+    optimized = passed(
+        lambda command: is_swift_test(command)
+        and "--configuration" in command
+        and "release" in command
+        and "--disable-swift-testing" in command
+        and "--sanitize=address" not in command
+        and "--triple" not in command
+    )
+    sanitizer = passed(
+        lambda command: is_swift_test(command)
+        and "--sanitize=address" in command
+        and "--filter" in command
+        and "MalformedCorpusTests" in command
+    )
+    x86 = passed(
+        lambda command: len(command) >= 4
+        and Path(command[0]).name == "arch"
+        and command[1] == "-x86_64"
+        and Path(command[2]).name == "swift"
+        and command[3] == "test"
+        and "--triple" in command
+        and "x86_64-apple-macosx13.0" in command
+    )
+    valid = (
+        document is not None
+        and document.get("allPassed") is True
+        and document.get("cleanWorktree") is True
+        and optimized
+        and sanitizer
+        and x86
+    )
+    return gate(
+        "automated-tests",
+        "Complete optimized and clean-worktree test matrix passes",
+        "pass" if valid else ("missing" if document is None else "fail"),
+        {
+            "allPassed": None if document is None else document.get("allPassed"),
+            "cleanWorktree": None if document is None else document.get("cleanWorktree"),
+            "optimizedSwift": optimized,
+            "addressSanitizer": sanitizer,
+            "x86_64": x86,
+            "revision": None if document is None else document.get("revision"),
+        },
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--swift-benchmark", type=Path, default=MILESTONE6 / "benchmarks" / "swift.json")
@@ -227,10 +282,7 @@ def main() -> int:
     swift, rust = load(args.swift_benchmark), load(args.rust_benchmark)
     gates: list[dict] = []
     test_evidence = load(args.test_evidence)
-    gates.append(evidence_gate(
-        "automated-tests", "Complete optimized and clean-worktree test matrix passes", test_evidence,
-        lambda value: value.get("allPassed") is True and value.get("cleanWorktree") is True,
-    ))
+    gates.append(test_matrix_gate(test_evidence))
     gates.append(command_evidence_gate(
         "reference-checkpoint", "Immutable oracle and 62-glyph reference verify", test_evidence,
         "verify_oracle.py",
