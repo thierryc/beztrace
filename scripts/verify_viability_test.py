@@ -63,6 +63,24 @@ class VerifyViabilityTests(unittest.TestCase):
         review["decisions"][0]["notes"] = "Minor optical adjustment may be useful."
         self.assertEqual(acceptance_gate(manifest, review)["status"], "pass")
 
+    def test_in_progress_acceptance_remains_pending(self) -> None:
+        manifest = {"fixtures": [{"id": f"item-{index}"} for index in range(100)]}
+        review = {
+            "reviewer": "project-owner",
+            "reviewStatus": "in-progress",
+            "decisions": [
+                {
+                    "id": f"item-{index}",
+                    "status": "accepted" if index < 96 else "pending",
+                    "notes": "",
+                }
+                for index in range(100)
+            ],
+        }
+        result = acceptance_gate(manifest, review)
+        self.assertEqual(result["status"], "pending")
+        self.assertEqual(result["details"]["acceptedCount"], 96)
+
     def test_release_requires_universal_signed_and_notarized_artifacts(self) -> None:
         manifest = {
             "architectures": ["arm64", "x86_64"],

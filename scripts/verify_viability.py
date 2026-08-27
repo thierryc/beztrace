@@ -94,6 +94,7 @@ def acceptance_gate(manifest: dict, review: dict | None) -> dict:
     decision_ids = [item.get("id") for item in decisions]
     accepted_statuses = {"accepted", "accepted-with-optical-notes"}
     accepted = sum(item.get("status") in accepted_statuses for item in decisions)
+    pending = sum(item.get("status") == "pending" for item in decisions)
     notes_valid = all(
         item.get("status") != "accepted-with-optical-notes"
         or bool(str(item.get("notes", "")).strip())
@@ -118,10 +119,19 @@ def acceptance_gate(manifest: dict, review: dict | None) -> dict:
     return gate(
         "human-trace-acceptance",
         "Project owner accepts at least 95 of 100 reviewed traces",
-        "pass" if valid else ("pending" if review is None or accepted == 0 else "fail"),
+        "pass"
+        if valid
+        else (
+            "pending"
+            if review is None
+            or review.get("reviewStatus") != "complete"
+            or pending > 0
+            else "fail"
+        ),
         {
             "decisionCount": len(decisions),
             "acceptedCount": accepted,
+            "pendingCount": pending,
             "minimumAccepted": 95,
             "reviewStatus": None if review is None else review.get("reviewStatus"),
             "reviewer": None if review is None else review.get("reviewer"),
