@@ -14,15 +14,36 @@ struct RefinementBandPoint: Sendable {
 /// queries. A refinement loss evaluates one candidate polyline against many
 /// raster samples, so rebuilding these normals for every sample dominated the
 /// Milestone 5 baseline profile without changing any geometric decision.
-private struct PreparedDistancePolyline {
+struct PreparedDistancePolyline {
     struct Segment {
         let start: Point2D
         let direction: Vector2D
         let lengthSquared: Double
     }
 
+    struct SegmentBucket {
+        let startIndex: Int
+        let endIndex: Int
+        let minimumX: Double
+        let minimumY: Double
+        let maximumX: Double
+        let maximumY: Double
+
+        @inline(__always)
+        func lowerBoundSquaredDistance(to point: Point2D) -> Double {
+            let dx = point.x < minimumX
+                ? minimumX - point.x
+                : (point.x > maximumX ? point.x - maximumX : 0)
+            let dy = point.y < minimumY
+                ? minimumY - point.y
+                : (point.y > maximumY ? point.y - maximumY : 0)
+            return dx * dx + dy * dy
+        }
+    }
+
     let points: [Point2D]
     let segments: [Segment]
+    let segmentBuckets: [SegmentBucket]
     let vertexPseudoNormals: [Vector2D]
 
     init(_ points: [Point2D]) {
@@ -36,6 +57,36 @@ private struct PreparedDistancePolyline {
                 lengthSquared: direction.dot(direction)
             )
         }
+        var buckets: [SegmentBucket] = []
+        buckets.reserveCapacity((segments.count + 7) / 8)
+        var startIndex = 0
+        while startIndex < segments.count {
+            let endIndex = min(startIndex + 8, segments.count)
+            var minimumX = Double.infinity
+            var minimumY = Double.infinity
+            var maximumX = -Double.infinity
+            var maximumY = -Double.infinity
+            var index = startIndex
+            while index < endIndex {
+                let start = segments[index].start
+                let end = points[index + 1]
+                minimumX = min(minimumX, start.x, end.x)
+                minimumY = min(minimumY, start.y, end.y)
+                maximumX = max(maximumX, start.x, end.x)
+                maximumY = max(maximumY, start.y, end.y)
+                index += 1
+            }
+            buckets.append(SegmentBucket(
+                startIndex: startIndex,
+                endIndex: endIndex,
+                minimumX: minimumX,
+                minimumY: minimumY,
+                maximumX: maximumX,
+                maximumY: maximumY
+            ))
+            startIndex = endIndex
+        }
+        segmentBuckets = buckets
         vertexPseudoNormals = points.indices.map { vertex in
             var pseudoNormal = Vector2D.zero
             var backward = vertex
@@ -154,24 +205,83 @@ enum ContourRefiner {
     ) -> Double {
         var bestSquaredDistance = Double.infinity
         var bestSign = 1.0
-        let points = polyline.points
+        var bestSegmentIndex = Int.max
         guard !polyline.segments.isEmpty else { return bestSquaredDistance }
-        for (index, segment) in polyline.segments.enumerated() {
-            guard segment.lengthSquared >= 1e-18 else { continue }
-            let parameter = min(
-                max((point - segment.start).dot(segment.direction) / segment.lengthSquared, 0),
-                1
-            )
-            let projection = segment.start + segment.direction * parameter
-            let difference = point - projection
-            let squaredDistance = difference.dot(difference)
-            guard squaredDistance < bestSquaredDistance else { continue }
-            bestSquaredDistance = squaredDistance
-            if parameter <= 1e-9 || parameter >= 1 - 1e-9 {
-                let vertex = parameter <= 1e-9 ? index : index + 1
-                bestSign = (point - points[vertex]).dot(polyline.vertexPseudoNormals[vertex]) >= 0 ? 1 : -1
-            } else {
-                bestSign = segment.direction.cross(point - segment.start) >= 0 ? 1 : -1
+        polyline.segmentBuckets.withUnsafeBufferPointer { buckets in
+            polyline.segments.withUnsafeBufferPointer { segments in
+                polyline.points.withUnsafeBufferPointer { points in
+                    polyline.vertexPseudoNormals.withUnsafeBufferPointer { normals in
+                        var preferredBucketIndex = 0
+                        if buckets.count > 1 {
+                            var preferredLowerBound = Double.infinity
+                            var bucketIndex = 0
+                            while bucketIndex < buckets.count {
+                                let lowerBound = buckets[bucketIndex]
+                                    .lowerBoundSquaredDistance(to: point)
+                                if lowerBound < preferredLowerBound {
+                                    preferredLowerBound = lowerBound
+                                    preferredBucketIndex = bucketIndex
+                                }
+                                bucketIndex += 1
+                            }
+                        }
+                        var visit = 0
+                        while visit < buckets.count {
+                            let naturalIndex = visit - 1
+                            let bucketIndex = visit == 0
+                                ? preferredBucketIndex
+                                : (naturalIndex >= preferredBucketIndex ? naturalIndex + 1 : naturalIndex)
+                            let bucket = buckets[bucketIndex]
+                            if buckets.count == 1
+                                || bucket.lowerBoundSquaredDistance(to: point) <= bestSquaredDistance
+                            {
+                                var index = bucket.startIndex
+                                while index < bucket.endIndex {
+                                    let segment = segments[index]
+                                    if segment.lengthSquared >= 1e-18 {
+                                        let relativeX = point.x - segment.start.x
+                                        let relativeY = point.y - segment.start.y
+                                        let parameter = min(
+                                            max(
+                                                (
+                                                    relativeX * segment.direction.dx
+                                                        + relativeY * segment.direction.dy
+                                                ) / segment.lengthSquared,
+                                                0
+                                            ),
+                                            1
+                                        )
+                                        let differenceX = point.x
+                                            - (segment.start.x + segment.direction.dx * parameter)
+                                        let differenceY = point.y
+                                            - (segment.start.y + segment.direction.dy * parameter)
+                                        let squaredDistance = differenceX * differenceX
+                                            + differenceY * differenceY
+                                        if squaredDistance < bestSquaredDistance
+                                            || squaredDistance == bestSquaredDistance
+                                                && index < bestSegmentIndex
+                                        {
+                                            bestSquaredDistance = squaredDistance
+                                            bestSegmentIndex = index
+                                            if parameter <= 1e-9 || parameter >= 1 - 1e-9 {
+                                                let vertex = parameter <= 1e-9 ? index : index + 1
+                                                let vertexX = point.x - points[vertex].x
+                                                let vertexY = point.y - points[vertex].y
+                                                bestSign = vertexX * normals[vertex].dx
+                                                    + vertexY * normals[vertex].dy >= 0 ? 1 : -1
+                                            } else {
+                                                bestSign = segment.direction.dx * relativeY
+                                                    - segment.direction.dy * relativeX >= 0 ? 1 : -1
+                                            }
+                                        }
+                                    }
+                                    index += 1
+                                }
+                            }
+                            visit += 1
+                        }
+                    }
+                }
             }
         }
         return bestSign * sqrt(bestSquaredDistance)

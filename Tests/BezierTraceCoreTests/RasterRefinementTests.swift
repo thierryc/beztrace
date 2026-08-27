@@ -64,6 +64,44 @@ final class RasterRefinementTests: XCTestCase {
         )
     }
 
+    func testSignedDistanceSelectsTheNearestPolylineSegment() {
+        let polyline = [
+            Point2D(x: -12, y: -4),
+            Point2D(x: -3, y: 8),
+            Point2D(x: 9, y: 10),
+            Point2D(x: 15, y: -7),
+        ]
+        XCTAssertEqual(
+            ContourRefiner.signedDistance(Point2D(x: 4, y: 6), to: polyline),
+            -3.123_580_758_801_787_6,
+            accuracy: 1e-12
+        )
+        XCTAssertEqual(
+            ContourRefiner.signedDistance(Point2D(x: 13, y: 0), to: polyline),
+            0.443_760_156_980_183_5,
+            accuracy: 1e-12
+        )
+    }
+
+    func testPreparedDistanceBucketsCoverOrderedSegments() {
+        let prepared = PreparedDistancePolyline(
+            (0...17).map { Point2D(x: Double($0), y: Double($0 % 3)) }
+        )
+        XCTAssertEqual(prepared.segments.count, 17)
+        XCTAssertEqual(
+            prepared.segmentBuckets.map { [$0.startIndex, $0.endIndex] },
+            [[0, 8], [8, 16], [16, 17]]
+        )
+        for bucket in prepared.segmentBuckets {
+            for point in prepared.points[bucket.startIndex...bucket.endIndex] {
+                XCTAssertGreaterThanOrEqual(point.x, bucket.minimumX)
+                XCTAssertLessThanOrEqual(point.x, bucket.maximumX)
+                XCTAssertGreaterThanOrEqual(point.y, bucket.minimumY)
+                XCTAssertLessThanOrEqual(point.y, bucket.maximumY)
+            }
+        }
+    }
+
     func testRasterWithoutGradientReturnsUnrefinedFit() throws {
         let raster = try GrayRaster(width: 16, height: 16, pixels: Array(repeating: 255, count: 256))
         let target = RasterTarget(raster: raster, invert: false, pixelsPerUnit: 1)
