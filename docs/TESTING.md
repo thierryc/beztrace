@@ -226,6 +226,7 @@ unit tests:
 
 ```sh
 python3 scripts/verify_packaged_workflow_test.py
+python3 scripts/verify_installed_package_test.py
 python3 scripts/verify_viability_test.py
 ```
 
@@ -233,6 +234,7 @@ Exercise the staged ZIP without installing it, then write the formal decision:
 
 ```sh
 python3 scripts/verify_packaged_workflow.py
+python3 scripts/verify_installed_package.py
 python3 scripts/verify_viability.py
 ```
 

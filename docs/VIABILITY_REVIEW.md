@@ -8,23 +8,21 @@ machine-readable result is generated outside the repository by
 
 ## Current decision
 
-**Reject merge and publication until the remaining blocking gate passes.**
+**Approve merge. Publication remains separately unauthorized.**
 
-The implementation is not eligible to merge into `main` or become a Glyphs
-MCP dependency while any required gate is pending, failed, missing, or outside
-the authorized boundary. The current checkpoint has one known required
-blocker: the universal ZIP and installer are Developer ID signed, but Apple
-notarization and installation verification have not been separately
-authorized or completed.
+The implementation is eligible to merge into `main`: every required gate is
+present and passing, and the project owner explicitly authorized the merge.
+The universal ZIP and installer are Developer ID signed and Apple-notarized;
+the installer ticket, Gatekeeper assessment, package receipt, installed binary
+hash and signature, and installed JSON/SVG workflow all verify.
 
 The project owner completed trace-quality acceptance for all 100 images,
 including six accepted-with-optical-notes decisions. All five single-shot
 1024×1024 CLI p95 measurements are below one second. The complete optimized
 Apple Silicon and x86_64/Rosetta suites pass, and the focused malformed-input
 AddressSanitizer test passes with the installed Xcode beta toolchain. The
-project owner explicitly approved merge, but that approval does not waive the
-signed-artifact requirement. Publication remains a separate authorization
-after merge eligibility; Milestone 6 does not grant it.
+project owner explicitly approved merge after the technical gates passed.
+Publication remains a separate authorization; Milestone 6 does not grant it.
 
 ## Review evidence
 
@@ -48,6 +46,14 @@ and uses only its bundled executable to produce JSON and default baked SVG:
 
 ```sh
 python3 scripts/verify_packaged_workflow.py
+```
+
+The installed-package check verifies the receipt, symlink, installed-versus-
+packaged binary hash, universal architectures, Developer ID signatures,
+notarization ticket, Gatekeeper acceptance, and installed JSON/SVG traces:
+
+```sh
+python3 scripts/verify_installed_package.py
 ```
 
 The final evaluator reads evidence without changing it:
@@ -75,22 +81,17 @@ authorizations.
 | Malformed-input campaign | At least 50,000 safe rejections | Pass in recorded evidence |
 | Product and license boundary | Standalone, system-only runtime; SPDX/notices complete | Pass in repository audit |
 | Universal distribution | arm64 and x86_64 | Pass for signed candidate |
-| Signing and notarization | All artifacts verified | Signing passes; notarization not authorized or complete |
+| Signing and notarization | All artifacts verified | Pass: both submissions accepted; installer stapled and Gatekeeper accepted |
 | Packaged non-Glyphs workflow | JSON and SVG succeed | Pass |
+| Installed package | Receipt, hashes, signatures and workflow succeed | Pass |
 | Merge approval | Explicit project-owner approval | Pass |
 
 The report records evidence status exactly. It does not infer approval from a
 successful build, ignore a missing file, convert an unauthorized identity step
 to a pass, or treat publication authorization as implicit.
 
-## Remediation order
+## Next boundary
 
-1. Obtain separate authorization for Apple notarization and installation
-   testing.
-2. Submit, staple, and verify the signed universal ZIP and installer.
-3. Re-run all evidence at the final implementation commit and require the
-   formal decision to be `approve`.
-4. Merge the implementation branch into `main`. Request publication
-   authorization separately after merge eligibility.
-
-No Glyphs MCP adapter work begins during this remediation.
+Merge the implementation branch into `main` under the recorded authorization.
+Do not publish artifacts or begin a Glyphs MCP adapter without separate,
+explicit authorization.

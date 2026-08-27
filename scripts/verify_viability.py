@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -162,6 +163,31 @@ def release_gate(manifest: dict | None) -> dict:
     )
 
 
+def installation_gate(document: dict | None) -> dict:
+    valid = (
+        document is not None
+        and document.get("status") == "pass"
+        and document.get("packageID") == "dev.beztrace.cli"
+        and document.get("version") == "0.1.0"
+        and document.get("receiptPresent") is True
+        and document.get("binarySignatureValid") is True
+        and document.get("packageSignatureValid") is True
+        and document.get("notarizationTrusted") is True
+        and document.get("stapleValid") is True
+        and document.get("gatekeeperAccepted") is True
+        and document.get("jsonTraceValid") is True
+        and document.get("svgTraceValid") is True
+        and document.get("installedBinarySHA256") == document.get("packagedBinarySHA256")
+        and document.get("installedWorkflow", {}).get("status") == "pass"
+    )
+    return gate(
+        "installed-package",
+        "Installed package receipt, signatures, notarization, and standalone workflow verify",
+        "pass" if valid else ("missing" if document is None else "fail"),
+        document or {},
+    )
+
+
 def viability_decision(gates: list[dict]) -> str:
     return "approve" if all(item.get("status") == "pass" for item in gates if item.get("required")) else "reject"
 
@@ -203,7 +229,7 @@ def command_evidence_gate(identifier: str, title: str, document: dict | None, sc
     )
 
 
-def test_matrix_gate(document: dict | None) -> dict:
+def test_matrix_gate(document: dict | None, *, expected_revision: str | None = None) -> dict:
     commands = [] if document is None else document.get("commands", [])
 
     def passed(predicate) -> bool:
@@ -239,6 +265,7 @@ def test_matrix_gate(document: dict | None) -> dict:
         document is not None
         and document.get("allPassed") is True
         and document.get("cleanWorktree") is True
+        and (expected_revision is None or document.get("revision") == expected_revision)
         and optimized
         and sanitizer
         and x86
@@ -254,6 +281,9 @@ def test_matrix_gate(document: dict | None) -> dict:
             "addressSanitizer": sanitizer,
             "x86_64": x86,
             "revision": None if document is None else document.get("revision"),
+            "expectedRevision": expected_revision,
+            "revisionMatches": expected_revision is None
+            or (document is not None and document.get("revision") == expected_revision),
         },
     )
 
@@ -269,6 +299,7 @@ def main() -> int:
     parser.add_argument("--fuzz-evidence", type=Path, default=MILESTONE5 / "fuzz" / "decoder-campaign-50000.json")
     parser.add_argument("--release-manifest", type=Path, default=MILESTONE5 / "release" / "release-manifest.json")
     parser.add_argument("--packaged-workflow", type=Path, default=MILESTONE6 / "reports" / "packaged-workflow.json")
+    parser.add_argument("--installed-package", type=Path, default=MILESTONE6 / "reports" / "installed-package.json")
     parser.add_argument("--output", type=Path, default=MILESTONE6 / "reports" / "viability-report.json")
     parser.add_argument("--signing-authorized", action="store_true")
     parser.add_argument("--merge-approved", action="store_true")
@@ -282,7 +313,10 @@ def main() -> int:
     swift, rust = load(args.swift_benchmark), load(args.rust_benchmark)
     gates: list[dict] = []
     test_evidence = load(args.test_evidence)
-    gates.append(test_matrix_gate(test_evidence))
+    current_revision = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True
+    ).stdout.strip()
+    gates.append(test_matrix_gate(test_evidence, expected_revision=current_revision))
     gates.append(command_evidence_gate(
         "reference-checkpoint", "Immutable oracle and 62-glyph reference verify", test_evidence,
         "verify_oracle.py",
@@ -339,6 +373,7 @@ def main() -> int:
         "packaged-workflow", "Packaged CLI completes a non-Glyphs JSON and SVG workflow", load(args.packaged_workflow),
         lambda value: value.get("status") == "pass" and value.get("usedPackagedBinary") is True,
     ))
+    gates.append(installation_gate(load(args.installed_package)))
     gates.append(gate(
         "merge-approval", "Project owner explicitly approves merge to main", "pass" if args.merge_approved else "pending",
         {"approved": args.merge_approved},

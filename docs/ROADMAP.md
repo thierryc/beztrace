@@ -71,7 +71,7 @@ tools; preserve retains the legacy y-up path plus rendering transform. JSON,
 raw SVG path data, schema v1, `pathDataVersion 2`, and traced outlines are
 unchanged.
 
-## 5. Performance and release hardening — in progress
+## 5. Performance and release hardening — complete
 
 - Optimize measured bottlenecks without changing output.
 - Build and validate universal artifacts.
@@ -92,10 +92,10 @@ passes 84 tests on Apple Silicon and x86_64/Rosetta with one
 maintenance-only skip, the focused malformed-input AddressSanitizer run passes,
 and JSON is byte-identical across architectures for all 100 inputs.
 Same-machine Swift/Rust relative timing, peak RSS, and all five absolute
-one-second CLI p95 measurements pass. A Developer ID-signed universal release
-candidate and installer, SBOM, checksums, and package tooling exist locally.
-Apple notarization and installation remain outside the currently authorized
-boundary.
+one-second CLI p95 measurements pass. The universal release candidate and
+installer are Developer ID signed, Apple-notarized, stapled, Gatekeeper
+accepted, locally installed, receipt verified, and exercised through installed
+JSON/SVG traces. SBOM and checksum verification pass.
 
 ## 6. Viability review
 
@@ -106,13 +106,10 @@ boundary.
 
 Completion: beztrace is independently viable and consumable.
 
-Current checkpoint: the review workflow is implemented and the formal decision
-remains **reject**. Every engineering and review gate passes, and the project
-owner explicitly approved merge, but Developer ID signing and Apple
-notarization were separate authorization steps. Signing is now complete; Apple
-notarization has not been authorized or completed. That sole required blocker
-must pass before the implementation branch can merge; the decision does not
-silently revise the gate.
+Current checkpoint: the formal decision is **approve**. Every engineering,
+review, distribution, notarization, and installed-workflow gate passes, and the
+project owner explicitly approved merge. Publication remains a separate action
+and has not been authorized.
 
 ## 7. Future consumers
 

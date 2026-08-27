@@ -29,6 +29,7 @@ jobs:
           test -x scripts/verify_cross_arch_corpus.py
           test -x scripts/run_viability_tests.py
           test -x scripts/verify_packaged_workflow.py
+          test -x scripts/verify_installed_package.py
           test -x scripts/verify_product_boundaries.py
           test -x scripts/verify_viability.py
           test -x scripts/build_release_candidate.sh
@@ -36,6 +37,7 @@ jobs:
           python3 scripts/trace_generated_review_test.py
           python3 scripts/trace_corpus_review_test.py
           python3 scripts/verify_packaged_workflow_test.py
+          python3 scripts/verify_installed_package_test.py
           python3 scripts/run_viability_tests_test.py
           python3 scripts/verify_product_boundaries.py
           python3 scripts/verify_viability_test.py

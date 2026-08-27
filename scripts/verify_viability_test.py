@@ -9,6 +9,7 @@ from verify_viability import (
     acceptance_gate,
     benchmark_gates,
     command_evidence_gate,
+    installation_gate,
     release_gate,
     test_matrix_gate,
     viability_decision,
@@ -96,6 +97,27 @@ class VerifyViabilityTests(unittest.TestCase):
             artifact["notarized"] = True
         self.assertEqual(release_gate(manifest)["status"], "pass")
 
+    def test_installation_gate_requires_verified_installed_package(self) -> None:
+        evidence = {
+            "status": "pass",
+            "packageID": "dev.beztrace.cli",
+            "version": "0.1.0",
+            "receiptPresent": True,
+            "binarySignatureValid": True,
+            "packageSignatureValid": True,
+            "notarizationTrusted": True,
+            "stapleValid": True,
+            "gatekeeperAccepted": True,
+            "jsonTraceValid": True,
+            "svgTraceValid": True,
+            "installedBinarySHA256": "a" * 64,
+            "packagedBinarySHA256": "a" * 64,
+            "installedWorkflow": {"status": "pass"},
+        }
+        self.assertEqual(installation_gate(evidence)["status"], "pass")
+        evidence["receiptPresent"] = False
+        self.assertEqual(installation_gate(evidence)["status"], "fail")
+
     def test_any_nonpassing_required_gate_rejects_merge(self) -> None:
         self.assertEqual(
             viability_decision([{"required": True, "status": "pass"}]),
@@ -151,7 +173,9 @@ class VerifyViabilityTests(unittest.TestCase):
             ],
             "status": "pass",
         })
-        self.assertEqual(test_matrix_gate(evidence)["status"], "pass")
+        evidence["revision"] = "abc123"
+        self.assertEqual(test_matrix_gate(evidence, expected_revision="abc123")["status"], "pass")
+        self.assertEqual(test_matrix_gate(evidence, expected_revision="different")["status"], "fail")
 
 
 if __name__ == "__main__":

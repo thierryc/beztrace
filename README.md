@@ -11,9 +11,9 @@ cubic Bezier outlines.
 > automatic topology and determinism checks, and the project owner accepted all
 > 100 reviewed traces. The optimized test matrix, performance, memory,
 > cross-architecture, fuzz, and packaged-workflow gates pass. The current
-> Milestone 6 viability review rejects merge only because Apple notarization
-> has not been separately authorized or completed; the universal executable
-> and installer are signed locally with Developer ID identities.
+> Milestone 6 viability review approves merge: the universal executable and
+> installer are Developer ID signed, Apple-notarized, installed, and verified
+> through a real standalone JSON/SVG workflow.
 > Publication and Glyphs MCP integration are not authorized. Do not represent
 > this local checkpoint as a released product.
 
@@ -24,7 +24,8 @@ The product is deliberately split into two reusable layers:
 - `BezierTraceCore`, a Swift library that owns image preparation, tracing,
   placement, validation, and the neutral public result contract.
 - `beztrace`, a standalone command-line tool exposing JSON/SVG tracing to local
-  shell, batch, CI, and automation workflows. It is not yet packaged or signed.
+  shell, batch, CI, and automation workflows. A signed and notarized local
+  release candidate exists, but it has not been published.
 
 beztrace is intended to become a standalone companion engine for Glyphs MCP:
 it will turn raster glyphs and symbols into neutral, versioned path data that a
