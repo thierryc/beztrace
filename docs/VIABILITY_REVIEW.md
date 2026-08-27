@@ -13,9 +13,9 @@ machine-readable result is generated outside the repository by
 The implementation is not eligible to merge into `main` or become a Glyphs
 MCP dependency while any required gate is pending, failed, missing, or outside
 the authorized boundary. The current checkpoint has one known required
-blocker: the universal ZIP and installer are unsigned and unnotarized.
-Developer ID use, notarization, and installation have not been separately
-authorized.
+blocker: the universal ZIP and installer are Developer ID signed, but Apple
+notarization and installation verification have not been separately
+authorized or completed.
 
 The project owner completed trace-quality acceptance for all 100 images,
 including six accepted-with-optical-notes decisions. All five single-shot
@@ -74,8 +74,8 @@ authorizations.
 | Cross-architecture output | 100/100 byte-identical | Pass in recorded evidence |
 | Malformed-input campaign | At least 50,000 safe rejections | Pass in recorded evidence |
 | Product and license boundary | Standalone, system-only runtime; SPDX/notices complete | Pass in repository audit |
-| Universal distribution | arm64 and x86_64 | Pass for unsigned candidate |
-| Signing and notarization | All artifacts verified | Not authorized; not complete |
+| Universal distribution | arm64 and x86_64 | Pass for signed candidate |
+| Signing and notarization | All artifacts verified | Signing passes; notarization not authorized or complete |
 | Packaged non-Glyphs workflow | JSON and SVG succeed | Pass |
 | Merge approval | Explicit project-owner approval | Pass |
 
@@ -85,10 +85,9 @@ to a pass, or treat publication authorization as implicit.
 
 ## Remediation order
 
-1. Obtain separate authorization for Developer ID signing, notarization, and
-   installation testing, and make valid signing identities available on the
-   build host.
-2. Build and verify the signed universal ZIP and notarized installer.
+1. Obtain separate authorization for Apple notarization and installation
+   testing.
+2. Submit, staple, and verify the signed universal ZIP and installer.
 3. Re-run all evidence at the final implementation commit and require the
    formal decision to be `approve`.
 4. Merge the implementation branch into `main`. Request publication

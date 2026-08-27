@@ -92,9 +92,10 @@ passes 84 tests on Apple Silicon and x86_64/Rosetta with one
 maintenance-only skip, the focused malformed-input AddressSanitizer run passes,
 and JSON is byte-identical across architectures for all 100 inputs.
 Same-machine Swift/Rust relative timing, peak RSS, and all five absolute
-one-second CLI p95 measurements pass. An unsigned universal release candidate,
-SBOM, checksums, and package tooling exist locally. Signing, notarization, and
-installation remain outside the currently authorized identity boundary.
+one-second CLI p95 measurements pass. A Developer ID-signed universal release
+candidate and installer, SBOM, checksums, and package tooling exist locally.
+Apple notarization and installation remain outside the currently authorized
+boundary.
 
 ## 6. Viability review
 
@@ -108,9 +109,10 @@ Completion: beztrace is independently viable and consumable.
 Current checkpoint: the review workflow is implemented and the formal decision
 remains **reject**. Every engineering and review gate passes, and the project
 owner explicitly approved merge, but Developer ID signing and Apple
-notarization have not been separately authorized or completed. That sole
-required blocker must pass before the implementation branch can merge; the
-decision does not silently revise the gate.
+notarization were separate authorization steps. Signing is now complete; Apple
+notarization has not been authorized or completed. That sole required blocker
+must pass before the implementation branch can merge; the decision does not
+silently revise the gate.
 
 ## 7. Future consumers
 

@@ -11,8 +11,9 @@ cubic Bezier outlines.
 > automatic topology and determinism checks, and the project owner accepted all
 > 100 reviewed traces. The optimized test matrix, performance, memory,
 > cross-architecture, fuzz, and packaged-workflow gates pass. The current
-> Milestone 6 viability review rejects merge only because Developer ID signing
-> and Apple notarization have not been separately authorized or completed.
+> Milestone 6 viability review rejects merge only because Apple notarization
+> has not been separately authorized or completed; the universal executable
+> and installer are signed locally with Developer ID identities.
 > Publication and Glyphs MCP integration are not authorized. Do not represent
 > this local checkpoint as a released product.
 
