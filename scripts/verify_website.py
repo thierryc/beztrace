@@ -17,6 +17,7 @@ SITE = ROOT / "site"
 WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 REQUIRED_EXAMPLES = 8
 HERO_PREVIEW = SITE / "assets" / "examples" / "glyph-ampersand-inspection.svg"
+GLYPHS_MCP_URL = "https://ap.cx/tools/glyphs-mcp/"
 
 
 def sha256(path: Path) -> str:
@@ -93,6 +94,10 @@ def main() -> int:
     for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.0", "Glyphs MCP"):
         if phrase not in source:
             failures.append(f"missing product contract copy: {phrase}")
+    if f'href="{GLYPHS_MCP_URL}"' not in source:
+        failures.append("product contract does not link to the canonical AP.CX Glyphs MCP page")
+    if ".contract-copy a { color: var(--blue); font-weight: 700; }" not in styles:
+        failures.append("Glyphs MCP contract link lacks the shared interactive treatment")
     if 'src="assets/examples/glyph-ampersand-inspection.svg"' not in source:
         failures.append("hero does not use the canvas-aligned inspection SVG")
     for rule in (
