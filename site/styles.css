@@ -8,9 +8,10 @@
   --blue: #2456f5;
   --blue-dark: #1739a6;
   --acid: #d9ff45;
-  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --display: "Arial Narrow", "Avenir Next Condensed", "Helvetica Neue", sans-serif;
+  --system: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: var(--system);
+  --sans: var(--system);
+  --display: var(--system);
   --page: min(1420px, calc(100vw - 64px));
   --radius: 18px;
   color-scheme: light;
@@ -133,7 +134,7 @@ h1, h2 {
 }
 h1 {
   margin-bottom: 28px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--system);
   font-size: clamp(3.8rem, 6.5vw, 6.75rem);
   font-stretch: normal;
   font-weight: 800;
@@ -143,7 +144,7 @@ h1 {
 h1 em { color: var(--blue); font-style: normal; }
 h2 {
   margin-bottom: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--system);
   font-size: clamp(3.25rem, 6.2vw, 6.6rem);
   font-stretch: normal;
   font-weight: 800;

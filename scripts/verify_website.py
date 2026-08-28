@@ -96,7 +96,7 @@ def main() -> int:
     if 'src="assets/examples/glyph-ampersand-inspection.svg"' not in source:
         failures.append("hero does not use the canvas-aligned inspection SVG")
     for rule in (
-        'font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;',
+        "font-family: var(--system);",
         "font-stretch: normal;",
         "letter-spacing: normal;",
         "aspect-ratio: 1;",
@@ -106,12 +106,23 @@ def main() -> int:
     h2_match = re.search(r"(?m)^h2\s*\{([^}]*)\}", styles)
     h2_styles = h2_match.group(1) if h2_match else ""
     for rule in (
-        'font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;',
+        "font-family: var(--system);",
         "font-stretch: normal;",
         "letter-spacing: normal;",
     ):
         if rule not in h2_styles:
             failures.append(f"section heading style is missing: {rule}")
+    for rule in (
+        '--system: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;',
+        "--mono: var(--system);",
+        "--sans: var(--system);",
+        "--display: var(--system);",
+    ):
+        if rule not in styles:
+            failures.append(f"site typography is missing: {rule}")
+    for legacy_font in ("Inter", "SFMono-Regular", "Consolas", "Liberation Mono", "Arial Narrow", "Avenir Next Condensed"):
+        if legacy_font in styles:
+            failures.append(f"legacy site font remains: {legacy_font}")
     if "padding: clamp(20px, 3vw, 44px);" not in styles:
         failures.append("trace-example previews lack the required inner safe area")
 
