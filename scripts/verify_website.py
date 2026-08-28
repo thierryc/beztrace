@@ -103,6 +103,15 @@ def main() -> int:
     ):
         if rule not in styles:
             failures.append(f"hero style is missing: {rule}")
+    h2_match = re.search(r"(?m)^h2\s*\{([^}]*)\}", styles)
+    h2_styles = h2_match.group(1) if h2_match else ""
+    for rule in (
+        'font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;',
+        "font-stretch: normal;",
+        "letter-spacing: normal;",
+    ):
+        if rule not in h2_styles:
+            failures.append(f"section heading style is missing: {rule}")
     if "padding: clamp(20px, 3vw, 44px);" not in styles:
         failures.append("trace-example previews lack the required inner safe area")
 

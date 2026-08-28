@@ -141,7 +141,15 @@ h1 {
   line-height: .98;
 }
 h1 em { color: var(--blue); font-style: normal; }
-h2 { margin-bottom: 0; font-size: clamp(3.25rem, 6.2vw, 6.6rem); }
+h2 {
+  margin-bottom: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(3.25rem, 6.2vw, 6.6rem);
+  font-stretch: normal;
+  font-weight: 800;
+  letter-spacing: normal;
+  line-height: .98;
+}
 h3 { margin-bottom: 0; font-size: 1.1rem; line-height: 1.2; letter-spacing: -.03em; }
 
 .hero-lede {
