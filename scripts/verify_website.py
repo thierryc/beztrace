@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 REQUIRED_EXAMPLES = 8
+HERO_PREVIEW = SITE / "assets" / "examples" / "glyph-ampersand-inspection.svg"
 
 
 def sha256(path: Path) -> str:
@@ -77,6 +78,7 @@ def main() -> int:
         return 1
 
     source = index.read_text(encoding="utf-8")
+    styles = (SITE / "styles.css").read_text(encoding="utf-8")
     parser = SiteParser()
     parser.feed(source)
 
@@ -91,6 +93,16 @@ def main() -> int:
     for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.0", "Glyphs MCP"):
         if phrase not in source:
             failures.append(f"missing product contract copy: {phrase}")
+    if 'src="assets/examples/glyph-ampersand-inspection.svg"' not in source:
+        failures.append("hero does not use the canvas-aligned inspection SVG")
+    for rule in (
+        'font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;',
+        "font-stretch: normal;",
+        "letter-spacing: normal;",
+        "aspect-ratio: 1;",
+    ):
+        if rule not in styles:
+            failures.append(f"hero style is missing: {rule}")
 
     for reference in parser.references:
         if reference.startswith(("file:", "/Users/", "/Volumes/")):
@@ -120,6 +132,17 @@ def main() -> int:
         if "<path" not in text:
             failures.append(f"SVG has no traced path: {path.name}")
 
+    if not HERO_PREVIEW.is_file():
+        failures.append("missing canvas-aligned hero inspection SVG")
+    else:
+        hero_text = HERO_PREVIEW.read_text(encoding="utf-8")
+        hero_root = ET.fromstring(hero_text)
+        if hero_root.attrib.get("viewBox") != "0 0 1088 1088":
+            failures.append("hero inspection SVG does not retain the full source canvas")
+        for marker in ('class="hero-handle"', 'class="hero-oncurve"', 'class="hero-offcurve"'):
+            if marker not in hero_text:
+                failures.append(f"hero inspection SVG lacks {marker}")
+
     manifest_path = SITE / "assets" / "examples" / "manifest.json"
     if not manifest_path.is_file():
         failures.append("missing trace-example manifest")
@@ -130,6 +153,12 @@ def main() -> int:
             failures.append("trace-example manifest version differs")
         if manifest.get("svgTransformMode") != "bake" or len(examples) != REQUIRED_EXAMPLES:
             failures.append("trace-example manifest mode or count differs")
+        hero = manifest.get("heroPreview", {})
+        if hero.get("viewBox") != [0, 0, 1088, 1088]:
+            failures.append("hero preview manifest canvas differs")
+        hero_path = SITE / hero.get("svg", "")
+        if not hero_path.is_file() or sha256(hero_path) != hero.get("svgSHA256"):
+            failures.append("hero preview hash differs")
         for example in examples:
             source_path = ROOT / example.get("source", "")
             raster_path = SITE / example.get("raster", "")

@@ -2,6 +2,13 @@
   "schemaVersion": 1,
   "engineVersion": "0.1.0",
   "svgTransformMode": "bake",
+  "heroPreview": {
+    "source": "Tests/Fixtures/corpus/generated/glyphs/glyph-ampersand.png",
+    "sourceSHA256": "b921e4118852a5d13d22ffe3a115f274ada5ed8e224405b426fe8e13fd890f3d",
+    "svg": "assets/examples/glyph-ampersand-inspection.svg",
+    "svgSHA256": "624b466850a2b77663f9162257cf86678b9edfc0f707c8b66c5896adb014bdfc",
+    "viewBox": [0, 0, 1088, 1088]
+  },
   "examples": [
     {
       "id": "glyph-upper-a",
