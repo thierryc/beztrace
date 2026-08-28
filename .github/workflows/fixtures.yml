@@ -24,6 +24,7 @@ jobs:
           python3 scripts/verify_milestone5.py
           python3 scripts/verify_oracle.py
           python3 scripts/verify_repository.py
+          python3 scripts/verify_website.py
           python3 scripts/check_reference_ufo.py Tests/Fixtures/oracle/v1/reference-source/VirtuaGrotesk-Regular.ufo
       - name: Verify maintenance tooling
         run: |

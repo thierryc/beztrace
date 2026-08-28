@@ -4,6 +4,10 @@
 converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
+[Project website](https://thierryc.github.io/beztrace/) ·
+[Download v0.1.0](https://github.com/thierryc/beztrace/releases/tag/v0.1.0) ·
+[Release verification](docs/RELEASE.md)
+
 > [!IMPORTANT]
 > Reference capture, the Swift tracing pipeline, neutral public API, placement,
 > versioned JSON/SVG, and the standalone command-line tool are implemented and
