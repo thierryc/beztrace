@@ -128,10 +128,10 @@ def main() -> int:
     for legacy_font in ("Inter", "SFMono-Regular", "Consolas", "Liberation Mono", "Arial Narrow", "Avenir Next Condensed"):
         if legacy_font in styles:
             failures.append(f"legacy site font remains: {legacy_font}")
-    if ".example-media img { position: absolute; inset: 8%; width: 84%; height: 84%;" not in styles:
-        failures.append("trace-example previews lack the required explicit inner box")
-    if "padding: 8%;" in styles:
-        failures.append("trace-example previews still use the ineffective image-padding strategy")
+    if ".example-media img { position: absolute; inset: 0; width: 100%; height: 100%;" not in styles:
+        failures.append("trace-example previews do not share the complete media canvas")
+    if "padding: 8%;" in styles or "inset: 8%;" in styles:
+        failures.append("trace-example previews still use the obsolete CSS spacing surcharge")
 
     for warm_color in ("#f4f1e8", "#fffdf7", "#ff5c35"):
         if warm_color in source.lower() or warm_color in styles.lower():
@@ -207,15 +207,23 @@ def main() -> int:
             source_path = ROOT / example.get("source", "")
             raster_path = SITE / example.get("raster", "")
             svg_path = SITE / example.get("svg", "")
+            production_svg_path = SITE / example.get("productionSVG", "")
             for label, path, expected in (
                 ("source", source_path, example.get("sourceSHA256")),
                 ("raster", raster_path, example.get("rasterSHA256")),
                 ("svg", svg_path, example.get("svgSHA256")),
+                ("production SVG", production_svg_path, example.get("productionSVGSHA256")),
             ):
                 if not path.is_file() or sha256(path) != expected:
                     failures.append(f"{example.get('id', '<unknown>')} {label} hash differs")
             if source_path.is_file() and raster_path.is_file() and source_path.read_bytes() != raster_path.read_bytes():
                 failures.append(f"{example.get('id', '<unknown>')} published raster differs from fixture")
+            if example.get("canvasAligned") is not True or example.get("viewBox") != [0, 0, 1088, 1088]:
+                failures.append(f"{example.get('id', '<unknown>')} display SVG is not canvas-aligned")
+            if svg_path.is_file():
+                display_root = ET.fromstring(svg_path.read_text(encoding="utf-8"))
+                if display_root.attrib.get("viewBox") != "0 0 1088 1088":
+                    failures.append(f"{example.get('id', '<unknown>')} display SVG viewBox differs")
 
     workflow = WORKFLOW.read_text(encoding="utf-8")
     for requirement in (
@@ -224,6 +232,8 @@ def main() -> int:
         "actions/configure-pages@v6.0.0",
         "actions/upload-pages-artifact@v5",
         "actions/deploy-pages@v5",
+        "python3 scripts/align_site_example_svgs_test.py",
+        "python3 scripts/align_site_example_svgs.py",
         "python3 scripts/verify_website.py",
     ):
         if requirement not in workflow:
