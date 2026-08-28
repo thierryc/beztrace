@@ -26,6 +26,10 @@ python3 scripts/verify_fixtures.py
 python3 scripts/verify_milestone5.py
 ```
 
+The deterministic fixture and generated-source maintenance scripts use the
+CI-only Pillow version pinned in `.github/requirements-ci.txt`. Pillow is not a
+production or distributed runtime dependency of the Swift library or CLI.
+
 The pinned source files live beside their license texts in
 `Tests/Fixtures/sources`. Do not replace them with an unpinned web download.
 The 38 added generated concepts were produced as two-candidate pools under

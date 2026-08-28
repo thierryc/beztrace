@@ -50,3 +50,13 @@ Tests/Fixtures/oracle/v1/reference-source.
 
 This file must be updated before any additional third-party source or binary
 dependency is added.
+
+CI and explicit fixture-maintenance commands use, but do not distribute:
+
+  Project: Pillow
+  Repository: https://github.com/python-pillow/Pillow
+  Version: 12.0.0
+  License: MIT-CMU
+
+Pillow is not linked into, bundled with, or required by the beztrace Swift
+library, executable, ZIP, or installer.

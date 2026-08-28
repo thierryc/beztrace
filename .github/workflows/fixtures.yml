@@ -10,7 +10,14 @@ jobs:
   verify:
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: .github/requirements-ci.txt
+      - name: Install fixture-maintenance dependencies
+        run: python3 -m pip install --requirement .github/requirements-ci.txt
       - name: Verify immutable reference checkpoint
         run: |
           python3 scripts/verify_fixtures.py
@@ -62,7 +69,7 @@ jobs:
     name: AddressSanitizer malformed-input smoke
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Run committed mutation corpus under ASan
         run: >-
           swift test --configuration release --disable-swift-testing
@@ -72,8 +79,8 @@ jobs:
     name: Universal unsigned final-release staging
     runs-on: macos-26
     steps:
-      - uses: actions/checkout@v4
-      - name: Build and verify unsigned universal candidate
+      - uses: actions/checkout@v7
+      - name: Build and verify unsigned universal final release
         env:
           BEZTRACE_EXTERNAL_WORK: /private/tmp/beztrace-milestone-7-ci
         run: scripts/build_release_candidate.sh --final
@@ -90,7 +97,7 @@ jobs:
         runner: [macos-26, macos-26-intel]
     runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Record Swift environment
         run: |
           swift --version
