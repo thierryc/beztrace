@@ -128,8 +128,10 @@ def main() -> int:
     for legacy_font in ("Inter", "SFMono-Regular", "Consolas", "Liberation Mono", "Arial Narrow", "Avenir Next Condensed"):
         if legacy_font in styles:
             failures.append(f"legacy site font remains: {legacy_font}")
-    if "padding: 8%;" not in styles:
-        failures.append("trace-example previews lack the required inner safe area")
+    if ".example-media img { position: absolute; inset: 8%; width: 84%; height: 84%;" not in styles:
+        failures.append("trace-example previews lack the required explicit inner box")
+    if "padding: 8%;" in styles:
+        failures.append("trace-example previews still use the ineffective image-padding strategy")
 
     for warm_color in ("#f4f1e8", "#fffdf7", "#ff5c35"):
         if warm_color in source.lower() or warm_color in styles.lower():
