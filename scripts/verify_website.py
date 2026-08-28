@@ -128,7 +128,7 @@ def main() -> int:
     for legacy_font in ("Inter", "SFMono-Regular", "Consolas", "Liberation Mono", "Arial Narrow", "Avenir Next Condensed"):
         if legacy_font in styles:
             failures.append(f"legacy site font remains: {legacy_font}")
-    if "padding: clamp(20px, 3vw, 44px);" not in styles:
+    if "padding: 8%;" not in styles:
         failures.append("trace-example previews lack the required inner safe area")
 
     for warm_color in ("#f4f1e8", "#fffdf7", "#ff5c35"):
