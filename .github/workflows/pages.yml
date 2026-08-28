@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "site/**"
+      - "scripts/align_site_example_svgs.py"
+      - "scripts/align_site_example_svgs_test.py"
       - "scripts/verify_website.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
@@ -24,6 +26,10 @@ jobs:
         uses: actions/checkout@v7
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6.0.0
+      - name: Test and verify canvas-aligned SVG examples
+        run: |
+          python3 scripts/align_site_example_svgs_test.py
+          python3 scripts/align_site_example_svgs.py
       - name: Verify static site and trace assets
         run: python3 scripts/verify_website.py
       - name: Upload GitHub Pages artifact

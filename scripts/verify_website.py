@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 REQUIRED_EXAMPLES = 8
+HERO_PREVIEW = SITE / "assets" / "examples" / "glyph-ampersand-inspection.svg"
+GLYPHS_MCP_URL = "https://ap.cx/tools/glyphs-mcp/"
 
 
 def sha256(path: Path) -> str:
@@ -77,6 +79,7 @@ def main() -> int:
         return 1
 
     source = index.read_text(encoding="utf-8")
+    styles = (SITE / "styles.css").read_text(encoding="utf-8")
     parser = SiteParser()
     parser.feed(source)
 
@@ -91,6 +94,61 @@ def main() -> int:
     for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.0", "Glyphs MCP"):
         if phrase not in source:
             failures.append(f"missing product contract copy: {phrase}")
+    if f'href="{GLYPHS_MCP_URL}"' not in source:
+        failures.append("product contract does not link to the canonical AP.CX Glyphs MCP page")
+    if ".contract-copy a { color: var(--blue); font-weight: 700; }" not in styles:
+        failures.append("Glyphs MCP contract link lacks the shared interactive treatment")
+    if ".check-list code { font: inherit; }" not in styles:
+        failures.append("contract code labels do not inherit the checklist type size")
+    if 'src="assets/examples/glyph-ampersand-inspection.svg"' not in source:
+        failures.append("hero does not use the canvas-aligned inspection SVG")
+    for rule in (
+        "font-family: var(--system);",
+        "font-stretch: normal;",
+        "letter-spacing: normal;",
+        "aspect-ratio: 1;",
+    ):
+        if rule not in styles:
+            failures.append(f"hero style is missing: {rule}")
+    h2_match = re.search(r"(?m)^h2\s*\{([^}]*)\}", styles)
+    h2_styles = h2_match.group(1) if h2_match else ""
+    for rule in (
+        "font-family: var(--system);",
+        "font-stretch: normal;",
+        "letter-spacing: normal;",
+    ):
+        if rule not in h2_styles:
+            failures.append(f"section heading style is missing: {rule}")
+    for rule in (
+        '--system: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;',
+        "--mono: var(--system);",
+        "--sans: var(--system);",
+        "--display: var(--system);",
+    ):
+        if rule not in styles:
+            failures.append(f"site typography is missing: {rule}")
+    for legacy_font in ("Inter", "SFMono-Regular", "Consolas", "Liberation Mono", "Arial Narrow", "Avenir Next Condensed"):
+        if legacy_font in styles:
+            failures.append(f"legacy site font remains: {legacy_font}")
+    if ".example-media img { position: absolute; inset: 0; width: 100%; height: 100%;" not in styles:
+        failures.append("trace-example previews do not share the complete media canvas")
+    if "padding: 8%;" in styles or "inset: 8%;" in styles:
+        failures.append("trace-example previews still use the obsolete CSS spacing surcharge")
+
+    for warm_color in ("#f4f1e8", "#fffdf7", "#ff5c35"):
+        if warm_color in source.lower() or warm_color in styles.lower():
+            failures.append(f"obsolete warm site color remains: {warm_color}")
+    for rule in (
+        "--paper: #ffffff;",
+        "--paper-bright: #ffffff;",
+        "--blue: #2456f5;",
+        "--acid: #d9ff45;",
+        "background: var(--blue);\n  color: white;",
+        ".button-primary { background: var(--blue); color: white;",
+        ".filter-button:hover, .filter-button.is-active { border-color: var(--blue); background: var(--blue); color: white; }",
+    ):
+        if rule not in styles:
+            failures.append(f"site palette is missing: {rule}")
 
     for reference in parser.references:
         if reference.startswith(("file:", "/Users/", "/Volumes/")):
@@ -120,6 +178,17 @@ def main() -> int:
         if "<path" not in text:
             failures.append(f"SVG has no traced path: {path.name}")
 
+    if not HERO_PREVIEW.is_file():
+        failures.append("missing canvas-aligned hero inspection SVG")
+    else:
+        hero_text = HERO_PREVIEW.read_text(encoding="utf-8")
+        hero_root = ET.fromstring(hero_text)
+        if hero_root.attrib.get("viewBox") != "0 0 1088 1088":
+            failures.append("hero inspection SVG does not retain the full source canvas")
+        for marker in ('class="hero-handle"', 'class="hero-oncurve"', 'class="hero-offcurve"'):
+            if marker not in hero_text:
+                failures.append(f"hero inspection SVG lacks {marker}")
+
     manifest_path = SITE / "assets" / "examples" / "manifest.json"
     if not manifest_path.is_file():
         failures.append("missing trace-example manifest")
@@ -130,19 +199,33 @@ def main() -> int:
             failures.append("trace-example manifest version differs")
         if manifest.get("svgTransformMode") != "bake" or len(examples) != REQUIRED_EXAMPLES:
             failures.append("trace-example manifest mode or count differs")
+        hero = manifest.get("heroPreview", {})
+        if hero.get("viewBox") != [0, 0, 1088, 1088]:
+            failures.append("hero preview manifest canvas differs")
+        hero_path = SITE / hero.get("svg", "")
+        if not hero_path.is_file() or sha256(hero_path) != hero.get("svgSHA256"):
+            failures.append("hero preview hash differs")
         for example in examples:
             source_path = ROOT / example.get("source", "")
             raster_path = SITE / example.get("raster", "")
             svg_path = SITE / example.get("svg", "")
+            production_svg_path = SITE / example.get("productionSVG", "")
             for label, path, expected in (
                 ("source", source_path, example.get("sourceSHA256")),
                 ("raster", raster_path, example.get("rasterSHA256")),
                 ("svg", svg_path, example.get("svgSHA256")),
+                ("production SVG", production_svg_path, example.get("productionSVGSHA256")),
             ):
                 if not path.is_file() or sha256(path) != expected:
                     failures.append(f"{example.get('id', '<unknown>')} {label} hash differs")
             if source_path.is_file() and raster_path.is_file() and source_path.read_bytes() != raster_path.read_bytes():
                 failures.append(f"{example.get('id', '<unknown>')} published raster differs from fixture")
+            if example.get("canvasAligned") is not True or example.get("viewBox") != [0, 0, 1088, 1088]:
+                failures.append(f"{example.get('id', '<unknown>')} display SVG is not canvas-aligned")
+            if svg_path.is_file():
+                display_root = ET.fromstring(svg_path.read_text(encoding="utf-8"))
+                if display_root.attrib.get("viewBox") != "0 0 1088 1088":
+                    failures.append(f"{example.get('id', '<unknown>')} display SVG viewBox differs")
 
     workflow = WORKFLOW.read_text(encoding="utf-8")
     for requirement in (
@@ -151,6 +234,8 @@ def main() -> int:
         "actions/configure-pages@v6.0.0",
         "actions/upload-pages-artifact@v5",
         "actions/deploy-pages@v5",
+        "python3 scripts/align_site_example_svgs_test.py",
+        "python3 scripts/align_site_example_svgs.py",
         "python3 scripts/verify_website.py",
     ):
         if requirement not in workflow:

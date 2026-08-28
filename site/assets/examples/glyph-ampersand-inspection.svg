@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1088" aria-hidden="true">
+<style>
+.hero-handle{fill:none;stroke:#2456f5;stroke-width:1;stroke-opacity:.32;vector-effect:non-scaling-stroke}
+.hero-oncurve{fill:#fff;fill-opacity:.82;stroke:#2456f5;stroke-width:1;stroke-opacity:.68;vector-effect:non-scaling-stroke}
+.hero-offcurve{fill:#fff;fill-opacity:.68;stroke:#2456f5;stroke-width:1;stroke-opacity:.52;vector-effect:non-scaling-stroke}
+</style>
+<path d="M 420 908 C 493 908 566 880 624 838 L 666 808 C 710 848 758 892 810 892 C 886 892 939 840 934 826 L 932 820 C 926 813 922 813 910 814 C 875 818 843 800 816 774 L 762 722 C 804 678 862 617 862 562 C 862 506 817 480 766 480 C 734 480 708 490 708 502 C 718 530 762 521 762 574 C 762 610 743 655 722 680 L 516 468 C 596 433 654 385 654 310 C 654 222 569 172 484 172 C 381 172 286 242 286 346 C 286 405 303 427 358 488 C 264 535 186 586 186 700 C 186 833 302 908 420 908 Z M 482 826 C 392 826 324 765 324 674 C 324 616 353 559 400 532 L 632 772 C 595 806 535 826 482 826 Z M 480 434 L 430 380 C 410 359 396 326 396 294 C 396 249 427 214 476 214 C 528 214 566 254 566 304 C 566 357 526 413 480 434 Z" fill="#11110f" fill-rule="nonzero"/>
+<line class="hero-handle" x1="420" y1="908" x2="493" y2="908"/>
+<line class="hero-handle" x1="566" y1="880" x2="624" y2="838"/>
+<line class="hero-handle" x1="666" y1="808" x2="710" y2="848"/>
+<line class="hero-handle" x1="758" y1="892" x2="810" y2="892"/>
+<line class="hero-handle" x1="810" y1="892" x2="886" y2="892"/>
+<line class="hero-handle" x1="939" y1="840" x2="934" y2="826"/>
+<line class="hero-handle" x1="932" y1="820" x2="926" y2="813"/>
+<line class="hero-handle" x1="922" y1="813" x2="910" y2="814"/>
+<line class="hero-handle" x1="910" y1="814" x2="875" y2="818"/>
+<line class="hero-handle" x1="843" y1="800" x2="816" y2="774"/>
+<line class="hero-handle" x1="762" y1="722" x2="804" y2="678"/>
+<line class="hero-handle" x1="862" y1="617" x2="862" y2="562"/>
+<line class="hero-handle" x1="862" y1="562" x2="862" y2="506"/>
+<line class="hero-handle" x1="817" y1="480" x2="766" y2="480"/>
+<line class="hero-handle" x1="766" y1="480" x2="734" y2="480"/>
+<line class="hero-handle" x1="708" y1="490" x2="708" y2="502"/>
+<line class="hero-handle" x1="708" y1="502" x2="718" y2="530"/>
+<line class="hero-handle" x1="762" y1="521" x2="762" y2="574"/>
+<line class="hero-handle" x1="762" y1="574" x2="762" y2="610"/>
+<line class="hero-handle" x1="743" y1="655" x2="722" y2="680"/>
+<line class="hero-handle" x1="516" y1="468" x2="596" y2="433"/>
+<line class="hero-handle" x1="654" y1="385" x2="654" y2="310"/>
+<line class="hero-handle" x1="654" y1="310" x2="654" y2="222"/>
+<line class="hero-handle" x1="569" y1="172" x2="484" y2="172"/>
+<line class="hero-handle" x1="484" y1="172" x2="381" y2="172"/>
+<line class="hero-handle" x1="286" y1="242" x2="286" y2="346"/>
+<line class="hero-handle" x1="286" y1="346" x2="286" y2="405"/>
+<line class="hero-handle" x1="303" y1="427" x2="358" y2="488"/>
+<line class="hero-handle" x1="358" y1="488" x2="264" y2="535"/>
+<line class="hero-handle" x1="186" y1="586" x2="186" y2="700"/>
+<line class="hero-handle" x1="186" y1="700" x2="186" y2="833"/>
+<line class="hero-handle" x1="302" y1="908" x2="420" y2="908"/>
+<line class="hero-handle" x1="482" y1="826" x2="392" y2="826"/>
+<line class="hero-handle" x1="324" y1="765" x2="324" y2="674"/>
+<line class="hero-handle" x1="324" y1="674" x2="324" y2="616"/>
+<line class="hero-handle" x1="353" y1="559" x2="400" y2="532"/>
+<line class="hero-handle" x1="632" y1="772" x2="595" y2="806"/>
+<line class="hero-handle" x1="535" y1="826" x2="482" y2="826"/>
+<line class="hero-handle" x1="430" y1="380" x2="410" y2="359"/>
+<line class="hero-handle" x1="396" y1="326" x2="396" y2="294"/>
+<line class="hero-handle" x1="396" y1="294" x2="396" y2="249"/>
+<line class="hero-handle" x1="427" y1="214" x2="476" y2="214"/>
+<line class="hero-handle" x1="476" y1="214" x2="528" y2="214"/>
+<line class="hero-handle" x1="566" y1="254" x2="566" y2="304"/>
+<line class="hero-handle" x1="566" y1="304" x2="566" y2="357"/>
+<line class="hero-handle" x1="526" y1="413" x2="480" y2="434"/>
+<rect class="hero-oncurve" x="416" y="904" width="8" height="8"/>
+<circle class="hero-offcurve" cx="493" cy="908" r="3.5"/>
+<circle class="hero-offcurve" cx="566" cy="880" r="3.5"/>
+<rect class="hero-oncurve" x="620" y="834" width="8" height="8"/>
+<rect class="hero-oncurve" x="662" y="804" width="8" height="8"/>
+<circle class="hero-offcurve" cx="710" cy="848" r="3.5"/>
+<circle class="hero-offcurve" cx="758" cy="892" r="3.5"/>
+<rect class="hero-oncurve" x="806" y="888" width="8" height="8"/>
+<circle class="hero-offcurve" cx="886" cy="892" r="3.5"/>
+<circle class="hero-offcurve" cx="939" cy="840" r="3.5"/>
+<rect class="hero-oncurve" x="930" y="822" width="8" height="8"/>
+<rect class="hero-oncurve" x="928" y="816" width="8" height="8"/>
+<circle class="hero-offcurve" cx="926" cy="813" r="3.5"/>
+<circle class="hero-offcurve" cx="922" cy="813" r="3.5"/>
+<rect class="hero-oncurve" x="906" y="810" width="8" height="8"/>
+<circle class="hero-offcurve" cx="875" cy="818" r="3.5"/>
+<circle class="hero-offcurve" cx="843" cy="800" r="3.5"/>
+<rect class="hero-oncurve" x="812" y="770" width="8" height="8"/>
+<rect class="hero-oncurve" x="758" y="718" width="8" height="8"/>
+<circle class="hero-offcurve" cx="804" cy="678" r="3.5"/>
+<circle class="hero-offcurve" cx="862" cy="617" r="3.5"/>
+<rect class="hero-oncurve" x="858" y="558" width="8" height="8"/>
+<circle class="hero-offcurve" cx="862" cy="506" r="3.5"/>
+<circle class="hero-offcurve" cx="817" cy="480" r="3.5"/>
+<rect class="hero-oncurve" x="762" y="476" width="8" height="8"/>
+<circle class="hero-offcurve" cx="734" cy="480" r="3.5"/>
+<circle class="hero-offcurve" cx="708" cy="490" r="3.5"/>
+<rect class="hero-oncurve" x="704" y="498" width="8" height="8"/>
+<circle class="hero-offcurve" cx="718" cy="530" r="3.5"/>
+<circle class="hero-offcurve" cx="762" cy="521" r="3.5"/>
+<rect class="hero-oncurve" x="758" y="570" width="8" height="8"/>
+<circle class="hero-offcurve" cx="762" cy="610" r="3.5"/>
+<circle class="hero-offcurve" cx="743" cy="655" r="3.5"/>
+<rect class="hero-oncurve" x="718" y="676" width="8" height="8"/>
+<rect class="hero-oncurve" x="512" y="464" width="8" height="8"/>
+<circle class="hero-offcurve" cx="596" cy="433" r="3.5"/>
+<circle class="hero-offcurve" cx="654" cy="385" r="3.5"/>
+<rect class="hero-oncurve" x="650" y="306" width="8" height="8"/>
+<circle class="hero-offcurve" cx="654" cy="222" r="3.5"/>
+<circle class="hero-offcurve" cx="569" cy="172" r="3.5"/>
+<rect class="hero-oncurve" x="480" y="168" width="8" height="8"/>
+<circle class="hero-offcurve" cx="381" cy="172" r="3.5"/>
+<circle class="hero-offcurve" cx="286" cy="242" r="3.5"/>
+<rect class="hero-oncurve" x="282" y="342" width="8" height="8"/>
+<circle class="hero-offcurve" cx="286" cy="405" r="3.5"/>
+<circle class="hero-offcurve" cx="303" cy="427" r="3.5"/>
+<rect class="hero-oncurve" x="354" y="484" width="8" height="8"/>
+<circle class="hero-offcurve" cx="264" cy="535" r="3.5"/>
+<circle class="hero-offcurve" cx="186" cy="586" r="3.5"/>
+<rect class="hero-oncurve" x="182" y="696" width="8" height="8"/>
+<circle class="hero-offcurve" cx="186" cy="833" r="3.5"/>
+<circle class="hero-offcurve" cx="302" cy="908" r="3.5"/>
+<rect class="hero-oncurve" x="478" y="822" width="8" height="8"/>
+<circle class="hero-offcurve" cx="392" cy="826" r="3.5"/>
+<circle class="hero-offcurve" cx="324" cy="765" r="3.5"/>
+<rect class="hero-oncurve" x="320" y="670" width="8" height="8"/>
+<circle class="hero-offcurve" cx="324" cy="616" r="3.5"/>
+<circle class="hero-offcurve" cx="353" cy="559" r="3.5"/>
+<rect class="hero-oncurve" x="396" y="528" width="8" height="8"/>
+<rect class="hero-oncurve" x="628" y="768" width="8" height="8"/>
+<circle class="hero-offcurve" cx="595" cy="806" r="3.5"/>
+<circle class="hero-offcurve" cx="535" cy="826" r="3.5"/>
+<rect class="hero-oncurve" x="476" y="430" width="8" height="8"/>
+<rect class="hero-oncurve" x="426" y="376" width="8" height="8"/>
+<circle class="hero-offcurve" cx="410" cy="359" r="3.5"/>
+<circle class="hero-offcurve" cx="396" cy="326" r="3.5"/>
+<rect class="hero-oncurve" x="392" y="290" width="8" height="8"/>
+<circle class="hero-offcurve" cx="396" cy="249" r="3.5"/>
+<circle class="hero-offcurve" cx="427" cy="214" r="3.5"/>
+<rect class="hero-oncurve" x="472" y="210" width="8" height="8"/>
+<circle class="hero-offcurve" cx="528" cy="214" r="3.5"/>
+<circle class="hero-offcurve" cx="566" cy="254" r="3.5"/>
+<rect class="hero-oncurve" x="562" y="300" width="8" height="8"/>
+<circle class="hero-offcurve" cx="566" cy="357" r="3.5"/>
+<circle class="hero-offcurve" cx="526" cy="413" r="3.5"/>
+</svg>

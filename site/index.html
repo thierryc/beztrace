@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>beztrace — Raster to editable Bézier paths</title>
   <meta name="description" content="A fast, deterministic macOS tracing engine that turns clean raster glyphs and symbols into economical, editable cubic Bézier paths.">
-  <meta name="theme-color" content="#f4f1e8">
+  <meta name="theme-color" content="#ffffff">
   <meta property="og:type" content="website">
   <meta property="og:title" content="beztrace — Raster to editable Bézier paths">
   <meta property="og:description" content="Native Swift tracing for clean glyphs and symbols, with neutral Y-up JSON and transform-free SVG output.">
@@ -54,7 +54,7 @@
         <div class="compare" style="--split: 50%">
           <img class="compare-source" src="assets/examples/glyph-ampersand.png" alt="Raster ampersand source">
           <div class="compare-result" aria-hidden="true">
-            <img src="assets/examples/glyph-ampersand.svg" alt="">
+            <img src="assets/examples/glyph-ampersand-inspection.svg" alt="">
           </div>
           <div class="compare-rule" aria-hidden="true"><span>↔</span></div>
           <span class="compare-label compare-label-left">Raster</span>
@@ -63,7 +63,7 @@
         </div>
         <div class="demo-footer">
           <span><i class="legend-square"></i> Source pixels</span>
-          <span><i class="legend-node"></i> Validated outline</span>
+          <span><i class="legend-node"></i> Path · nodes · handles</span>
           <span class="demo-deterministic">Byte-stable output</span>
         </div>
       </div>
@@ -95,7 +95,7 @@
         <article class="example-card" data-example data-category="glyph">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/glyph-upper-a.png" alt="Raster source for uppercase A" loading="lazy">
-            <img class="trace-image" src="assets/examples/glyph-upper-a.svg" alt="Traced SVG for uppercase A" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-upper-a-canvas.svg" alt="Traced SVG for uppercase A" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Glyph</span><h3>Uppercase A</h3></div>
@@ -106,7 +106,7 @@
         <article class="example-card" data-example data-category="glyph">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/glyph-ampersand.png" alt="Raster source for ampersand" loading="lazy">
-            <img class="trace-image" src="assets/examples/glyph-ampersand.svg" alt="Traced SVG for ampersand" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-ampersand-canvas.svg" alt="Traced SVG for ampersand" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Glyph · generated</span><h3>Ampersand</h3></div>
@@ -117,7 +117,7 @@
         <article class="example-card" data-example data-category="glyph">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/glyph-lower-g.png" alt="Raster source for lowercase g" loading="lazy">
-            <img class="trace-image" src="assets/examples/glyph-lower-g.svg" alt="Traced SVG for lowercase g" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-lower-g-canvas.svg" alt="Traced SVG for lowercase g" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Glyph</span><h3>Lowercase g</h3></div>
@@ -128,7 +128,7 @@
         <article class="example-card" data-example data-category="glyph">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/glyph-upper-q.png" alt="Raster source for uppercase Q" loading="lazy">
-            <img class="trace-image" src="assets/examples/glyph-upper-q.svg" alt="Traced SVG for uppercase Q" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-upper-q-canvas.svg" alt="Traced SVG for uppercase Q" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Glyph</span><h3>Uppercase Q</h3></div>
@@ -139,7 +139,7 @@
         <article class="example-card" data-example data-category="glyph">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/glyph-at.png" alt="Raster source for at sign" loading="lazy">
-            <img class="trace-image" src="assets/examples/glyph-at.svg" alt="Traced SVG for at sign" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-at-canvas.svg" alt="Traced SVG for at sign" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Glyph · generated</span><h3>At sign</h3></div>
@@ -150,7 +150,7 @@
         <article class="example-card" data-example data-category="symbol">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/symbol-heart.png" alt="Raster source for heart symbol" loading="lazy">
-            <img class="trace-image" src="assets/examples/symbol-heart.svg" alt="Traced SVG for heart symbol" loading="lazy">
+            <img class="trace-image" src="assets/examples/symbol-heart-canvas.svg" alt="Traced SVG for heart symbol" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Symbol</span><h3>Heart</h3></div>
@@ -161,7 +161,7 @@
         <article class="example-card" data-example data-category="symbol">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/symbol-location-pin.png" alt="Raster source for location pin" loading="lazy">
-            <img class="trace-image" src="assets/examples/symbol-location-pin.svg" alt="Traced SVG for location pin" loading="lazy">
+            <img class="trace-image" src="assets/examples/symbol-location-pin-canvas.svg" alt="Traced SVG for location pin" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Symbol · generated</span><h3>Location pin</h3></div>
@@ -172,7 +172,7 @@
         <article class="example-card" data-example data-category="symbol">
           <div class="example-media" data-view="trace">
             <img class="source-image" src="assets/examples/symbol-gear.png" alt="Raster source for gear symbol" loading="lazy">
-            <img class="trace-image" src="assets/examples/symbol-gear.svg" alt="Traced SVG for gear symbol" loading="lazy">
+            <img class="trace-image" src="assets/examples/symbol-gear-canvas.svg" alt="Traced SVG for gear symbol" loading="lazy">
           </div>
           <div class="example-meta">
             <div><span class="example-kind">Symbol</span><h3>Gear</h3></div>
@@ -200,7 +200,7 @@
       <div class="contract-copy">
         <p class="kicker">One outline, two useful formats</p>
         <h2>Neutral geometry in. Design-tool paths out.</h2>
-        <p>Y-up JSON is the authoritative machine contract for future Glyphs MCP integration. SVG defaults to baked, transform-free coordinates that import upright in Sketch, Illustrator, Figma, and other design tools.</p>
+        <p>Y-up JSON is the authoritative machine contract for future <a href="https://ap.cx/tools/glyphs-mcp/">Glyphs MCP</a> integration. SVG defaults to baked, transform-free coordinates that import upright in Sketch, Illustrator, Figma, and other design tools.</p>
         <ul class="check-list">
           <li>Versioned JSON schema v1</li>
           <li><code>pathDataVersion 2</code></li>
