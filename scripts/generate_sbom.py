@@ -16,7 +16,13 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def document(name: str, namespace_suffix: str, packages: list[dict], files: list[dict]) -> dict:
+def document(
+    name: str,
+    release_label: str,
+    namespace_suffix: str,
+    packages: list[dict],
+    files: list[dict],
+) -> dict:
     relationships = [
         {"spdxElementId": "SPDXRef-DOCUMENT", "relationshipType": "DESCRIBES", "relatedSpdxElement": packages[0]["SPDXID"]}
     ]
@@ -29,7 +35,7 @@ def document(name: str, namespace_suffix: str, packages: list[dict], files: list
         "dataLicense": "CC0-1.0",
         "SPDXID": "SPDXRef-DOCUMENT",
         "name": name,
-        "documentNamespace": f"https://beztrace.dev/spdx/0.1.0-rc.1/{namespace_suffix}",
+        "documentNamespace": f"https://beztrace.dev/spdx/{release_label}/{namespace_suffix}",
         "creationInfo": {"created": "2026-08-26T00:00:00Z", "creators": ["Tool: beztrace-generate-sbom-v1"]},
         "packages": packages,
         "files": files,
@@ -55,6 +61,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--release-kind",
+        choices=("candidate", "final"),
+        default="candidate",
+    )
     args = parser.parse_args()
     binary = args.binary.resolve()
     output = args.output_dir.resolve()
@@ -62,9 +73,11 @@ def main() -> int:
     revision = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True
     ).stdout.strip()
+    label = "0.1.0-rc.1" if args.release_kind == "candidate" else "0.1.0"
+    source_version = f"{label}+{revision[:12]}" if args.release_kind == "candidate" else label
 
     source_package = package(
-        "SPDXRef-Package-beztrace-source", "beztrace", f"0.1.0-rc.1+{revision[:12]}",
+        "SPDXRef-Package-beztrace-source", "beztrace", source_version,
         "Apache-2.0 OR MIT", "Organization: beztrace contributors"
     )
     source_files = []
@@ -79,10 +92,12 @@ def main() -> int:
             "licenseConcluded": "NOASSERTION",
             "copyrightText": "NOASSERTION",
         })
-    source = document("beztrace source SBOM", f"source-{revision}", [source_package], source_files)
+    source = document(
+        "beztrace source SBOM", label, f"source-{revision}", [source_package], source_files
+    )
 
     binary_package = package(
-        "SPDXRef-Package-beztrace-binary", "beztrace", "0.1.0-rc.1",
+        "SPDXRef-Package-beztrace-binary", "beztrace", label,
         "Apache-2.0 OR MIT", "Organization: beztrace contributors"
     )
     binary_file = {
@@ -93,7 +108,7 @@ def main() -> int:
         "copyrightText": "Copyright 2026 beztrace contributors and the img2bez Authors",
     }
     binary_document = document(
-        "beztrace binary SBOM", f"binary-{sha256(binary)}", [binary_package], [binary_file]
+        "beztrace binary SBOM", label, f"binary-{sha256(binary)}", [binary_package], [binary_file]
     )
     binary_document["annotations"] = [{
         "annotationType": "OTHER",

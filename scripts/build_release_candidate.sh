@@ -8,38 +8,51 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 VERSION="0.1.0"
 CANDIDATE="rc.1"
 PACKAGE_ID="dev.beztrace.cli"
-WORK="${BEZTRACE_EXTERNAL_WORK:-/Volumes/T9/beztrace/milestone-5}"
-case "$WORK" in
-    /Volumes/T9/beztrace/milestone-5|/private/tmp/beztrace-milestone-5-*) ;;
-    *) echo "refusing release work outside the approved Milestone 5 roots: $WORK" >&2; exit 2 ;;
-esac
-RELEASE="$WORK/release"
-ARM_BUILD="$WORK/tmp/release-arm64"
-INTEL_BUILD="$WORK/tmp/release-x86_64"
-STAGING="$RELEASE/beztrace-$VERSION-$CANDIDATE-stage"
-ROOT_PAYLOAD="$STAGING/root"
-SHARE="$ROOT_PAYLOAD/Library/Application Support/beztrace/share"
-BIN_DIR="$ROOT_PAYLOAD/Library/Application Support/beztrace/bin"
-ZIP="$RELEASE/beztrace-$VERSION-$CANDIDATE-macos-universal.zip"
-UNSIGNED_PKG="$RELEASE/beztrace-$VERSION-$CANDIDATE-unsigned.pkg"
-PKG="$RELEASE/beztrace-$VERSION-$CANDIDATE.pkg"
 APP_IDENTITY="${BEZTRACE_APPLICATION_IDENTITY:-}"
 INSTALLER_IDENTITY="${BEZTRACE_INSTALLER_IDENTITY:-}"
 NOTARY_PROFILE="${BEZTRACE_NOTARY_PROFILE:-beztrace-notary}"
 NOTARIZE=0
+RELEASE_KIND="candidate"
 
 usage() {
-    echo "usage: BEZTRACE_EXTERNAL_WORK=/Volumes/T9/beztrace/milestone-5 $0 [--notarize]"
+    echo "usage: BEZTRACE_EXTERNAL_WORK=/Volumes/T9/beztrace/milestone-5 $0 [--final] [--notarize]"
 }
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
+        --final) RELEASE_KIND="final" ;;
         --notarize) NOTARIZE=1 ;;
         -h|--help) usage; exit 0 ;;
         *) echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
     esac
     shift
 done
+
+if [ "$RELEASE_KIND" = "final" ]; then
+    WORK="${BEZTRACE_EXTERNAL_WORK:-/Volumes/T9/beztrace/milestone-7}"
+    LABEL="$VERSION"
+    case "$WORK" in
+        /Volumes/T9/beztrace/milestone-7|/private/tmp/beztrace-milestone-7-*) ;;
+        *) echo "refusing final release work outside the approved Milestone 7 roots: $WORK" >&2; exit 2 ;;
+    esac
+else
+    WORK="${BEZTRACE_EXTERNAL_WORK:-/Volumes/T9/beztrace/milestone-5}"
+    LABEL="$VERSION-$CANDIDATE"
+    case "$WORK" in
+        /Volumes/T9/beztrace/milestone-5|/private/tmp/beztrace-milestone-5-*) ;;
+        *) echo "refusing candidate work outside the approved Milestone 5 roots: $WORK" >&2; exit 2 ;;
+    esac
+fi
+RELEASE="$WORK/release"
+ARM_BUILD="$WORK/tmp/release-arm64"
+INTEL_BUILD="$WORK/tmp/release-x86_64"
+STAGING="$RELEASE/beztrace-$LABEL-stage"
+ROOT_PAYLOAD="$STAGING/root"
+SHARE="$ROOT_PAYLOAD/Library/Application Support/beztrace/share"
+BIN_DIR="$ROOT_PAYLOAD/Library/Application Support/beztrace/bin"
+ZIP="$RELEASE/beztrace-$LABEL-macos-universal.zip"
+UNSIGNED_PKG="$RELEASE/beztrace-$LABEL-unsigned.pkg"
+PKG="$RELEASE/beztrace-$LABEL.pkg"
 
 mkdir -p "$RELEASE" "$WORK/tmp"
 rm -rf "$ARM_BUILD" "$INTEL_BUILD" "$STAGING"
@@ -63,9 +76,16 @@ if [ -n "$APP_IDENTITY" ]; then
     codesign --verify --strict --verbose=2 "$BIN_DIR/beztrace"
 fi
 
-cp "$ROOT/LICENSE-APACHE" "$ROOT/LICENSE-MIT" "$ROOT/THIRD_PARTY_NOTICES" "$ROOT/README.md" "$SHARE/"
+cp "$ROOT/LICENSE-APACHE" "$ROOT/LICENSE-MIT" "$ROOT/THIRD_PARTY_NOTICES" \
+    "$ROOT/README.md" "$ROOT/CHANGELOG.md" "$SHARE/"
 cp "$ROOT/Schemas/trace-result-v1.schema.json" "$SHARE/"
-python3 "$ROOT/scripts/generate_sbom.py" --binary "$BIN_DIR/beztrace" --output-dir "$SHARE"
+python3 "$ROOT/scripts/generate_sbom.py" --binary "$BIN_DIR/beztrace" \
+    --output-dir "$SHARE" --release-kind "$RELEASE_KIND"
+if [ "$RELEASE_KIND" = "final" ]; then
+    cp "$SHARE/sbom-source.spdx.json" "$RELEASE/beztrace-$LABEL-source.spdx.json"
+    cp "$SHARE/sbom-binary.spdx.json" "$RELEASE/beztrace-$LABEL-binary.spdx.json"
+    cp "$ROOT/Schemas/release-manifest-v1.schema.json" "$SHARE/"
+fi
 ln -s "/Library/Application Support/beztrace/bin/beztrace" "$ROOT_PAYLOAD/usr/local/bin/beztrace"
 
 find "$ROOT_PAYLOAD" -type f -exec touch -t 202608260000 {} +
@@ -82,15 +102,19 @@ else
     cp "$UNSIGNED_PKG" "$PKG"
 fi
 
+CHECKSUM_FILES=("$(basename "$ZIP")" "$(basename "$PKG")")
+if [ "$RELEASE_KIND" = "final" ]; then
+    CHECKSUM_FILES+=("beztrace-$LABEL-source.spdx.json" "beztrace-$LABEL-binary.spdx.json")
+fi
 (
     cd "$RELEASE"
-    shasum -a 256 "$(basename "$ZIP")" "$(basename "$PKG")" > SHA256SUMS
+    shasum -a 256 "${CHECKSUM_FILES[@]}" > SHA256SUMS
 )
-MANIFEST_ARGS=(--release "$RELEASE")
+MANIFEST_ARGS=(--release "$RELEASE" --release-kind "$RELEASE_KIND")
 if [ -n "$APP_IDENTITY" ]; then MANIFEST_ARGS+=(--signed-binary); fi
 if [ -n "$INSTALLER_IDENTITY" ]; then MANIFEST_ARGS+=(--signed-package); fi
 python3 "$ROOT/scripts/build_release_manifest.py" "${MANIFEST_ARGS[@]}"
-VERIFY_ARGS=(--release "$RELEASE")
+VERIFY_ARGS=(--release "$RELEASE" --release-kind "$RELEASE_KIND")
 if [ -n "$APP_IDENTITY" ]; then VERIFY_ARGS+=(--require-signed-binary); fi
 if [ -n "$INSTALLER_IDENTITY" ]; then VERIFY_ARGS+=(--require-signed-package); fi
 python3 "$ROOT/scripts/verify_release_candidate.py" "${VERIFY_ARGS[@]}"
@@ -104,12 +128,14 @@ if [ "$NOTARIZE" -eq 1 ]; then
     xcrun stapler validate "$PKG"
     (
         cd "$RELEASE"
-        shasum -a 256 "$(basename "$ZIP")" "$(basename "$PKG")" > SHA256SUMS
+        shasum -a 256 "${CHECKSUM_FILES[@]}" > SHA256SUMS
     )
     python3 "$ROOT/scripts/build_release_manifest.py" \
-        --release "$RELEASE" --signed-binary --signed-package --notarized
+        --release "$RELEASE" --release-kind "$RELEASE_KIND" \
+        --signed-binary --signed-package --notarized
     python3 "$ROOT/scripts/verify_release_candidate.py" --release "$RELEASE" \
+        --release-kind "$RELEASE_KIND" \
         --require-signed-binary --require-signed-package
 fi
 
-echo "release candidate staged at $RELEASE"
+echo "$RELEASE_KIND release staged at $RELEASE"
