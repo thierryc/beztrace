@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>beztrace — Raster to editable Bézier paths</title>
+  <meta name="description" content="A fast, deterministic macOS tracing engine that turns clean raster glyphs and symbols into economical, editable cubic Bézier paths.">
+  <meta name="theme-color" content="#f4f1e8">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="beztrace — Raster to editable Bézier paths">
+  <meta property="og:description" content="Native Swift tracing for clean glyphs and symbols, with neutral Y-up JSON and transform-free SVG output.">
+  <meta property="og:url" content="https://thierryc.github.io/beztrace/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="beztrace — Raster to editable Bézier paths">
+  <meta name="twitter:description" content="Native Swift tracing for clean glyphs and symbols.">
+  <link rel="canonical" href="https://thierryc.github.io/beztrace/">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="beztrace home">
+      <span class="brand-mark" aria-hidden="true">B<span>z</span></span>
+      <span>beztrace</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#examples">Examples</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#install">Install</a>
+      <a class="nav-github" href="https://github.com/thierryc/beztrace">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-dot"></span> v0.1.0 · macOS 13+</div>
+        <h1>From bitmap<br>to <em>Bézier.</em></h1>
+        <p class="hero-lede">Trace clean glyphs and symbols into economical cubic outlines—deterministically, locally, and ready for real design work.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/download/v0.1.0/beztrace-0.1.0.pkg">Download notarized PKG</a>
+          <a class="button button-secondary" href="https://github.com/thierryc/beztrace">View source <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="hero-note">Universal Apple Silicon + Intel binary. Apache-2.0 OR MIT.</p>
+      </div>
+
+      <div class="hero-demo" aria-label="Interactive raster and vector comparison">
+        <div class="demo-toolbar">
+          <span>glyph-ampersand</span>
+          <span class="demo-format">1024 × 1024</span>
+        </div>
+        <div class="compare" style="--split: 50%">
+          <img class="compare-source" src="assets/examples/glyph-ampersand.png" alt="Raster ampersand source">
+          <div class="compare-result" aria-hidden="true">
+            <img src="assets/examples/glyph-ampersand.svg" alt="">
+          </div>
+          <div class="compare-rule" aria-hidden="true"><span>↔</span></div>
+          <span class="compare-label compare-label-left">Raster</span>
+          <span class="compare-label compare-label-right">Path</span>
+          <input class="compare-slider" type="range" min="8" max="92" value="50" aria-label="Compare raster source with traced path">
+        </div>
+        <div class="demo-footer">
+          <span><i class="legend-square"></i> Source pixels</span>
+          <span><i class="legend-node"></i> Validated outline</span>
+          <span class="demo-deterministic">Byte-stable output</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof" aria-label="Release validation summary">
+      <div><strong>100/100</strong><span>reviewed traces accepted</span></div>
+      <div><strong>62/62</strong><span>reference glyphs passing</span></div>
+      <div><strong>&lt; 1 sec</strong><span>single-shot CLI p95 gate</span></div>
+      <div><strong>2 arches</strong><span>arm64 + x86_64</span></div>
+    </section>
+
+    <section class="section examples" id="examples">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">Real output, no mockups</p>
+          <h2>Trace examples</h2>
+        </div>
+        <p>Every path below was produced by the released beztrace pipeline from a reviewed 1024 × 1024 fixture. Switch between source pixels and baked SVG geometry.</p>
+      </div>
+
+      <div class="filter-bar" role="group" aria-label="Filter trace examples">
+        <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-button" type="button" data-filter="glyph" aria-pressed="false">Glyphs</button>
+        <button class="filter-button" type="button" data-filter="symbol" aria-pressed="false">Symbols</button>
+      </div>
+
+      <div class="example-grid">
+        <article class="example-card" data-example data-category="glyph">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/glyph-upper-a.png" alt="Raster source for uppercase A" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-upper-a.svg" alt="Traced SVG for uppercase A" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Glyph</span><h3>Uppercase A</h3></div>
+            <div class="view-toggle" role="group" aria-label="Uppercase A view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+
+        <article class="example-card" data-example data-category="glyph">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/glyph-ampersand.png" alt="Raster source for ampersand" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-ampersand.svg" alt="Traced SVG for ampersand" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Glyph · generated</span><h3>Ampersand</h3></div>
+            <div class="view-toggle" role="group" aria-label="Ampersand view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+
+        <article class="example-card" data-example data-category="glyph">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/glyph-lower-g.png" alt="Raster source for lowercase g" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-lower-g.svg" alt="Traced SVG for lowercase g" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Glyph</span><h3>Lowercase g</h3></div>
+            <div class="view-toggle" role="group" aria-label="Lowercase g view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+
+        <article class="example-card" data-example data-category="glyph">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/glyph-upper-q.png" alt="Raster source for uppercase Q" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-upper-q.svg" alt="Traced SVG for uppercase Q" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Glyph</span><h3>Uppercase Q</h3></div>
+            <div class="view-toggle" role="group" aria-label="Uppercase Q view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+
+        <article class="example-card" data-example data-category="glyph">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/glyph-at.png" alt="Raster source for at sign" loading="lazy">
+            <img class="trace-image" src="assets/examples/glyph-at.svg" alt="Traced SVG for at sign" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Glyph · generated</span><h3>At sign</h3></div>
+            <div class="view-toggle" role="group" aria-label="At sign view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+
+        <article class="example-card" data-example data-category="symbol">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/symbol-heart.png" alt="Raster source for heart symbol" loading="lazy">
+            <img class="trace-image" src="assets/examples/symbol-heart.svg" alt="Traced SVG for heart symbol" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Symbol</span><h3>Heart</h3></div>
+            <div class="view-toggle" role="group" aria-label="Heart view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+
+        <article class="example-card" data-example data-category="symbol">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/symbol-location-pin.png" alt="Raster source for location pin" loading="lazy">
+            <img class="trace-image" src="assets/examples/symbol-location-pin.svg" alt="Traced SVG for location pin" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Symbol · generated</span><h3>Location pin</h3></div>
+            <div class="view-toggle" role="group" aria-label="Location pin view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+
+        <article class="example-card" data-example data-category="symbol">
+          <div class="example-media" data-view="trace">
+            <img class="source-image" src="assets/examples/symbol-gear.png" alt="Raster source for gear symbol" loading="lazy">
+            <img class="trace-image" src="assets/examples/symbol-gear.svg" alt="Traced SVG for gear symbol" loading="lazy">
+          </div>
+          <div class="example-meta">
+            <div><span class="example-kind">Symbol</span><h3>Gear</h3></div>
+            <div class="view-toggle" role="group" aria-label="Gear view"><button type="button" data-mode="source">Raster</button><button class="is-active" type="button" data-mode="trace">Path</button></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section pipeline" id="pipeline">
+      <div class="section-heading section-heading-light">
+        <div><p class="kicker">A type-aware tracing pipeline</p><h2>Structure before polish.</h2></div>
+        <p>beztrace does more than simplify an edge. It plans typographic structure, fits constrained cubics, refines against the raster, then validates every contour before serialization.</p>
+      </div>
+      <ol class="pipeline-list">
+        <li><span>01</span><div><h3>Prepare</h3><p>Decode PNG or JPEG, resolve alpha and threshold, normalize coverage.</p></div></li>
+        <li><span>02</span><div><h3>Structure</h3><p>Find subpixel contours, corners, straights, extrema, and inflections.</p></div></li>
+        <li><span>03</span><div><h3>Fit</h3><p>Build economical lines and constrained cubic Bézier sections.</p></div></li>
+        <li><span>04</span><div><h3>Refine</h3><p>Measure raster loss, polish handles, and preserve design joints.</p></div></li>
+        <li><span>05</span><div><h3>Validate</h3><p>Check winding, closure, intersections, handle reach, and determinism.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="section contract">
+      <div class="contract-copy">
+        <p class="kicker">One outline, two useful formats</p>
+        <h2>Neutral geometry in. Design-tool paths out.</h2>
+        <p>Y-up JSON is the authoritative machine contract for future Glyphs MCP integration. SVG defaults to baked, transform-free coordinates that import upright in Sketch, Illustrator, Figma, and other design tools.</p>
+        <ul class="check-list">
+          <li>Versioned JSON schema v1</li>
+          <li><code>pathDataVersion 2</code></li>
+          <li>Explicit line, curve, and off-curve nodes</li>
+          <li>No Glyphs runtime dependency</li>
+        </ul>
+      </div>
+      <div class="code-window" aria-label="Example beztrace command and JSON output">
+        <div class="code-title"><span><i></i><i></i><i></i></span><b>Terminal</b></div>
+        <pre><code><span class="prompt">$</span> beztrace trace glyph.png \
+  --format json --output glyph.json
+
+<span class="muted">// glyph.json</span>
+{
+  <span class="key">"schemaVersion"</span>: 1,
+  <span class="key">"pathDataVersion"</span>: 2,
+  <span class="key">"metadataPolicy"</span>: <span class="string">"preserve"</span>,
+  <span class="key">"paths"</span>: [
+    { <span class="key">"closed"</span>: true, <span class="key">"nodes"</span>: […] }
+  ]
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="section install" id="install">
+      <div>
+        <p class="kicker">Ready for the command line</p>
+        <h2>Install. Trace. Keep designing.</h2>
+        <p>The notarized package installs a universal binary and exposes <code>beztrace</code> at <code>/usr/local/bin/beztrace</code>.</p>
+      </div>
+      <div class="install-action">
+        <div class="install-command"><code>sudo installer -pkg beztrace-0.1.0.pkg -target /</code><button type="button" data-copy aria-label="Copy install command">Copy</button></div>
+        <div class="install-links">
+          <a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/tag/v0.1.0">Get v0.1.0</a>
+          <a href="https://github.com/thierryc/beztrace/blob/main/docs/RELEASE.md">Verify signatures &amp; checksums <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand footer-brand"><span class="brand-mark" aria-hidden="true">B<span>z</span></span><span>beztrace</span></div>
+    <p>Standalone raster-to-path engine. Built in Swift for macOS.</p>
+    <div><a href="https://github.com/thierryc/beztrace">Source</a><a href="https://github.com/thierryc/beztrace/releases/tag/v0.1.0">Release</a><a href="https://github.com/thierryc/beztrace/blob/main/LICENSE-MIT">License</a></div>
+  </footer>
+</body>
+</html>

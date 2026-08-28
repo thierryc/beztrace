@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "engineVersion": "0.1.0",
+  "svgTransformMode": "bake",
+  "examples": [
+    {
+      "id": "glyph-upper-a",
+      "source": "Tests/Fixtures/corpus/deterministic/glyphs/glyph-upper-a.png",
+      "sourceSHA256": "7287b7f907c4288ec5ee1cbebc223f604c74dfbe97be2eb1f1fb1163282b536c",
+      "raster": "assets/examples/glyph-upper-a.png",
+      "rasterSHA256": "7287b7f907c4288ec5ee1cbebc223f604c74dfbe97be2eb1f1fb1163282b536c",
+      "svg": "assets/examples/glyph-upper-a.svg",
+      "svgSHA256": "caba2efca31d23eae3e8788e1c22515715cad8ef56b68c55abdd6322786b25e3"
+    },
+    {
+      "id": "glyph-ampersand",
+      "source": "Tests/Fixtures/corpus/generated/glyphs/glyph-ampersand.png",
+      "sourceSHA256": "b921e4118852a5d13d22ffe3a115f274ada5ed8e224405b426fe8e13fd890f3d",
+      "raster": "assets/examples/glyph-ampersand.png",
+      "rasterSHA256": "b921e4118852a5d13d22ffe3a115f274ada5ed8e224405b426fe8e13fd890f3d",
+      "svg": "assets/examples/glyph-ampersand.svg",
+      "svgSHA256": "defc74983c94a3188e089fa879c6a498aa5dcacc2060dbaaf34b54eaa4a9b5cf"
+    },
+    {
+      "id": "glyph-lower-g",
+      "source": "Tests/Fixtures/corpus/deterministic/glyphs/glyph-lower-g.png",
+      "sourceSHA256": "bac64e823f47fc8bc3879c4a270252d78886565d82d96365632e8ff9a3d5a3c5",
+      "raster": "assets/examples/glyph-lower-g.png",
+      "rasterSHA256": "bac64e823f47fc8bc3879c4a270252d78886565d82d96365632e8ff9a3d5a3c5",
+      "svg": "assets/examples/glyph-lower-g.svg",
+      "svgSHA256": "061d1f149f016ef70c0d0818b5aa5974596600b8469c342104cf25a93e886fe1"
+    },
+    {
+      "id": "glyph-upper-q",
+      "source": "Tests/Fixtures/corpus/deterministic/glyphs/glyph-upper-q.png",
+      "sourceSHA256": "34c89382af249b8a0303838de27223253129e7780f1975aed340a03b64ddde83",
+      "raster": "assets/examples/glyph-upper-q.png",
+      "rasterSHA256": "34c89382af249b8a0303838de27223253129e7780f1975aed340a03b64ddde83",
+      "svg": "assets/examples/glyph-upper-q.svg",
+      "svgSHA256": "5005f5b57363d05da53abedd73a0796e7d649664713cc23987475ef26cf579aa"
+    },
+    {
+      "id": "glyph-at",
+      "source": "Tests/Fixtures/corpus/generated/glyphs/glyph-at.png",
+      "sourceSHA256": "0e6d2eb0f84f3546607c17f0ce8f75d6a505e220a6d8b57a8ea10aace8523eef",
+      "raster": "assets/examples/glyph-at.png",
+      "rasterSHA256": "0e6d2eb0f84f3546607c17f0ce8f75d6a505e220a6d8b57a8ea10aace8523eef",
+      "svg": "assets/examples/glyph-at.svg",
+      "svgSHA256": "72ad9652e7fb6e2ae8c58397d18f5805ea02197836b634bfeda0c9c1038d5223"
+    },
+    {
+      "id": "symbol-heart",
+      "source": "Tests/Fixtures/corpus/deterministic/symbols/symbol-heart.png",
+      "sourceSHA256": "5d86df2e6b346b4a31ab85b84964d2e7a85114cf82eb0810aa81318e5bd3f527",
+      "raster": "assets/examples/symbol-heart.png",
+      "rasterSHA256": "5d86df2e6b346b4a31ab85b84964d2e7a85114cf82eb0810aa81318e5bd3f527",
+      "svg": "assets/examples/symbol-heart.svg",
+      "svgSHA256": "bd40ce650d55034df59d4d0f333ba76ef1c7811f8a3a6f61b0289cf01fd5b5e9"
+    },
+    {
+      "id": "symbol-location-pin",
+      "source": "Tests/Fixtures/corpus/generated/symbols/symbol-location-pin.png",
+      "sourceSHA256": "b2143a68b2860a6fde874dbee67f8cc95588f1308286c263290b9f9f1caca07e",
+      "raster": "assets/examples/symbol-location-pin.png",
+      "rasterSHA256": "b2143a68b2860a6fde874dbee67f8cc95588f1308286c263290b9f9f1caca07e",
+      "svg": "assets/examples/symbol-location-pin.svg",
+      "svgSHA256": "d676ef5481eeb99643b9fc92cf061c4443e7676abaedbda65df95582afa7e85b"
+    },
+    {
+      "id": "symbol-gear",
+      "source": "Tests/Fixtures/corpus/deterministic/symbols/symbol-gear.png",
+      "sourceSHA256": "b1f1f8d55218812586f67c1b1b44b55f564d139aeadd332a3ccc39c37a5626dd",
+      "raster": "assets/examples/symbol-gear.png",
+      "rasterSHA256": "b1f1f8d55218812586f67c1b1b44b55f564d139aeadd332a3ccc39c37a5626dd",
+      "svg": "assets/examples/symbol-gear.svg",
+      "svgSHA256": "d4372cd1647d60c5359c77faf4c79441ddd6aa428670b21dfe221c0026c1b98d"
+    }
+  ]
+}
