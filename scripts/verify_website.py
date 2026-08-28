@@ -103,6 +103,8 @@ def main() -> int:
     ):
         if rule not in styles:
             failures.append(f"hero style is missing: {rule}")
+    if "padding: clamp(20px, 3vw, 44px);" not in styles:
+        failures.append("trace-example previews lack the required inner safe area")
 
     for warm_color in ("#f4f1e8", "#fffdf7", "#ff5c35"):
         if warm_color in source.lower() or warm_color in styles.lower():

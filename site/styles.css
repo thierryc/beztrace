@@ -254,7 +254,7 @@ h3 { margin-bottom: 0; font-size: 1.1rem; line-height: 1.2; letter-spacing: -.03
 .example-card { min-width: 0; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--paper-bright); }
 .example-card[hidden] { display: none; }
 .example-media { position: relative; aspect-ratio: 1; overflow: hidden; background: white; border-bottom: 1px solid var(--line); }
-.example-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .2s ease, transform .3s ease; }
+.example-media img { position: absolute; inset: 0; width: 100%; height: 100%; padding: clamp(20px, 3vw, 44px); object-fit: contain; transition: opacity .2s ease, transform .3s ease; }
 .example-media .source-image { opacity: 0; }
 .example-media[data-view="source"] .source-image { opacity: 1; }
 .example-media[data-view="source"] .trace-image { opacity: 0; }
