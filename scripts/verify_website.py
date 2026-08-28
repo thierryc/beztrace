@@ -148,9 +148,9 @@ def main() -> int:
     for requirement in (
         "pages: write",
         "id-token: write",
-        "actions/configure-pages@v5",
-        "actions/upload-pages-artifact@v4",
-        "actions/deploy-pages@v4",
+        "actions/configure-pages@v6.0.0",
+        "actions/upload-pages-artifact@v5",
+        "actions/deploy-pages@v5",
         "python3 scripts/verify_website.py",
     ):
         if requirement not in workflow:
