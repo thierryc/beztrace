@@ -33,7 +33,8 @@ The product is deliberately split into two reusable layers:
   shell, batch, CI, and automation workflows. A signed and notarized local
   signed and notarized universal release is available for installation.
 
-beztrace is intended to become a standalone companion engine for Glyphs MCP:
+beztrace is intended to become a standalone companion engine for
+[Glyphs MCP](https://ap.cx/tools/glyphs-mcp/):
 it will turn raster glyphs and symbols into neutral, versioned path data that a
 future Glyphs MCP adapter can apply through the existing path-mutation tools.
 Glyphs MCP is a consumer, not a runtime dependency or target in this product.
