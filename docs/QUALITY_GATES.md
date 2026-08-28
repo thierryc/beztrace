@@ -94,7 +94,8 @@ Integration consumers may be planned only after all of the following are true:
 6. Checksums, licenses, provenance and SBOM match the artifacts.
 7. At least one non-Glyphs workflow succeeds using only the packaged CLI.
 8. The implementation branch is reviewed and approved for merge.
-9. A versioned standalone release is separately authorized.
+9. A versioned standalone release is separately authorized and published from
+   the reviewed source revision.
 
 Until then, beztrace is not a viable dependency and Glyphs MCP integration is
 prohibited.

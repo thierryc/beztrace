@@ -108,10 +108,19 @@ Completion: beztrace is independently viable and consumable.
 
 Current checkpoint: the formal decision is **approve**. Every engineering,
 review, distribution, notarization, and installed-workflow gate passes, and the
-project owner explicitly approved merge. Publication remains a separate action
-and has not been authorized.
+project owner explicitly approved merge.
 
-## 7. Future consumers
+## 7A. First standalone release — complete
+
+- Freeze JSON schema v1, `pathDataVersion 2`, and CLI version `0.1.0`.
+- Build the final universal executable and installer from reviewed `main`.
+- Sign, notarize, staple, install, and verify the final artifacts.
+- Publish the source tag, checksums, SPDX SBOMs, signed ZIP, and notarized PKG.
+
+Completion: `v0.1.0` is independently downloadable, checksum-verifiable, and
+installable without Glyphs or Glyphs MCP.
+
+## 7B. Future consumers
 
 The intended consumer is a future Glyphs MCP companion integration. Only after
 viability may that project prepare its adapter: accept path or base64 input,

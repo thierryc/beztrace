@@ -1,6 +1,6 @@
 # beztrace
 
-`beztrace` is a macOS-native tracing engine under active implementation for
+`beztrace` is a macOS-native tracing engine for
 converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
@@ -14,8 +14,10 @@ cubic Bezier outlines.
 > Milestone 6 viability review approves merge: the universal executable and
 > installer are Developer ID signed, Apple-notarized, installed, and verified
 > through a real standalone JSON/SVG workflow.
-> Publication and Glyphs MCP integration are not authorized. Do not represent
-> this local checkpoint as a released product.
+> Version `0.1.0` is the first standalone release. It is distributed as a
+> universal Developer ID-signed executable and an Apple-notarized installer.
+> Glyphs MCP integration remains a separate consumer project and is not part
+> of this repository or release.
 
 ## Intended product
 
@@ -25,15 +27,15 @@ The product is deliberately split into two reusable layers:
   placement, validation, and the neutral public result contract.
 - `beztrace`, a standalone command-line tool exposing JSON/SVG tracing to local
   shell, batch, CI, and automation workflows. A signed and notarized local
-  release candidate exists, but it has not been published.
+  signed and notarized universal release is available for installation.
 
 beztrace is intended to become a standalone companion engine for Glyphs MCP:
 it will turn raster glyphs and symbols into neutral, versioned path data that a
 future Glyphs MCP adapter can apply through the existing path-mutation tools.
 Glyphs MCP is a consumer, not a runtime dependency or target in this product.
-No integration may begin until the standalone viability gate in
-[Quality gates](docs/QUALITY_GATES.md) has passed and a versioned beztrace
-release has been separately authorized.
+The standalone viability gate in [Quality gates](docs/QUALITY_GATES.md) has
+passed. A future Glyphs MCP integration must remain separately versioned and
+consume the neutral JSON contract rather than adding a Glyphs dependency here.
 
 ## Planned v1 boundaries
 
@@ -73,13 +75,28 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
+## Install v0.1.0
+
+Download `beztrace-0.1.0.pkg` and `SHA256SUMS` from the
+[v0.1.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.0),
+verify the checksum, then install the notarized package:
+
+```sh
+shasum -a 256 -c SHA256SUMS
+sudo installer -pkg beztrace-0.1.0.pkg -target /
+beztrace --version
+```
+
+The installer places the universal executable under
+`/Library/Application Support/beztrace/bin` and exposes it as
+`/usr/local/bin/beztrace`. See the [release and verification guide](docs/RELEASE.md)
+for assets, signatures, SBOMs, and smoke tests.
+
 ## Repository policy
 
-The `main` branch holds the reviewed project contract. Long-running
-implementation belongs on `lit/initial-swift-port`. Changes from `main` should
-be merged into that branch without rewriting its history. The implementation
-branch must not be merged back until every standalone quality, performance,
-licensing, and distribution gate passes.
+The `main` branch holds released, reviewed source. Future implementation uses
+an explicitly authorized `lit/` branch and returns to `main` only after its
+documented gates pass.
 
 ## Project documents
 
@@ -93,6 +110,7 @@ licensing, and distribution gate passes.
 - [Test workflow](docs/TESTING.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Milestone 6 viability review](docs/VIABILITY_REVIEW.md)
+- [Release and verification](docs/RELEASE.md)
 
 ## License
 

@@ -8,7 +8,7 @@ machine-readable result is generated outside the repository by
 
 ## Current decision
 
-**Approve merge. Publication remains separately unauthorized.**
+**Approve release. Version `0.1.0` publication is separately authorized.**
 
 The implementation is eligible to merge into `main`: every required gate is
 present and passing, and the project owner explicitly authorized the merge.
@@ -22,7 +22,8 @@ including six accepted-with-optical-notes decisions. All five single-shot
 Apple Silicon and x86_64/Rosetta suites pass, and the focused malformed-input
 AddressSanitizer test passes with the installed Xcode beta toolchain. The
 project owner explicitly approved merge after the technical gates passed.
-Publication remains a separate authorization; Milestone 6 does not grant it.
+The project owner subsequently granted the separate authorization required to
+publish version `0.1.0`. Milestone 6 itself did not infer that authorization.
 
 ## Review evidence
 
@@ -93,5 +94,6 @@ to a pass, or treat publication authorization as implicit.
 ## Next boundary
 
 Merge the implementation branch into `main` under the recorded authorization.
-Do not publish artifacts or begin a Glyphs MCP adapter without separate,
-explicit authorization.
+Version `0.1.0` may be published under the project owner's subsequent explicit
+authorization. A Glyphs MCP adapter still requires its own separately scoped
+implementation authorization.

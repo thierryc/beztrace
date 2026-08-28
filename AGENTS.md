@@ -10,8 +10,9 @@ the versioned neutral public API and JSON/SVG contracts, and a standalone CLI.
 The standalone viability review approves merge after human acceptance,
 performance, robustness, universal packaging, Developer ID signing, Apple
 notarization, installation, and non-Glyphs workflow verification passed. The
-project owner authorized merge, but publication and Glyphs integration remain
-separate actions that have not been authorized.
+project owner authorized merge and separately authorized publication of
+version `0.1.0`. That authorization does not extend to later releases or to
+Glyphs integration.
 
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
@@ -27,8 +28,9 @@ discard unrelated changes.
   not rebase or force-push the long-running branch.
 - Do not merge implementation into `main` until the viability gate in
   `docs/QUALITY_GATES.md` passes in full.
-- Do not create a remote repository, push, publish, sign, notarize, or upload
-  artifacts without separate explicit authorization.
+- Do not create another remote repository, publish another version, sign or
+  notarize replacement artifacts, or upload additional artifacts without
+  separate explicit authorization.
 
 ## Product boundaries
 

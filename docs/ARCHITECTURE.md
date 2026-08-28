@@ -2,8 +2,8 @@
 
 > [!NOTE]
 > The complete standalone pipeline, placement, stable public request/result
-> types, JSON/SVG serialization, and CLI are implemented. Performance and
-> release hardening remain for Milestone 5.
+> types, JSON/SVG serialization, CLI, performance hardening, and universal
+> distribution are implemented for version `0.1.0`.
 
 ## Product shape
 

@@ -1,7 +1,7 @@
 # Standalone interfaces
 
-This document specifies the implemented pre-release v1 contract. The contract
-is exercised locally and in CI, but no signed or published release exists yet.
+This document specifies the released version `0.1.0` v1 contract. The contract
+is exercised locally, in CI, and by the signed and notarized distribution.
 
 ## Swift library
 
