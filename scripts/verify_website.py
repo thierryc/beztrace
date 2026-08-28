@@ -98,6 +98,8 @@ def main() -> int:
         failures.append("product contract does not link to the canonical AP.CX Glyphs MCP page")
     if ".contract-copy a { color: var(--blue); font-weight: 700; }" not in styles:
         failures.append("Glyphs MCP contract link lacks the shared interactive treatment")
+    if ".check-list code { font: inherit; }" not in styles:
+        failures.append("contract code labels do not inherit the checklist type size")
     if 'src="assets/examples/glyph-ampersand-inspection.svg"' not in source:
         failures.append("hero does not use the canvas-aligned inspection SVG")
     for rule in (
