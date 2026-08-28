@@ -104,6 +104,21 @@ def main() -> int:
         if rule not in styles:
             failures.append(f"hero style is missing: {rule}")
 
+    for warm_color in ("#f4f1e8", "#fffdf7", "#ff5c35"):
+        if warm_color in source.lower() or warm_color in styles.lower():
+            failures.append(f"obsolete warm site color remains: {warm_color}")
+    for rule in (
+        "--paper: #ffffff;",
+        "--paper-bright: #ffffff;",
+        "--blue: #2456f5;",
+        "--acid: #d9ff45;",
+        "background: var(--blue);\n  color: white;",
+        ".button-primary { background: var(--blue); color: white;",
+        ".filter-button:hover, .filter-button.is-active { border-color: var(--blue); background: var(--blue); color: white; }",
+    ):
+        if rule not in styles:
+            failures.append(f"site palette is missing: {rule}")
+
     for reference in parser.references:
         if reference.startswith(("file:", "/Users/", "/Volumes/")):
             failures.append(f"private or absolute reference: {reference}")
