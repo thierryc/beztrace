@@ -1,1 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1088"><path d="M 460 856 L 628 856 L 646 750 C 672 739 681 733 704 716 L 806 760 L 890 612 L 800 546 L 798 482 L 890 414 L 806 266 L 708 308 L 646 276 L 628 170 L 462 170 L 442 278 L 384 310 L 282 266 L 200 414 L 290 482 L 290 512 C 290 522 290 534 290 542 L 200 612 L 282 760 L 384 716 L 442 750 Z M 544 620 C 486 620 438 571 438 514 C 438 455 487 406 544 406 C 602 406 652 455 652 514 C 652 571 603 620 544 620 Z" fill="black" fill-rule="nonzero"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1088" aria-hidden="true">
+<style>
+.trace-handle{fill:none;stroke:#2456f5;stroke-width:.85;stroke-opacity:.28;vector-effect:non-scaling-stroke}
+.trace-oncurve{fill:#fff;fill-opacity:.78;stroke:#2456f5;stroke-width:.85;stroke-opacity:.62;vector-effect:non-scaling-stroke}
+.trace-offcurve{fill:#fff;fill-opacity:.62;stroke:#2456f5;stroke-width:.85;stroke-opacity:.48;vector-effect:non-scaling-stroke}
+</style>
+<path d="M 460 856 L 628 856 L 646 750 C 672 739 681 733 704 716 L 806 760 L 890 612 L 800 546 L 798 482 L 890 414 L 806 266 L 708 308 L 646 276 L 628 170 L 462 170 L 442 278 L 384 310 L 282 266 L 200 414 L 290 482 L 290 512 C 290 522 290 534 290 542 L 200 612 L 282 760 L 384 716 L 442 750 Z M 544 620 C 486 620 438 571 438 514 C 438 455 487 406 544 406 C 602 406 652 455 652 514 C 652 571 603 620 544 620 Z" fill="black" fill-rule="nonzero"/>
+<line class="trace-handle" x1="646" y1="750" x2="672" y2="739"/>
+<line class="trace-handle" x1="681" y1="733" x2="704" y2="716"/>
+<line class="trace-handle" x1="290" y1="512" x2="290" y2="522"/>
+<line class="trace-handle" x1="290" y1="534" x2="290" y2="542"/>
+<line class="trace-handle" x1="544" y1="620" x2="486" y2="620"/>
+<line class="trace-handle" x1="438" y1="571" x2="438" y2="514"/>
+<line class="trace-handle" x1="438" y1="514" x2="438" y2="455"/>
+<line class="trace-handle" x1="487" y1="406" x2="544" y2="406"/>
+<line class="trace-handle" x1="544" y1="406" x2="602" y2="406"/>
+<line class="trace-handle" x1="652" y1="455" x2="652" y2="514"/>
+<line class="trace-handle" x1="652" y1="514" x2="652" y2="571"/>
+<line class="trace-handle" x1="603" y1="620" x2="544" y2="620"/>
+<rect class="trace-oncurve" x="457" y="853" width="6" height="6"/>
+<rect class="trace-oncurve" x="625" y="853" width="6" height="6"/>
+<rect class="trace-oncurve" x="643" y="747" width="6" height="6"/>
+<rect class="trace-oncurve" x="701" y="713" width="6" height="6"/>
+<rect class="trace-oncurve" x="803" y="757" width="6" height="6"/>
+<rect class="trace-oncurve" x="887" y="609" width="6" height="6"/>
+<rect class="trace-oncurve" x="797" y="543" width="6" height="6"/>
+<rect class="trace-oncurve" x="795" y="479" width="6" height="6"/>
+<rect class="trace-oncurve" x="887" y="411" width="6" height="6"/>
+<rect class="trace-oncurve" x="803" y="263" width="6" height="6"/>
+<rect class="trace-oncurve" x="705" y="305" width="6" height="6"/>
+<rect class="trace-oncurve" x="643" y="273" width="6" height="6"/>
+<rect class="trace-oncurve" x="625" y="167" width="6" height="6"/>
+<rect class="trace-oncurve" x="459" y="167" width="6" height="6"/>
+<rect class="trace-oncurve" x="439" y="275" width="6" height="6"/>
+<rect class="trace-oncurve" x="381" y="307" width="6" height="6"/>
+<rect class="trace-oncurve" x="279" y="263" width="6" height="6"/>
+<rect class="trace-oncurve" x="197" y="411" width="6" height="6"/>
+<rect class="trace-oncurve" x="287" y="479" width="6" height="6"/>
+<rect class="trace-oncurve" x="287" y="509" width="6" height="6"/>
+<rect class="trace-oncurve" x="287" y="539" width="6" height="6"/>
+<rect class="trace-oncurve" x="197" y="609" width="6" height="6"/>
+<rect class="trace-oncurve" x="279" y="757" width="6" height="6"/>
+<rect class="trace-oncurve" x="381" y="713" width="6" height="6"/>
+<rect class="trace-oncurve" x="439" y="747" width="6" height="6"/>
+<rect class="trace-oncurve" x="541" y="617" width="6" height="6"/>
+<rect class="trace-oncurve" x="435" y="511" width="6" height="6"/>
+<rect class="trace-oncurve" x="541" y="403" width="6" height="6"/>
+<rect class="trace-oncurve" x="649" y="511" width="6" height="6"/>
+<rect class="trace-oncurve" x="541" y="617" width="6" height="6"/>
+<circle class="trace-offcurve" cx="672" cy="739" r="2.5"/>
+<circle class="trace-offcurve" cx="681" cy="733" r="2.5"/>
+<circle class="trace-offcurve" cx="290" cy="522" r="2.5"/>
+<circle class="trace-offcurve" cx="290" cy="534" r="2.5"/>
+<circle class="trace-offcurve" cx="486" cy="620" r="2.5"/>
+<circle class="trace-offcurve" cx="438" cy="571" r="2.5"/>
+<circle class="trace-offcurve" cx="438" cy="455" r="2.5"/>
+<circle class="trace-offcurve" cx="487" cy="406" r="2.5"/>
+<circle class="trace-offcurve" cx="602" cy="406" r="2.5"/>
+<circle class="trace-offcurve" cx="652" cy="455" r="2.5"/>
+<circle class="trace-offcurve" cx="652" cy="571" r="2.5"/>
+<circle class="trace-offcurve" cx="603" cy="620" r="2.5"/>
+</svg>

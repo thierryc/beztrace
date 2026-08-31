@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1088"><path d="M 274 848 L 350 848 L 422 662 L 662 662 L 736 848 L 814 848 L 578 240 L 510 240 Z M 448 592 L 528 378 L 544 320 L 640 592 Z" fill="black" fill-rule="nonzero"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1088" aria-hidden="true">
+<style>
+.trace-handle{fill:none;stroke:#2456f5;stroke-width:.85;stroke-opacity:.28;vector-effect:non-scaling-stroke}
+.trace-oncurve{fill:#fff;fill-opacity:.78;stroke:#2456f5;stroke-width:.85;stroke-opacity:.62;vector-effect:non-scaling-stroke}
+.trace-offcurve{fill:#fff;fill-opacity:.62;stroke:#2456f5;stroke-width:.85;stroke-opacity:.48;vector-effect:non-scaling-stroke}
+</style>
+<path d="M 274 848 L 350 848 L 422 662 L 662 662 L 736 848 L 814 848 L 578 240 L 510 240 Z M 448 592 L 528 378 L 544 320 L 640 592 Z" fill="black" fill-rule="nonzero"/>
+<rect class="trace-oncurve" x="271" y="845" width="6" height="6"/>
+<rect class="trace-oncurve" x="347" y="845" width="6" height="6"/>
+<rect class="trace-oncurve" x="419" y="659" width="6" height="6"/>
+<rect class="trace-oncurve" x="659" y="659" width="6" height="6"/>
+<rect class="trace-oncurve" x="733" y="845" width="6" height="6"/>
+<rect class="trace-oncurve" x="811" y="845" width="6" height="6"/>
+<rect class="trace-oncurve" x="575" y="237" width="6" height="6"/>
+<rect class="trace-oncurve" x="507" y="237" width="6" height="6"/>
+<rect class="trace-oncurve" x="445" y="589" width="6" height="6"/>
+<rect class="trace-oncurve" x="525" y="375" width="6" height="6"/>
+<rect class="trace-oncurve" x="541" y="317" width="6" height="6"/>
+<rect class="trace-oncurve" x="637" y="589" width="6" height="6"/>
+</svg>
