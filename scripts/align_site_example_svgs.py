@@ -85,6 +85,79 @@ def translate_path_y(path_data: str, delta_y: float) -> str:
     return " ".join(output)
 
 
+def inspection_markup(path_data: str) -> str:
+    tokens = path_tokens(path_data)
+    handles: list[tuple[tuple[float, float], tuple[float, float]]] = []
+    oncurves: list[tuple[float, float]] = []
+    offcurves: list[tuple[float, float]] = []
+    command: str | None = None
+    current: tuple[float, float] | None = None
+    contour_start: tuple[float, float] | None = None
+    index = 0
+
+    def coordinates(count: int) -> list[float]:
+        nonlocal index
+        if index + count > len(tokens) or any(token in {"M", "L", "C", "Z"} for token in tokens[index : index + count]):
+            raise ValueError("malformed SVG path command")
+        values = [float(token) for token in tokens[index : index + count]]
+        index += count
+        return values
+
+    while index < len(tokens):
+        token = tokens[index]
+        if token in {"M", "L", "C", "Z"}:
+            command = token
+            index += 1
+            if command == "Z":
+                current = contour_start
+                command = None
+                continue
+        if command == "M":
+            x, y = coordinates(2)
+            current = (x, y)
+            contour_start = current
+            oncurves.append(current)
+            command = "L"
+        elif command == "L":
+            x, y = coordinates(2)
+            current = (x, y)
+            oncurves.append(current)
+        elif command == "C":
+            if current is None:
+                raise ValueError("cubic segment has no starting point")
+            c1x, c1y, c2x, c2y, x, y = coordinates(6)
+            first_control = (c1x, c1y)
+            second_control = (c2x, c2y)
+            endpoint = (x, y)
+            handles.append((current, first_control))
+            handles.append((second_control, endpoint))
+            offcurves.extend((first_control, second_control))
+            oncurves.append(endpoint)
+            current = endpoint
+        else:
+            raise ValueError("SVG coordinate has no path command")
+
+    lines = [
+        (
+            f'<line class="trace-handle" x1="{format_number(start[0])}" y1="{format_number(start[1])}" '
+            f'x2="{format_number(end[0])}" y2="{format_number(end[1])}"/>'
+        )
+        for start, end in handles
+    ]
+    nodes = [
+        (
+            f'<rect class="trace-oncurve" x="{format_number(x - 3)}" y="{format_number(y - 3)}" '
+            'width="6" height="6"/>'
+        )
+        for x, y in oncurves
+    ]
+    controls = [
+        f'<circle class="trace-offcurve" cx="{format_number(x)}" cy="{format_number(y)}" r="2.5"/>'
+        for x, y in offcurves
+    ]
+    return "\n".join((*lines, *nodes, *controls))
+
+
 def align_svg_text(source: str) -> str:
     if re.search(r"\btransform\s*=", source) or "<g" in source:
         raise ValueError("site alignment requires a baked, transform-free SVG")
@@ -111,9 +184,16 @@ def align_svg_text(source: str) -> str:
     path_data = translate_path_y(path.attrib["d"], delta_y)
     fill = html.escape(path.attrib.get("fill", "black"), quote=True)
     fill_rule = html.escape(path.attrib.get("fill-rule", "nonzero"), quote=True)
+    overlay = inspection_markup(path_data)
     return (
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1088">'
-        f'<path d="{html.escape(path_data, quote=True)}" fill="{fill}" fill-rule="{fill_rule}"/>'
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1088" aria-hidden="true">\n'
+        "<style>\n"
+        ".trace-handle{fill:none;stroke:#2456f5;stroke-width:.85;stroke-opacity:.28;vector-effect:non-scaling-stroke}\n"
+        ".trace-oncurve{fill:#fff;fill-opacity:.78;stroke:#2456f5;stroke-width:.85;stroke-opacity:.62;vector-effect:non-scaling-stroke}\n"
+        ".trace-offcurve{fill:#fff;fill-opacity:.62;stroke:#2456f5;stroke-width:.85;stroke-opacity:.48;vector-effect:non-scaling-stroke}\n"
+        "</style>\n"
+        f'<path d="{html.escape(path_data, quote=True)}" fill="{fill}" fill-rule="{fill_rule}"/>\n'
+        f"{overlay}\n"
         "</svg>\n"
     )
 
@@ -136,6 +216,7 @@ def regenerate(write: bool) -> list[str]:
             "svg": display_relative,
             "svgSHA256": sha256_bytes(aligned_bytes),
             "canvasAligned": True,
+            "inspectionOverlay": True,
             "viewBox": [0, 0, 1088, 1088],
         }
 

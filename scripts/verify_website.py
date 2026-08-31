@@ -91,7 +91,7 @@ def main() -> int:
         failures.append(f"expected at least {REQUIRED_EXAMPLES} trace examples, found {parser.examples}")
     if len(parser.ids) != len(set(parser.ids)):
         failures.append("HTML ids must be unique")
-    for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.0", "Glyphs MCP"):
+    for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.0", "Glyphs MCP", "discreet nodes and handles"):
         if phrase not in source:
             failures.append(f"missing product contract copy: {phrase}")
     if f'href="{GLYPHS_MCP_URL}"' not in source:
@@ -222,10 +222,16 @@ def main() -> int:
                 failures.append(f"{example.get('id', '<unknown>')} published raster differs from fixture")
             if example.get("canvasAligned") is not True or example.get("viewBox") != [0, 0, 1088, 1088]:
                 failures.append(f"{example.get('id', '<unknown>')} display SVG is not canvas-aligned")
+            if example.get("inspectionOverlay") is not True:
+                failures.append(f"{example.get('id', '<unknown>')} display SVG lacks inspection metadata")
             if svg_path.is_file():
-                display_root = ET.fromstring(svg_path.read_text(encoding="utf-8"))
+                display_text = svg_path.read_text(encoding="utf-8")
+                display_root = ET.fromstring(display_text)
                 if display_root.attrib.get("viewBox") != "0 0 1088 1088":
                     failures.append(f"{example.get('id', '<unknown>')} display SVG viewBox differs")
+                for marker in ('.trace-handle{', 'class="trace-oncurve"', '.trace-offcurve{'):
+                    if marker not in display_text:
+                        failures.append(f"{example.get('id', '<unknown>')} display SVG lacks {marker}")
 
     workflow = WORKFLOW.read_text(encoding="utf-8")
     for requirement in (

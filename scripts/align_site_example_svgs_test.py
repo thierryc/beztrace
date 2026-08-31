@@ -20,6 +20,12 @@ class AlignSVGTextTests(unittest.TestCase):
 
         self.assertIn('viewBox="0 0 1088 1088"', aligned)
         self.assertIn('d="M 10 1028 L 20 1038 C 21 1039 22 1040 23 1041 Z"', aligned)
+        self.assertEqual(aligned.count('class="trace-handle"'), 2)
+        self.assertEqual(aligned.count('class="trace-oncurve"'), 3)
+        self.assertEqual(aligned.count('class="trace-offcurve"'), 2)
+        self.assertIn('<line class="trace-handle" x1="20" y1="1038" x2="21" y2="1039"/>', aligned)
+        self.assertIn('<line class="trace-handle" x1="22" y1="1040" x2="23" y2="1041"/>', aligned)
+        self.assertIn('vector-effect:non-scaling-stroke', aligned)
         self.assertNotIn("<g", aligned)
         self.assertNotIn("transform=", aligned)
 
