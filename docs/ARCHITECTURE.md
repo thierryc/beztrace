@@ -45,9 +45,11 @@ part of the standalone engine v1 distribution.
 
 `Companions/Glyphs` contains the separately versioned native plugin. A Python
 worker invokes the released CLI through bounded pipes; a pure adapter validates
-JSON and uniformly places neutral Y-up geometry. AppKit owns preview and controls.
+JSON and maps neutral Y-up geometry through the native canvas image crop and
+affine transform. AppKit owns a compact Threshold/Invert/Trace panel. A separate
+Python API prepares and applies image-only metric placement for coding agents.
 The native boundary binds a document/glyph/owning layer, revalidates it before
-Apply, and inserts verified paths on the main thread with undo and recovery.
+automatic insertion, and inserts verified paths on the main thread with undo and recovery.
 The plugin adds no Swift package dependency and does not contain an MCP adapter.
 See [companion architecture and workflow](../Companions/Glyphs/README.md).
 

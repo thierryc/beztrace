@@ -6,10 +6,15 @@ import Foundation
 
 enum ContourFitter {
     static func fitClosed(smoothed: [Point2D], accuracy: Double) -> FittedContour {
-        guard let first = smoothed.first else {
+        guard smoothed.count >= 4 else {
             return FittedContour(segments: [], isLine: [], jointKinds: [])
         }
-        let segments = fitOpenSamples(smoothed + [first], accuracy: accuracy)
+        // An open fit cannot represent a closed span whose endpoints coincide.
+        // Use four ordered spans so short-span line heuristics cannot erase a loop.
+        let boundaries = (0...4).map { $0 * smoothed.count / 4 }
+        let segments = zip(boundaries, boundaries.dropFirst()).flatMap { start, end in
+            fitOpenSamples((start...end).map { smoothed[$0 % smoothed.count] }, accuracy: accuracy)
+        }
         return FittedContour(
             segments: segments,
             isLine: Array(repeating: false, count: segments.count),
@@ -19,12 +24,22 @@ enum ContourFitter {
 
     static func fitInitial(plan: ContourPlan, accuracy: Double) -> FittedContour {
         var result = fitSections(plan: plan, accuracy: accuracy)
+        let originalArea = signedArea(of: plan.smoothed)
+        func preservesArea(_ candidate: FittedContour) -> Bool {
+            let area = CleanupDirection.signedArea(BezierPathContour(candidate))
+            return abs(area) > 1e-9 && area * originalArea > 0
+                && abs(area) >= abs(originalArea) * 0.5
+        }
+        if !preservesArea(result) {
+            result = fitClosed(smoothed: plan.smoothed, accuracy: accuracy)
+        }
+        let beforeFinish = result
         result = FittingFinish.mergeCollinearLines(result)
         result = FittingFinish.collapseCornerSlivers(result)
         result = FittingFinish.collapseMicroLines(result)
         result = FittingFinish.tameShortCubicHandles(result)
         result = FittingFinish.smoothJoins(result)
-        return result
+        return preservesArea(result) ? result : beforeFinish
     }
 
     static func fitSections(plan: ContourPlan, accuracy: Double) -> FittedContour {

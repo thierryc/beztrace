@@ -1,106 +1,92 @@
 #!/usr/bin/env python3
 # Copyright 2026 beztrace contributors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""Isolated AppKit smoke check with a fake host; never connects to Glyphs.
-
-Requires macOS, PyObjC/AppKit/Quartz, and WindowServer access. Native controls and
-cached drawing run in this process. This is not visual or Glyphs qualification.
-"""
+"""Isolated native controls/image renderer with fake font objects. No Glyphs access."""
 import sys
+import os
+import time
 from pathlib import Path
 from types import SimpleNamespace as NS
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path[:0] = [str(ROOT/'Beztrace.glyphsPlugin/Contents/Resources'),str(ROOT/'tests')]
-# Only the callback constant is imported by the controller after host injection.
-sys.modules['GlyphsApp'] = NS(DRAWFOREGROUND='drawForeground')
-from AppKit import NSApplication, NSAppearance, NSImage, NSColor
+ROOT=Path(__file__).resolve().parents[1]
+sys.path[:0]=[str(ROOT/'Beztrace.glyphsPlugin/Contents/Resources'),str(ROOT/'tests')]
+from AppKit import NSApplication,NSImage,NSMakeRect,NSAppearance
 from test_adapter import FakeHost
-from test_inspector import metrics, letter
-from test_contract import sample
-from beztrace_companion import ui
+from beztrace_companion import ui,image_io
+from beztrace_companion.adapter import Target
+from beztrace_companion.contract import CompanionError
 
 
 class Host(FakeHost):
     def __init__(self):
         super().__init__()
-        self.document = NS(displayName=lambda:'Disposable AppKit target')
-        self.glyph = NS(name='A')
-        self.owner.name = 'Regular'; self.owner.paths = []
-        self.callbacks = []
-        self.app = NS(addCallback=lambda *a:self.callbacks.append(a),
-                      removeCallback=lambda fn:self.callbacks.clear())
-        self.same = lambda a,b:a is b
-
-    def metrics(self, owner): return metrics()
-    def classification(self, glyph): return letter('A')
+        self.document=NS(displayName=lambda:'Disposable AppKit target')
+        self.glyph=NS(name='A'); self.owner.name='Regular'; self.owner.backgroundImage=None
+        self.same=lambda a,b:a is b
+        self.available=True
+    def active_target(self):
+        if not self.available: raise CompanionError('Select one glyph layer')
+        return Target(self.document,self.font,self.glyph,self.owner,self.owner,'foreground',self.ids,self.fingerprint(self.owner),'Disposable / A / Regular')
+    def selection_context(self): return self.document
+    def check_selection_context(self,context):
+        if context is not self.document: raise CompanionError('Document changed')
+    def new_image(self,path):
+        image=NSImage.alloc().initWithContentsOfFile_(str(path)); size=image.size()
+        return NS(path=str(path),image=image,crop=NSMakeRect(0,0,size.width,size.height),transform=(1.,0.,0.,1.,30.,-20.),alpha=50,locked=False)
+    def fingerprint(self,layer): return (FakeHost.fingerprint(self,layer),self.image_state(layer.backgroundImage))
+    def snapshot(self,layer): return FakeHost.fingerprint(self,layer)
+    def image_state(self,image): return (image.path,image.transform,image.crop) if image else None
+    def content_without_image(self,layer): return FakeHost.fingerprint(self,layer)
+    def set_image(self,layer,image): layer.backgroundImage=image
 
 
 def run():
-    ui.GlyphsHost = Host
-    app = NSApplication.sharedApplication()
-    app.setActivationPolicy_(2)
-    controller = ui.BeztraceWindowController.alloc().init()
+    app=NSApplication.sharedApplication(); app.setActivationPolicy_(2)
+    ui.GlyphsHost=Host
+    controller=ui.BeztraceWindowController.alloc().init()
+    controller.engine=os.environ.get('BEZTRACE_TEST_ENGINE',controller.engine)
     try:
-        assert controller.session.target and controller.fit.height == 700
-        assert controller.window().isFloatingPanel()
-        assert not controller.views['apply'].isEnabled()
-        assert controller.preview.mode == 'Overlay'
-        fixture = ROOT.parents[1]/'Tests/Fixtures/corpus/deterministic'
-        image = fixture/'symbols/symbol-power.png'
-        assert controller.load_image(image)
-        token,_ = controller.session.begin(controller.session.target)
-        controller.session.complete(token,sample())
-        controller.update_preview()
-        assert controller.views['apply'].isEnabled()
-        assert controller.cached.geometry.paths is controller.placed
-        assert len(controller.host.callbacks) == 1
-        before = controller.host.fingerprint(controller.session.target.layer)
+        controller.poll_(None)
+        assert controller.window().contentView().bounds().size.width==280
+        assert controller.window().contentView().bounds().size.height==190
+        assert not controller.trace_button.isEnabled() and controller.image_button.isEnabled()
+        image=ROOT.parents[1]/'Tests/Fixtures/corpus/deterministic/symbols/symbol-power.png'
+        controller.host.owner.backgroundImage=controller.host.new_image(image)
+        controller.next_refresh=0; controller.poll_(None)
+        assert controller.trace_button.isEnabled()
+        # Current layer cannot be read during the action; capture waits for poll.
+        controller.host.available=False
+        controller.traceImage_(None)
+        assert controller.pending and not controller.session.busy
+        controller.host.available=True; controller.poll_(None)
+        assert controller.session.busy and controller.trace_button.title()=='Cancel'
+        deadline=time.monotonic()+20
+        while controller.session.busy and time.monotonic()<deadline:
+            time.sleep(.02); controller.poll_(None)
+        assert controller.session.applied,controller.details
+        assert len(controller.host.owner.shapes)>2 and controller.host.owner.width==0
+        assert controller.host.undo==0
+        count=len(controller.host.owner.shapes)
+        controller.traceImage_(None); controller.poll_(None)
+        assert 'Already traced' in controller.details
+        assert len(controller.host.owner.shapes)==count
+        controller.traceImage_(None); controller.host.document=object(); controller.poll_(None)
+        assert 'Document changed' in controller.details
+        controller.threshold.selectItemAtIndex_(1); controller.settingsChanged_(None)
+        controller.value.setStringValue_('999')
+        try: controller.options(); raise AssertionError('invalid threshold accepted')
+        except CompanionError: pass
         for appearance in ('NSAppearanceNameAqua','NSAppearanceNameDarkAqua'):
             import AppKit
             controller.window().setAppearance_(NSAppearance.appearanceNamed_(getattr(AppKit,appearance)))
-            canvas = NSImage.alloc().initWithSize_((1000,1000))
-            canvas.lockFocus()
-            try:
-                NSColor.windowBackgroundColor().set()
-                AppKit.NSBezierPath.fillRect_(((0,0),(1000,1000)))
-                for zoom in (.25,1,4):
-                    controller.beztraceInspectorDrawForeground(controller.host.owner,{'Scale':zoom})
-                for mode in ('Image','Overlay','Outline'):
-                    controller.preview.mode = mode
-                    controller.preview.drawRect_(controller.preview.bounds())
-            finally:
-                canvas.unlockFocus()
-        assert controller.overlay_fault is None, controller.overlay_fault
-        assert controller.host.fingerprint(controller.session.target.layer) == before
-        assert controller.host.undo == 0
-        controller.fields['height'].setStringValue_('640')
-        controller.controlTextDidChange_(NS(object=lambda:controller.fields['height']))
-        assert controller.views['fit'].titleOfSelectedItem() == 'Custom'
-        assert controller.fit.height == 640
-        controller.toggleAdvanced_(None); controller.toggleText_(None)
-        controller.status('Failure details','Long diagnostic.\n'*100)
-        controller.toggleDetails_(None)
-        for width,height in ((360,480),(400,680),(520,1100)):
-            controller.window().setContentSize_((width,height)); controller.layout()
-            assert controller.document.bounds().size.height >= controller.scroll.contentSize().height
-            for key in ('trace','apply','details'):
-                frame = controller.views[key].frame()
-                assert frame.origin.x >= 0 and frame.origin.x+frame.size.width <= width
-        controller.traceOptionChanged_(None)
-        assert controller.cached is None and not controller.host.callbacks
-        assert not controller.views['apply'].isEnabled()
-        assert controller.views['trace'].title() == 'Retrace'
-        controller.messages.put((token,'result',sample()))
-        controller.poll_(None)
-        assert controller.session.result is None
+        controller.traceImage_(None); controller.traceImage_(None)
+        assert controller.pending is None and not controller.session.busy
+        controller.traceImage_(None); controller.windowWillClose_(None); controller.poll_(None)
+        assert controller.session.closed and controller.pending is None
     finally:
-        controller.windowWillClose_(None)
-        controller.window().close()
-    assert controller.session.closed and not controller.host.callbacks
-    print('PASS: AppKit controls, presets, shared geometry, thumbnail modes, overlay drawing, '
-          'light/dark API paths, zoom, layout bounds, stale results, and cleanup. '
-          'No Glyphs process or font accessed. Visual/native Glyphs qualification remains pending.')
+        controller.windowWillClose_(None); controller.window().close()
+    print('PASS: 280×190 AppKit panel, native image rasterization, real engine, deferred capture, '
+          'automatic insertion through fake host, duplicates, stale context, cancellation, controls and cleanup. '
+          'No Glyphs process or user font accessed.')
 
 
-if __name__ == '__main__': run()
+if __name__=='__main__': run()

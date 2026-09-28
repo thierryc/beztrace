@@ -46,10 +46,15 @@ package or CLI dependencies. Future Glyphs MCP integration remains separate.
 
 ## Optional Glyphs companion
 
-[Beztrace for Glyphs](Companions/Glyphs/README.md) adds **Trace Image…**, preview,
-placement, and reversible native path insertion through the existing engine.
+[Beztrace for Glyphs](Companions/Glyphs/README.md) adds **Path → Beztrace…** to trace a native canvas image
+at its existing placement, with reversible native path insertion. A separate
+Python API supports automatic image placement for coding agents.
 Its unsigned development artifact is versioned independently of engine 0.1.0.
-Native qualification, signing, installation, and publication remain pending.
+Full native UI qualification and signed distribution remain pending.
+
+The **[0.1.1-dev.1 development prerelease](https://github.com/thierryc/beztrace/releases/tag/v0.1.1-dev.1)** includes the small-contour fix and Glyphs companion build 6.
+See [development engine verification](docs/SMALL_CONTOUR_FIX.md) for local builds;
+the published 0.1.0 installation remains unchanged.
 
 ## Standalone v1 boundaries
 

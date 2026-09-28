@@ -11,7 +11,7 @@ final class CLIApplicationTests: XCTestCase {
     func testVersionAndArgumentErrorsHaveStableStreamsAndCodes() throws {
         let version = CLIApplication.run(arguments: ["--version"])
         XCTAssertEqual(version.exitCode, 0)
-        XCTAssertEqual(String(data: version.standardOutput, encoding: .utf8), "beztrace 0.1.0\n")
+        XCTAssertEqual(String(data: version.standardOutput, encoding: .utf8), "beztrace 0.1.1-dev.1\n")
         XCTAssertTrue(version.standardError.isEmpty)
 
         let missing = CLIApplication.run(arguments: ["trace"])

@@ -1,144 +1,106 @@
 # Beztrace for Glyphs
 
-A native Glyphs 4 companion that traces PNG/JPEG images into editable paths
-using the separately installed beztrace engine. Plugin version **0.1.0**, build
-**2**, requires **beztrace 0.1.0**, JSON schema **1**, path data **2**.
+A small native panel that traces the image already placed in Glyphs.
+**0.1.0 build 6** accepts the separately installed **beztrace 0.1.0** engine
+or the local **0.1.1-dev.1** development engine,
+JSON schema **1**, and path data **2**.
 
-**Development artifact: native UI, insertion, Undo/Redo, installation, and
-signed distribution are not yet qualified.** See [verification](VERIFICATION.md).
+## Use it
 
-## Requirements and layout
+1. Open one glyph layer and choose **Path → Beztrace…**.
+2. Click **Choose Image…**, or place a PNG/JPEG using Glyphs' normal image workflow.
+3. Move, resize, rotate, or crop the native image on the Glyphs canvas.
+4. Leave Threshold on **Auto**, or choose **Manual** and enter 0–255. Enable
+   **Invert** for light artwork on a dark background.
+5. Click **Trace**. Editable paths are appended at the image's canvas placement.
+   One native Undo reverses the insertion. The source image remains in place.
 
-- macOS 13+, Apple Silicon or Intel; universal SDK loader.
-- Glyphs 4.1 build 4107 or later within Glyphs 4, with its Python 3.9+ runtime
-  and GlyphsApp, PyObjC, AppKit, Foundation, and Quartz bindings.
-- The released engine at `/Library/Application Support/beztrace/bin/beztrace`,
-  or a user-selected absolute executable through **⋯ → Choose Engine…**.
-- Install the bundle as `Plugins/Beztrace.glyphsPlugin` relative to the
-  **actual Glyphs 4 Application Support directory**. Discover that directory
-  using Glyphs 4's own settings/API; do not assume a Glyphs 3 directory.
-- Glyphs loads plugins on launch. Copying files does not load a new revision.
+The 280 × 190 point panel has no sizing, preview, destination, or Apply controls.
+It traces into the active foreground/background editing layer and preserves
+existing outlines, components, anchors, and advance width, including zero width.
+Choosing a new image requires confirmation before replacing an existing image;
+image placement is a separate undoable operation. Normal native image selection
+and transform controls remain in Glyphs. The built-in **Filter → Trace Image**
+is a separate tool and is not changed by this plugin.
 
-The companion does not download an engine or require Glyphs MCP to operate.
-The repository's Swift package and standalone distributions remain independent.
+Tracing runs off the UI thread with progress and Cancel. A running trace stays
+bound to the captured document and layer when you navigate. Changed destination
+content, image files, crop, or placement invalidate the pending result. Repeating
+an unchanged completed operation is rejected. Errors appear in the panel, with
+full details in **⋯ → Error Details…**. Recovery failures stop further writes.
 
-## Workflow
+## Installation and compatibility
 
-Select exactly one stored glyph layer, then choose **Path → Trace Image…**.
-Choose an image, adjust settings, trace, review, and Apply. The destination is
-captured by object identity and stable glyph/layer IDs. The window names the
-captured target; navigating elsewhere never redirects it. **Use Current**
-explicitly binds a new target and clears the previous trace.
+- macOS 13+, arm64 or x86_64; Glyphs 4.1 build 4107 or later within Glyphs 4.
+- Glyphs Python 3.9+ with GlyphsApp, PyObjC, AppKit, Foundation and Quartz.
+- Engine executable: `/Library/Application Support/beztrace/bin/beztrace`.
+  Use **⋯ → Choose Engine…** for an explicit alternative; no ambient PATH lookup.
+- Engine version must be exactly 0.1.0 or 0.1.1-dev.1 and match the returned JSON. PNG/JPEG source limits: 16 MiB,
+  4096 × 4096 pixels. The normalized crop must also fit the input limits.
 
-Foreground/background can be chosen for that captured owner. Append preserves
-existing shapes. **Replace existing paths** displays the path count and asks for
-confirmation when applying; components and anchors remain. Replacement refuses
-locked paths and layers with hints, because hints may reference removed nodes.
+Install the bundle under the **actual Glyphs 4 Application Support directory**,
+ending in `Plugins/Beztrace.glyphsPlugin`. Do not assume the Glyphs 3 directory.
+The current development link points to `.build/glyphs-companion-dev/Beztrace.glyphsPlugin`.
+Replacing that payload requires a Glyphs relaunch to load its new code. Installed
+files and the running revision are different evidence; About shows the loaded build.
 
-The nonmodal 360 × 680-point inspector floats beside the edit view while Glyphs
-is active. Its content scrolls; Trace/Apply and status remain visible. Click the
-thumbnail, use **Change…**, or drop one PNG/JPEG onto it. **Image / Overlay /
-Outline** switches the thumbnail view. Advanced tracing controls start collapsed.
-The overflow menu holds engine selection, version information, and a larger-text
-option. Native controls use system typography, colors, and light/dark appearance.
+Artifacts are unsigned local development builds. This is an informational status,
+not a runtime tracing restriction. See [release procedure](RELEASE.md) for the
+separate signing/notarization workflow. The plugin never saves a font.
 
-### Fit to font metrics
+## Placement and safety
 
-Placement defaults to **Auto**. Applicable layer metrics take precedence over the
-associated master's metrics. Conflicting or invalid metrics require an explicit
-usable preset or Custom values.
+The native image's logical size, crop and full affine transform determine path
+placement. The adapter normalizes the native image crop, requests neutral JSON,
+then maps its complete canvas into image-local coordinates and applies the native
+transform exactly once. It does not refit ink or consult font metrics in the UI.
+Native bitmap rendering preserves image orientation and DPI-dependent logical size.
+Crops outside the image and singular transforms are rejected with an actionable error.
 
-| Fit to | Complete ink range |
-| --- | --- |
-| Cap height | Baseline → cap height |
-| x-height | Baseline → x-height |
-| Ascender | Baseline → ascender |
-| Descender | Descender → x-height |
-| Custom | Bottom Y → Bottom Y + Height |
+Native writes use the qualified precision guard, balanced undo groups, recovery
+snapshots and coordinate readback (1e-7 font units). Recovery is in-memory only;
+it does not replace saved backups or provide application-crash recovery.
 
-Auto supports plain Unicode Latin uppercase A–Z except J/Q, lowercase
-`a c e m n o r s u v w x z`, and digit names explicitly ending in `.lf` or
-`.lnum`. Lining figures use cap height as a labeled fallback. Other glyphs,
-including accented letters, descending capitals, alternates, and unmarked
-numerals, require a preset or Custom. Unresolved Auto disables Apply.
+Auto-sizing is available only through the [placement API](AGENT_API.md). That API
+places native images in explicitly specified layers; it never inserts paths.
 
-The inspector shows the resolved rule and numeric range. Editing Height or
-Bottom Y chooses Custom; horizontal adjustment preserves the preset. Custom
-starts at height 700 and Bottom Y 0 before any metric resolution; subsequent
-manual edits retain the displayed values. Horizontal position defaults to 0
-and denotes the final left ink edge. One positive uniform transform fits the
-complete ink bounds, including handles. Advance width is preserved, including
-zero width. No AI, image classification, optical overshoot, or accent separation
-is used. There is no additional grid snapping.
-
-### Live preview
-
-**Preview in Glyphs** is enabled by default. The captured layer is the preview
-canvas; navigating elsewhere never retargets it. The optional source overlay is
-off by default. Labeled baseline, x-height, cap-height, ascender, and descender
-guides accompany the system-accent outlines. The thumbnail and overlay use the
-same transformed node data as Apply, with a compound nonzero fill for counters.
-ImageIO normalizes raster orientation.
-
-Placement edits update both previews immediately. Tracing-setting edits clear
-the old outlines and require Retrace. Drawing callbacks use cached paths and
-perform no tracing, file access, or font mutation. Cancellation, invalidation,
-Apply, target removal, and window closure clear the preview and remove callbacks.
-Target state is checked outside drawing every half second and immediately before
-Apply. Preview never intentionally changes font content or creates an undo group;
-actual Glyphs behavior remains subject to native qualification.
-
-Trace runs in a worker thread with bounded subprocess pipes. Version checks
-expire after five seconds; tracing after 60. Cancel stops and reaps the child.
-The spinner describes stages, not a fabricated completion percentage.
-Inputs are limited to 16 MiB and 4096 × 4096 pixels. Outputs are limited to
-32 MiB and 100,000 nodes total; the released schema limits each contour to 4,096.
-
-## Safety and recovery
-
-Apply rechecks document membership, ownership, glyph lock, native precision
-support, glyph classification, captured metrics, and destination content. Changed
-metrics or destination content require a new capture and trace. Native writes run on the main thread in a balanced undo group.
-Detached native paths retain closure, node order, smooth flags, and winding.
-Coordinates are read back with an absolute tolerance of 1e-7 font units.
-
-Recovery copies are captured immediately before writing. Failure restores the
-previous shapes and width and verifies the complete captured state. A recovery
-or cleanup mismatch blocks further Apply in that window and reports possible
-partial edits. Successful insertion can be undone/redone in Glyphs. These are
-in-memory recovery measures; they do not protect against application crashes or
-replace the user's saved font backups. The plugin never saves the font.
-
-## Build and test
+## Build and verify
 
 From the repository root, using Python 3.9+:
 
 ```sh
 python3 -m unittest discover -s Companions/Glyphs/tests -v
-swift test --configuration release --disable-swift-testing
+python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build2
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build6
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build6
 ```
 
-The package destination must be new or empty; existing artifacts are preserved.
-Tests require a real engine. Set `BEZTRACE_TEST_ENGINE` to a built or extracted
-0.1.0 executable when the released engine is not installed. Integration tests
-trace all 100 immutable corpus images without rewriting fixtures.
+The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font
+objects. Engine integration tests trace all 100 immutable corpus images. Set
+`BEZTRACE_TEST_ENGINE` if the released executable is not installed.
+Packaging requires a fresh output directory and produces the bundle, deterministic
+universal ZIP, manifest, SHA256SUMS, licenses, SDK provenance and SPDX SBOM.
+It never signs, installs, or launches Glyphs.
 
-Packaging checks the pinned SDK loader hash, universal architectures, Python
-syntax, identity, and schema copy. It creates the bundle, deterministic unsigned
-ZIP, companion manifest, SHA256SUMS, and SPDX SBOM. Build artifacts are not
-committed. Packaging never signs, installs, or launches Glyphs.
+The native CLI harness in [native testing](NATIVE_TESTING.md) uses detached,
+disposable Glyphs font objects. See [verification](VERIFICATION.md) for passed
+checks versus remaining visible in-app qualification.
 
-[Integration guide](INTEGRATION.md) · [Release procedure](RELEASE.md) ·
-[Native qualification](NATIVE_TESTING.md) · [SDK evidence](SDK_EVIDENCE.md)
+[Installer integration](INTEGRATION.md) · [API evidence](SDK_EVIDENCE.md)
 
-An optional isolated AppKit check uses only a fake host and corpus images:
+## Small-contour development fix
+
+Engine 0.1.1-dev.1 fixes the collapse of small closed contours reported with the
+blob-letter image. Released 0.1.0 remains installed and supported, but still has
+that bug. Build the local universal engine from the repository root:
 
 ```sh
-python3 Companions/Glyphs/scripts/appkit_smoke.py
+python3 scripts/build_development_engine.py
 ```
 
-It requires PyObjC with AppKit/Quartz and WindowServer access. It verifies native
-control construction and drawing API calls, without installing the plugin,
-connecting to Glyphs, or accessing a font. It is not visual/native qualification.
+After loading companion build 6 with a Glyphs relaunch, choose **⋯ → Choose Engine…**
+and select `.build/beztrace-0.1.1-dev.1/bin/beztrace` inside this repository. The
+choice applies to this panel session; select it again after reopening the panel.
+The default remains the separately installed release. No system executable is
+replaced. See [engine verification](../../docs/SMALL_CONTOUR_FIX.md).

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.1-dev.1 — development prerelease
+
+- Preserve small closed contours through smoothing and fitting, including
+  loops whose endpoints coincide and contours formed by two cubic segments.
+- Compute winding from cubic geometry instead of the endpoint polygon.
+- Add synthetic regressions; retain JSON schema v1 and pathDataVersion 2.
+- Glyphs companion build 6 accepts this local engine and released 0.1.0,
+  verifying that result and executable versions match.
+
+This development prerelease has no Developer ID signing, notarization or
+automatic system installation. See `docs/SMALL_CONTOUR_FIX.md` for local verification.
+
 ## 0.1.0 — 2026-08-27
 
 First standalone release.

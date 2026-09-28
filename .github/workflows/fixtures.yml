@@ -77,14 +77,12 @@ jobs:
           --sanitize=address --filter MalformedCorpusTests
 
   universal-unsigned:
-    name: Universal unsigned final-release staging
+    name: Universal development staging
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v7
-      - name: Build and verify unsigned universal final release
-        env:
-          BEZTRACE_EXTERNAL_WORK: /private/tmp/beztrace-milestone-7-ci
-        run: scripts/build_release_candidate.sh --final
+      - name: Build and verify universal development engine
+        run: python3 scripts/build_development_engine.py --output .build/development-engine-ci
       - name: Confirm repository remains read-only
         run: |
           git diff --exit-code

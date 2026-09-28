@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 
 ENGINE_VERSION = '0.1.0'
+ENGINE_VERSIONS = ('0.1.0', '0.1.1-dev.1')
 MAX_INPUT = 16 * 1024 * 1024
 MAX_OUTPUT = 32 * 1024 * 1024
 MAX_NODES = 100000
@@ -163,7 +164,7 @@ def _unique(pairs):
     return result
 
 
-def parse_result(data, image_bytes):
+def parse_result(data, image_bytes, expected_engine_version=None):
     if len(data) > MAX_OUTPUT:
         raise CompanionError('Engine output exceeds 32 MiB')
     try:
@@ -176,8 +177,10 @@ def parse_result(data, image_bytes):
         validate_schema(result, schema)
     except RecursionError as exc:
         raise CompanionError('Engine JSON nesting is too deep') from exc
-    if result['engine']['version'] != ENGINE_VERSION:
-        raise CompanionError('Expected beztrace ' + ENGINE_VERSION)
+    if result['engine']['version'] not in ENGINE_VERSIONS:
+        raise CompanionError('Unsupported beztrace engine version')
+    if expected_engine_version is not None and result['engine']['version'] != expected_engine_version:
+        raise CompanionError('Engine JSON version does not match executable version')
     if result['source']['sha256'] != hashlib.sha256(image_bytes).hexdigest():
         raise CompanionError('Engine result does not match the selected image')
     if result['placement'] is not None or result['resolvedOptions']['targetHeight'] != 1088:

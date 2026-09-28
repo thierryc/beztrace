@@ -9,7 +9,7 @@ import subprocess
 import threading
 import time
 from pathlib import Path
-from .contract import CompanionError, ENGINE_VERSION, MAX_INPUT, MAX_OUTPUT, parse_result, number
+from .contract import CompanionError, ENGINE_VERSIONS, MAX_INPUT, MAX_OUTPUT, parse_result, number
 
 DEFAULT_ENGINE = '/Library/Application Support/beztrace/bin/beztrace'
 DEFAULT_OPTIONS = dict(threshold='auto', invert=False, accuracy=2.0, smoothing=1.0,
@@ -59,7 +59,7 @@ def run_process(executable, args, source, cancel, timeout, output_limit=MAX_OUTP
         raise Cancelled('Trace cancelled')
     executable = str(Path(executable).expanduser())
     if not os.path.isabs(executable) or not os.path.isfile(executable) or not os.access(executable, os.X_OK):
-        raise CompanionError('Choose an executable beztrace 0.1.0 engine in the ⋯ → Choose Engine… menu')
+        raise CompanionError('Choose a compatible beztrace executable in the ⋯ → Choose Engine… menu')
     try:
         process = subprocess.Popen([executable] + list(args), stdin=subprocess.PIPE,
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -135,8 +135,10 @@ def trace(executable, image, options, cancel=None, progress=lambda stage: None,
     args = arguments(options)
     progress('Checking engine…')
     code, out, err = run_process(executable, ['--version'], b'', cancel, version_timeout, 4096)
-    if code or out.strip() != ('beztrace ' + ENGINE_VERSION).encode() or err:
-        raise CompanionError('Incompatible engine: beztrace 0.1.0 is required')
+    versions = {('beztrace ' + version).encode(): version for version in ENGINE_VERSIONS}
+    if code or out.strip() not in versions or err:
+        raise CompanionError('Incompatible engine: beztrace 0.1.0 or 0.1.1-dev.1 is required')
+    checked_version = versions[out.strip()]
     progress('Tracing…')
     code, out, err = run_process(executable, args, image, cancel, trace_timeout)
     if code:
@@ -151,7 +153,7 @@ def trace(executable, image, options, cancel=None, progress=lambda stage: None,
     if cancel.is_set():
         raise Cancelled('Trace cancelled')
     progress('Validating outlines…')
-    result = parse_result(out, image)
+    result = parse_result(out, image, expected_engine_version=checked_version)
     if cancel.is_set():
         raise Cancelled('Trace cancelled')
     return result

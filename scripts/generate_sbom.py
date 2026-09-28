@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -63,17 +64,24 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument(
         "--release-kind",
-        choices=("candidate", "final"),
+        choices=("candidate", "final", "development"),
         default="candidate",
     )
+    parser.add_argument("--version", help="Explicit prerelease version, required for development only")
     args = parser.parse_args()
+    if args.release_kind == "development":
+        if not args.version or not re.fullmatch(r"\d+\.\d+\.\d+-dev\.\d+", args.version):
+            parser.error("development requires --version MAJOR.MINOR.PATCH-dev.N")
+    elif args.version is not None:
+        parser.error("--version is only supported for development metadata")
     binary = args.binary.resolve()
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
     revision = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True
     ).stdout.strip()
-    label = "0.1.0-rc.1" if args.release_kind == "candidate" else "0.1.0"
+    label = args.version if args.release_kind == "development" else (
+        "0.1.0-rc.1" if args.release_kind == "candidate" else "0.1.0")
     source_version = f"{label}+{revision[:12]}" if args.release_kind == "candidate" else label
 
     source_package = package(

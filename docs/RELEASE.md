@@ -67,3 +67,19 @@ own [release procedure](../Companions/Glyphs/RELEASE.md) and artifact manifest.
 It is not included in engine 0.1.0 assets and does not change their checksums,
 signatures, or installation behavior. Current companion artifacts are unsigned
 and native-unqualified.
+
+## 0.1.1-dev.1 development prerelease
+
+The small-contour correction and Glyphs companion build 6 are distributed as a
+GitHub prerelease, with the published 0.1.0 release retained as latest stable.
+The new engine and companion are development artifacts without Developer ID
+signing or notarization. Full companion UI qualification remains pending.
+
+Assets include a universal engine ZIP, the independently versioned companion
+ZIP, engine/companion manifests, SPDX SBOMs and SHA256SUMS. Verify checksums before
+extracting. The engine archive's `bin/beztrace` can be selected using the
+companion's Choose Engine menu. It does not replace the shared 0.1.0 installation
+automatically. There is no development installer package.
+
+See [small-contour verification](SMALL_CONTOUR_FIX.md) and the
+[companion prerelease procedure](../Companions/Glyphs/RELEASE.md).
