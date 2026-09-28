@@ -11,8 +11,12 @@ The standalone viability review approves merge after human acceptance,
 performance, robustness, universal packaging, Developer ID signing, Apple
 notarization, installation, and non-Glyphs workflow verification passed. The
 project owner authorized merge and separately authorized publication of
-version `0.1.0`. That authorization does not extend to later releases or to
-Glyphs integration.
+version `0.1.0`. That release authorization does not extend to later releases.
+The project owner has separately authorized the Glyphs 4 companion under `Companions/Glyphs` on
+`lit/glyphs-companion`, using the released CLI and neutral JSON contract. This
+authorizes source, tests, and unsigned local packaging only; live installation,
+relaunch, user-font edits, signing, notarization, and publication require separate
+authorization.
 
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
@@ -39,8 +43,9 @@ discard unrelated changes.
 - The intended future role is a companion engine that returns neutral,
   versioned paths for a separately versioned Glyphs MCP adapter to consume.
 - Do not edit the Glyphs MCP repository from a beztrace implementation task.
-- Do not add an MCP adapter here. Future consumers use the versioned neutral
-  JSON contract.
+- Do not add an MCP adapter here. The authorized native Glyphs companion lives
+  under `Companions/Glyphs`; future MCP consumers remain separate and use the
+  versioned neutral JSON contract.
 - V1 targets clean generated glyph silhouettes, not general image
   vectorization.
 - Apple Vision may be used only for experiments or diagnostics. It must not

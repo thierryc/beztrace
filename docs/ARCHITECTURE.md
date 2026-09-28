@@ -39,7 +39,17 @@ logic.
   system frameworks.
 
 No Glyphs-specific target, MCP server, daemon, XPC service, plugin, or GUI is
-part of v1.
+part of the standalone engine v1 distribution.
+
+## Optional Glyphs 4 companion
+
+`Companions/Glyphs` contains the separately versioned native plugin. A Python
+worker invokes the released CLI through bounded pipes; a pure adapter validates
+JSON and uniformly places neutral Y-up geometry. AppKit owns preview and controls.
+The native boundary binds a document/glyph/owning layer, revalidates it before
+Apply, and inserts verified paths on the main thread with undo and recovery.
+The plugin adds no Swift package dependency and does not contain an MCP adapter.
+See [companion architecture and workflow](../Companions/Glyphs/README.md).
 
 ## Core subsystems
 

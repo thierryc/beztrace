@@ -20,18 +20,19 @@ cubic Bezier outlines.
 > through a real standalone JSON/SVG workflow.
 > Version `0.1.0` is the first standalone release. It is distributed as a
 > universal Developer ID-signed executable and an Apple-notarized installer.
-> Glyphs MCP integration remains a separate consumer project and is not part
-> of this repository or release.
+> A separately versioned [Glyphs 4 companion](Companions/Glyphs/README.md) is
+> under development in this repository; its native qualification is pending.
+> Glyphs MCP setup and adapter integration remain separate work.
 
 ## Intended product
 
-The product is deliberately split into two reusable layers:
+The standalone engine is split into two reusable layers:
 
 - `BezierTraceCore`, a Swift library that owns image preparation, tracing,
   placement, validation, and the neutral public result contract.
 - `beztrace`, a standalone command-line tool exposing JSON/SVG tracing to local
-  shell, batch, CI, and automation workflows. A signed and notarized local
-  signed and notarized universal release is available for installation.
+  shell, batch, CI, and automation workflows. A signed and notarized universal
+  release is available for installation.
 
 beztrace is intended to become a standalone companion engine for
 [Glyphs MCP](https://ap.cx/tools/glyphs-mcp/):
@@ -39,10 +40,18 @@ it will turn raster glyphs and symbols into neutral, versioned path data that a
 future Glyphs MCP adapter can apply through the existing path-mutation tools.
 Glyphs MCP is a consumer, not a runtime dependency or target in this product.
 The standalone viability gate in [Quality gates](docs/QUALITY_GATES.md) has
-passed. A future Glyphs MCP integration must remain separately versioned and
-consume the neutral JSON contract rather than adding a Glyphs dependency here.
+passed. The optional native companion consumes the released CLI and neutral JSON
+contract. Glyphs dependencies stay in `Companions/Glyphs`; they are not Swift
+package or CLI dependencies. Future Glyphs MCP integration remains separate.
 
-## Planned v1 boundaries
+## Optional Glyphs companion
+
+[Beztrace for Glyphs](Companions/Glyphs/README.md) adds **Trace Image…**, preview,
+placement, and reversible native path insertion through the existing engine.
+Its unsigned development artifact is versioned independently of engine 0.1.0.
+Native qualification, signing, installation, and publication remain pending.
+
+## Standalone v1 boundaries
 
 - macOS 13 or later, Swift 6, `arm64` and `x86_64`.
 - Clean, high-resolution monochrome or alpha glyph images.

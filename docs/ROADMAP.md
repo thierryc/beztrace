@@ -127,3 +127,10 @@ viability may that project prepare its adapter: accept path or base64 input,
 invoke a checksum-pinned signed executable, return path data compatible with
 `pathDataVersion 2`, and leave application to the existing path-mutation tool.
 None of that integration is part of this repository's initial work.
+
+## 8. Native Glyphs 4 companion — implementation
+
+The project owner authorized `lit/glyphs-companion`: a separately versioned
+plugin, pure JSON adapter, native UI, tests, and unsigned packaging under
+`Companions/Glyphs`. It reuses released engine 0.1.0. Native qualification and
+release remain separate gates. Glyphs MCP setup and adapter work are external.

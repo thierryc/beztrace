@@ -60,3 +60,16 @@ CI and explicit fixture-maintenance commands use, but do not distribute:
 
 Pillow is not linked into, bundled with, or required by the beztrace Swift
 library, executable, ZIP, or installer.
+
+The separately distributed optional Glyphs companion additionally includes:
+
+  Project: GlyphsSDK
+  Repository: https://github.com/schriftgestalt/GlyphsSDK
+  Source revision: 0f5422db727b78cb42abfb386f33ae0b382b0c4d
+  Files: General Plugin universal loader and adapted Python entry template
+  License: Apache-2.0
+
+The companion retains the SDK license, source revision, and loader SHA-256 in
+Contents/Resources/GlyphsSDK-LICENSE.txt and GlyphsSDK-SOURCE.json. The SDK
+loader is not included in the standalone engine distributions. The companion
+uses the host Glyphs Python/PyObjC runtime; it does not bundle that runtime.

@@ -59,3 +59,11 @@ JSON schema v1 and `pathDataVersion 2` are the neutral machine contract.
 Consumers must check those fields and the engine version before using returned
 paths. JSON remains Y-up; SVG defaults to baked, transform-free SVG coordinates.
 Use `--svg-transform preserve` when SVG path coordinates must stay Y-up.
+
+## Optional companion distribution
+
+The separately versioned [Glyphs 4 plugin](../Companions/Glyphs/README.md) has its
+own [release procedure](../Companions/Glyphs/RELEASE.md) and artifact manifest.
+It is not included in engine 0.1.0 assets and does not change their checksums,
+signatures, or installation behavior. Current companion artifacts are unsigned
+and native-unqualified.

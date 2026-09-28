@@ -76,7 +76,7 @@ alpha-defined silhouette on a plain background.
 - Meet all correctness, quality, performance, memory, signing, and packaging
   gates in `QUALITY_GATES.md`.
 
-## Explicitly out of scope for v1
+## Explicitly out of scope for the standalone engine v1
 
 - Photographs and scans of printed type.
 - Arbitrary multicolor, textured, shaded, or overlapping artwork.
@@ -87,3 +87,11 @@ alpha-defined silhouette on a plain background.
 - Apple Vision as the production tracing engine.
 - Network URLs, cloud processing, telemetry, updates, or hosted services.
 - Glyphs MCP adapters or direct font-document mutation.
+
+## Separately authorized companion
+
+The Glyphs 4 plugin under `Companions/Glyphs` is a separately versioned consumer
+of the released CLI. Its host-provided Python/PyObjC runtime and native SDK loader
+are confined to that distribution. Native font mutation is authorized as plugin
+functionality, with qualification and live testing governed by its own scope.
+The standalone core, CLI, and release payload retain all boundaries above.
