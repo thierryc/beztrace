@@ -1,6 +1,7 @@
 # Copyright 2026 beztrace contributors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 import os
+import json
 from pathlib import Path
 import signal
 import sys
@@ -8,7 +9,7 @@ import tempfile
 import threading
 import time
 import unittest
-from test_contract import ROOT
+from test_contract import ROOT, sample
 from beztrace_companion.contract import CompanionError,MAX_INPUT
 from beztrace_companion.engine import trace,run_process,arguments,Cancelled,DEFAULT_ENGINE
 from beztrace_companion.session import Session
@@ -53,6 +54,17 @@ class ProcessTests(unittest.TestCase):
 
     def test_incompatible_version(self):
         with self.assertRaisesRegex(CompanionError,'Incompatible'): trace(self.fake(version='beztrace 0.2.0'),b'image',{})
+
+    def test_supported_versions_must_match_json(self):
+        for executable_version in ('0.1.0', '0.1.1-dev.1'):
+            for json_version in ('0.1.0', '0.1.1-dev.1'):
+                result = sample(); result['engine']['version'] = json_version
+                engine = self.fake(version='beztrace ' + executable_version, output=json.dumps(result))
+                if executable_version == json_version:
+                    self.assertEqual(trace(engine, b'image', {})['engine']['version'], json_version)
+                else:
+                    with self.assertRaisesRegex(CompanionError, 'does not match'):
+                        trace(engine, b'image', {})
 
     def test_all_exit_codes(self):
         for status in [2,3,4,5,6,7,99]:

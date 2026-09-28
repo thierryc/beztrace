@@ -125,6 +125,12 @@ enum ContourPlanner {
 
         var sigma = min(max(PlanningConstants.smoothSigma * configuration.smoothing, 0.05), 50)
         var smoothed = gaussianSmoothClosed(resampled, sigma: sigma)
+        let originalArea = signedArea(of: resampled)
+        func preservesArea(_ candidate: [Point2D]) -> Bool {
+            let area = signedArea(of: candidate)
+            return area * originalArea > 0 && abs(area) >= abs(originalArea) * 0.8
+        }
+        if !preservesArea(smoothed) { smoothed = resampled }
         var turns = vertexTurns(smoothed)
         for _ in 0..<4 {
             let meanTurn = turns.reduce(0) { $0 + abs($1) } / Double(count)
@@ -134,8 +140,13 @@ enum ContourPlanner {
             {
                 break
             }
-            sigma *= 1.8
-            smoothed = gaussianSmoothClosed(resampled, sigma: sigma)
+            let nextSigma = sigma * 1.8
+            let candidate = gaussianSmoothClosed(resampled, sigma: nextSigma)
+            // Small closed curves have a large unavoidable mean turn (2π/n).
+            // Repeatedly smoothing that turn can shrink a valid dot to a point.
+            guard preservesArea(candidate) else { break }
+            sigma = nextSigma
+            smoothed = candidate
             turns = vertexTurns(smoothed)
         }
 

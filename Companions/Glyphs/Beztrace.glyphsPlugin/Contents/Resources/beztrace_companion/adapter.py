@@ -41,14 +41,14 @@ def capture(host, destination):
 def revalidate(host, target):
     host.assert_main()
     if target is None or not host.contains(target):
-        raise CompanionError('The captured document, glyph, or layer is no longer available. Use Current and trace again.')
+        raise CompanionError('The captured document, glyph, or layer is no longer available. Select the layer and trace again.')
     host.check_editable(target.glyph, target.layer)
     if target.metrics is not None and host.metrics(target.owner) != target.metrics:
-        raise CompanionError('Font metrics changed. Use Current to refresh and review placement.')
+        raise CompanionError('Font metrics changed. Prepare image placement again.')
     if target.classification is not None and host.classification(target.glyph) != target.classification:
-        raise CompanionError('Glyph classification changed. Use Current to refresh placement.')
+        raise CompanionError('Glyph classification changed. Prepare image placement again.')
     if host.fingerprint(target.layer) != target.fingerprint:
-        raise CompanionError('The destination changed. Use Current and review a new trace before applying.')
+        raise CompanionError('The destination changed. Trace again after reviewing the destination.')
 
 
 def apply_paths(host, target, paths, replace=False):
@@ -100,3 +100,35 @@ def apply_paths(host, target, paths, replace=False):
         # Redraw failure must not turn a verified mutation into a retryable Apply.
         return "Paths applied; refresh the Glyphs view to display them."
     return None
+
+
+def apply_image(host, target, image, replace=False):
+    """Undoable image-only assignment, with verified in-memory recovery."""
+    revalidate(host,target)
+    old=target.layer.backgroundImage
+    if old is not None and not replace:
+        raise CompanionError('This layer already has an image; replacement was not requested')
+    prior=host.fingerprint(target.layer)
+    preserved=host.content_without_image(target.layer)
+    expected=host.image_state(image)
+    begun=False
+    try:
+        host.begin_undo(target.glyph); begun=True
+        try:
+            host.set_image(target.layer,image)
+            if host.image_state(target.layer.backgroundImage)!=expected or host.content_without_image(target.layer)!=preserved:
+                raise CompanionError('Native image placement failed verification')
+        except Exception as original:
+            try:
+                host.set_image(target.layer,old)
+                if host.fingerprint(target.layer)!=prior:
+                    raise RuntimeError('Image recovery did not restore the layer')
+            except Exception as recovery:
+                raise RecoveryError('Image placement failed and recovery could not be verified: '+str(recovery)) from original
+            raise CompanionError('Image placement failed; previous state restored: '+str(original)) from original
+    finally:
+        if begun:
+            try: host.end_undo(target.glyph)
+            except Exception as exc: raise RecoveryError('Image undo cleanup failed: '+str(exc)) from exc
+    try: host.redraw()
+    except Exception: pass  # Verified placement is complete; do not encourage retry.

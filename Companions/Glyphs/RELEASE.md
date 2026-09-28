@@ -57,3 +57,28 @@ against the staged signed bundle afterward.
 
 No credentials, identities, or signing commands run automatically from environment
 variables in the companion build. The engine release remains a separate product.
+
+## Development prerelease authorized 2026-09-28
+
+The owner requested commit, merge and GitHub publication of the tested engine
+correction and companion build 6. Distribute these current development artifacts
+under the engine's `v0.1.1-dev.1` GitHub **prerelease**, with a separately versioned
+`beztrace-glyphs-0.1.0-build6-macos-universal.zip`. Keep stable 0.1.0 as the latest
+stable release. This does not qualify the companion for stable distribution.
+
+Build both artifacts from the clean merged revision. Use
+`scripts/build_development_engine.py` for the engine and this companion's package
+builder for the plugin. Include both manifests, the companion manifest schema,
+engine source/binary SPDX SBOMs, and top-level SHA-256 checksums. The companion
+ZIP contains its own SPDX SBOM and licenses. Keep the original published 0.1.0
+artifacts unchanged. No Developer ID signing or notarization is performed for
+this explicitly labeled development distribution; record that status in its
+metadata and release notes.
+
+Publishing workflow: prepare and verify all assets, create a draft prerelease
+at the merged commit, verify its tag target and uploaded asset checksums, then
+publish without marking it latest. Never upload the private reproduction image,
+local archives, font documents, caches or installation receipts. Native backend
+checks and automated tests must be distinguished from pending full in-app UI
+qualification in the notes. A subsequent stable release still requires the
+qualification and signed-distribution steps above.

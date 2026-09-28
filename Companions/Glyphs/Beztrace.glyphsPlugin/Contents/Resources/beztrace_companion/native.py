@@ -18,6 +18,18 @@ def _value(v):
         return str(v)
 
 
+def _native_items(collection):
+    """Snapshot optional SDK collections without iterating a nil-backed proxy.
+
+    Glyphs ListProxy.__iter__/__len__ call iter/len on values() directly.
+    Empty guides, annotations and hints may return None from their native getter.
+    Read that getter through the public proxy API; propagate actual read failures.
+    """
+    values = getattr(collection, 'values', None)
+    raw = values() if callable(values) else collection
+    return () if raw is None else tuple(raw)
+
+
 def _properties(obj, names):
     return tuple((key, _value(getattr(obj, key, None))) for key in names)
 
@@ -39,6 +51,9 @@ class GlyphsHost:
             raise CompanionError('Native font access must run on the main thread')
 
     def current(self):
+        return self.current_selection()[:4]
+
+    def current_selection(self):
         self.assert_main()
         font = self.app.font
         if font is None or font.parent is None:
@@ -48,6 +63,7 @@ class GlyphsHost:
             raise CompanionError('Select exactly one glyph layer')
         layer = selected[0]
         glyph = layer.parent
+        destination = 'background' if isinstance(layer, self.Background) else 'foreground'
         if isinstance(layer, self.Background):
             candidates = [l for l in glyph.layers if self.same(l.background, layer)]
             if len(candidates) != 1:
@@ -55,7 +71,23 @@ class GlyphsHost:
             layer = candidates[0]
         if not any(self.same(l, layer) for l in glyph.layers):
             raise CompanionError('Select a stored glyph layer, not a generated preview')
-        return font.parent, font, glyph, layer
+        return font.parent, font, glyph, layer, destination
+
+    def selection_context(self):
+        """Bind an explicit capture request before leaving an AppKit action."""
+        self.assert_main()
+        font = self.app.font
+        if font is None or font.parent is None:
+            raise CompanionError('Open a font and select one glyph layer')
+        return font.parent, font, font.currentTab
+
+    def check_selection_context(self, context):
+        document, font, tab = context
+        current_document, current_font, current_tab = self.selection_context()
+        if (not self.same(document, current_document) or not self.same(font, current_font)
+                or not any(self.same(document, d) for d in self.app.documents)
+                or not (tab is None and current_tab is None or self.same(tab, current_tab))):
+            raise CompanionError('Document or tab changed. Select the intended layer and try again.')
 
     def destination(self, owner, destination):
         return owner if destination == 'foreground' else owner.background
@@ -70,7 +102,7 @@ class GlyphsHost:
     def check_replace(self, layer):
         if any(p.locked for p in layer.paths):
             raise CompanionError('Unlock existing paths before replacing them')
-        if len(layer.hints):
+        if _native_items(layer.hints):
             raise CompanionError('This layer has hints that may reference existing paths. Use Append or remove the hints explicitly before replacement.')
 
     def identity(self, glyph, owner):
@@ -107,7 +139,7 @@ class GlyphsHost:
     def read_metrics(self, owner, types):
         self.assert_main()
         layer_values = {}
-        for store in owner.metrics or []:
+        for store in _native_items(owner.metrics):
             metric = store.metric
             key = types.get(metric.type) if metric is not None else None
             if key:
@@ -118,7 +150,7 @@ class GlyphsHost:
         defaults['baseline'] = 0.0
         if master is not None:
             general = {}
-            for metric in owner.parent.parent.metrics:
+            for metric in _native_items(owner.parent.parent.metrics):
                 key = types.get(metric.type)
                 if key and metric.filter is None:
                     store = master.metrics[metric.id]
@@ -143,10 +175,10 @@ class GlyphsHost:
         return (_properties(layer, ['width','vertWidth','leftMetricsKey','rightMetricsKey','widthMetricsKey',
                                     'topMetricsKey','bottomMetricsKey','attributes','userData','color',
                                     'associatedMasterId','layerId','name']),
-                tuple(_properties(a, ['name','position','userData']) for a in layer.anchors),
-                tuple(_properties(g, ['position','angle','name','locked']) for g in layer.guides),
-                tuple(_properties(a, ['position','text','type','width','angle']) for a in layer.annotations),
-                tuple(_properties(h, ['type','origin','target','other1','other2','horizontal','options','name','scale']) for h in layer.hints),
+                tuple(_properties(a, ['name','position','userData']) for a in _native_items(layer.anchors)),
+                tuple(_properties(g, ['position','angle','name','locked']) for g in _native_items(layer.guides)),
+                tuple(_properties(a, ['position','text','type','width','angle']) for a in _native_items(layer.annotations)),
+                tuple(_properties(h, ['type','origin','target','other1','other2','horizontal','options','name','scale']) for h in _native_items(layer.hints)),
                 _properties(layer.backgroundImage, ['path','transform','alpha','crop','locked']) if layer.backgroundImage else None)
 
     def fingerprint(self, layer):
@@ -219,13 +251,54 @@ class GlyphsHost:
         for path, wanted in zip(shapes[len(survivors):], expected):
             actual = self.path_data(path)
             if actual['closed'] != wanted['closed'] or len(actual['nodes']) != len(wanted['nodes']):
-                raise CompanionError('Native path structure differs from the preview')
+                raise CompanionError('Native path structure differs from the trace')
             for a, b in zip(actual['nodes'], wanted['nodes']):
                 if a['type'] != b['type'] or a['smooth'] != b['smooth'] or abs(a['x']-b['x']) > 1e-7 or abs(a['y']-b['y']) > 1e-7:
-                    raise CompanionError('Native node differs from the preview (tolerance 1e-7 units)')
+                    raise CompanionError('Native node differs from the trace (tolerance 1e-7 units)')
             area = signed_area(wanted)
             if signed_area(actual)*area <= 0 or int(path.direction) != (1 if area < 0 else -1):
-                raise CompanionError('Native contour direction differs from the preview')
+                raise CompanionError('Native contour direction differs from the trace')
 
     def redraw(self):
         self.app.redraw()
+
+    def target(self, font, glyph_name, layer_id, destination='foreground', sizing=False):
+        from .adapter import Target
+        self.assert_main()
+        if font is None or font.parent is None or not any(self.same(d,font.parent) for d in self.app.documents):
+            raise CompanionError('The requested font document is not open')
+        if destination not in ('foreground','background'):
+            raise CompanionError('Invalid destination')
+        glyph=font.glyphs[glyph_name]
+        owner=glyph.layers[layer_id] if glyph else None
+        if glyph is None or owner is None or isinstance(owner,self.Background):
+            raise CompanionError('Specify an existing glyph and owning layer ID')
+        layer=self.destination(owner,destination)
+        self.check_editable(glyph,layer)
+        return Target(font.parent,font,glyph,owner,layer,destination,self.identity(glyph,owner),
+            self.fingerprint(layer),self.label(font.parent,font,glyph,owner),
+            self.metrics(owner) if sizing else None,self.classification(glyph) if sizing else None)
+
+    def active_target(self):
+        _,font,glyph,owner,destination=self.current_selection()
+        return self.target(font,str(glyph.name),str(owner.layerId),destination)
+
+    def new_image(self, path):
+        from GlyphsApp import GSBackgroundImage
+        from .image_io import read_source
+        read_source(path)
+        image=GSBackgroundImage(str(path))
+        if image.image is None:
+            raise CompanionError('Cannot load the selected image')
+        image.resetCrop()
+        image.locked=False
+        return image
+
+    def image_state(self, image):
+        return _properties(image,['path','transform','alpha','crop','locked']) if image else None
+
+    def set_image(self, layer, image):
+        layer.backgroundImage=image
+
+    def content_without_image(self, layer):
+        return (tuple(self.shape_state(s) for s in layer.shapes),self.preserved_state(layer)[:-1])

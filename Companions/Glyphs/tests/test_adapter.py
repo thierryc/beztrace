@@ -194,4 +194,94 @@ class NativeConstructionTests(unittest.TestCase):
         with self.assertRaises(CompanionError): host.verify(layer,native,wanted,snapshot,False)
 
 
+class NullableNativeCollection:
+    """Match SDK ListProxy when a native optional array has not been allocated."""
+    def __init__(self, values=None): self.entries=values
+    def values(self): return self.entries
+    def __iter__(self): return iter(self.values())
+    def __len__(self): return len(self.values())
+
+
+class NullableCollectionTests(unittest.TestCase):
+    def native_host(self):
+        host=GlyphsHost.__new__(GlyphsHost); host.Path=Path
+        return host
+
+    def layer(self):
+        return SimpleNamespace(shapes=[],paths=[],width=600,anchors=[],guides=[],
+                               annotations=[],hints=[],backgroundImage=None)
+
+    def test_capture_empty_optional_native_collections(self):
+        native=self.native_host(); host=FakeHost(); layer=self.layer()
+        host.owner=layer; host.fingerprint=native.fingerprint
+        expected=native.fingerprint(layer)
+        for key in ('guides','annotations','hints','anchors'):
+            setattr(layer,key,NullableNativeCollection())
+        target=capture(host,'foreground')
+        self.assertEqual(target.fingerprint,expected)
+        revalidate(host,target)
+
+    def test_later_annotation_still_invalidates_capture(self):
+        native=self.native_host(); host=FakeHost(); host.owner=self.layer()
+        host.fingerprint=native.fingerprint
+        host.owner.annotations=NullableNativeCollection()
+        target=capture(host,'foreground')
+        host.owner.annotations.entries=[SimpleNamespace(text='New annotation')]
+        with self.assertRaisesRegex(CompanionError,'destination changed'): revalidate(host,target)
+
+    def test_nil_hints_allow_replace_but_existing_hints_block_it(self):
+        host=self.native_host(); layer=self.layer(); layer.hints=NullableNativeCollection()
+        host.check_replace(layer)
+        layer.hints.entries=[object()]
+        with self.assertRaisesRegex(CompanionError,'hints'): host.check_replace(layer)
+
+    def test_unexpected_collection_read_error_is_not_hidden(self):
+        class BrokenCollection(NullableNativeCollection):
+            def values(self): raise RuntimeError('Native read failed')
+        layer=self.layer(); layer.guides=BrokenCollection()
+        with self.assertRaisesRegex(RuntimeError,'Native read failed'):
+            self.native_host().fingerprint(layer)
+
+    def test_native_none_matches_empty_collection(self):
+        layer=self.layer(); host=self.native_host(); expected=host.fingerprint(layer)
+        layer.guides=layer.annotations=layer.hints=layer.anchors=None
+        self.assertEqual(host.fingerprint(layer),expected)
+
+    def test_nil_layer_and_font_metrics_fall_back_to_master(self):
+        host=self.native_host(); host.assert_main=lambda:None
+        master=SimpleNamespace(capHeight=700,xHeight=500,ascender=800,descender=-200)
+        layer=SimpleNamespace(metrics=NullableNativeCollection(),master=master,
+                              parent=SimpleNamespace(parent=SimpleNamespace(metrics=NullableNativeCollection())))
+        result=host.read_metrics(layer,{1:'capHeight'})
+        self.assertEqual(result.get('capHeight'),700)
+
+
+class SelectionContextTests(unittest.TestCase):
+    def host(self):
+        host=GlyphsHost.__new__(GlyphsHost)
+        host.assert_main=lambda:None
+        host.same=lambda a,b:a is not None and a is b
+        document=object()
+        host.app=SimpleNamespace(font=SimpleNamespace(parent=document,currentTab=object()),documents=[document])
+        return host
+
+    def test_same_document_and_tab_allowed(self):
+        host=self.host(); host.check_selection_context(host.selection_context())
+        host.app.font.currentTab=None
+        host.check_selection_context(host.selection_context())
+
+    def test_switched_closed_or_replaced_context_rejected(self):
+        for change in (lambda h:setattr(h.app.font,'currentTab',object()),
+                       lambda h:setattr(h.app,'documents',[]),
+                       lambda h:setattr(h.app,'font',SimpleNamespace(parent=h.app.font.parent,currentTab=h.app.font.currentTab)),
+                       lambda h:setattr(h.app.font,'parent',object())):
+            host=self.host(); context=host.selection_context(); change(host)
+            with self.assertRaises(CompanionError): host.check_selection_context(context)
+
+    def test_missing_font_or_document_rejected(self):
+        for font in (None, SimpleNamespace(parent=None)):
+            host=self.host(); host.app.font=font
+            with self.assertRaises(CompanionError): host.selection_context()
+
+
 if __name__=='__main__': unittest.main()

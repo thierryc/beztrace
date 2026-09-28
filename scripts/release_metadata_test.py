@@ -16,6 +16,22 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseMetadataTests(unittest.TestCase):
+    def test_development_sbom_requires_and_records_explicit_prerelease_version(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            binary = root / "beztrace"
+            binary.write_bytes(b"development-binary")
+            command = ["python3", str(ROOT / "scripts/generate_sbom.py"), "--binary", str(binary),
+                       "--output-dir", str(root / "share"), "--release-kind", "development"]
+            for suffix in [[], ["--version", "0.1.1"], ["--version", "bad"]]:
+                result = subprocess.run(command + suffix, capture_output=True)
+                self.assertNotEqual(result.returncode, 0)
+            subprocess.run(command + ["--version", "0.1.1-dev.1"], check=True, capture_output=True)
+            for name in ("source", "binary"):
+                data = json.loads((root / "share" / f"sbom-{name}.spdx.json").read_text())
+                self.assertEqual(data["packages"][0]["versionInfo"], "0.1.1-dev.1")
+                self.assertIn("/0.1.1-dev.1/", data["documentNamespace"])
+
     def build_manifest(self, release_kind: str) -> dict:
         label = "0.1.0-rc.1" if release_kind == "candidate" else "0.1.0"
         with tempfile.TemporaryDirectory() as temporary:

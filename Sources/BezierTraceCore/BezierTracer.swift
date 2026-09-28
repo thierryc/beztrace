@@ -5,7 +5,7 @@ import CryptoKit
 import Foundation
 
 public enum BezierTraceVersion {
-    public static let engine = "0.1.0"
+    public static let engine = "0.1.1-dev.1"
     public static let schema = 1
     public static let pathData = 2
     public static let portSourceRevision = "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"

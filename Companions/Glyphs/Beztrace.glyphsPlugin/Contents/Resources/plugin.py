@@ -19,7 +19,7 @@ class BeztracePlugin(GeneralPlugin):
 
     @objc.python_method
     def start(self):
-        self.menuItem = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Trace Image…','showTrace:', '')
+        self.menuItem = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Beztrace…','showTrace:', '')
         self.menuItem.setTarget_(self)
         Glyphs.menu[PATH_MENU].append(self.menuItem)
 

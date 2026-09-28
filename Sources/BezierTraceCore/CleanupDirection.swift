@@ -22,11 +22,18 @@ enum CleanupDirection {
     }
 
     static func signedArea(_ path: BezierPathContour) -> Double {
-        path.segments.reduce(0) {
-            let start = $1.cubic.start
-            let end = $1.cubic.end
-            return $0 + start.x * end.y - end.x * start.y
-        } / 2
+        guard let origin = path.segments.first?.cubic.start else { return 0 }
+        // Green's theorem: cubic x*y' - y*x' has degree at most five, so
+        // three-point Gauss integration is exact. Translate to reduce cancellation.
+        let offset = sqrt(15.0) / 10
+        let samples = [(0.5 - offset, 5.0 / 18), (0.5, 4.0 / 9), (0.5 + offset, 5.0 / 18)]
+        return path.segments.reduce(0) { sum, segment in
+            let c = segment.cubic
+            if segment.isLine { return sum + (c.start - origin).cross(c.end - origin) / 2 }
+            return sum + samples.reduce(0) { integral, sample in
+                integral + sample.1 * (c.point(at: sample.0) - origin).cross(c.derivative(at: sample.0)) / 2
+            }
+        }
     }
 
     static func reversed(_ path: BezierPathContour) -> BezierPathContour {

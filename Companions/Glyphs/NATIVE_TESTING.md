@@ -1,81 +1,57 @@
-# Native qualification checklist
+# Native qualification
 
-Status: **not performed**. Automated mock-host tests establish adapter logic,
-not actual Glyphs undo semantics, plugin loading, or in-app rendering. The isolated AppKit smoke check is recorded separately.
+See [verification](VERIFICATION.md) for observed results. Automated fake-host
+checks, native CLI backend checks, and visible in-app qualification are separate.
+Use disposable fixtures. Do not save, close, or edit unrelated user fonts.
 
-Use an explicitly authorized disposable environment. Installation into live
-Glyphs, relaunch, and editing user fonts are outside the current authorization.
-Do not save dirty user fonts or close unrelated documents to make a test work.
+## Reproducible native backend check
 
-## Bounded adapter probe
+Using the official Glyphs CLI configured for Glyphs 4:
 
-`scripts/native_probe.py` defines an opt-in `run(resources)` function for the
-Glyphs Scripting Window. Pass the absolute path to the workspace plugin's
-`Contents/Resources`. Importing the file has no font side effects. Calling it
-creates a new unsaved fixture, inserts a closing cubic with fractional coordinates,
-verifies readback and width, then leaves the disposable fixture open for Undo/Redo.
-It does not exercise the plugin's menu or window and cannot qualify those features.
+```sh
+glyphs run --app '/Applications/Glyphs 4.app' --plugins '' \
+  Companions/Glyphs/scripts/native_canvas_probe.py
+```
 
-## Installed plugin acceptance
+This creates detached native font objects and synthetic raster fixtures under
+`.build/glyphs-native-canvas`. It never connects to the running Glyphs document,
+loads user plugins, installs, restarts, or saves a font. It verifies native image
+and path insertion/readback, fractional affine transforms, crop/DPI/EXIF handling,
+foreground/background preservation and native image/path Undo/Redo. Document
+membership is replaced by an explicit detached-fixture ownership check; it cannot
+establish in-app selection or menu behavior.
 
-Record source revision, workspace and installed paths, bundle ID/version/build,
-archive and payload hashes, app bundle ID/version/build, OS, CPU, Python version,
-and evidence of the loaded revision. Preserve the previous installed bundle.
+## Visible build-5 acceptance
 
-1. Install the exact staged bundle through the authorized Glyphs 4 installation
-   workflow. Compare installed bytes. Relaunch only with authorization and verify
-   **Path → Trace Image…** and the expected window.
-2. Use a new disposable font with two glyphs, two masters, and a special layer.
-   Add paths, a component, an anchor, guides, metadata, and widths including zero.
-   Capture their initial values. Keep all tests within this fixture.
-3. Trace corpus A/O and curved/counter fixtures; inspect source overlay, winding,
-   smooth nodes, cubic closure, fractional handles, negative Bottom Y, and size.
-   Include a JPEG with EXIF rotation/reflection and a transparent PNG.
-4. Change placement without retracing; compare the preview's exact nodes to native
-   readback. Verify existing content and advance width are preserved.
-5. Exercise append and explicit replacement in both foreground and background.
-   Confirm replacement preserves components/anchors and refuses hinted or locked
-   paths. Verify background selection resolves the intended owning layer.
-6. Undo once and compare the initial state; redo once and compare inserted paths.
-   Repeat with font grid > 0 and both initial native rounding-flag states.
-7. While tracing, navigate to another glyph/master/document. Apply must retain
-   the captured target. Delete/replace/edit the target, close its document, or
-   replace its background: Apply must refuse stale state. Use Current
-   must explicitly capture the new selection.
-8. Exercise malformed image, empty image, missing/wrong engine, invalid settings,
-   repeated Trace, Cancel, window close during trace, timeout, and late worker
-   completion. Confirm responsiveness and absence of orphan processes.
-9. Use disposable fault injection to fail insertion/readback, then compare the
-   recovered snapshot. Verify cleanup and poisoning on a recovery failure; never
-   count a partial rollback as success.
-10. Qualify install, update, rollback, and removal on both supported architectures.
-    Verify no shared-engine removal and no unrelated plugin changes. Clean up only
-    owned test bundles/fonts under the original authorization.
+After an authorized relaunch, verify About shows build 5 and the menu reads
+**Path → Beztrace…**. Use a new disposable font with two glyphs and two masters.
 
-Record each case as passed, failed, blocked, or unverified with observed evidence.
-A failure or unsupported selector remains a release blocker. Installed file hashes
-alone do not prove which code Glyphs loaded.
+- Check the 280 × 190 panel, keyboard order, labels, long names, light/dark modes,
+  readable errors and the engine setup action.
+- Place PNG/JPEG through both Choose Image and Glyphs' normal image workflow.
+  Confirm replacement and image Undo/Redo. Move/resize with native handles.
+- Check image/outline alignment at several zoom levels, including native crops,
+  nonuniform scale, rotation, skew, reflection, 144-DPI PNG, EXIF JPEG and alpha PNG.
+- Trace foreground and native background editing layers. Ensure counters and cubic
+  handles match, existing outlines/components/anchors/width remain, and the source
+  image is retained. Undo once and Redo once; compare exact path readback.
+- Switch glyph/master/document during tracing: the result must stay on the
+  captured target. Edit/replace/delete the image, crop, transform, file or target
+  while tracing: reject the stale result without insertion.
+- Exercise threshold errors, inversion, empty images, missing/wrong engine,
+  Cancel, closure, timeouts, duplicate Trace and late results.
+- Run the placement API on explicit disposable layers. Review proposed transforms,
+  apply image-only placement, exercise Auto ambiguity and replacement conflicts,
+  cancellation, whole-batch preflight failure and per-item recovery failure.
 
-## Build 2 inspector and overlay acceptance
+Record workspace, installed and loaded versions separately. No file checksum
+alone establishes a loaded revision or visible alignment. A failed native check
+remains a qualification blocker.
 
-- Check the 360 × 680 panel beside an edit view, 360 × 480 minimum, scrolling,
-  fixed footer, collapsed/expanded settings, long errors and scrollable details.
-  Check regular/larger text, long font/layer names, light/dark appearance,
-  keyboard traversal, VoiceOver labels, and PNG/JPEG click/drop selection.
-- Verify Auto for A/O, a/x and explicit `zero.lf` / `one.lnum`. J/Q, accents,
-  descenders and unsuffixed numerals must need a choice. Check each explicit
-  preset, missing/invalid/filtered layer metrics, and master fallback.
-- Confirm Height/Bottom Y edits choose Custom, horizontal edits retain the preset,
-  and placement edits update both previews without running the engine again.
-- Compare exact overlay coordinates at several zoom levels and across masters,
-  including negative descenders, fractional positions, counters, background mode,
-  rotated/reflected JPEGs, and transparent PNGs. Guides must stay readable.
-- Capture font change count, dirty state and undo state before previewing. Trace,
-  resize, toggle source/outline, move the panel, and change placement; all font
-  states must remain unchanged. Only Apply may create an undo group.
-- Change metrics or glyph classification after tracing: the overlay must clear
-  within the target-check interval and Apply must refuse until explicit refresh.
-  Check callback removal on Cancel, settings changes, Apply, target removal, and
-  panel close; reopening must never duplicate overlays.
-- Compare thumbnail/overlay nodes to applied paths. Check native Undo/Redo,
-  responsive navigation during tracing, duplicate Apply prevention, and recovery.
+For build 6 and the local engine, set `BEZTRACE_TEST_ENGINE` to the absolute
+`.build/beztrace-0.1.1-dev.1/bin/beztrace` path before running the harness. Optional
+`BEZTRACE_ACCEPTANCE_IMAGE` supplies a local PNG/JPEG for preparation, tracing,
+affine insertion and Undo/Redo in the detached fixture. The harness writes a
+normalized PNG and result JSON under `.build/glyphs-native-canvas` for comparison.
+It never reads or edits a running user font. Omit the variable for public CI;
+the user-supplied image is not a committed fixture.

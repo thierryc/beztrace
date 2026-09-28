@@ -20,7 +20,7 @@ is SHA-256 of the inventory encoded with Python JSON `sort_keys=True` and
 `sourceRevision` names the Git base; `sourceTreeDirty` explicitly marks builds
 with local changes. The payload inventory identifies their actual bytes.
 `qualification` distinguishes declared support from native-tested builds.
-The 0.1.0 build-2 artifact is unsigned, unnotarized, and native-unqualified. Production
+The 0.1.0 build-6 artifact is unsigned, unnotarized, and native-unqualified. Production
 setup must refuse it unless the user explicitly chooses a development install.
 Do not infer trusted distribution from a checksum alone. A future published
 manifest must come from a trusted release and agree with verified signatures.
@@ -81,16 +81,32 @@ revalidate before application. Use the MCP adapter's existing, separately
 qualified recovery and path-mutation workflow; the plugin's undo group does not
 extend to an MCP operation.
 
-## Build 2 user interface and sizing
+## Build 5: canvas workflow and placement API
 
-This revision replaces the large window with a floating native inspector, explicit
-metric presets, and a cached edit-view overlay. Detect numeric build **2** as well
-as version **0.1.0** when offering updates from build 1. No engine or tracing JSON
-contract changed. Loaded revision evidence includes **⋯ → About Beztrace 0.1.0 (2)**.
+The command is **Path → Beztrace…**, distinct from the built-in Glyphs filter.
+The 280 × 190 panel exposes Auto/manual Threshold, Invert, image choice and Trace.
+Trace inserts immediately at the native canvas image's transform with Undo.
+There is no panel auto-sizing or separate Apply step.
 
-Auto sizing is deliberately conservative; the app should not advertise general
-case recognition or optical correction. The pure `placement.py` rules and
-`preview.py` transform document the consumer policy separately from the neutral
-engine. A future MCP adapter may use equivalent rules after obtaining current
-layer/master metrics, but must capture/revalidate its own target and metadata.
-The overlay is transient UI and is never part of the returned tracing contract.
+Use version **0.1.0** and numeric build **5** to detect this revision. Rebuild the
+exact development-link payload; changing workspace Python files alone does not
+update a packaged link. A relaunch is needed before calling it loaded.
+
+The [Python placement API v1](AGENT_API.md) prepares a batch without font writes,
+then places native images in explicitly resolved existing layers. It retains
+conservative metric sizing internally. It never traces paths into a font or adds
+an MCP endpoint. Agents must review its completion/partial-failure report and
+respect their own mutation authorization; asynchronous preparation is not
+permission for a later write. Installer metadata and the engine contract remain v1.
+
+## Development engine compatibility
+
+Build 6 accepts exact versions `0.1.0` and `0.1.1-dev.1`. The CLI version probe
+and JSON engine version must agree. The latter is an unreleased local build,
+not an artifact available from the v0.1.0 download URL. Do not provision it from
+that release. The engine stays outside the plugin bundle; its local build
+directory includes source fingerprints, platform metadata and checksums.
+
+The normal default executable and shared-engine removal policy are unchanged.
+For local qualification, select the development executable explicitly through
+Choose Engine or pass its absolute path to `prepare_imports(engine=...)`.
