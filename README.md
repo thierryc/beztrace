@@ -52,7 +52,7 @@ Python API supports automatic image placement for coding agents.
 Its unsigned development artifact is versioned independently of engine 0.1.0.
 Full native UI qualification and signed distribution remain pending.
 
-The current source includes an unreleased **0.1.1-dev.1** small-contour fix.
+The **[0.1.1-dev.1 development prerelease](https://github.com/thierryc/beztrace/releases/tag/v0.1.1-dev.1)** includes the small-contour fix and Glyphs companion build 6.
 See [development engine verification](docs/SMALL_CONTOUR_FIX.md) for local builds;
 the published 0.1.0 installation remains unchanged.
 

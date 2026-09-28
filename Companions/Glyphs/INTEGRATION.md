@@ -102,9 +102,9 @@ permission for a later write. Installer metadata and the engine contract remain 
 ## Development engine compatibility
 
 Build 6 accepts exact versions `0.1.0` and `0.1.1-dev.1`. The CLI version probe
-and JSON engine version must agree. The latter is an unreleased local build,
-not an artifact available from the v0.1.0 download URL. Do not provision it from
-that release. The engine stays outside the plugin bundle; its local build
+and JSON engine version must agree. The latter is a development prerelease at tag `v0.1.1-dev.1`,
+not an artifact available from the v0.1.0 download URL. Provision its engine ZIP
+only from its own prerelease, and verify the associated checksums and metadata. The engine stays outside the plugin bundle; its local build
 directory includes source fingerprints, platform metadata and checksums.
 
 The normal default executable and shared-engine removal policy are unchanged.
