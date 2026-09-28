@@ -13,3 +13,6 @@ __pycache__/
 *.pyc
 /test-work/
 /Tests/Fixtures/oracle/v1/work/
+
+# Recoverable local review exports; never ship these as immutable fixtures.
+/.local-archives/

@@ -113,3 +113,22 @@ jobs:
         run: |
           git diff --exit-code
           test -z "$(git status --porcelain --untracked-files=no)"
+
+  glyphs-companion:
+    name: Glyphs companion contract and unsigned package
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build independent tracing engine
+        run: swift build --configuration release --product beztrace
+      - name: Test companion without Glyphs
+        env:
+          BEZTRACE_TEST_ENGINE: ${{ github.workspace }}/.build/release/beztrace
+        run: python3 -m unittest discover -s Companions/Glyphs/tests -v
+      - name: Package and verify unsigned companion
+        run: |
+          python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion
+          python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion
+          python3 scripts/verify_product_boundaries.py
+      - name: Confirm tracked inputs remain unchanged
+        run: git diff --exit-code

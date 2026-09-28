@@ -1,0 +1,312 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "version",
+    "build",
+    "bundleIdentifier",
+    "bundleName",
+    "sourceRevision",
+    "sourceTreeDirty",
+    "payloadSha256",
+    "platform",
+    "engine",
+    "installation",
+    "qualification",
+    "artifacts",
+    "payload",
+    "sbom"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "const": "beztrace-glyphs"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "build": {
+      "type": "integer"
+    },
+    "bundleIdentifier": {
+      "const": "dev.beztrace.glyphs"
+    },
+    "bundleName": {
+      "const": "Beztrace.glyphsPlugin"
+    },
+    "sourceRevision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sourceTreeDirty": {
+      "type": "boolean"
+    },
+    "payloadSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimumMacOS",
+        "architectures",
+        "glyphsBundleIdentifier",
+        "glyphsMajorVersion",
+        "minimumGlyphsBuild",
+        "python"
+      ],
+      "properties": {
+        "minimumMacOS": {
+          "type": "string"
+        },
+        "architectures": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "arm64",
+              "x86_64"
+            ]
+          }
+        },
+        "glyphsBundleIdentifier": {
+          "type": "string"
+        },
+        "glyphsMajorVersion": {
+          "const": 4
+        },
+        "minimumGlyphsBuild": {
+          "type": "integer"
+        },
+        "python": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimumVersion",
+            "provider",
+            "modules"
+          ],
+          "properties": {
+            "minimumVersion": {
+              "type": "string"
+            },
+            "provider": {
+              "type": "string"
+            },
+            "modules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "versions",
+        "bundled",
+        "schemaVersions",
+        "pathDataVersions",
+        "defaultExecutable",
+        "releaseUrl"
+      ],
+      "properties": {
+        "name": {
+          "const": "beztrace"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bundled": {
+          "const": false
+        },
+        "schemaVersions": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "pathDataVersions": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "defaultExecutable": {
+          "type": "string"
+        },
+        "releaseUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "installation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root",
+        "relativePath",
+        "requiresRelaunch",
+        "sharedEngineRemoval"
+      ],
+      "properties": {
+        "root": {
+          "const": "glyphs4ApplicationSupport"
+        },
+        "relativePath": {
+          "const": "Plugins/Beztrace.glyphsPlugin"
+        },
+        "requiresRelaunch": {
+          "const": true
+        },
+        "sharedEngineRemoval": {
+          "const": false
+        }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nativeTestedBuilds",
+        "status"
+      ],
+      "properties": {
+        "nativeTestedBuilds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "status": {
+          "enum": [
+            "development-unqualified",
+            "native-qualified"
+          ]
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256",
+          "size",
+          "format",
+          "signing",
+          "notarization"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "format": {
+            "const": "zip"
+          },
+          "signing": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "teamIdentifier"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "unsigned",
+                  "developer-id-verified"
+                ]
+              },
+              "teamIdentifier": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "notarization": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "not-submitted",
+                  "accepted-verified"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "payload": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256",
+          "size",
+          "executable"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "executable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "sbom": {
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Beztrace Glyphs companion artifact manifest v1"
+}

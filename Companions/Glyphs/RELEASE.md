@@ -1,0 +1,59 @@
+# Companion release procedure
+
+The current implementation produces unsigned development packages only. It is
+not covered by the engine's earlier publication/signing authorization.
+
+## Local reproducibility
+
+Run `scripts/package.py --output <new-directory>` from this directory, twice
+into different empty destinations. Compare the ZIP and every payload hash.
+ZIP timestamps are fixed and source permissions are normalized. Use the same
+Python/zlib toolchain when comparing compressed bytes. Signing timestamps and
+Apple notarization are separate, non-reproducible external steps.
+
+The vendored loader must retain the exact SDK checksum in the source tree.
+Packaging validates it before copying. A signed staging copy will have different
+bytes and must never be copied over the pinned source loader. Run the development
+skill scaffold validator against source before signing; use codesign verification
+against the staged signed bundle afterward.
+
+## Authorized distribution steps (not executed by packaging)
+
+1. Complete the native qualification checklist for the exact artifact and record
+   each tested Glyphs build. Verify Python runtime setup on a fresh host, Apple
+   Silicon and Intel loading, and UI accessibility. Freeze the source revision,
+   plugin version/build, SDK provenance, and SBOM.
+2. Obtain separate authorization for signing, notarization, upload, publication,
+   installation, and relaunch as applicable. Select the existing project's
+   Developer ID Application identity and notarization keychain profile. Never
+   replace or re-sign engine 0.1.0 artifacts.
+3. In a separate staging directory, sign the plugin's executable and bundle
+   inside out, then verify all code and resources:
+
+   ```sh
+   codesign --force --options runtime --timestamp --sign "$BEZTRACE_APPLICATION_IDENTITY" \
+     "$BEZTRACE_PLUGIN_STAGE/Beztrace.glyphsPlugin/Contents/MacOS/plugin"
+   codesign --force --options runtime --timestamp --sign "$BEZTRACE_APPLICATION_IDENTITY" \
+     "$BEZTRACE_PLUGIN_STAGE/Beztrace.glyphsPlugin"
+   codesign --verify --strict --verbose=2 "$BEZTRACE_PLUGIN_STAGE/Beztrace.glyphsPlugin"
+   codesign -dv --verbose=4 "$BEZTRACE_PLUGIN_STAGE/Beztrace.glyphsPlugin"
+   ```
+
+4. Archive the signed bundle with `ditto -c -k --keepParent`, then submit that
+   archive through the existing `xcrun notarytool submit ... --keychain-profile
+   "$BEZTRACE_NOTARY_PROFILE" --wait` workflow. Record Apple's accepted submission
+   and validate the exact signed archive on a clean Gatekeeper-enabled host.
+   ZIP archives cannot be stapled. Do not claim a stapled ticket for this format;
+   if an offline-stapled carrier is needed, qualify a separately authorized signed
+   installer/DMG and its stapled ticket.
+5. Recompute the signed payload inventory, SPDX binary checksums, archive size,
+   checksums, and manifest *after* all signing changes. Record the actual verified
+   Team ID and notarization receipt; set `developer-id-verified` and
+   `accepted-verified` only with evidence. Do not run the unsigned package builder
+   over signed staging: it intentionally rebuilds the unsigned source payload.
+6. Re-run manifest/archive verification and native install/update/rollback/remove
+   checks against those final bytes. Publish with an independently versioned tag
+   such as `glyphs-v0.1.0` only after explicit publication authorization.
+
+No credentials, identities, or signing commands run automatically from environment
+variables in the companion build. The engine release remains a separate product.
