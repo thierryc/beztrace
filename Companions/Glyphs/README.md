@@ -1,32 +1,51 @@
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
-**0.1.0 build 6** accepts the separately installed **beztrace 0.1.0** engine
-or the local **0.1.1-dev.1** development engine,
+**0.1.0 build 10** accepts the separately installed **beztrace 0.1.0** engine
+or local **0.1.1-dev.1**, **0.1.1-dev.2**, and **0.1.1-dev.3** development engines,
 JSON schema **1**, and path data **2**.
 
 ## Use it
 
 1. Open one glyph layer and choose **Path → Beztrace…**.
-2. Click **Choose Image…**, or place a PNG/JPEG using Glyphs' normal image workflow.
+2. Place a PNG/JPEG using Glyphs' normal image workflow.
 3. Move, resize, rotate, or crop the native image on the Glyphs canvas.
-4. Leave Threshold on **Auto**, or choose **Manual** and enter 0–255. Enable
-   **Invert** for light artwork on a dark background.
+4. Choose a quality **Preset** and enable **Invert image** for light artwork on
+   a dark background as needed. Open **Advanced Options** to change Threshold
+   from **Auto** to **Manual** and use its slider or enter 0–255, or to adjust
+   individual fitting controls.
 5. Click **Trace**. Editable paths are appended at the image's canvas placement.
-   One native Undo reverses the insertion. The source image remains in place.
+   The button becomes **Done**. Valid setting changes update these paths
+   automatically; click **Done** to close the panel and keep the latest trace.
+   Each successful update is undoable. The source image remains in place. If
+   Grid would invalidate a contour, the engine retains that contour's safe
+   no-grid geometry and reports the fallback in the panel.
 
-The 280 × 190 point panel has no sizing, preview, destination, or Apply controls.
+The panel is 300 × 210 points by default and expands to 300 × 410 with Auto
+Threshold while preserving its top edge. Preset and Invert image remain visible
+when collapsed. The right-aligned Advanced Options disclosure reveals Threshold,
+Accuracy, Smoothing, Corner sensitivity, Grid, Remove specks and Raster refinement
+without nested label indentation. Manual Threshold adds 24 points for its slider
+and numeric field. An invalid numeric value shows one inline system-red message,
+temporarily adds 18 points so controls do not overlap, and suppresses retracing;
+ending the edit restores the last valid value. Editing any advanced value selects
+Custom unless it exactly matches a preset. Settings and the disclosure state
+persist between panel sessions; **⋯ → Reset Trace Settings** restores Balanced,
+Auto threshold, Invert off and the collapsed panel.
+
+The panel has no sizing, preview, destination, or Apply controls.
 It traces into the active foreground/background editing layer and preserves
 existing outlines, components, anchors, and advance width, including zero width.
-Choosing a new image requires confirmation before replacing an existing image;
-image placement is a separate undoable operation. Normal native image selection
+Image import remains available through the agent API. Normal native image selection
 and transform controls remain in Glyphs. The built-in **Filter → Trace Image**
 is a separate tool and is not changed by this plugin.
 
 Tracing runs off the UI thread with progress and Cancel. A running trace stays
 bound to the captured document and layer when you navigate. Changed destination
-content, image files, crop, or placement invalidate the pending result. Repeating
-an unchanged completed operation is rejected. Errors appear in the panel, with
+content, image files, crop, or placement invalidate the pending result. Setting changes debounce for 150 ms and cancel outdated results. Retracing
+replaces only this session's output, preserving the original layer content.
+External edits (including Undo), image changes, and changed targets stop live
+replacement; finish the session and review the layer before tracing again. Errors appear in the panel, with
 full details in **⋯ → Error Details…**. Recovery failures stop further writes.
 
 ## Installation and compatibility
@@ -35,7 +54,7 @@ full details in **⋯ → Error Details…**. Recovery failures stop further wri
 - Glyphs Python 3.9+ with GlyphsApp, PyObjC, AppKit, Foundation and Quartz.
 - Engine executable: `/Library/Application Support/beztrace/bin/beztrace`.
   Use **⋯ → Choose Engine…** for an explicit alternative; no ambient PATH lookup.
-- Engine version must be exactly 0.1.0 or 0.1.1-dev.1 and match the returned JSON. PNG/JPEG source limits: 16 MiB,
+- Engine version must be exactly 0.1.0, 0.1.1-dev.1, 0.1.1-dev.2, or 0.1.1-dev.3 and match the returned JSON. PNG/JPEG source limits: 16 MiB,
   4096 × 4096 pixels. The normalized crop must also fit the input limits.
 
 Install the bundle under the **actual Glyphs 4 Application Support directory**,
@@ -72,8 +91,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build6
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build6
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build10
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build10
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font
@@ -92,15 +111,18 @@ checks versus remaining visible in-app qualification.
 ## Small-contour development fix
 
 Engine 0.1.1-dev.1 fixes the collapse of small closed contours reported with the
-blob-letter image. Released 0.1.0 remains installed and supported, but still has
-that bug. Build the local universal engine from the repository root:
+blob-letter image. Local 0.1.1-dev.2 also prevents unsafe final handle rounding
+at valid Accuracy/Grid combinations. Local 0.1.1-dev.3 additionally prevents
+Grid snapping from creating invalid topology. Released 0.1.0 remains installed and
+supported, but still has those bugs. Build the local universal engine from the repository root:
 
 ```sh
 python3 scripts/build_development_engine.py
 ```
 
-After loading companion build 6 with a Glyphs relaunch, choose **⋯ → Choose Engine…**
-and select `.build/beztrace-0.1.1-dev.1/bin/beztrace` inside this repository. The
-choice applies to this panel session; select it again after reopening the panel.
-The default remains the separately installed release. No system executable is
+When build 10 runs from this source checkout and
+`.build/beztrace-0.1.1-dev.3/bin/beztrace` is executable, the panel selects that
+corrected development engine automatically. **⋯ → Choose Engine…** remains
+available for an explicit alternative. A packaged companion outside the checkout
+still defaults to the separately installed release. No system executable is
 replaced. See [engine verification](../../docs/SMALL_CONTOUR_FIX.md).

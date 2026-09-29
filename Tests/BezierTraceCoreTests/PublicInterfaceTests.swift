@@ -18,7 +18,7 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertEqual(first.pathDataVersion, 2)
         XCTAssertEqual(first.metadataPolicy, "preserve")
         XCTAssertEqual(first.engine.name, "beztrace")
-        XCTAssertEqual(first.engine.version, "0.1.1-dev.1")
+        XCTAssertEqual(first.engine.version, "0.1.1-dev.3")
         XCTAssertEqual(
             first.engine.portSourceRevision,
             "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"
@@ -39,6 +39,88 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertEqual(first.statistics.contourCount, 2)
         XCTAssertGreaterThan(first.statistics.nodeCount, 0)
         XCTAssertNotNil(first.bounds)
+    }
+
+    func testAccuracyThreeWithUnitGridProducesValidatedSparkle() throws {
+        let data = try fixtureData("corpus/generated/symbols/symbol-sparkle.png")
+        let result = try BezierTracer.trace(TraceRequest(
+            imageData: data,
+            options: TraceOptions(
+                minimumContourArea: 100,
+                accuracy: 3,
+                smoothing: 0.7,
+                cornerThresholdDegrees: 10,
+                grid: 1,
+                refineRaster: true
+            )
+        ))
+        XCTAssertFalse(result.outline.contours.isEmpty)
+        XCTAssertTrue(result.outline.contours.allSatisfy(\.closed))
+    }
+
+    func testTopologyUnsafeGridCandidatesFallBackForReportedProfile() throws {
+        let fixtures = [
+            "corpus/deterministic/glyphs/glyph-upper-n.png",
+            "corpus/generated/symbols/symbol-gear.png",
+            "corpus/generated/symbols/symbol-crescent-moon.png",
+        ]
+        for fixture in fixtures {
+            let result = try BezierTracer.trace(TraceRequest(
+                imageData: fixtureData(fixture),
+                options: TraceOptions(
+                    minimumContourArea: 700,
+                    accuracy: 0.5,
+                    smoothing: 2.5,
+                    cornerThresholdDegrees: 13,
+                    grid: 8,
+                    refineRaster: true
+                )
+            ))
+            XCTAssertFalse(result.outline.contours.isEmpty, fixture)
+            XCTAssertEqual(
+                result.warnings,
+                ["Grid 8 was skipped for 1 contour to preserve valid geometry."],
+                fixture
+            )
+        }
+    }
+
+    func testAllCorpusResultsRemainValidAtBoundaryQualityProfiles() throws {
+        struct Manifest: Decodable {
+            struct Fixture: Decodable { let id: String; let path: String }
+            let fixtures: [Fixture]
+        }
+        let root = repositoryRoot.appendingPathComponent("Tests/Fixtures", isDirectory: true)
+        let manifest = try JSONDecoder().decode(
+            Manifest.self,
+            from: Data(contentsOf: root.appendingPathComponent("manifest.json"))
+        )
+        let profiles = [
+            TraceOptions(
+                minimumContourArea: 0,
+                accuracy: 0.5,
+                smoothing: 3,
+                cornerThresholdDegrees: 60,
+                grid: 8,
+                refineRaster: true
+            ),
+            TraceOptions(
+                minimumContourArea: 0,
+                accuracy: 3,
+                smoothing: 0.25,
+                cornerThresholdDegrees: 1,
+                grid: 8,
+                refineRaster: false
+            ),
+        ]
+        for fixture in manifest.fixtures {
+            let data = try Data(contentsOf: root.appendingPathComponent(fixture.path))
+            for options in profiles {
+                let result = try BezierTracer.trace(.init(imageData: data, options: options))
+                XCTAssertFalse(result.outline.contours.isEmpty, fixture.id)
+                XCTAssertTrue(result.outline.contours.allSatisfy(\.closed), fixture.id)
+            }
+        }
     }
 
     func testJSONRoundTripsAndSVGTransformModesUseTheSameOutline() throws {

@@ -55,12 +55,13 @@ publication. Historical release tooling remains pinned to the published 0.1.0
 release procedure and must not be used to distribute this development build.
 
 Engine path: `.build/beztrace-0.1.1-dev.1/bin/beztrace`.
-After a separately authorized Glyphs relaunch loads build 6, use
-**Path → Beztrace… → ⋯ → Choose Engine…** to select that file. This selection is
-for the current panel session. The normal default remains the shared release.
+When the development companion runs from this source checkout, it automatically
+selects that executable if it exists and is executable. A packaged companion
+outside the checkout retains the shared release as its default; use
+**Path → Beztrace… → ⋯ → Choose Engine…** to select the development engine there.
 Keep the image on the canvas and trace with Auto threshold and Invert off.
 
-The existing development symlink is rebuilt to build 6 with build 5 retained
+The existing development symlink points to build 7, with build 5 retained
 under `.local-archives/glyphs-companion-dev-build5-before-engine-fix` for rollback.
 Restoring that payload also requires a relaunch; no relaunch was performed here.
 
@@ -105,3 +106,34 @@ assertion) were corrected and rerun; they are not counted as passing evidence.
 Full visible installed-plugin interaction, screen alignment at multiple zooms,
 and user review remain pending. Backend checks do not qualify the loaded plugin
 UI. No user font was changed or saved; no release was signed or published.
+
+## 0.1.1-dev.2 local handle-rounding correction
+
+The subsequent local dev.2 candidate retains the small-contour work above and
+adds a final safety gate for integer handle rounding. A rounded candidate is
+used only when it satisfies the same reach and tangent-intersection limits as
+the geometry validator; otherwise cleanup keeps the already capped handles.
+This fixes the private blob image at Accuracy 1–3, Smoothing 0.7 and Grid 1,
+and the committed sparkle regression at Accuracy 3/Grid 1. The image remains
+private and outside tracked fixtures. Schema v1, pathDataVersion 2 and public
+Swift request/result types are unchanged.
+
+Build locally with `scripts/build_development_engine.py`; the fresh output is
+`.build/beztrace-0.1.1-dev.2`. This candidate is not a replacement for the
+published dev.1 prerelease and is not authorized for publication, signing or
+notarization.
+
+## 0.1.1-dev.3 topology-safe Grid correction
+
+The local dev.3 candidate retains both earlier corrections and makes coordinate
+Grid cleanup best-effort per contour. It builds a validated no-grid fallback,
+then accepts requested Grid candidates in stable contour order only when the
+shared final validator accepts the complete outline. Rejected candidates retain
+their safe fallback geometry and add a deterministic warning; invalid no-grid
+geometry still fails closed.
+
+Committed regressions cover collapsed segments and self-intersections at Grid 8,
+including the reported Accuracy 0.5, Smoothing 2.5, Corner 13 and minimum-area
+700 profile. Schema v1 and public request/result types remain unchanged. Build
+locally to `.build/beztrace-0.1.1-dev.3`; this candidate is not authorized for
+publication, signing or notarization.

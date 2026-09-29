@@ -11,7 +11,6 @@ enum CleanupEven {
     private static let minimumChord = 30.0
     private static let minimumHandle = 8.0
     private static let grid = 28
-    private static let handleReachMaximum = 0.9
     private static let samples = 24
 
     static func evenHandles(_ path: BezierPathContour) -> BezierPathContour {
@@ -48,7 +47,7 @@ enum CleanupEven {
                 }
                 let chordDirection = chordVector / chord
                 let reach = first.dot(chordDirection) - second.dot(chordDirection)
-                let limit = chord * handleReachMaximum
+                let limit = chord * HandleSafety.maximumReachRatio
                 if reach > limit {
                     first = first * (limit / reach)
                     second = second * (limit / reach)
@@ -90,7 +89,7 @@ enum CleanupEven {
         let budget = max(maximumDeviationAbsolute, chord * maximumDeviationFraction)
         let chordVector = curve.end - curve.start
         let chordDirection = chordVector / chord
-        let reachLimit = chord * handleReachMaximum
+        let reachLimit = chord * HandleSafety.maximumReachRatio
         let low = max(min(firstLength, secondLength) * 0.5, minimumHandle)
         let high = max(firstLength, secondLength) * 1.3
         guard high > low else { return (curve.control1, curve.control2) }

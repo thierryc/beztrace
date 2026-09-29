@@ -51,7 +51,6 @@ struct ValidatedOutline: Equatable, Sendable {
 enum OutlineValidator {
     private static let maximumPointsPerContour = 4_096
     private static let closureEpsilon = 1e-6
-    private static let handleReachMaximum = 0.9
 
     static func validate(paths: [BezierPathContour]) throws -> ValidatedOutline {
         guard !paths.isEmpty else { throw CoreError.noContours }
@@ -101,22 +100,7 @@ enum OutlineValidator {
             let chord = chordVector.magnitude
             guard chord > 1e-9 else { throw CoreError.degenerateSegment(contour: contour, segment: index) }
             guard !segment.isLine else { continue }
-            let first = curve.control1 - curve.start
-            let second = curve.control2 - curve.end
-            guard let firstDirection = first.normalized(epsilon: 1e-9),
-                  let secondDirection = second.normalized(epsilon: 1e-9)
-            else { continue }
-            let chordDirection = chordVector / chord
-            let reach = first.dot(chordDirection) - second.dot(chordDirection)
-            if reach > chord * handleReachMaximum + 2 {
-                throw CoreError.handleReachExceeded(contour: contour, segment: index)
-            }
-            if let triangle = ContourRefiner.handleTriangle(
-                start: curve.start,
-                startDirection: firstDirection,
-                end: curve.end,
-                endDirection: secondDirection
-            ), first.magnitude > triangle.0 + 2 || second.magnitude > triangle.1 + 2 {
+            if !HandleSafety.isControlled(curve, tolerance: HandleSafety.validationTolerance) {
                 throw CoreError.handleReachExceeded(contour: contour, segment: index)
             }
         }

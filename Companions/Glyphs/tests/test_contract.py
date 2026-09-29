@@ -9,7 +9,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'Beztrace.glyphsPlugin/Contents/Resources'))
-from beztrace_companion.contract import (CompanionError, parse_result, place, segments,
+from beztrace_companion.contract import (CompanionError, combined_warning, parse_result, place, segments,
                                          signed_area, tight_bounds, validate_schema)
 
 
@@ -36,6 +36,13 @@ class ContractTests(unittest.TestCase):
 
     def test_complete_contract(self):
         self.assertEqual(self.decode(sample()),sample())
+
+    def test_engine_and_application_warnings_are_combined(self):
+        result=sample(); result['warnings']=['Grid 8 was skipped for 1 contour to preserve valid geometry.']
+        self.assertEqual(combined_warning(sample()),None)
+        self.assertEqual(combined_warning(result),'Grid 8 was skipped for 1 contour to preserve valid geometry.')
+        self.assertEqual(combined_warning(result,'Paths applied; redraw failed.'),
+                         'Grid 8 was skipped for 1 contour to preserve valid geometry. Paths applied; redraw failed.')
 
     def test_schema_keywords_are_all_implemented(self):
         schema=json.loads((ROOT/'Beztrace.glyphsPlugin/Contents/Resources/trace-result-v1.schema.json').read_text())

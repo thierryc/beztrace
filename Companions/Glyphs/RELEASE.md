@@ -82,3 +82,19 @@ local archives, font documents, caches or installation receipts. Native backend
 checks and automated tests must be distinguished from pending full in-app UI
 qualification in the notes. A subsequent stable release still requires the
 qualification and signed-distribution steps above.
+
+## Local dev.2/build-9 boundary
+
+Engine 0.1.1-dev.2 and companion build 9 are local unsigned development
+artifacts for the handle-rounding and Smoothing-slider corrections. They may be
+built, packaged, installed and tested under their explicit task authorization,
+but the dev.1 publication authorization above does not authorize uploading,
+tagging, signing, notarizing or publishing dev.2/build 9.
+
+## Local dev.3/build-10 boundary
+
+Engine 0.1.1-dev.3 and companion build 10 are local unsigned development
+artifacts for topology-safe Grid cleanup and warning propagation. They may be
+built, packaged, installed and tested under their explicit task authorization,
+but no prior authorization permits uploading, tagging, signing, notarizing or
+publishing dev.3/build 10.

@@ -51,7 +51,7 @@ def revalidate(host, target):
         raise CompanionError('The destination changed. Trace again after reviewing the destination.')
 
 
-def apply_paths(host, target, paths, replace=False):
+def apply_paths(host, target, paths, replace=False, *, base_snapshot=None):
     revalidate(host, target)
     if replace:
         host.check_replace(target.layer)
@@ -65,9 +65,11 @@ def apply_paths(host, target, paths, replace=False):
         begun = True
         try:
             host.set_rounding(target.layer, True)
+            if base_snapshot is not None:
+                host.restore(target.layer, base_snapshot)
             host.insert(target.layer, native, replace)
             host.set_rounding(target.layer, state)
-            host.verify(target.layer, native, paths, snapshot, replace)
+            host.verify(target.layer, native, paths, base_snapshot if base_snapshot is not None else snapshot, replace)
         except Exception as original:
             try:
                 host.set_rounding(target.layer, True)

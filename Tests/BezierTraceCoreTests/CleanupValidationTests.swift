@@ -200,6 +200,126 @@ final class CleanupValidationTests: XCTestCase {
         XCTAssertLessThanOrEqual(reach, chord.magnitude * 0.9 + 1e-9)
     }
 
+    func testHandleRoundingRejectsAnUnsafeCandidate() {
+        let original = CubicBezier(
+            start: Point2D(x: 0, y: 0),
+            control1: Point2D(x: 0.554_513_078_035_334_7, y: 16.894_592_728_092_135),
+            control2: Point2D(x: 1.411_398_309_528_181, y: 58.337_972_433_472_37),
+            end: Point2D(x: 43, y: 28)
+        )
+        let unsafe = CubicBezier(
+            start: original.start,
+            control1: Point2D(x: 1, y: 17),
+            control2: Point2D(x: 1, y: 58),
+            end: original.end
+        )
+        XCTAssertTrue(HandleSafety.isControlled(
+            original, tolerance: HandleSafety.validationTolerance
+        ))
+        XCTAssertFalse(HandleSafety.isControlled(
+            unsafe, tolerance: HandleSafety.validationTolerance
+        ))
+        let rounded = CleanupSnap.roundHandles(BezierPathContour(segments: [
+            PathSegment(cubic: original, isLine: false),
+        ]))
+        XCTAssertEqual(rounded.segments[0].cubic, original)
+
+        let safe = CubicBezier(
+            start: Point2D(x: 0, y: 0),
+            control1: Point2D(x: 10.2, y: 0.1),
+            control2: Point2D(x: 89.8, y: 99.9),
+            end: Point2D(x: 100, y: 100)
+        )
+        let safeRounded = CleanupSnap.roundHandles(BezierPathContour(segments: [
+            PathSegment(cubic: safe, isLine: false),
+        ]))
+        XCTAssertEqual(safeRounded.segments[0].cubic.control1, Point2D(x: 10, y: 0))
+        XCTAssertEqual(safeRounded.segments[0].cubic.control2, Point2D(x: 90, y: 100))
+    }
+
+    func testGridSelectionRejectsCollapsedAndSelfIntersectingCandidates() throws {
+        let fallback = [rectangle(x: 0), rectangle(x: 30)]
+        let collapsed = polygon([
+            Point2D(x: 0, y: 0), Point2D(x: 0, y: 0),
+            Point2D(x: 10, y: 10), Point2D(x: 0, y: 10),
+        ])
+        let crossing = polygon([
+            Point2D(x: 30, y: 0), Point2D(x: 40, y: 10),
+            Point2D(x: 30, y: 10), Point2D(x: 40, y: 0),
+        ])
+
+        let result = try CleanupPipeline.selectValidatedGridCandidates(
+            fallback: fallback,
+            candidates: [collapsed, crossing]
+        )
+
+        XCTAssertEqual(result.paths, fallback)
+        XCTAssertEqual(result.skippedGridContours, 2)
+    }
+
+    func testGridSelectionKeepsSafeCandidatesDeterministically() throws {
+        let fallback = [rectangle(x: 0), rectangle(x: 30)]
+        let candidates = [rectangle(x: 1), rectangle(x: 31)]
+
+        let first = try CleanupPipeline.selectValidatedGridCandidates(
+            fallback: fallback,
+            candidates: candidates
+        )
+        let second = try CleanupPipeline.selectValidatedGridCandidates(
+            fallback: fallback,
+            candidates: candidates
+        )
+
+        XCTAssertEqual(first, second)
+        XCTAssertEqual(first.paths, candidates)
+        XCTAssertEqual(first.skippedGridContours, 0)
+    }
+
+    func testGridSelectionMixesSafeCandidatesAndFallbackInStableOrder() throws {
+        let fallback = [rectangle(x: 0), rectangle(x: 30), rectangle(x: 60)]
+        let collapsed = polygon([
+            Point2D(x: 30, y: 0), Point2D(x: 30, y: 0),
+            Point2D(x: 40, y: 10), Point2D(x: 30, y: 10),
+        ])
+        let candidates = [rectangle(x: 1), collapsed, rectangle(x: 61)]
+
+        let result = try CleanupPipeline.selectValidatedGridCandidates(
+            fallback: fallback,
+            candidates: candidates
+        )
+
+        XCTAssertEqual(result.paths, [candidates[0], fallback[1], candidates[2]])
+        XCTAssertEqual(result.skippedGridContours, 1)
+        XCTAssertNoThrow(try OutlineValidator.validate(paths: result.paths))
+    }
+
+    func testGridSelectionDoesNotHideAnInvalidFallback() {
+        let invalid = polygon([
+            Point2D(x: 0, y: 0), Point2D(x: 10, y: 10),
+            Point2D(x: 0, y: 10), Point2D(x: 10, y: 0),
+        ])
+        XCTAssertThrowsError(try CleanupPipeline.selectValidatedGridCandidates(
+            fallback: [invalid],
+            candidates: [rectangle(x: 1)]
+        ))
+    }
+
+    private func rectangle(x: Double) -> BezierPathContour {
+        polygon([
+            Point2D(x: x, y: 0), Point2D(x: x + 10, y: 0),
+            Point2D(x: x + 10, y: 10), Point2D(x: x, y: 10),
+        ])
+    }
+
+    private func polygon(_ points: [Point2D]) -> BezierPathContour {
+        BezierPathContour(segments: points.indices.map { index in
+            PathSegment(
+                cubic: lineCubic(from: points[index], to: points[(index + 1) % points.count]),
+                isLine: true
+            )
+        })
+    }
+
     @discardableResult
     private func assertCleanupMatchesOracle(identifier: String) throws -> ValidatedOutline {
         let directory = repositoryRoot
@@ -244,10 +364,11 @@ final class CleanupValidationTests: XCTestCase {
             refined = FittingFinish.capHandleReach(refined)
             fittedContours.append(refined.scaled(by: scale))
         }
-        let cleaned = CleanupPipeline.process(
+        let cleanup = try CleanupPipeline.process(
             fittedContours.map(BezierPathContour.init),
             configuration: .capturedDefaults
         )
+        let cleaned = cleanup.paths
         let expectedCleaned = try decoder.decode(
             CleanedStage.self,
             from: Data(contentsOf: directory.appendingPathComponent("cleaned.json"))
@@ -262,7 +383,7 @@ final class CleanupValidationTests: XCTestCase {
             )
         }
 
-        let validated = try OutlineValidator.validate(paths: cleaned)
+        let validated = cleanup.outline
         let expectedValidated = try decoder.decode(
             ValidatedStage.self,
             from: Data(contentsOf: directory.appendingPathComponent("validated.json"))

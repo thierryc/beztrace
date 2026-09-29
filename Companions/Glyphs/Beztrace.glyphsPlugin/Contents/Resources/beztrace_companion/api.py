@@ -1,10 +1,10 @@
 # Copyright 2026 beztrace contributors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""Version 1 agent API: prepare and apply native image placements, never paths."""
+"""Version 1 agent API: explicit preparation and application for images and traces."""
 import threading
 from dataclasses import dataclass
 from pathlib import Path
-from .contract import CompanionError
+from .contract import CompanionError, combined_warning
 from .engine import DEFAULT_ENGINE, trace, Cancelled
 from .placement import resolve
 from .canvas import fitted_transform
@@ -141,3 +141,56 @@ def apply_imports(plan, *, _host=None):
             results.append(dict(record,status='recovery-failed' if isinstance(exc,RecoveryError) else 'failed',error=str(exc)))
             stopped=True
     return dict(api_version=API_VERSION,completed=sum(r['status']=='applied' for r in results),items=results)
+
+
+@dataclass
+class TracePlan:
+    target: object
+    image: object
+    source_hash: str
+    result: dict
+    paths: list
+    cancel: object
+    consumed: bool=False
+
+
+def prepare_trace(font, glyph, layer_id, *, destination='foreground', options=None,
+                  engine=DEFAULT_ENGINE, _host=None):
+    """Capture on main thread, trace asynchronously without writing the font.
+
+    All engine tracing options are accepted, independently of panel controls.
+    Inspect job.plan.result (neutral JSON) and job.plan.paths (canvas coordinates).
+    """
+    from .native import GlyphsHost
+    from .engine import arguments
+    from .canvas import transform_paths
+    host=_host or GlyphsHost(); host.assert_main()
+    options=dict(options or {}); arguments(options)
+    target=host.target(font,glyph,layer_id,destination)
+    snap=image_io.snapshot(target.layer.backgroundImage)
+    job=Preparation()
+    def worker():
+        try:
+            data,source_hash=image_io.prepare(snap,job._cancel)
+            result=trace(engine,data,options,job._cancel)
+            job._plan=TracePlan(target,snap,source_hash,result,transform_paths(result,snap.geometry),job._cancel)
+        except Exception as exc: job.error=exc
+        finally: job._done.set()
+    threading.Thread(target=worker,name='Beztrace agent trace',daemon=True).start()
+    return job
+
+
+def apply_trace(plan, *, _host=None):
+    """Apply a reviewed trace once, on the main thread, with undo and recovery."""
+    from .native import GlyphsHost
+    from .adapter import apply_paths
+    host=_host or GlyphsHost(); host.assert_main()
+    if not isinstance(plan,TracePlan) or plan.consumed:
+        raise CompanionError('Use a fresh prepared trace plan')
+    if plan.cancel.is_set(): raise Cancelled('Trace cancelled')
+    revalidate(host,plan.target)
+    image_io.revalidate(host,plan.target,plan.image,plan.source_hash)
+    plan.consumed=True
+    warning=apply_paths(host,plan.target,plan.paths)
+    return dict(api_version=API_VERSION,status='applied',contours=len(plan.paths),
+                warning=combined_warning(plan.result,warning))

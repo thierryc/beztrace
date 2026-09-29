@@ -5,7 +5,7 @@ import CryptoKit
 import Foundation
 
 public enum BezierTraceVersion {
-    public static let engine = "0.1.1-dev.1"
+    public static let engine = "0.1.1-dev.3"
     public static let schema = 1
     public static let pathData = 2
     public static let portSourceRevision = "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"
@@ -78,9 +78,10 @@ public enum BezierTracer {
         } else {
             timing = [:]
         }
-        let warnings = placementReport?.outOfTarget == true
-            ? ["placed outline extends outside the requested target band"]
-            : []
+        var warnings = internalResult.warnings
+        if placementReport?.outOfTarget == true {
+            warnings.append("placed outline extends outside the requested target band")
+        }
         return TraceResult(
             engine: EngineReport(
                 name: "beztrace",
