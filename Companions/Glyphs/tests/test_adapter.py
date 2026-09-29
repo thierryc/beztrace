@@ -60,6 +60,26 @@ class TransactionTests(unittest.TestCase):
         self.assertEqual(host.owner.width,0); self.assertEqual(host.undo,0)
         self.assertEqual(host.events,['begin','end','redraw'])
 
+    def test_live_replacement_preserves_original_and_recovers_last_trace(self):
+        host=FakeHost(); base=host.snapshot(host.owner)
+        apply_paths(host,capture(host,'foreground'),sample()['paths'])
+        previous=host.fingerprint(host.owner)
+        changed=copy.deepcopy(sample()['paths']); changed[0]['nodes'][0]['x']+=1
+        apply_paths(host,capture(host,'foreground'),changed,base_snapshot=base)
+        self.assertEqual(len(host.owner.shapes),3)
+        self.assertEqual(host.owner.shapes[:2],base[0])
+        self.assertEqual(host.owner.shapes[-1],changed[0])
+        previous=host.fingerprint(host.owner)
+        host.fail='verify'
+        with self.assertRaisesRegex(CompanionError,'restored'):
+            apply_paths(host,capture(host,'foreground'),sample()['paths'],base_snapshot=base)
+        self.assertEqual(host.fingerprint(host.owner),previous)
+        self.assertEqual(host.undo,0)
+        target=capture(host,'foreground'); host.owner.shapes.append('user edit')
+        with self.assertRaisesRegex(CompanionError,'destination changed'):
+            apply_paths(host,target,changed,base_snapshot=base)
+        self.assertEqual(host.owner.shapes[-1],'user edit')
+
     def test_replace_preserves_components_anchors_width(self):
         host=FakeHost(); host.owner.width=600; target=capture(host,'foreground')
         apply_paths(host,target,sample()['paths'],True)

@@ -235,3 +235,148 @@ select it explicitly with Choose Engine after relaunch. The shared 0.1.0 engine
 is untouched. Installed files are verified; loaded build 6 remains unverified.
 No Glyphs relaunch, user-font edit, Developer ID signing or publication occurred.
 The manifest remains development-unqualified pending full visible in-app tests.
+
+## Interactive trace source update
+
+The panel now uses Trace → Done, manual threshold slider/text synchronization,
+150 ms setting debounce and generation cancellation. Successful updates replace
+this session's paths through the original-content snapshot, with each update
+undoable. Original content and the last successful trace are preserved on failed
+replacement. External edits invalidate replacement. Choose Image is removed;
+the image-placement API remains. Agent preparation/application now also exposes
+canvas tracing and every engine trace option, including diagnostics.
+
+The companion suite and isolated AppKit check cover replacement, failed-apply
+recovery, stale targets/results, numeric validation, Done closure, agent options,
+cancellation and single application. AppKit uses fake font objects with the real
+engine. Live Glyphs slider interaction and native Undo/Redo for repeated updates
+still require visible qualification; these source changes were not installed.
+
+## Build 8 — expandable trace quality controls (2026-09-28)
+
+Build 8 adds a pure settings model and an Advanced disclosure to the native
+trace panel. The collapsed panel is 320 × 210 points; the expanded panel is
+320 × 408 and preserves its top edge. Balanced, Sharp and Smooth Detail
+presets map to the existing engine options without changing Threshold or Invert.
+Individual edits select Custom, valid changes share the 150 ms live-retrace
+debounce, and invalid text restores the last valid value when editing ends.
+The versioned defaults dictionary retains valid settings and disclosure state;
+invalid or obsolete data falls back to Balanced and collapsed. Reset Trace
+Settings also restores Auto threshold and Invert off.
+
+Automated validation completed on the source checkout:
+
+- 104 companion tests passed, including the 100-image engine corpus, preset and
+  Custom detection, numeric boundaries, persistence fallback, existing
+  cancellation/stale-target/live-replacement/undo behavior, engine selection and
+  deterministic package checks.
+- The isolated AppKit smoke check passed with fake font objects and the real
+  engine. It covered both dimensions, stable top edge, keyboard routing,
+  accessibility labels, slider/text synchronization, one retrace per preset,
+  reset, restoration across controller instances and Aqua/Dark Aqua construction.
+- The optimized Swift suite passed 89 tests with one intentional
+  maintenance-export skip and zero failures.
+- The standalone product-boundary audit and whitespace check passed.
+- The unsigned build-8 package was created and verified at
+  `.build/glyphs-companion-0.1.0-build8`; its manifest and `SHA256SUMS` record
+  the final archive and payload hashes.
+
+The package remains `development-unqualified`, unsigned and not notarized. It
+was not installed, Glyphs was not relaunched, and no user font was accessed or
+modified. Visible in-app layout, VoiceOver behavior and repeated-update Undo/Redo
+remain subject to the separately authorized native acceptance procedure.
+
+## Build 9 — handle-rounding and smoothing-endpoint repair (2026-09-29)
+
+Build 9 accepts engines 0.1.0, 0.1.1-dev.1 and 0.1.1-dev.2, preferring the
+new local 0.1.1-dev.2 engine from a source checkout. The engine now shares its
+handle-reach and handle-triangle safety calculation between final cleanup and
+geometry validation. Integer handle rounding is retained only when the rounded
+curve remains valid; otherwise cleanup preserves the safe pre-rounded handles.
+Validation limits, public APIs and JSON schemas are unchanged.
+
+Automated validation completed on the source checkout:
+
+- The optimized Swift suite passed 91 tests with one intentional
+  maintenance-export skip and zero failures. Focused coverage proves unsafe
+  rounded handles fall back while safe rounding remains deterministic, and
+  `symbol-sparkle.png` validates at Accuracy 3, Smoothing 0.7 and Grid 1.
+- All 100 immutable corpus fixtures traced successfully at defaults with the
+  fresh universal 0.1.1-dev.2 engine.
+- The private blob reproduction remained outside tracked fixtures and traced
+  successfully at Accuracy 0.5, 0.75, 1, 1.5, 2, 2.5, 2.75 and 3 with
+  Smoothing 0.7 and Grid 1.
+- All 105 companion tests passed, including cancellation, stale-target
+  protection, live replacement, Undo/application paths, presets, persistence,
+  engine selection and deterministic packaging.
+- The isolated AppKit smoke check passed both panel sizes, the exact 0.25
+  Smoothing slider endpoint, field synchronization, one debounced retrace and
+  the existing native-raster/fake-host lifecycle without accessing Glyphs or a
+  user font.
+- The standalone product-boundary audit, four release-metadata tests and
+  whitespace check passed.
+
+The unsigned universal engine is stored separately at
+`.build/beztrace-0.1.1-dev.2/bin/beztrace` with SHA-256
+`38ceb3c266cc37ddbbc3269554a2b2b6e808e933c593d544133787111661fad3`.
+Build 8 and engine 0.1.1-dev.1 remain available for rollback. The build-9
+package stays `development-unqualified`; it is not signed, notarized or
+published, and the released shared 0.1.0 engine is not replaced.
+
+## Build 10 — topology-safe Grid cleanup (2026-09-29)
+
+Build 10 accepts engines 0.1.0, 0.1.1-dev.1, 0.1.1-dev.2 and 0.1.1-dev.3,
+preferring the fresh local dev.3 engine from a source checkout. Grid candidates
+are now accepted only when the shared final validator accepts the complete
+outline. A rejected candidate retains that contour's fully cleaned no-grid
+geometry and adds a deterministic warning. Invalid no-grid geometry still
+fails closed. Remove Specks, all control ranges, schema v1 and public Swift
+request/result types are unchanged.
+
+The native panel is redesigned at 300 × 210 points collapsed and 300 × 410
+expanded with Auto Threshold. Preset and Invert image remain visible, while
+Threshold leads the unindented controls under a separate Advanced Options label
+and far-right native disclosure button. Manual Threshold adds 24 points for its
+second-line controls. Invalid numeric input uses an associated inline system-red
+message, adds 18 points without moving the top edge, suppresses retracing, and
+restores the last valid value when editing ends. The footer remains reserved for
+progress and global engine or destination errors.
+
+Automated validation completed on the source checkout:
+
+- The optimized Swift suite passed 97 tests with one intentional
+  maintenance-export skip and zero failures. This includes all 100 default
+  corpus traces and 200 additional boundary-profile traces at Grid 8.
+- Pure cleanup tests cover collapsed anchors, self-intersections, safe
+  candidates, deterministic mixed fallback and invalid fallback failure.
+- Committed regressions for `glyph-upper-n.png`, `symbol-gear.png` and
+  `symbol-crescent-moon.png` pass at Accuracy 0.5, Smoothing 2.5, Corner 13,
+  Grid 8 and Remove Specks 700, each with the expected warning.
+- The untracked private blob passed 216 combinations spanning boundary
+  Accuracy, Smoothing, Corner, Grid, Remove Specks and refinement values with
+  zero failures.
+- All 107 companion tests passed, including warning validation/display,
+  cancellation, stale-target protection, live replacement, Undo/application
+  paths, presets, persistence, engine selection and deterministic packaging.
+- The isolated AppKit smoke check passed with the universal dev.3 engine and
+  verified the 300-point layout, fixed top edge, right disclosure, unindented
+  controls, Manual Threshold synchronization, inline validation, keyboard and
+  accessibility order, persistence, Aqua/Dark Aqua construction and warning
+  status without accessing Glyphs or a user font.
+- The product-boundary audit, four release-metadata tests and whitespace check
+  passed.
+- A 50-image optimized default batch took 15.53 seconds on dev.2 and 15.47
+  seconds on dev.3 on the same machine and checkout.
+
+The unsigned universal engine is stored at
+`.build/beztrace-0.1.1-dev.3/bin/beztrace` with SHA-256
+`ec96e34ae9c4b29a044e2d00719b9c6c5844da84d5540f5db7d6d3085228e865`.
+The redesigned unsigned companion package is stored at
+`.build/glyphs-companion-0.1.0-build10`; its deterministic archive
+`beztrace-glyphs-0.1.0-build10-macos-universal.zip` has SHA-256
+`d07327367999748595a1977b2a2819e12130361bd784650e2449cd12ed539700`.
+Read-only verification passed for its manifest, archive, payload and checksums;
+native qualification remains `development-unqualified`.
+Earlier development engines and companion builds remain available for rollback.
+Dev.3/build 10 are not signed, notarized or published, and the released shared
+0.1.0 engine is not replaced.

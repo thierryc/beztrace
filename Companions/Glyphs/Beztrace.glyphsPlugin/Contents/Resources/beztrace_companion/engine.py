@@ -12,9 +12,10 @@ from pathlib import Path
 from .contract import CompanionError, ENGINE_VERSIONS, MAX_INPUT, MAX_OUTPUT, parse_result, number
 
 DEFAULT_ENGINE = '/Library/Application Support/beztrace/bin/beztrace'
+DEVELOPMENT_ENGINE = '.build/beztrace-0.1.1-dev.3/bin/beztrace'
 DEFAULT_OPTIONS = dict(threshold='auto', invert=False, accuracy=2.0, smoothing=1.0,
                        corner_threshold=12.0, min_contour_area=100.0, grid=2,
-                       structure_grid=0, refine_raster=True, rtl_start=False)
+                       structure_grid=0, refine_raster=True, rtl_start=False, diagnostics='none')
 EXIT_ERRORS = {2: 'Invalid tracing settings', 3: 'Image is unreadable, unsupported, or too large',
                4: 'Image contains no traceable outlines', 5: 'Tracing or geometry validation failed',
                6: 'Engine could not serialize its result', 7: 'Engine internal error'}
@@ -22,6 +23,24 @@ EXIT_ERRORS = {2: 'Invalid tracing settings', 3: 'Image is unreadable, unsupport
 
 class Cancelled(CompanionError):
     pass
+
+
+def default_engine(module_path=__file__):
+    """Prefer the corrected engine only when this plugin is running from its source checkout.
+
+    Packaged companions have no repository marker and retain the released system
+    executable as their default.  This keeps the unsigned development workflow
+    from silently falling back to the known small-contour behavior in 0.1.0 each
+    time a new panel is opened.
+    """
+    path = Path(module_path).resolve()
+    for parent in path.parents:
+        if (parent/'Package.swift').is_file() and (parent/'Companions/Glyphs').is_dir():
+            candidate = parent/DEVELOPMENT_ENGINE
+            if candidate.is_file() and os.access(candidate, os.X_OK):
+                return str(candidate)
+            break
+    return DEFAULT_ENGINE
 
 
 def arguments(options):
@@ -49,6 +68,9 @@ def arguments(options):
     for key in ['invert', 'rtl_start']:
         if values[key]:
             args += ['--' + key.replace('_', '-')]
+    if values['diagnostics'] not in ('none', 'summary'):
+        raise CompanionError('Diagnostics must be none or summary')
+    args += ['--diagnostics', values['diagnostics']]
     args += ['--refine-raster' if values['refine_raster'] else '--no-refine-raster']
     return args
 
@@ -137,7 +159,7 @@ def trace(executable, image, options, cancel=None, progress=lambda stage: None,
     code, out, err = run_process(executable, ['--version'], b'', cancel, version_timeout, 4096)
     versions = {('beztrace ' + version).encode(): version for version in ENGINE_VERSIONS}
     if code or out.strip() not in versions or err:
-        raise CompanionError('Incompatible engine: beztrace 0.1.0 or 0.1.1-dev.1 is required')
+        raise CompanionError('Incompatible engine: beztrace 0.1.0, 0.1.1-dev.1, 0.1.1-dev.2, or 0.1.1-dev.3 is required')
     checked_version = versions[out.strip()]
     progress('Tracing…')
     code, out, err = run_process(executable, args, image, cancel, trace_timeout)

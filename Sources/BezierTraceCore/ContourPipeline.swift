@@ -12,6 +12,7 @@ struct ContourExtractionResult: Equatable, Sendable {
 struct InternalTraceResult: Equatable, Sendable {
     let preparedRaster: PreparedRaster
     let outline: ValidatedOutline
+    let warnings: [String]
 }
 
 enum ContourPipeline {
@@ -124,10 +125,20 @@ enum ContourPipeline {
             }
         }
         let paths = fitted.map { BezierPathContour($0.scaled(by: scale)) }
-        let cleaned = CleanupPipeline.process(paths, configuration: configuration)
+        let cleaned = try CleanupPipeline.process(paths, configuration: configuration)
+        let warnings: [String]
+        if cleaned.skippedGridContours == 0 {
+            warnings = []
+        } else {
+            let noun = cleaned.skippedGridContours == 1 ? "contour" : "contours"
+            warnings = [
+                "Grid \(configuration.grid) was skipped for \(cleaned.skippedGridContours) \(noun) to preserve valid geometry."
+            ]
+        }
         return InternalTraceResult(
             preparedRaster: prepared,
-            outline: try OutlineValidator.validate(paths: cleaned)
+            outline: cleaned.outline,
+            warnings: warnings
         )
     }
 }

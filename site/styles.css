@@ -307,6 +307,27 @@ h3 { margin-bottom: 0; font-size: 1.1rem; line-height: 1.2; letter-spacing: -.03
 .key { color: #8fb0ff; }
 .muted { color: #7f8592; }
 
+.companion {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  align-items: center;
+  gap: clamp(50px, 8vw, 140px);
+  border-top: 1px solid var(--line);
+  background: #f4f6fb;
+}
+.companion-copy h2 { max-width: 720px; margin-bottom: 28px; }
+.companion-copy > p:not(.kicker) { max-width: 650px; color: #555b68; font-size: 1.04rem; }
+.companion-copy .button { margin-top: 12px; }
+.companion-card { border: 1px solid var(--ink); background: white; box-shadow: 12px 12px 0 var(--acid); }
+.companion-card-title { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 20px; border-bottom: 1px solid var(--ink); }
+.companion-card-title strong { font-size: .94rem; }
+.companion-card-title span { color: var(--blue); font-family: var(--mono); font-size: .68rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.companion-card ul { margin: 0; padding: 0 20px; list-style: none; }
+.companion-card li { min-height: 57px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
+.companion-card li span { color: #686e7a; font-family: var(--mono); font-size: .7rem; text-transform: uppercase; }
+.companion-card li strong { font-size: .86rem; text-align: right; }
+.companion-card > p { margin: 0; padding: 18px 20px 20px; color: #555b68; font-size: .78rem; }
+
 .install { display: grid; grid-template-columns: .9fr 1.1fr; align-items: end; gap: 90px; border-top: 1px solid var(--ink); background: var(--blue); color: white; }
 .install .kicker { color: var(--acid); }
 .install > div, .install-action { min-width: 0; }
@@ -358,8 +379,9 @@ footer > div:last-child a { color: #d9deea; font-size: .76rem; font-weight: 700;
   .example-grid { grid-template-columns: 1fr; }
   .pipeline-list li { grid-template-columns: 50px 1fr; }
   .pipeline-list li > div { grid-template-columns: 1fr; gap: 8px; }
-  .contract, .install { grid-template-columns: 1fr; gap: 50px; }
+  .contract, .companion, .install { grid-template-columns: 1fr; gap: 50px; }
   .code-window { box-shadow: 7px 7px 0 var(--blue); }
+  .companion-card { box-shadow: 7px 7px 0 var(--acid); }
   .install-links { align-items: flex-start; flex-direction: column; gap: 15px; }
   footer { grid-template-columns: 1fr; align-items: start; padding-top: 50px; padding-bottom: 50px; }
   footer p { text-align: left; }

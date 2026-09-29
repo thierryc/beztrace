@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.1-dev.3 — local development candidate
+
+- Make Grid cleanup validity-preserving: contours whose snapped candidates
+  would collapse, self-intersect, or otherwise fail final validation retain
+  their fully cleaned no-grid geometry.
+- Reuse the final outline validator for candidate acceptance, preserve hard
+  failures for invalid no-grid geometry, and report deterministic fallback
+  warnings through the existing result contract.
+- Add the reported Grid 8 profile and boundary-profile corpus regressions.
+- Add Glyphs companion build 10 with dev.3 selection and warning display, plus
+  a 300-point native panel with Preset outside Advanced Options, Threshold inside
+  it, a right-aligned disclosure, stable top-edge resizing and inline validation.
+
+## 0.1.1-dev.2 — local development candidate
+
+- Reject deterministic handle-rounding candidates that would violate the final
+  handle-reach validator, preserving the preceding safe fitted handles.
+- Add a regression for Accuracy 3, Smoothing 0.7 and Grid 1 on the committed
+  sparkle fixture. Public API, schema and path-data versions are unchanged.
+
 ## 0.1.1-dev.1 — development prerelease
 
 - Preserve small closed contours through smoothing and fitting, including

@@ -51,7 +51,11 @@ enum CleanupSnap {
                 let t = Double(sample) / 16
                 return max(maximum, segment.cubic.point(at: t).distance(to: rounded.point(at: t)))
             }
-            if shift <= roundMaximumDeviation { result.cubic = rounded }
+            if shift <= roundMaximumDeviation,
+               HandleSafety.isControlled(rounded, tolerance: HandleSafety.validationTolerance)
+            {
+                result.cubic = rounded
+            }
             return result
         })
     }

@@ -11,13 +11,39 @@ import time
 import unittest
 from test_contract import ROOT, sample
 from beztrace_companion.contract import CompanionError,MAX_INPUT
-from beztrace_companion.engine import trace,run_process,arguments,Cancelled,DEFAULT_ENGINE
+from beztrace_companion.engine import trace,run_process,arguments,Cancelled,DEFAULT_ENGINE,default_engine
 from beztrace_companion.session import Session
 
 
 class ProcessTests(unittest.TestCase):
+    def test_source_checkout_prefers_executable_development_engine(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory); (root/'Package.swift').write_text('')
+            (root/'Companions/Glyphs').mkdir(parents=True)
+            module=root/'Companions/Glyphs/plugin/beztrace_companion/engine.py'
+            module.parent.mkdir(parents=True); module.write_text('')
+            development=root/'.build/beztrace-0.1.1-dev.3/bin/beztrace'
+            development.parent.mkdir(parents=True); development.write_text('#!/bin/sh\n')
+            development.chmod(0o755)
+            self.assertEqual(default_engine(module),str(development.resolve()))
+
+    def test_packaged_or_missing_development_engine_uses_release(self):
+        with tempfile.TemporaryDirectory() as directory:
+            packaged=Path(directory)/'Beztrace.glyphsPlugin/Contents/Resources/beztrace_companion/engine.py'
+            packaged.parent.mkdir(parents=True); packaged.write_text('')
+            self.assertEqual(default_engine(packaged),DEFAULT_ENGINE)
+            root=Path(directory)/'checkout'; (root/'Package.swift').parent.mkdir(parents=True,exist_ok=True)
+            (root/'Package.swift').write_text(''); (root/'Companions/Glyphs').mkdir(parents=True)
+            module=root/'Companions/Glyphs/plugin/engine.py'; module.parent.mkdir(parents=True); module.write_text('')
+            self.assertEqual(default_engine(module),DEFAULT_ENGINE)
+
     def run_python(self,source,timeout=2,limit=4096,cancel=None,input=b''):
         return run_process(sys.executable,['-c',source],input,cancel or threading.Event(),timeout,limit)
+
+    def test_diagnostics_option_is_exposed_and_validated(self):
+        args=arguments({'diagnostics':'summary'})
+        self.assertEqual(args[args.index('--diagnostics')+1],'summary')
+        with self.assertRaises(CompanionError): arguments({'diagnostics':'verbose'})
 
     def test_concurrent_pipe_drain(self):
         code,out,err=self.run_python('import sys; sys.stderr.write("e"*60000); data=sys.stdin.buffer.read(); sys.stdout.buffer.write(data)',input=b'x'*200000,limit=300000)
@@ -56,8 +82,8 @@ class ProcessTests(unittest.TestCase):
         with self.assertRaisesRegex(CompanionError,'Incompatible'): trace(self.fake(version='beztrace 0.2.0'),b'image',{})
 
     def test_supported_versions_must_match_json(self):
-        for executable_version in ('0.1.0', '0.1.1-dev.1'):
-            for json_version in ('0.1.0', '0.1.1-dev.1'):
+        for executable_version in ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3'):
+            for json_version in ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3'):
                 result = sample(); result['engine']['version'] = json_version
                 engine = self.fake(version='beztrace ' + executable_version, output=json.dumps(result))
                 if executable_version == json_version:

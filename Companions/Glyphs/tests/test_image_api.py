@@ -58,6 +58,48 @@ class ImageAPITests(unittest.TestCase):
         job=prepare_imports(self.host.font,entries,_host=self.host)
         self.assertTrue(job._done.wait(2))
         return job
+    def test_agent_trace_options_result_and_single_application(self):
+        from beztrace_companion.api import prepare_trace,apply_trace
+        from beztrace_companion.engine import DEFAULT_OPTIONS
+        self.host.layers['A'].backgroundImage=self.host.new_image(str(self.path))
+        self.host.snapshot=lambda layer: FakeHost.fingerprint(self.host,layer)
+        before=self.host.fingerprint(self.host.layers['A'])
+        options=dict(DEFAULT_OPTIONS,threshold=145,accuracy=1.5,diagnostics='summary')
+        job=prepare_trace(self.host.font,'A','master',options=options,_host=self.host)
+        self.assertTrue(job._done.wait(2))
+        self.assertEqual(self.host.fingerprint(self.host.layers['A']),before)
+        self.assertEqual(job.plan.result,sample())
+        from beztrace_companion import api
+        self.assertEqual(api.trace.call_args.args[2],options)
+        with patch('beztrace_companion.api.image_io.revalidate'):
+            self.assertEqual(apply_trace(job.plan,_host=self.host)['status'],'applied')
+            with self.assertRaises(CompanionError): apply_trace(job.plan,_host=self.host)
+        self.assertEqual(len(self.host.layers['A'].shapes),3)
+
+    def test_agent_trace_surfaces_engine_warning_after_application(self):
+        from beztrace_companion.api import prepare_trace,apply_trace
+        from beztrace_companion import api
+        result=sample(); result['warnings']=['Grid 8 was skipped for 1 contour to preserve valid geometry.']
+        api.trace.return_value=result
+        self.host.layers['A'].backgroundImage=self.host.new_image(str(self.path))
+        self.host.snapshot=lambda layer: FakeHost.fingerprint(self.host,layer)
+        job=prepare_trace(self.host.font,'A','master',_host=self.host)
+        self.assertTrue(job._done.wait(2))
+        with patch('beztrace_companion.api.image_io.revalidate'):
+            applied=apply_trace(job.plan,_host=self.host)
+        self.assertEqual(applied['warning'],result['warnings'][0])
+
+    def test_agent_trace_cancel_and_stale_target(self):
+        from beztrace_companion.api import prepare_trace,apply_trace
+        self.host.layers['A'].backgroundImage=self.host.new_image(str(self.path))
+        for cancel in (True,False):
+            job=prepare_trace(self.host.font,'A','master',_host=self.host)
+            self.assertTrue(job._done.wait(2)); plan=job.plan
+            if cancel: job.cancel()
+            else: self.host.layers['A'].width=500
+            with self.assertRaises(CompanionError): apply_trace(plan,_host=self.host)
+        self.assertEqual(self.host.layers['A'].shapes,['existing path','component'])
+
     def test_prepare_is_read_only_and_fit_applies_image_only(self):
         before=[self.host.fingerprint(l) for l in self.host.layers.values()]
         job=self.prepare([self.request()])

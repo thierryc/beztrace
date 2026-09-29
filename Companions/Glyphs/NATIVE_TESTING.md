@@ -21,15 +21,26 @@ foreground/background preservation and native image/path Undo/Redo. Document
 membership is replaced by an explicit detached-fixture ownership check; it cannot
 establish in-app selection or menu behavior.
 
-## Visible build-5 acceptance
+## Visible build-10 acceptance
 
-After an authorized relaunch, verify About shows build 5 and the menu reads
+After an authorized relaunch, verify About shows build 10 and the menu reads
 **Path → Beztrace…**. Use a new disposable font with two glyphs and two masters.
 
-- Check the 280 × 190 panel, keyboard order, labels, long names, light/dark modes,
-  readable errors and the engine setup action.
-- Place PNG/JPEG through both Choose Image and Glyphs' normal image workflow.
-  Confirm replacement and image Undo/Redo. Move/resize with native handles.
+- Check the 300 × 210 collapsed, 300 × 410 expanded Auto-threshold and 300 × 434
+  expanded Manual-threshold panel sizes. Confirm the top edge stays fixed, the
+  Advanced Options disclosure sits at the far right, advanced labels are
+  unindented, and keyboard order, accessibility labels, tooltips, long names,
+  light/dark modes, readable errors and the engine setup action remain correct.
+- Confirm first launch uses Auto threshold, Invert off, Balanced quality and a
+  collapsed Advanced Options disclosure. Preset and Invert image must remain
+  visible while Threshold is hidden. Exercise all presets and individual
+  controls; invalid numeric text must show one inline system-red message, add
+  enough panel height to avoid overlap, not retrace, and restore the last valid
+  value when editing ends. Valid boundary values such as Smoothing 0.25 must not
+  show an error. Close and reopen the panel to verify persistence, then use Reset
+  Trace Settings and verify the defaults and collapsed state are restored.
+- Place PNG/JPEG through Glyphs' normal image workflow. Confirm image Undo/Redo
+  and move/resize with native handles. Exercise the separate placement API as needed.
 - Check image/outline alignment at several zoom levels, including native crops,
   nonuniform scale, rotation, skew, reflection, 144-DPI PNG, EXIF JPEG and alpha PNG.
 - Trace foreground and native background editing layers. Ensure counters and cubic
@@ -48,8 +59,8 @@ Record workspace, installed and loaded versions separately. No file checksum
 alone establishes a loaded revision or visible alignment. A failed native check
 remains a qualification blocker.
 
-For build 6 and the local engine, set `BEZTRACE_TEST_ENGINE` to the absolute
-`.build/beztrace-0.1.1-dev.1/bin/beztrace` path before running the harness. Optional
+For build 10 and the corrected local engine, set `BEZTRACE_TEST_ENGINE` to the absolute
+`.build/beztrace-0.1.1-dev.3/bin/beztrace` path before running the harness. Optional
 `BEZTRACE_ACCEPTANCE_IMAGE` supplies a local PNG/JPEG for preparation, tracing,
 affine insertion and Undo/Redo in the detached fixture. The harness writes a
 normalized PNG and result JSON under `.build/glyphs-native-canvas` for comparison.

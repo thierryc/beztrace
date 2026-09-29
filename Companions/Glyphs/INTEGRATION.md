@@ -110,3 +110,59 @@ directory includes source fingerprints, platform metadata and checksums.
 The normal default executable and shared-engine removal policy are unchanged.
 For local qualification, select the development executable explicitly through
 Choose Engine or pass its absolute path to `prepare_imports(engine=...)`.
+
+## Build 7: interactive trace
+
+Local development build 7 adds Trace → Done, live threshold/invert updates and
+a manual slider plus numeric input. Choose Image is removed from the panel;
+image import and full tracing remain available through the Python agent API.
+Detect numeric build 7 and verify payload hashes. This build is unsigned and
+is not a published replacement for build 6.
+
+## Build 8: expandable quality controls
+
+Local development build 8 keeps the default panel compact at 320 × 210 points
+and expands the same window to 320 × 408 points through an Advanced disclosure.
+The expanded controls expose Balanced, Sharp and Smooth Detail presets and the
+existing engine options for accuracy, smoothing, corner sensitivity, grid,
+minimum contour area and raster refinement. Valid changes use the same 150 ms
+live-retrace debounce; incomplete text never replaces the last valid settings.
+
+Settings are stored in the versioned
+`dev.beztrace.glyphs.trace-settings-v1` defaults dictionary. Reset Trace Settings
+restores Auto threshold, Invert off, the Balanced advanced values and a collapsed
+window. Detect numeric build 8 and verify payload hashes. This build is unsigned,
+development-unqualified and is not a published replacement for earlier builds.
+
+## Build 9: safe quality-control boundaries
+
+Local development build 9 accepts engines `0.1.0`, `0.1.1-dev.1` and
+`0.1.1-dev.2`, requiring the version probe and JSON result to agree. In a source
+checkout it prefers the local dev.2 engine, whose final deterministic handle
+rounding retains the preceding safe handles when an integer candidate would
+violate geometry validation. The companion clamps Smoothing slider quantization
+to its documented 0.25 minimum. Numeric input, persistence, presets and the
+150 ms retrace policy are unchanged.
+
+Detect numeric build 9 and verify payload hashes. Dev.2 and build 9 are unsigned
+local artifacts; no publication, signing or notarization is authorized.
+
+## Build 10: topology-safe Grid output
+
+Local development build 10 accepts engines `0.1.0`, `0.1.1-dev.1`,
+`0.1.1-dev.2` and `0.1.1-dev.3`, preferring dev.3 from a source checkout. The
+engine keeps a fully validated no-grid contour whenever the requested Grid
+candidate would make the complete outline invalid. The JSON contract is
+unchanged; its existing `warnings` array records each fallback, and the panel
+and agent trace result surface that warning after successful application.
+
+Build 10 also refines the native panel to 300 × 210 points collapsed and
+300 × 410 expanded with Auto Threshold. Preset and Invert image remain visible;
+Threshold is the first unindented control under a right-aligned Advanced Options
+disclosure. Manual Threshold adds 24 points, and inline numeric validation adds
+18 points only while needed. Every transition preserves the window top edge.
+Invalid input suppresses retracing and restores the last valid value when editing
+ends; progress and global engine/destination failures remain in the footer.
+
+Detect numeric build 10 and verify payload hashes. Dev.3 and build 10 remain
+unsigned, development-unqualified local artifacts.

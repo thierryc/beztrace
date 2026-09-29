@@ -6,7 +6,6 @@ import Foundation
 
 enum FittingFinish {
     private static let harmonizeMaximumShift = 2.0
-    private static let handleReachMaximum = 0.9
 
     static func mergeCollinearLines(_ input: FittedContour) -> FittedContour {
         var contour = input
@@ -270,7 +269,7 @@ enum FittingFinish {
             }
             let chordDirection = chordVector / chord
             let reach = firstHandle.dot(chordDirection) - secondHandle.dot(chordDirection)
-            let limit = chord * handleReachMaximum
+            let limit = chord * HandleSafety.maximumReachRatio
             if reach > limit {
                 let scale = limit / reach
                 segment.control1 = segment.start + firstHandle * scale

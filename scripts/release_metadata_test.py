@@ -26,11 +26,11 @@ class ReleaseMetadataTests(unittest.TestCase):
             for suffix in [[], ["--version", "0.1.1"], ["--version", "bad"]]:
                 result = subprocess.run(command + suffix, capture_output=True)
                 self.assertNotEqual(result.returncode, 0)
-            subprocess.run(command + ["--version", "0.1.1-dev.1"], check=True, capture_output=True)
+            subprocess.run(command + ["--version", "0.1.1-dev.3"], check=True, capture_output=True)
             for name in ("source", "binary"):
                 data = json.loads((root / "share" / f"sbom-{name}.spdx.json").read_text())
-                self.assertEqual(data["packages"][0]["versionInfo"], "0.1.1-dev.1")
-                self.assertIn("/0.1.1-dev.1/", data["documentNamespace"])
+                self.assertEqual(data["packages"][0]["versionInfo"], "0.1.1-dev.3")
+                self.assertIn("/0.1.1-dev.3/", data["documentNamespace"])
 
     def build_manifest(self, release_kind: str) -> dict:
         label = "0.1.0-rc.1" if release_kind == "candidate" else "0.1.0"

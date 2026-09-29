@@ -1,4 +1,4 @@
-# Agent image-placement API v1
+# Agent API v1
 
 Available inside Glyphs after the companion loads:
 
@@ -7,10 +7,10 @@ from beztrace_companion.api import API_VERSION, ImportRequest, prepare_imports, 
 assert API_VERSION == 1
 ```
 
-This API places native background images. It does **not** create glyphs, insert
-paths, save fonts, change advance widths, or expose an MCP server. The interactive
-panel traces the placed image later. A future MCP adapter remains separate work
-and must use its authorized mutation/recovery workflow.
+This API exposes native image placement and tracing independently of the panel.
+It does not create glyphs, save fonts, change advance widths, or expose an MCP
+server. The separate Glyphs MCP integration can call these Python functions
+through its authorized main-thread mutation/recovery workflow.
 
 ## Prepare, review, apply
 
@@ -80,7 +80,34 @@ The source files remain external references and must remain available. No file
 copying, source deletion, glyph creation, or font saving is performed. The `_host`
 parameter is a test seam and is not part of API v1.
 
-For engine 0.1.1-dev.1, pass the absolute path of the local development executable
-as `engine`. Build 6 accepts this exact version and released 0.1.0, requiring the
-version probe and result version to agree. The default remains the installed
+For engine 0.1.1-dev.3, pass the absolute path of the local development executable
+as `engine`. Build 10 accepts this version, 0.1.1-dev.2, 0.1.1-dev.1 and released 0.1.0, requiring
+the version probe and result version to agree. The API default remains the installed
 0.1.0 executable; the API does not select development builds automatically.
+
+## Trace a placed image with all engine options
+
+```python
+from beztrace_companion.api import prepare_trace, apply_trace
+job = prepare_trace(font, 'A', regular_layer_id, options={
+    'threshold': 128, 'invert': False, 'accuracy': 2.0,
+    'smoothing': 1.0, 'corner_threshold': 12.0, 'min_contour_area': 100.0,
+    'grid': 2, 'structure_grid': 0, 'refine_raster': True,
+    'rtl_start': False, 'diagnostics': 'summary',
+})
+# Later, after job.done, inspect job.plan.result and job.plan.paths.
+report = apply_trace(job.plan)
+```
+
+Both calls run on the main thread; preparation performs tracing in a worker.
+`destination` accepts foreground/background and `engine` selects an explicit
+compatible executable. Omitted options use engine adapter defaults. The result
+contains complete validated neutral JSON; paths contain canvas coordinates.
+`job.cancel()` prevents application. Application checks the captured layer,
+image placement and source hash, consumes the plan once, appends paths with
+native Undo and verified recovery, and returns API version, status, contour
+count and any redraw warning. It never silently replaces existing paths.
+Image placement (`ImportRequest`, `prepare_imports`, `apply_imports`) remains
+available despite removal of Choose Image from the panel. For direct bytes-to-JSON
+tracing without a native image, `beztrace_companion.engine.trace(engine, data,
+options, cancel=None)` remains available off the UI thread.
