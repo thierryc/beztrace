@@ -57,6 +57,13 @@ enum OutlineValidator {
         for (contourIndex, path) in paths.enumerated() {
             guard !path.segments.isEmpty else { throw CoreError.invalidClosure(contour: contourIndex) }
             try validateFinite(path)
+            guard path.segments.count >= 3 else {
+                throw CoreError.insufficientOnCurveNodes(
+                    contour: contourIndex,
+                    actual: path.segments.count,
+                    minimum: 3
+                )
+            }
             try validateClosure(path, contour: contourIndex)
             try validateSegments(path, contour: contourIndex)
             if hasSelfIntersection(path) { throw CoreError.selfIntersection(contour: contourIndex) }

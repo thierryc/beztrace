@@ -14,6 +14,7 @@ enum CoreError: Error, Equatable, Sendable {
     case nonFiniteGeometry
     case noContours
     case invalidClosure(contour: Int)
+    case insufficientOnCurveNodes(contour: Int, actual: Int, minimum: Int)
     case degenerateSegment(contour: Int, segment: Int)
     case invalidWinding(contour: Int)
     case selfIntersection(contour: Int)

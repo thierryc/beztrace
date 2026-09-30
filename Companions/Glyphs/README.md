@@ -1,8 +1,8 @@
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
-**0.1.0 build 10** accepts the separately installed **beztrace 0.1.0** engine
-or local **0.1.1-dev.1**, **0.1.1-dev.2**, and **0.1.1-dev.3** development engines,
+**0.1.0 build 11** accepts the separately installed **beztrace 0.1.0** engine
+or local **0.1.1-dev.1** through **0.1.1-dev.4** development engines,
 JSON schema **1**, and path data **2**.
 
 ## Use it
@@ -54,7 +54,7 @@ full details in **⋯ → Error Details…**. Recovery failures stop further wri
 - Glyphs Python 3.9+ with GlyphsApp, PyObjC, AppKit, Foundation and Quartz.
 - Engine executable: `/Library/Application Support/beztrace/bin/beztrace`.
   Use **⋯ → Choose Engine…** for an explicit alternative; no ambient PATH lookup.
-- Engine version must be exactly 0.1.0, 0.1.1-dev.1, 0.1.1-dev.2, or 0.1.1-dev.3 and match the returned JSON. PNG/JPEG source limits: 16 MiB,
+- Engine version must be exactly 0.1.0 or 0.1.1-dev.1 through 0.1.1-dev.4 and match the returned JSON. PNG/JPEG source limits: 16 MiB,
   4096 × 4096 pixels. The normalized crop must also fit the input limits.
 
 Install the bundle under the **actual Glyphs 4 Application Support directory**,
@@ -91,8 +91,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build10
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build10
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build11
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build11
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font
@@ -113,15 +113,16 @@ checks versus remaining visible in-app qualification.
 Engine 0.1.1-dev.1 fixes the collapse of small closed contours reported with the
 blob-letter image. Local 0.1.1-dev.2 also prevents unsafe final handle rounding
 at valid Accuracy/Grid combinations. Local 0.1.1-dev.3 additionally prevents
-Grid snapping from creating invalid topology. Released 0.1.0 remains installed and
-supported, but still has those bugs. Build the local universal engine from the repository root:
+Grid snapping from creating invalid topology. Local 0.1.1-dev.4 preserves
+meaningful curvature on small convex contours. Released 0.1.0 remains installed
+and supported, but still has those bugs. Build the local universal engine from the repository root:
 
 ```sh
 python3 scripts/build_development_engine.py
 ```
 
-When build 10 runs from this source checkout and
-`.build/beztrace-0.1.1-dev.3/bin/beztrace` is executable, the panel selects that
+When build 11 runs from this source checkout and
+`.build/beztrace-0.1.1-dev.4/bin/beztrace` is executable, the panel selects that
 corrected development engine automatically. **⋯ → Choose Engine…** remains
 available for an explicit alternative. A packaged companion outside the checkout
 still defaults to the separately installed release. No system executable is

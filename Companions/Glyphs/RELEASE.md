@@ -98,3 +98,11 @@ artifacts for topology-safe Grid cleanup and warning propagation. They may be
 built, packaged, installed and tested under their explicit task authorization,
 but no prior authorization permits uploading, tagging, signing, notarizing or
 publishing dev.3/build 10.
+
+## Local dev.4/build-11 boundary
+
+Engine 0.1.1-dev.4 and companion build 11 are local unsigned development
+artifacts for the small convex-curve correction. They may be built and packaged
+under the explicit task authorization, but installation, relaunch, user-font
+edits, uploading, tagging, signing, notarization and publication remain
+unauthorized.

@@ -166,3 +166,13 @@ ends; progress and global engine/destination failures remain in the footer.
 
 Detect numeric build 10 and verify payload hashes. Dev.3 and build 10 remain
 unsigned, development-unqualified local artifacts.
+
+## Build 11: small convex-curve correction
+
+Local development build 11 additionally accepts `0.1.1-dev.4` and prefers it
+from a source checkout. Dev.4 prevents meaningful curved quadrants on small
+convex contours from becoming straight chords. The companion UI, trace options,
+schema v1 and path data v2 remain unchanged.
+
+Detect numeric build 11 and verify payload hashes. Dev.4 and build 11 remain
+unsigned, uninstalled and development-unqualified local artifacts.

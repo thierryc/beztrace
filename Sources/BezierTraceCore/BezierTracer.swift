@@ -5,7 +5,7 @@ import CryptoKit
 import Foundation
 
 public enum BezierTraceVersion {
-    public static let engine = "0.1.1-dev.3"
+    public static let engine = "0.1.1-dev.4"
     public static let schema = 1
     public static let pathData = 2
     public static let portSourceRevision = "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"
@@ -155,6 +155,10 @@ public enum BezierTracer {
         case .invalidOptions: return .invalidOptions("resolved internal options are invalid")
         case .nonFiniteGeometry: return .invalidGeometry("non-finite coordinate")
         case .invalidClosure(let contour): return .invalidGeometry("contour \(contour) is not closed")
+        case .insufficientOnCurveNodes(let contour, let actual, let minimum):
+            return .invalidGeometry(
+                "contour \(contour) has \(actual) on-curve nodes; minimum \(minimum)"
+            )
         case .degenerateSegment(let contour, let segment):
             return .invalidGeometry("contour \(contour) segment \(segment) is degenerate")
         case .invalidWinding(let contour): return .invalidGeometry("contour \(contour) has invalid winding")

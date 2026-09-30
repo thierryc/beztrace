@@ -6,6 +6,9 @@ import Foundation
 
 enum CleanupStraighten {
     private static let maximumOffset = 3.0
+    private static let curvedMinimumTurn = 12.0 * Double.pi / 180
+    private static let curvedMinimumCoherence = 0.80
+    private static let curvedMinimumDeviationFraction = 0.025
     private static let axialTangentMaximumDegrees = 10.0
     private static let chordOffAxisMinimumDegrees = 2.0
     private static let axialVetoMinimumChord = 30.0
@@ -15,13 +18,42 @@ enum CleanupStraighten {
         BezierPathContour(segments: mergeCollinear(flatten(path.segments)))
     }
 
+    static func containsCurvedFlattenCandidate(_ path: BezierPathContour) -> Bool {
+        path.segments.contains { segment in
+            guard !segment.isLine, isFlattenCandidate(segment.cubic) else { return false }
+            let curve = segment.cubic
+            let chord = curve.start.distance(to: curve.end)
+            guard chord > 1e-9 else { return false }
+            let deviation = max(
+                distanceToLine(curve.control1, curve: curve),
+                distanceToLine(curve.control2, curve: curve)
+            )
+            guard deviation / chord >= curvedMinimumDeviationFraction else { return false }
+            let samples = (0...8).map { curve.point(at: Double($0) / 8) }
+            let turns = (1..<(samples.count - 1)).map { index in
+                let incoming = samples[index] - samples[index - 1]
+                let outgoing = samples[index + 1] - samples[index]
+                return atan2(incoming.cross(outgoing), incoming.dot(outgoing))
+            }
+            let net = turns.reduce(0, +)
+            let absolute = turns.reduce(0) { $0 + abs($1) }
+            return abs(net) >= curvedMinimumTurn
+                && absolute > 1e-9
+                && abs(net) / absolute >= curvedMinimumCoherence
+        }
+    }
+
+    static func introducesLine(_ path: BezierPathContour) -> Bool {
+        let before = path.segments.reduce(0) { $0 + ($1.isLine ? 1 : 0) }
+        let after = flattenStraightRuns(path).segments.reduce(0) { $0 + ($1.isLine ? 1 : 0) }
+        return after > before
+    }
+
     private static func flatten(_ segments: [PathSegment]) -> [PathSegment] {
         let count = segments.count
         return segments.indices.map { index in
             let segment = segments[index]
-            guard !segment.isLine,
-                  distanceToLine(segment.cubic.control1, curve: segment.cubic) <= maximumOffset,
-                  distanceToLine(segment.cubic.control2, curve: segment.cubic) <= maximumOffset
+            guard !segment.isLine, isFlattenCandidate(segment.cubic)
             else { return segment }
             let previousIncoming = endTangent(segments[(index + count - 1) % count])
             let nextOutgoing = startTangent(segments[(index + 1) % count])
@@ -37,6 +69,11 @@ enum CleanupStraighten {
                 isLine: true
             )
         }
+    }
+
+    private static func isFlattenCandidate(_ curve: CubicBezier) -> Bool {
+        distanceToLine(curve.control1, curve: curve) <= maximumOffset
+            && distanceToLine(curve.control2, curve: curve) <= maximumOffset
     }
 
     private static func axis(of vector: Vector2D) -> Bool? {

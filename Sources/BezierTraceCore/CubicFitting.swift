@@ -5,6 +5,48 @@
 import Foundation
 
 enum ContourFitter {
+    private static let protectedMaximumSamples = 128
+    private static let protectedMinimumNetTurn = 300.0 * Double.pi / 180
+    private static let protectedMinimumTurnCoherence = 0.90
+    private static let protectedSpanMinimumTurn = 12.0 * Double.pi / 180
+    private static let protectedSpanMinimumCoherence = 0.80
+    private static let protectedSpanMinimumDeviationFraction = 0.025
+
+    static func isSmallConvexCandidate(plan: ContourPlan) -> Bool {
+        let smoothed = plan.smoothed
+        guard smoothed.count >= 4, smoothed.count <= protectedMaximumSamples else { return false }
+        let contourTurns = ContourPlanner.vertexTurns(smoothed)
+        let netTurn = contourTurns.reduce(0, +)
+        let absoluteTurn = contourTurns.reduce(0) { $0 + abs($1) }
+        guard abs(netTurn) >= protectedMinimumNetTurn,
+              absoluteTurn > 1e-9,
+              abs(netTurn) / absoluteTurn >= protectedMinimumTurnCoherence
+        else { return false }
+        if plan.lineSections.isEmpty { return true }
+        return plan.lineSections.contains { line in
+            let count = smoothed.count
+            let distance = positiveModulo(line.end + count - line.start, count)
+            let length = distance == 0 ? count : distance
+            let samples = (0...length).map { smoothed[(line.start + $0) % count] }
+            guard samples.count >= 3 else { return false }
+            let chord = samples[0].distance(to: samples[samples.count - 1])
+            guard chord > 1e-9,
+                  chordDeviation(samples) / chord >= protectedSpanMinimumDeviationFraction
+            else { return false }
+            let turns = (1..<(samples.count - 1)).map { index in
+                let incoming = samples[index] - samples[index - 1]
+                let outgoing = samples[index + 1] - samples[index]
+                return atan2(incoming.cross(outgoing), incoming.dot(outgoing))
+            }
+            let localNet = turns.reduce(0, +)
+            let localAbsolute = turns.reduce(0) { $0 + abs($1) }
+            return abs(localNet) >= protectedSpanMinimumTurn
+                && localAbsolute > 1e-9
+                && abs(localNet) / localAbsolute >= protectedSpanMinimumCoherence
+                && numericSign(localNet) == numericSign(netTurn)
+        }
+    }
+
     static func fitClosed(smoothed: [Point2D], accuracy: Double) -> FittedContour {
         guard smoothed.count >= 4 else {
             return FittedContour(segments: [], isLine: [], jointKinds: [])

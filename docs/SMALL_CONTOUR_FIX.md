@@ -137,3 +137,31 @@ including the reported Accuracy 0.5, Smoothing 2.5, Corner 13 and minimum-area
 700 profile. Schema v1 and public request/result types remain unchanged. Build
 locally to `.build/beztrace-0.1.1-dev.3`; this candidate is not authorized for
 publication, signing or notarization.
+
+## 0.1.1-dev.4 small convex-curve correction
+
+The local dev.4 candidate retains the earlier topology and rounding safeguards
+and prevents cleanup from flattening a meaningful cubic quadrant on a small,
+consistently convex contour. The gate is limited to contours with at most 128
+resampled points, at least 300 degrees of net turn and 90% turn coherence. A
+would-be flattened span must retain at least 12 degrees of coherent turn and
+control deviation of at least 2.5% of its chord. Intentional straight runs,
+corners, inflections, concave contours, large contours, rectangles and pills
+remain on the existing structural path.
+
+Synthetic circles and rotated ovals remain curve-only across the companion
+presets and a fixed-threshold boundary profile. The private blob reproduction
+remains outside tracked fixtures; its small oval chords are corrected under
+Balanced, Sharp and Smooth Detail. The frozen 100-image corpus retains exactly
+the same paths, bounds, statistics and warnings as dev.3. JSON schema v1,
+pathDataVersion 2 and the public tracing options are unchanged.
+
+Final cleanup also guarantees at least three on-curve nodes on every valid
+closed contour. A valid two-segment loop is subdivided at the midpoint of its
+longer control polygon using exact De Casteljau subdivision before optional
+grid snapping. Three-node and larger contours are unchanged, while empty,
+one-segment and degenerate contours continue to fail validation.
+
+Build locally to `.build/beztrace-0.1.1-dev.4`. Companion build 11 accepts and
+prefers that executable from a source checkout. Both artifacts remain unsigned,
+uninstalled and unauthorized for signing, notarization or publication.

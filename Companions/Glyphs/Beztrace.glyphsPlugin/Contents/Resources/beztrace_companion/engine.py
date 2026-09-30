@@ -12,7 +12,7 @@ from pathlib import Path
 from .contract import CompanionError, ENGINE_VERSIONS, MAX_INPUT, MAX_OUTPUT, parse_result, number
 
 DEFAULT_ENGINE = '/Library/Application Support/beztrace/bin/beztrace'
-DEVELOPMENT_ENGINE = '.build/beztrace-0.1.1-dev.3/bin/beztrace'
+DEVELOPMENT_ENGINE = '.build/beztrace-0.1.1-dev.4/bin/beztrace'
 DEFAULT_OPTIONS = dict(threshold='auto', invert=False, accuracy=2.0, smoothing=1.0,
                        corner_threshold=12.0, min_contour_area=100.0, grid=2,
                        structure_grid=0, refine_raster=True, rtl_start=False, diagnostics='none')
@@ -159,7 +159,7 @@ def trace(executable, image, options, cancel=None, progress=lambda stage: None,
     code, out, err = run_process(executable, ['--version'], b'', cancel, version_timeout, 4096)
     versions = {('beztrace ' + version).encode(): version for version in ENGINE_VERSIONS}
     if code or out.strip() not in versions or err:
-        raise CompanionError('Incompatible engine: beztrace 0.1.0, 0.1.1-dev.1, 0.1.1-dev.2, or 0.1.1-dev.3 is required')
+        raise CompanionError('Incompatible engine: beztrace 0.1.0 or a supported 0.1.1 development engine is required')
     checked_version = versions[out.strip()]
     progress('Tracing…')
     code, out, err = run_process(executable, args, image, cancel, trace_timeout)

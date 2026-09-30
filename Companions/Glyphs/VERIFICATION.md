@@ -380,3 +380,62 @@ native qualification remains `development-unqualified`.
 Earlier development engines and companion builds remain available for rollback.
 Dev.3/build 10 are not signed, notarized or published, and the released shared
 0.1.0 engine is not replaced.
+
+## Build 11 — protected small convex curves (2026-09-29)
+
+Build 11 accepts engines 0.1.0 and 0.1.1-dev.1 through 0.1.1-dev.4, preferring
+the fresh local dev.4 engine from a source checkout. Dev.4 detects suspicious
+line substitutions only on small, coherently turning convex contours, refits
+those contours with the existing closed cubic fitter, and excludes only their
+straightening cleanup. Raster refinement, the remaining cleanup passes and
+final geometry validation remain enabled. Public options, schema v1 and path
+data version 2 are unchanged.
+
+Automated validation completed on the source checkout:
+
+- The optimized Swift suite passed 99 tests on both arm64 and x86_64/Rosetta,
+  with one intentional maintenance-export skip and zero failures.
+- Synthetic circles and rotated or elongated ovals stay closed, valid,
+  deterministic and curve-only across the supported presets and threshold
+  coverage. Rectangles, triangles, rounded rectangles, pills with flats,
+  concave outlines and large contours retain their intended structure.
+- The 100 frozen corpus results are exactly equal to the captured dev.3
+  baseline for paths, bounds, statistics and warnings.
+- The untracked private image was selected by geometric bounds rather than
+  contour index. Its reported small contours are curve-only under Balanced,
+  Sharp and Smooth Detail, and no isolated small contour acquires a replacement
+  line elsewhere in the setting matrix.
+- All 107 companion tests passed against the universal dev.4 engine, including
+  engine preference, backward compatibility and deterministic packaging.
+- The standalone product-boundary audit, four release-metadata tests, package
+  verification and whitespace check passed.
+
+The unsigned universal engine is stored at
+`.build/beztrace-0.1.1-dev.4/bin/beztrace` with SHA-256
+`b2ceadc199f6e6b07429b21d839fac2443d3dbfda1920ea87ca3bd10bedcb9f9`.
+The unsigned companion package is stored at
+`.build/glyphs-companion-0.1.0-build11`; its deterministic archive
+`beztrace-glyphs-0.1.0-build11-macos-universal.zip` has SHA-256
+`1d56f8acc3f94660a077498a1dbf2ab9b7e1fbe3b4c1f3d6ad572ea9e783cde2`.
+Read-only verification passed for its manifest, archive, payload and checksums;
+native qualification remains `development-unqualified`. Dev.4/build 11 are not
+installed, launched, signed, notarized or published, and no user font was
+opened or modified.
+
+### Source-only three-node follow-up
+
+The source checkout subsequently added a universal final-output invariant of
+at least three on-curve nodes per valid closed contour. Two-segment loops use
+exact midpoint subdivision of the segment with the longest control polygon;
+invalid and degenerate contours are not repaired. The corrected source passed
+100 optimized Swift tests on arm64 and x86_64/Rosetta, with one intentional
+maintenance skip, plus all 107 companion tests and the product-boundary and
+release-metadata checks. The private nine-profile matrix has no two-node output
+and no small-contour lines. All 100 frozen corpus paths, bounds, statistics and
+warnings remain exactly equal to the preceding baseline.
+
+No engine or companion version was bumped, rebuilt as a universal artifact,
+repackaged, signed, notarized or published for this source-only follow-up. The
+previous build-11 development link was installed under separate authorization,
+but Glyphs was not relaunched; that installed payload does not contain this
+follow-up.

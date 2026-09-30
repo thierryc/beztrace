@@ -10,7 +10,7 @@ import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '0.1.1-dev.3'
+VERSION = '0.1.1-dev.4'
 
 
 def run(*args):

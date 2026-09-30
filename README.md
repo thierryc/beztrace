@@ -55,8 +55,9 @@ Full native UI qualification and signed distribution remain pending.
 The **[0.1.1-dev.1 development prerelease](https://github.com/thierryc/beztrace/releases/tag/v0.1.1-dev.1)** includes the small-contour fix and Glyphs companion build 6.
 Local candidate **0.1.1-dev.2** additionally guards final handle rounding for
 Accuracy/Grid combinations used by companion build 9. Local candidate
-**0.1.1-dev.3** makes Grid cleanup topology-safe and is preferred by companion
-build 10. See
+**0.1.1-dev.3** makes Grid cleanup topology-safe for companion build 10. Local
+candidate **0.1.1-dev.4** preserves meaningful curvature on small convex
+contours and is preferred by companion build 11. See
 [development engine verification](docs/SMALL_CONTOUR_FIX.md) for local builds;
 the published 0.1.0 installation remains unchanged.
 

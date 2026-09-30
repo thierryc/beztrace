@@ -18,7 +18,7 @@ final class PublicInterfaceTests: XCTestCase {
         XCTAssertEqual(first.pathDataVersion, 2)
         XCTAssertEqual(first.metadataPolicy, "preserve")
         XCTAssertEqual(first.engine.name, "beztrace")
-        XCTAssertEqual(first.engine.version, "0.1.1-dev.3")
+        XCTAssertEqual(first.engine.version, "0.1.1-dev.4")
         XCTAssertEqual(
             first.engine.portSourceRevision,
             "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"

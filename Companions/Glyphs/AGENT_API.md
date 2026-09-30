@@ -80,8 +80,8 @@ The source files remain external references and must remain available. No file
 copying, source deletion, glyph creation, or font saving is performed. The `_host`
 parameter is a test seam and is not part of API v1.
 
-For engine 0.1.1-dev.3, pass the absolute path of the local development executable
-as `engine`. Build 10 accepts this version, 0.1.1-dev.2, 0.1.1-dev.1 and released 0.1.0, requiring
+For engine 0.1.1-dev.4, pass the absolute path of the local development executable
+as `engine`. Build 11 accepts this version, dev.3, dev.2, dev.1 and released 0.1.0, requiring
 the version probe and result version to agree. The API default remains the installed
 0.1.0 executable; the API does not select development builds automatically.
 

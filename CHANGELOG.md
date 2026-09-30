@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.1-dev.4 — local development candidate
+
+- Preserve meaningful curvature on small, consistently convex contours when
+  cleanup would otherwise replace a cubic quadrant with a straight chord.
+- Exclude intentional flats, corners, inflections, concave paths, large
+  contours, rectangles and pills from the correction.
+- Add multi-size, rotated-oval and intentional-structure regressions while
+  preserving the complete 100-image corpus geometry.
+- Guarantee at least three on-curve nodes on every valid closed output by
+  subdividing a two-segment loop without changing its Bézier geometry.
+- Add Glyphs companion build 11 with dev.4 selection and compatibility.
+
 ## 0.1.1-dev.3 — local development candidate
 
 - Make Grid cleanup validity-preserving: contours whose snapped candidates

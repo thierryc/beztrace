@@ -13,11 +13,15 @@ enum CleanupPipeline {
 
     static func process(
         _ paths: [BezierPathContour],
-        configuration: TraceConfiguration
+        configuration: TraceConfiguration,
+        curvatureProtected: Set<Int> = []
     ) throws -> CleanupResult {
         var result = configuration.fixDirection ? CleanupDirection.fixDirections(paths) : paths
-        result = result.map(CleanupStraighten.flattenStraightRuns)
+        result = result.enumerated().map { index, path in
+            curvatureProtected.contains(index) ? path : CleanupStraighten.flattenStraightRuns(path)
+        }
         result = result.map(CleanupSimplify.removeRedundantPoints)
+        result = result.map(CleanupMinimumNodes.ensureThreeOnCurves)
 
         guard configuration.grid > 0 else {
             let cleaned = result.map { finish($0, configuration: configuration, grid: 0) }

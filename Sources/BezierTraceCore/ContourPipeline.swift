@@ -93,6 +93,7 @@ enum ContourPipeline {
         )
 
         var fitted: [FittedContour] = []
+        var curvatureProtected: Set<Int> = []
         fitted.reserveCapacity(extraction.contours.count)
         for contour in extraction.contours {
             switch ContourPlanner.plan(
@@ -117,15 +118,40 @@ enum ContourPipeline {
                 // before raster refinement and fitting-finish passes.
                 fitted.append(ContourFitter.fitClosed(smoothed: smoothed, accuracy: accuracy))
             case .plan(let plan):
-                var result = ContourFitter.fitInitial(plan: plan, accuracy: accuracy)
-                if configuration.refineRaster { result = ContourRefiner.refine(result, raster: raster) }
-                result = FittingFinish.harmonize(result)
-                result = FittingFinish.capHandleReach(result)
+                func finish(_ input: FittedContour, preserveCurves: Bool = false) -> FittedContour {
+                    var result = input
+                    if configuration.refineRaster {
+                        let refined = ContourRefiner.refine(result, raster: raster)
+                        if !preserveCurves || !refined.isLine.contains(true) { result = refined }
+                    }
+                    result = FittingFinish.harmonize(result)
+                    return FittingFinish.capHandleReach(result)
+                }
+                var result = finish(ContourFitter.fitInitial(plan: plan, accuracy: accuracy))
+                let smallConvex = ContourFitter.isSmallConvexCandidate(plan: plan)
+                let scaledPath = BezierPathContour(result.scaled(by: scale))
+                let curvedFlatten = CleanupStraighten.containsCurvedFlattenCandidate(scaledPath)
+                let protectCurvature = smallConvex && (
+                    result.isLine.contains(true)
+                        || curvedFlatten
+                        || CleanupStraighten.introducesLine(scaledPath)
+                )
+                if protectCurvature {
+                    result = finish(
+                        ContourFitter.fitClosed(smoothed: plan.smoothed, accuracy: accuracy),
+                        preserveCurves: true
+                    )
+                }
+                if protectCurvature { curvatureProtected.insert(fitted.count) }
                 fitted.append(result)
             }
         }
         let paths = fitted.map { BezierPathContour($0.scaled(by: scale)) }
-        let cleaned = try CleanupPipeline.process(paths, configuration: configuration)
+        let cleaned = try CleanupPipeline.process(
+            paths,
+            configuration: configuration,
+            curvatureProtected: curvatureProtected
+        )
         let warnings: [String]
         if cleaned.skippedGridContours == 0 {
             warnings = []
