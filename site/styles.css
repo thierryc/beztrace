@@ -341,11 +341,29 @@ h3 { margin-bottom: 0; font-size: 1.1rem; line-height: 1.2; letter-spacing: -.03
 .install-links .button-primary { background: var(--acid); border-color: var(--acid); color: var(--ink); }
 .install-links > a:not(.button) { color: white; font-size: .78rem; font-weight: 750; }
 
-footer { min-height: 180px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 30px; padding: 40px max(32px, calc((100vw - 1420px) / 2)); background: var(--ink); color: white; }
+.product-footer { min-height: 180px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 30px; padding: 40px max(32px, calc((100vw - 1420px) / 2)); background: var(--ink); color: white; }
 .footer-brand { color: white; }
-footer p { margin: 0; color: #aeb4c2; font-size: .78rem; text-align: center; }
-footer > div:last-child { display: flex; justify-content: flex-end; gap: 24px; }
-footer > div:last-child a { color: #d9deea; font-size: .76rem; font-weight: 700; }
+.product-footer p { margin: 0; color: #aeb4c2; font-size: .78rem; text-align: center; }
+.product-footer > div:last-child { display: flex; justify-content: flex-end; gap: 24px; }
+.product-footer > div:last-child a { color: #d9deea; font-size: .76rem; font-weight: 700; }
+
+.apcx-footer {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 32px;
+  background: #f7f7f9;
+  color: #171719;
+}
+.apcx-footer-marquee {
+  height: clamp(180px, 26vw, 360px);
+  margin-bottom: 32px;
+  font-weight: 400;
+  pointer-events: none;
+}
+.apcx-footer-credit { padding: 0 max(32px, calc((100vw - 1420px) / 2)); }
+.apcx-footer-credit p { margin: 0 0 4px; font-size: clamp(.875rem, 1.2vw, 1rem); font-weight: 700; line-height: 1.3; }
+.apcx-footer-credit a { display: inline-flex; align-items: center; min-height: 44px; color: #60616d; font-size: .875rem; text-decoration: none; }
+.apcx-footer-credit a:hover { text-decoration: underline; }
 
 :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 .install :focus-visible { outline-color: var(--acid); }
@@ -355,7 +373,7 @@ footer > div:last-child a { color: #d9deea; font-size: .76rem; font-weight: 700;
   .hero { grid-template-columns: 1fr 1fr; gap: 42px; min-height: 630px; padding: 68px 0 74px; }
   h1 { font-size: clamp(3.75rem, 6.5vw, 5.75rem); }
   .example-grid { grid-template-columns: repeat(2, 1fr); }
-  .section, .install, footer { padding-left: 20px; padding-right: 20px; }
+  .section, .install, .product-footer, .apcx-footer-credit { padding-left: 20px; padding-right: 20px; }
   .contract { gap: 54px; }
 }
 
@@ -383,9 +401,9 @@ footer > div:last-child a { color: #d9deea; font-size: .76rem; font-weight: 700;
   .code-window { box-shadow: 7px 7px 0 var(--blue); }
   .companion-card { box-shadow: 7px 7px 0 var(--acid); }
   .install-links { align-items: flex-start; flex-direction: column; gap: 15px; }
-  footer { grid-template-columns: 1fr; align-items: start; padding-top: 50px; padding-bottom: 50px; }
-  footer p { text-align: left; }
-  footer > div:last-child { justify-content: flex-start; }
+  .product-footer { grid-template-columns: 1fr; align-items: start; padding-top: 50px; padding-bottom: 50px; }
+  .product-footer p { text-align: left; }
+  .product-footer > div:last-child { justify-content: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
