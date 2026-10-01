@@ -18,6 +18,7 @@ WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 REQUIRED_EXAMPLES = 8
 HERO_PREVIEW = SITE / "assets" / "examples" / "glyph-ampersand-inspection.svg"
 GLYPHS_MCP_URL = "https://ap.cx/tools/glyphs-mcp/"
+MARQUEE_PACKAGE = SITE / "vendor" / "ap.cx-gl-marquee-0.1.0"
 
 
 def sha256(path: Path) -> str:
@@ -157,6 +158,21 @@ def main() -> int:
         path = local_path(reference)
         if path is not None and not path.is_file():
             failures.append(f"missing local site asset: {reference}")
+
+    marquee_source = MARQUEE_PACKAGE / "SOURCE.json"
+    if not marquee_source.is_file():
+        failures.append("missing official marquee package provenance")
+    else:
+        provenance = json.loads(marquee_source.read_text(encoding="utf-8"))
+        if provenance.get("package") != "@ap.cx/gl-marquee" or provenance.get("version") != "0.1.0":
+            failures.append("official marquee package version differs")
+        required_files = {"dist/index.js", "dist/mount.js", "dist/renderer.js", "LICENSE", "package.json", "README.md"}
+        if set(provenance.get("files", {})) != required_files:
+            failures.append("official marquee package inventory differs")
+        for name in required_files:
+            path = MARQUEE_PACKAGE / name
+            if not path.is_file() or sha256(path) != provenance.get("files", {}).get(name):
+                failures.append(f"official marquee package hash differs: {name}")
 
     svg_files = sorted((SITE / "assets" / "examples").glob("*.svg"))
     png_files = sorted((SITE / "assets" / "examples").glob("*.png"))

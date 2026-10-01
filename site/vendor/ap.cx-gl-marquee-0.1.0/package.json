@@ -1,0 +1,65 @@
+{
+  "name": "@ap.cx/gl-marquee",
+  "version": "0.1.0",
+  "description": "A lightweight WebGL text marquee with a vanilla JavaScript API and optional React component.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Thierry C",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thierryc/ap.cx.git",
+    "directory": "packages/gl-marquee"
+  },
+  "homepage": "https://github.com/thierryc/ap.cx/tree/main/packages/gl-marquee#readme",
+  "bugs": "https://github.com/thierryc/ap.cx/issues",
+  "keywords": [
+    "webgl",
+    "marquee",
+    "text",
+    "animation",
+    "footer",
+    "react",
+    "typescript"
+  ],
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepack": "npm test",
+    "prepublishOnly": "npm test"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "18.3.28",
+    "react": "18.3.1",
+    "typescript": "5.9.3",
+    "react-dom": "18.3.1"
+  }
+}
