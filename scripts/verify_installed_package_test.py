@@ -28,6 +28,12 @@ class VerifyInstalledPackageTests(unittest.TestCase):
             "svgTraceValid": True,
         }
         self.assertEqual(validate_record(record), [])
+        record["version"] = "0.1.1"
+        record["versionOutput"] = "beztrace 0.1.1"
+        self.assertEqual(validate_record(record, "0.1.1"), [])
+        self.assertTrue(validate_record(record, "0.1.0"))
+        record["versionOutput"] = "beztrace 0.1.0"
+        self.assertTrue(validate_record(record, "0.1.1"))
 
     def test_rejects_hash_mismatch_and_missing_notarization(self) -> None:
         record = {

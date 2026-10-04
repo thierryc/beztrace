@@ -134,3 +134,12 @@ The project owner authorized `lit/glyphs-companion`: a separately versioned
 plugin, pure JSON adapter, native UI, tests, and unsigned packaging under
 `Companions/Glyphs`. It reuses released engine 0.1.0. Native qualification and
 release remain separate gates. Glyphs MCP setup and adapter work are external.
+
+## 9. 0.1.1 source checkpoint — merge authorized
+
+The four development tracing corrections are consolidated into source 0.1.1.
+All engineering, architecture, corpus, sanitizer and performance checks pass.
+The owner explicitly requested source merge and website/documentation updates.
+Stable binary publication remains pending signing/notarization authorization and
+installed-package verification; downloads continue to point to stable 0.1.0.
+See [qualification](RELEASE_0.1.1.md).

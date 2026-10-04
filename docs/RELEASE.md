@@ -1,6 +1,6 @@
 # Release and verification
 
-Version `0.1.0` is the first standalone beztrace release. It supports macOS 13
+Version `0.1.0` is the current downloadable stable standalone beztrace release. It supports macOS 13
 or later on Apple Silicon and Intel Macs and has no non-system runtime
 dependency.
 
@@ -83,3 +83,37 @@ automatically. There is no development installer package.
 
 See [small-contour verification](SMALL_CONTOUR_FIX.md) and the
 [companion prerelease procedure](../Companions/Glyphs/RELEASE.md).
+
+## 0.1.1 source and binary release preparation
+
+Source version 0.1.1 promotes the small-contour, handle-rounding, topology-safe Grid and
+small convex-curve corrections described in [development verification](SMALL_CONTOUR_FIX.md).
+The neutral contract remains JSON schema v1 and pathDataVersion 2.
+The prior [0.1.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.0)
+and development prerelease remain available with their original assets.
+
+The source merge is explicitly authorized. Binary publication remains pending
+installer Keychain approval, explicit authorization to upload the ZIP and PKG
+to Apple, notarization/stapling, and installed-package verification. No v0.1.1
+GitHub release or source tag has been published.
+
+The prepared asset names are `beztrace-0.1.1.pkg`,
+`beztrace-0.1.1-macos-universal.zip`, versioned source/binary SPDX SBOMs,
+`release-manifest.json`, and `SHA256SUMS`.
+
+Reproduction uses a clean source revision and a fresh staging directory:
+
+```sh
+BEZTRACE_EXTERNAL_WORK=/private/tmp/beztrace-milestone-7-v0.1.1 \
+BEZTRACE_APPLICATION_IDENTITY='Developer ID Application: <name> (<team>)' \
+BEZTRACE_INSTALLER_IDENTITY='Developer ID Installer: <name> (<team>)' \
+  scripts/build_release_candidate.sh --final --version 0.1.1 --notarize
+```
+
+The script refuses existing output and checks the compiled engine version.
+The notary keychain profile defaults to `beztrace-notary`. Never publish unsigned
+or unnotarized output as a stable release. The distribution excludes the Glyphs
+companion. Source build 12 accepts 0.1.1; earlier installed builds reject it and
+require a separate companion upgrade or an explicit supported engine path.
+
+See [0.1.1 qualification](RELEASE_0.1.1.md) for the release evidence.

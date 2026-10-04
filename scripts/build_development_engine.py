@@ -10,7 +10,9 @@ import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '0.1.1-dev.4'
+from release_version import engine_version
+
+VERSION = engine_version()
 
 
 def run(*args):
@@ -42,7 +44,8 @@ def main():
     for source in ('LICENSE-APACHE', 'LICENSE-MIT', 'THIRD_PARTY_NOTICES', 'Schemas/trace-result-v1.schema.json'):
         shutil.copy2(ROOT/source, output/Path(source).name)
     subprocess.run(['python3', str(ROOT/'scripts/generate_sbom.py'), '--binary', str(binary),
-                    '--output-dir', str(output), '--release-kind', 'development', '--version', VERSION], check=True)
+                    '--output-dir', str(output), '--release-kind',
+                    'development' if '-dev.' in VERSION else 'final', '--version', VERSION], check=True)
     inventory = {p.relative_to(output).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                  for p in sorted(output.rglob('*')) if p.is_file()}
     sources = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()

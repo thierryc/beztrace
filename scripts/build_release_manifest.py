@@ -10,6 +10,8 @@ import subprocess
 from pathlib import Path
 
 
+from release_version import stable_version
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -19,6 +21,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--version", type=stable_version, default="0.1.0")
     parser.add_argument("--release", type=Path, required=True)
     parser.add_argument(
         "--release-kind",
@@ -30,7 +33,7 @@ def main() -> int:
     parser.add_argument("--notarized", action="store_true")
     args = parser.parse_args()
     release = args.release.resolve()
-    label = "0.1.0-rc.1" if args.release_kind == "candidate" else "0.1.0"
+    label = f"{args.version}-rc.1" if args.release_kind == "candidate" else args.version
     artifacts = []
     for name, signed in (
         (f"beztrace-{label}-macos-universal.zip", args.signed_binary),
@@ -57,7 +60,7 @@ def main() -> int:
     payload: dict[str, object] = {
         "schemaVersion": 1,
         "name": "beztrace",
-        "version": "0.1.0",
+        "version": args.version,
         "minimumMacOS": "13.0",
         "architectures": ["arm64", "x86_64"],
         "artifacts": artifacts,

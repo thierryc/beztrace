@@ -32,8 +32,8 @@ class ReleaseMetadataTests(unittest.TestCase):
                 self.assertEqual(data["packages"][0]["versionInfo"], "0.1.1-dev.4")
                 self.assertIn("/0.1.1-dev.4/", data["documentNamespace"])
 
-    def build_manifest(self, release_kind: str) -> dict:
-        label = "0.1.0-rc.1" if release_kind == "candidate" else "0.1.0"
+    def build_manifest(self, release_kind: str, version: str = "0.1.0") -> dict:
+        label = f"{version}-rc.1" if release_kind == "candidate" else version
         with tempfile.TemporaryDirectory() as temporary:
             release = Path(temporary)
             (release / f"beztrace-{label}-macos-universal.zip").write_bytes(b"zip")
@@ -46,6 +46,8 @@ class ReleaseMetadataTests(unittest.TestCase):
                     str(release),
                     "--release-kind",
                     release_kind,
+                    "--version",
+                    version,
                     "--signed-binary",
                     "--signed-package",
                     "--notarized",
@@ -115,6 +117,28 @@ class ReleaseMetadataTests(unittest.TestCase):
             self.assertEqual(packaged["packages"][0]["versionInfo"], "0.1.0")
             self.assertIn("/0.1.0/", source["documentNamespace"])
             self.assertNotIn("rc.1", source["documentNamespace"])
+
+    def test_new_stable_release_records_version_and_artifact_names(self) -> None:
+        manifest = self.build_manifest("final", "0.1.1")
+        self.assertEqual(manifest["version"], "0.1.1")
+        self.assertEqual(manifest["artifacts"][0]["path"], "beztrace-0.1.1-macos-universal.zip")
+        self.assertEqual(manifest["sbom"]["releaseBinary"], "beztrace-0.1.1-binary.spdx.json")
+        self.assertNotIn("candidate", manifest)
+
+    def test_stable_sbom_rejects_prerelease_and_uses_explicit_version(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            binary = root / "beztrace"
+            binary.write_bytes(b"signed-universal-placeholder")
+            command = ["python3", str(ROOT / "scripts/generate_sbom.py"), "--binary", str(binary),
+                       "--output-dir", str(root / "share"), "--release-kind", "final", "--version"]
+            for version in ("bad", "0.1.1-dev.4", "../0.1.1"):
+                self.assertNotEqual(subprocess.run(command + [version], capture_output=True).returncode, 0)
+            subprocess.run(command + ["0.1.1"], check=True, capture_output=True)
+            for name in ("source", "binary"):
+                sbom = json.loads((root / "share" / f"sbom-{name}.spdx.json").read_text())
+                self.assertEqual(sbom["packages"][0]["versionInfo"], "0.1.1")
+                self.assertIn("/0.1.1/", sbom["documentNamespace"])
 
 
 if __name__ == "__main__":

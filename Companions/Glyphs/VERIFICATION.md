@@ -439,3 +439,10 @@ repackaged, signed, notarized or published for this source-only follow-up. The
 previous build-11 development link was installed under separate authorization,
 but Glyphs was not relaunched; that installed payload does not contain this
 follow-up.
+
+## Build 12: stable engine compatibility
+
+Source build 12 adds exact beztrace 0.1.1 compatibility and retains earlier
+accepted versions. It changes version checks and distribution metadata only.
+Native visible UI qualification, live installation/relaunch, signing and
+publication remain separate; no companion is included in stable engine assets.

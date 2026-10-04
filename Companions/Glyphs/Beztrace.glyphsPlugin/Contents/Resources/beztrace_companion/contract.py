@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 ENGINE_VERSION = '0.1.0'
-ENGINE_VERSIONS = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4')
+ENGINE_VERSIONS = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1')
 MAX_INPUT = 16 * 1024 * 1024
 MAX_OUTPUT = 32 * 1024 * 1024
 MAX_NODES = 100000

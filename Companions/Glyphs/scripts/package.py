@@ -37,7 +37,7 @@ def validate_source():
     meta=plistlib.loads((BUNDLE/'Contents/Info.plist').read_bytes())
     if not (meta['CFBundleIdentifier']=='dev.beztrace.glyphs'):
         raise ValueError('Package validation failed at package.py:38')
-    if not (meta['CFBundleShortVersionString']=='0.1.0' and meta['CFBundleVersion']=='11'):
+    if not (meta['CFBundleShortVersionString']=='0.1.0' and meta['CFBundleVersion']=='12'):
         raise ValueError('Package validation failed at package.py:39')
     source=json.loads((BUNDLE/'Contents/Resources/GlyphsSDK-SOURCE.json').read_text())
     loader=BUNDLE/'Contents/MacOS/plugin'
@@ -122,8 +122,13 @@ def build(output):
              'comment':'Supported alternative to released 0.1.0, not bundled with the companion.'},
             {'spdxElementId':'SPDXRef-Companion','relationshipType':'DEPENDS_ON','relatedSpdxElement':'SPDXRef-DevelopmentEngine4',
              'comment':'Preferred local alternative to released 0.1.0, not bundled with the companion.'}]}
+    sbom['packages'].append(dict(sbom['packages'][2], SPDXID='SPDXRef-StableEngine1',
+                                 versionInfo='0.1.1', downloadLocation='https://github.com/thierryc/beztrace/releases/tag/v0.1.1'))
+    sbom['relationships'].append({'spdxElementId':'SPDXRef-Companion','relationshipType':'DEPENDS_ON',
+                                 'relatedSpdxElement':'SPDXRef-StableEngine1',
+                                 'comment':'Supported stable alternative; never bundled.'})
     write_json(resources/'sbom.spdx.json',sbom)
-    archive=output/'beztrace-glyphs-0.1.0-build11-macos-universal.zip'
+    archive=output/'beztrace-glyphs-0.1.0-build12-macos-universal.zip'
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
         for p in sorted(bundle.rglob('*')):
             if not p.is_file(): continue
@@ -135,13 +140,13 @@ def build(output):
             z.writestr(info,p.read_bytes(),compresslevel=9)
     files=inventory(bundle)
     manifest={
-        'schemaVersion':1,'id':'beztrace-glyphs','name':'Beztrace for Glyphs','version':'0.1.0','build':11,
+        'schemaVersion':1,'id':'beztrace-glyphs','name':'Beztrace for Glyphs','version':'0.1.0','build':12,
         'bundleIdentifier':'dev.beztrace.glyphs','bundleName':'Beztrace.glyphsPlugin',
         'sourceRevision':revision,'sourceTreeDirty':dirty,'payloadSha256':hashlib.sha256(json.dumps(files,sort_keys=True,separators=(',',':')).encode()).hexdigest(),
         'platform':{'minimumMacOS':'13.0','architectures':['arm64','x86_64'],
                     'glyphsBundleIdentifier':'com.GeorgSeifert.Glyphs4','glyphsMajorVersion':4,'minimumGlyphsBuild':4107,
                     'python':{'minimumVersion':'3.9','provider':'Glyphs Python runtime','modules':['GlyphsApp','objc','AppKit','Foundation','Quartz']}},
-        'engine':{'name':'beztrace','versions':['0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4'],'bundled':False,'schemaVersions':[1],'pathDataVersions':[2],
+        'engine':{'name':'beztrace','versions':['0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4','0.1.1'],'bundled':False,'schemaVersions':[1],'pathDataVersions':[2],
                   'defaultExecutable':'/Library/Application Support/beztrace/bin/beztrace',
                   'releaseUrl':'https://github.com/thierryc/beztrace/releases/tag/v0.1.0'},
         'installation':{'root':'glyphs4ApplicationSupport','relativePath':'Plugins/Beztrace.glyphsPlugin',

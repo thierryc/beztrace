@@ -82,7 +82,7 @@ class ProcessTests(unittest.TestCase):
         with self.assertRaisesRegex(CompanionError,'Incompatible'): trace(self.fake(version='beztrace 0.2.0'),b'image',{})
 
     def test_supported_versions_must_match_json(self):
-        versions = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4')
+        versions = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1')
         for executable_version in versions:
             for json_version in versions:
                 result = sample(); result['engine']['version'] = json_version

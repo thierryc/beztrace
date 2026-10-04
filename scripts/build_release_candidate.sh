@@ -5,7 +5,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="0.1.0"
+VERSION=""
 CANDIDATE="rc.1"
 PACKAGE_ID="dev.beztrace.cli"
 APP_IDENTITY="${BEZTRACE_APPLICATION_IDENTITY:-}"
@@ -15,18 +15,24 @@ NOTARIZE=0
 RELEASE_KIND="candidate"
 
 usage() {
-    echo "usage: BEZTRACE_EXTERNAL_WORK=/Volumes/T9/beztrace/milestone-5 $0 [--final] [--notarize]"
+    echo "usage: BEZTRACE_EXTERNAL_WORK=/Volumes/T9/beztrace/milestone-5 $0 [--final] [--version MAJOR.MINOR.PATCH] [--notarize]"
 }
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --final) RELEASE_KIND="final" ;;
+        --version) VERSION="${2:?missing version}"; shift ;;
         --notarize) NOTARIZE=1 ;;
         -h|--help) usage; exit 0 ;;
         *) echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
     esac
     shift
 done
+
+if [ -z "$VERSION" ]; then
+    if [ "$RELEASE_KIND" = "final" ]; then VERSION="$(python3 -c 'import sys; sys.path.insert(0, sys.argv[1]); from release_version import engine_version; print(engine_version())' "$ROOT/scripts")"; else VERSION="0.1.0"; fi
+fi
+python3 -c 'import sys; sys.path.insert(0, sys.argv[2]); from release_version import stable_version; stable_version(sys.argv[1])' "$VERSION" "$ROOT/scripts"
 
 if [ "$RELEASE_KIND" = "final" ]; then
     WORK="${BEZTRACE_EXTERNAL_WORK:-/Volumes/T9/beztrace/milestone-7}"
@@ -54,6 +60,12 @@ ZIP="$RELEASE/beztrace-$LABEL-macos-universal.zip"
 UNSIGNED_PKG="$RELEASE/beztrace-$LABEL-unsigned.pkg"
 PKG="$RELEASE/beztrace-$LABEL.pkg"
 
+if [ -e "$ZIP" ] || [ -e "$PKG" ] || [ -e "$STAGING" ]; then
+    echo "release already exists; choose a fresh work directory: $RELEASE" >&2; exit 2
+fi
+if [ "$RELEASE_KIND" = "final" ] && [ -n "$(git -C "$ROOT" status --porcelain)" ]; then
+    echo "final release requires a clean source checkout" >&2; exit 2
+fi
 mkdir -p "$RELEASE" "$WORK/tmp"
 rm -rf "$ARM_BUILD" "$INTEL_BUILD" "$STAGING"
 mkdir -p "$BIN_DIR" "$SHARE" "$ROOT_PAYLOAD/usr/local/bin"
@@ -71,6 +83,8 @@ lipo -create "$ARM_BINARY" "$INTEL_BINARY" -output "$BIN_DIR/beztrace"
 test "$(lipo -archs "$BIN_DIR/beztrace")" = "x86_64 arm64" || \
     test "$(lipo -archs "$BIN_DIR/beztrace")" = "arm64 x86_64"
 
+test "$("$BIN_DIR/beztrace" --version)" = "beztrace $VERSION" || { echo "compiled engine version mismatch" >&2; exit 1; }
+
 if [ -n "$APP_IDENTITY" ]; then
     codesign --force --sign "$APP_IDENTITY" --options runtime --timestamp "$BIN_DIR/beztrace"
     codesign --verify --strict --verbose=2 "$BIN_DIR/beztrace"
@@ -80,7 +94,7 @@ cp "$ROOT/LICENSE-APACHE" "$ROOT/LICENSE-MIT" "$ROOT/THIRD_PARTY_NOTICES" \
     "$ROOT/README.md" "$ROOT/CHANGELOG.md" "$SHARE/"
 cp "$ROOT/Schemas/trace-result-v1.schema.json" "$SHARE/"
 python3 "$ROOT/scripts/generate_sbom.py" --binary "$BIN_DIR/beztrace" \
-    --output-dir "$SHARE" --release-kind "$RELEASE_KIND"
+    --output-dir "$SHARE" --release-kind "$RELEASE_KIND" --version "$VERSION"
 if [ "$RELEASE_KIND" = "final" ]; then
     cp "$SHARE/sbom-source.spdx.json" "$RELEASE/beztrace-$LABEL-source.spdx.json"
     cp "$SHARE/sbom-binary.spdx.json" "$RELEASE/beztrace-$LABEL-binary.spdx.json"
@@ -110,11 +124,11 @@ fi
     cd "$RELEASE"
     shasum -a 256 "${CHECKSUM_FILES[@]}" > SHA256SUMS
 )
-MANIFEST_ARGS=(--release "$RELEASE" --release-kind "$RELEASE_KIND")
+MANIFEST_ARGS=(--version "$VERSION" --release "$RELEASE" --release-kind "$RELEASE_KIND")
 if [ -n "$APP_IDENTITY" ]; then MANIFEST_ARGS+=(--signed-binary); fi
 if [ -n "$INSTALLER_IDENTITY" ]; then MANIFEST_ARGS+=(--signed-package); fi
 python3 "$ROOT/scripts/build_release_manifest.py" "${MANIFEST_ARGS[@]}"
-VERIFY_ARGS=(--release "$RELEASE" --release-kind "$RELEASE_KIND")
+VERIFY_ARGS=(--version "$VERSION" --release "$RELEASE" --release-kind "$RELEASE_KIND")
 if [ -n "$APP_IDENTITY" ]; then VERIFY_ARGS+=(--require-signed-binary); fi
 if [ -n "$INSTALLER_IDENTITY" ]; then VERIFY_ARGS+=(--require-signed-package); fi
 python3 "$ROOT/scripts/verify_release_candidate.py" "${VERIFY_ARGS[@]}"
@@ -131,9 +145,9 @@ if [ "$NOTARIZE" -eq 1 ]; then
         shasum -a 256 "${CHECKSUM_FILES[@]}" > SHA256SUMS
     )
     python3 "$ROOT/scripts/build_release_manifest.py" \
-        --release "$RELEASE" --release-kind "$RELEASE_KIND" \
+        --version "$VERSION" --release "$RELEASE" --release-kind "$RELEASE_KIND" \
         --signed-binary --signed-package --notarized
-    python3 "$ROOT/scripts/verify_release_candidate.py" --release "$RELEASE" \
+    python3 "$ROOT/scripts/verify_release_candidate.py" --version "$VERSION" --release "$RELEASE" \
         --release-kind "$RELEASE_KIND" \
         --require-signed-binary --require-signed-package
 fi

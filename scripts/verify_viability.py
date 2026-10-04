@@ -9,6 +9,8 @@ import json
 import subprocess
 from pathlib import Path
 
+from release_version import stable_version
+
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "Tests" / "Fixtures"
 MILESTONE5 = Path("/Volumes/T9/beztrace/milestone-5")
@@ -163,12 +165,12 @@ def release_gate(manifest: dict | None) -> dict:
     )
 
 
-def installation_gate(document: dict | None) -> dict:
+def installation_gate(document: dict | None, version: str = "0.1.0") -> dict:
     valid = (
         document is not None
         and document.get("status") == "pass"
         and document.get("packageID") == "dev.beztrace.cli"
-        and document.get("version") == "0.1.0"
+        and document.get("version") == version
         and document.get("receiptPresent") is True
         and document.get("binarySignatureValid") is True
         and document.get("packageSignatureValid") is True
@@ -290,6 +292,7 @@ def test_matrix_gate(document: dict | None, *, expected_revision: str | None = N
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--version", type=stable_version, default="0.1.0")
     parser.add_argument("--swift-benchmark", type=Path, default=MILESTONE6 / "benchmarks" / "swift.json")
     parser.add_argument("--rust-benchmark", type=Path, default=MILESTONE5 / "benchmarks" / "rust.json")
     parser.add_argument("--acceptance", type=Path, default=MILESTONE6 / "reports" / "corpus-trace-review" / "trace-acceptance.json")
@@ -373,7 +376,7 @@ def main() -> int:
         "packaged-workflow", "Packaged CLI completes a non-Glyphs JSON and SVG workflow", load(args.packaged_workflow),
         lambda value: value.get("status") == "pass" and value.get("usedPackagedBinary") is True,
     ))
-    gates.append(installation_gate(load(args.installed_package)))
+    gates.append(installation_gate(load(args.installed_package), args.version))
     gates.append(gate(
         "merge-approval", "Project owner explicitly approves merge to main", "pass" if args.merge_approved else "pending",
         {"approved": args.merge_approved},

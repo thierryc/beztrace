@@ -45,6 +45,9 @@ def tracked_status() -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--release", type=Path, default=Path("/Volumes/T9/beztrace/milestone-5/release"))
+    parser.add_argument("--release-kind", choices=("candidate", "final"), default="candidate")
+    parser.add_argument("--version", default="0.1.0")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--skip-x86", action="store_true")
     parser.add_argument("--skip-asan", action="store_true")
@@ -63,7 +66,7 @@ def main() -> int:
         ["python3", "scripts/promote_generated_fixtures.py", "--check"],
         [
             "python3", "scripts/verify_release_candidate.py", "--release",
-            "/Volumes/T9/beztrace/milestone-5/release",
+            str(args.release), "--release-kind", args.release_kind, "--version", args.version,
         ],
         *(["python3", path] for path in python_tests),
         ["python3", "-m", "py_compile", *sorted(str(path.relative_to(ROOT)) for path in (ROOT / "scripts").glob("*.py"))],

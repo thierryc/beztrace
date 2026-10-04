@@ -1,5 +1,9 @@
 # Small closed-contour correction — 0.1.1-dev.1
 
+> This document is historical development evidence. Stable 0.1.1 promotes the
+> corrections from dev.1 through dev.4 under the subsequent release request.
+> See [stable qualification](RELEASE_0.1.1.md) and [release guide](RELEASE.md).
+
 This is a local development engine, not a published replacement for 0.1.0.
 The shared released installation and its signed artifacts remain unchanged.
 Glyphs companion **0.1.0 build 6** accepts both exact versions and requires the
