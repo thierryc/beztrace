@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 — 2026-10-04
+## 0.1.1 source — 2026-10-04 (binary publication pending)
 
 - Promote the four development engine corrections to a stable standalone release.
 - Preserve small closed contours and meaningful convex curvature.
@@ -8,8 +8,9 @@
   invalidate topology, with deterministic fallback warnings.
 - Guarantee at least three on-curve nodes by exact subdivision of two-segment loops.
 - Retain JSON schema v1, pathDataVersion 2, and the public Swift API.
-- Distribute universal Developer ID-signed, Apple-notarized ZIP and PKG assets,
-  SHA-256 checksums, a source-bound release manifest and SPDX SBOMs.
+- Prepare universal distribution and SPDX SBOMs. The executable is Developer ID
+  signed; installer signing, Apple notarization and installation verification
+  remain pending before binary publication.
 - Companion source build 12 adds engine compatibility; it remains an unsigned,
   separately qualified development product and is not a stable release asset.
 

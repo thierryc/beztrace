@@ -91,8 +91,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build11
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build11
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build12
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build12
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font

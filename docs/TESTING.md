@@ -274,6 +274,6 @@ default project toolchain.
 Run `python3 -m unittest discover -s Companions/Glyphs/tests -v` for contract,
 placement, bounded process, stale-target, recovery, native-construction mocks,
 and deterministic packaging checks. The real-engine integration test consumes
-all 100 frozen images; set `BEZTRACE_TEST_ENGINE` to a 0.1.0 executable if needed.
+all 100 frozen images; set `BEZTRACE_TEST_ENGINE` to an accepted 0.1.0 or 0.1.1 executable if needed.
 These checks do not establish native Glyphs UI or Undo/Redo behavior. See the
 [separate native checklist](../Companions/Glyphs/NATIVE_TESTING.md).

@@ -6,7 +6,7 @@ performance and robustness evidence, and the staged standalone artifacts. Its
 machine-readable result is generated outside the repository by
 `scripts/verify_viability.py`.
 
-## Current decision
+## Initial 0.1.0 decision
 
 **Approve release. Version `0.1.0` publication is separately authorized.**
 
@@ -97,3 +97,11 @@ Merge the implementation branch into `main` under the recorded authorization.
 Version `0.1.0` may be published under the project owner's subsequent explicit
 authorization. A Glyphs MCP adapter still requires its own separately scoped
 implementation authorization.
+
+## 0.1.1 source checkpoint
+
+The owner explicitly authorized PR #9 source merge and website/documentation
+updates. Engineering gates pass, but binary publication remains pending installer
+Keychain approval, Apple upload authorization, notarization and installed-package
+verification. This historical 0.1.0 approval does not qualify 0.1.1 artifacts.
+See [0.1.1 qualification](RELEASE_0.1.1.md).
