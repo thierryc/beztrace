@@ -14,6 +14,8 @@ from pathlib import Path
 
 from verify_packaged_workflow import validate_outputs
 
+from release_version import stable_version
+
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = Path("/Volumes/T9/beztrace/milestone-5/release")
 OUTPUT = Path("/Volumes/T9/beztrace/milestone-6/reports/installed-package.json")
@@ -33,9 +35,9 @@ def run(command: list[str]) -> subprocess.CompletedProcess[bytes]:
     return subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 
 
-def validate_record(record: dict) -> list[str]:
+def validate_record(record: dict, version: str = VERSION) -> list[str]:
     failures: list[str] = []
-    if record.get("packageID") != PACKAGE_ID or record.get("version") != VERSION:
+    if record.get("packageID") != PACKAGE_ID or record.get("version") != version:
         failures.append("installed receipt identity or version differs")
     if record.get("receiptPresent") is not True:
         failures.append("installed package receipt is missing")
@@ -56,26 +58,29 @@ def validate_record(record: dict) -> list[str]:
             failures.append(f"{label} failed")
     if record.get("installedBinarySHA256") != record.get("packagedBinarySHA256"):
         failures.append("installed and packaged binary hash differs")
-    if record.get("versionOutput") != "beztrace 0.1.0":
+    if record.get("versionOutput") != f"beztrace {version}":
         failures.append("installed CLI version differs")
     return failures
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--version", type=stable_version, default=VERSION)
+    parser.add_argument("--release-kind", choices=("candidate", "final"), default="candidate")
     parser.add_argument("--release", type=Path, default=RELEASE)
     parser.add_argument("--output", type=Path, default=OUTPUT)
     parser.add_argument("--fixture", type=Path, default=FIXTURE)
     args = parser.parse_args()
     release = args.release.resolve()
-    package = release / "beztrace-0.1.0-rc.1.pkg"
-    archive = release / "beztrace-0.1.0-rc.1-macos-universal.zip"
+    label = f"{args.version}-rc.1" if args.release_kind == "candidate" else args.version
+    package = release / f"beztrace-{label}.pkg"
+    archive = release / f"beztrace-{label}-macos-universal.zip"
     fixture = args.fixture.resolve()
     record: dict = {
         "schemaVersion": 1,
         "status": "fail",
         "packageID": PACKAGE_ID,
-        "version": VERSION,
+        "version": args.version,
         "package": str(package),
         "archive": str(archive),
         "installedBinary": str(INSTALLED_BINARY),
@@ -144,7 +149,7 @@ def main() -> int:
             record["installedWorkflow"]["status"] = (
                 "pass" if record["jsonTraceValid"] and record["svgTraceValid"] else "fail"
             )
-    failures = validate_record(record)
+    failures = validate_record(record, args.version)
     record["failures"] = failures
     record["status"] = "pass" if not failures else "fail"
     args.output.parent.mkdir(parents=True, exist_ok=True)

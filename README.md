@@ -5,7 +5,7 @@ converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 [Project website](https://thierryc.github.io/beztrace/) ·
-[Download v0.1.0](https://github.com/thierryc/beztrace/releases/tag/v0.1.0) ·
+[Download v0.1.1](https://github.com/thierryc/beztrace/releases/tag/v0.1.1) ·
 [Release verification](docs/RELEASE.md)
 
 > [!IMPORTANT]
@@ -18,7 +18,8 @@ cubic Bezier outlines.
 > Milestone 6 viability review approves merge: the universal executable and
 > installer are Developer ID signed, Apple-notarized, installed, and verified
 > through a real standalone JSON/SVG workflow.
-> Version `0.1.0` is the first standalone release. It is distributed as a
+> Version `0.1.1` is the current stable standalone release, incorporating the
+> small-contour, handle-rounding and topology-safe Grid corrections. It uses a
 > universal Developer ID-signed executable and an Apple-notarized installer.
 > A separately versioned [Glyphs 4 companion](Companions/Glyphs/README.md) is
 > under development in this repository; its native qualification is pending.
@@ -52,14 +53,12 @@ Python API supports automatic image placement for coding agents.
 Its unsigned development artifact is versioned independently of engine 0.1.0.
 Full native UI qualification and signed distribution remain pending.
 
-The **[0.1.1-dev.1 development prerelease](https://github.com/thierryc/beztrace/releases/tag/v0.1.1-dev.1)** includes the small-contour fix and Glyphs companion build 6.
-Local candidate **0.1.1-dev.2** additionally guards final handle rounding for
-Accuracy/Grid combinations used by companion build 9. Local candidate
-**0.1.1-dev.3** makes Grid cleanup topology-safe for companion build 10. Local
-candidate **0.1.1-dev.4** preserves meaningful curvature on small convex
-contours and is preferred by companion build 11. See
-[development engine verification](docs/SMALL_CONTOUR_FIX.md) for local builds;
-the published 0.1.0 installation remains unchanged.
+Stable **0.1.1** incorporates all four development engine corrections while
+retaining JSON schema v1, path data version 2, and the public Swift API.
+The [development verification history](docs/SMALL_CONTOUR_FIX.md) records those fixes.
+Companion source build 12 accepts 0.1.1; older installed companions must continue
+using a supported engine until separately upgraded. The standalone release does
+not include the unsigned, native-unqualified Glyphs companion.
 
 ## Standalone v1 boundaries
 
@@ -99,15 +98,15 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
-## Install v0.1.0
+## Install v0.1.1
 
-Download `beztrace-0.1.0.pkg` and `SHA256SUMS` from the
-[v0.1.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.0),
+Download `beztrace-0.1.1.pkg` and `SHA256SUMS` from the
+[v0.1.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.1),
 verify the checksum, then install the notarized package:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-sudo installer -pkg beztrace-0.1.0.pkg -target /
+sudo installer -pkg beztrace-0.1.1.pkg -target /
 beztrace --version
 ```
 

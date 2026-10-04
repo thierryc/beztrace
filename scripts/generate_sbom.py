@@ -10,6 +10,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from release_version import stable_version
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -67,13 +69,16 @@ def main() -> int:
         choices=("candidate", "final", "development"),
         default="candidate",
     )
-    parser.add_argument("--version", help="Explicit prerelease version, required for development only")
+    parser.add_argument("--version", help="Stable version for candidate/final, or required development prerelease")
     args = parser.parse_args()
     if args.release_kind == "development":
         if not args.version or not re.fullmatch(r"\d+\.\d+\.\d+-dev\.\d+", args.version):
             parser.error("development requires --version MAJOR.MINOR.PATCH-dev.N")
-    elif args.version is not None:
-        parser.error("--version is only supported for development metadata")
+    else:
+        try:
+            args.version = stable_version(args.version or "0.1.0")
+        except argparse.ArgumentTypeError as error:
+            parser.error(str(error))
     binary = args.binary.resolve()
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
@@ -81,7 +86,7 @@ def main() -> int:
         ["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True
     ).stdout.strip()
     label = args.version if args.release_kind == "development" else (
-        "0.1.0-rc.1" if args.release_kind == "candidate" else "0.1.0")
+        f"{args.version}-rc.1" if args.release_kind == "candidate" else args.version)
     source_version = f"{label}+{revision[:12]}" if args.release_kind == "candidate" else label
 
     source_package = package(

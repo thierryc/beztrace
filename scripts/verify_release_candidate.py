@@ -10,6 +10,8 @@ import subprocess
 from pathlib import Path
 
 
+from release_version import stable_version
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -19,6 +21,7 @@ def sha256(path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--version", type=stable_version, default="0.1.0")
     parser.add_argument("--release", type=Path, required=True)
     parser.add_argument(
         "--release-kind",
@@ -29,7 +32,7 @@ def main() -> int:
     parser.add_argument("--require-signed-package", action="store_true")
     args = parser.parse_args()
     release = args.release.resolve()
-    label = "0.1.0-rc.1" if args.release_kind == "candidate" else "0.1.0"
+    label = f"{args.version}-rc.1" if args.release_kind == "candidate" else args.version
     stage = release / f"beztrace-{label}-stage" / "root"
     support = stage / "Library" / "Application Support" / "beztrace"
     binary = support / "bin" / "beztrace"
@@ -59,6 +62,9 @@ def main() -> int:
     if not link.is_symlink() or link.readlink().as_posix() != "/Library/Application Support/beztrace/bin/beztrace":
         failures.append("staged /usr/local/bin/beztrace symlink is missing or incorrect")
     if binary.is_file():
+        version = subprocess.run([str(binary), "--version"], capture_output=True, text=True)
+        if version.returncode or version.stdout.strip() != f"beztrace {args.version}":
+            failures.append("packaged executable version differs")
         process = subprocess.run(["lipo", "-archs", str(binary)], capture_output=True, text=True)
         if set(process.stdout.split()) != {"arm64", "x86_64"}:
             failures.append(f"unexpected binary architectures: {process.stdout.strip()}")
@@ -76,6 +82,13 @@ def main() -> int:
             payload = json.loads(path.read_text(encoding="utf-8"))
             if payload.get("spdxVersion") != "SPDX-2.3" or payload.get("dataLicense") != "CC0-1.0":
                 failures.append(f"invalid SPDX header in {name}")
+            if args.release_kind == "final" and payload.get("packages", [{}])[0].get("versionInfo") != args.version:
+                failures.append(f"SBOM version differs in {name}")
+            if name == "sbom-binary.spdx.json" and binary.is_file():
+                files = payload.get("files", [])
+                expected_hash = [{"algorithm": "SHA256", "checksumValue": sha256(binary)}]
+                if len(files) != 1 or files[0].get("checksums") != expected_hash:
+                    failures.append("binary SBOM hash differs from packaged executable")
     if args.release_kind == "final":
         for staged, published in zip(
             (share / "sbom-source.spdx.json", share / "sbom-binary.spdx.json"),
@@ -96,7 +109,7 @@ def main() -> int:
     manifest_path = release / "release-manifest.json"
     if manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        if manifest.get("version") != "0.1.0":
+        if manifest.get("version") != args.version:
             failures.append("release manifest version differs")
         if args.release_kind == "candidate" and manifest.get("candidate") != "rc.1":
             failures.append("release candidate marker differs")

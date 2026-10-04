@@ -17,13 +17,13 @@ class PackageTests(unittest.TestCase):
             first,second=Path(tmp)/'first',Path(tmp)/'second'
             a,b=build(first),build(second)
             self.assertEqual(a,b)
-            self.assertEqual(a['build'],11)
-            self.assertIn('build11',a['artifacts'][0]['path'])
+            self.assertEqual(a['build'],12)
+            self.assertIn('build12',a['artifacts'][0]['path'])
             self.assertEqual((first/a['artifacts'][0]['path']).read_bytes(),(second/b['artifacts'][0]['path']).read_bytes())
             self.assertEqual(verify(first),a)
             self.assertFalse(a['engine']['bundled'])
             self.assertEqual(a['engine']['versions'],[
-                '0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4'
+                '0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4','0.1.1'
             ])
             self.assertEqual(a['qualification']['nativeTestedBuilds'],[])
             self.assertEqual(a['artifacts'][0]['signing']['status'],'unsigned')

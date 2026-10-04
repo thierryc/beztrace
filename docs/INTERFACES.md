@@ -1,6 +1,6 @@
 # Standalone interfaces
 
-This document specifies the released version `0.1.0` v1 contract. The contract
+This document specifies the stable version `0.1.1` v1 contract. The contract
 is exercised locally, in CI, and by the signed and notarized distribution.
 
 ## Swift library
@@ -93,7 +93,7 @@ The top-level contract is conceptually:
   "schemaVersion": 1,
   "engine": {
     "name": "beztrace",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "portSourceRevision": "23073ca08ecdac61ad0e838bfae49a590bc2c7cc"
   },
   "source": {

@@ -1,7 +1,7 @@
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
-**0.1.0 build 11** accepts the separately installed **beztrace 0.1.0** engine
+**0.1.0 build 12** accepts the separately installed **beztrace 0.1.0 or 0.1.1** engine
 or local **0.1.1-dev.1** through **0.1.1-dev.4** development engines,
 JSON schema **1**, and path data **2**.
 
@@ -54,7 +54,7 @@ full details in **⋯ → Error Details…**. Recovery failures stop further wri
 - Glyphs Python 3.9+ with GlyphsApp, PyObjC, AppKit, Foundation and Quartz.
 - Engine executable: `/Library/Application Support/beztrace/bin/beztrace`.
   Use **⋯ → Choose Engine…** for an explicit alternative; no ambient PATH lookup.
-- Engine version must be exactly 0.1.0 or 0.1.1-dev.1 through 0.1.1-dev.4 and match the returned JSON. PNG/JPEG source limits: 16 MiB,
+- Engine version must be exactly 0.1.0, 0.1.1 or 0.1.1-dev.1 through 0.1.1-dev.4 and match the returned JSON. PNG/JPEG source limits: 16 MiB,
   4096 × 4096 pixels. The normalized crop must also fit the input limits.
 
 Install the bundle under the **actual Glyphs 4 Application Support directory**,
@@ -127,3 +127,10 @@ corrected development engine automatically. **⋯ → Choose Engine…** remains
 available for an explicit alternative. A packaged companion outside the checkout
 still defaults to the separately installed release. No system executable is
 replaced. See [engine verification](../../docs/SMALL_CONTOUR_FIX.md).
+
+## Stable engine 0.1.1 compatibility
+
+Unsigned development build 12 adds exact engine 0.1.1 compatibility. Build 11
+and earlier reject that version. This source update does not install or relaunch
+the plugin, and the standalone 0.1.1 release does not distribute a companion.
+Native UI qualification and companion publication remain separate.

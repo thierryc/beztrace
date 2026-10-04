@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.1 — 2026-10-04
+
+- Promote the four development engine corrections to a stable standalone release.
+- Preserve small closed contours and meaningful convex curvature.
+- Reject unsafe handle rounding and keep safe no-grid geometry when Grid would
+  invalidate topology, with deterministic fallback warnings.
+- Guarantee at least three on-curve nodes by exact subdivision of two-segment loops.
+- Retain JSON schema v1, pathDataVersion 2, and the public Swift API.
+- Distribute universal Developer ID-signed, Apple-notarized ZIP and PKG assets,
+  SHA-256 checksums, a source-bound release manifest and SPDX SBOMs.
+- Companion source build 12 adds engine compatibility; it remains an unsigned,
+  separately qualified development product and is not a stable release asset.
+
 ## 0.1.1-dev.4 — local development candidate
 
 - Preserve meaningful curvature on small, consistently convex contours when

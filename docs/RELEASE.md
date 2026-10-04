@@ -1,22 +1,22 @@
 # Release and verification
 
-Version `0.1.0` is the first standalone beztrace release. It supports macOS 13
+Version `0.1.1` is the current stable standalone beztrace release. It supports macOS 13
 or later on Apple Silicon and Intel Macs and has no non-system runtime
 dependency.
 
 ## Release assets
 
-- `beztrace-0.1.0.pkg`: Developer ID-signed and Apple-notarized installer.
-- `beztrace-0.1.0-macos-universal.zip`: signed universal executable with
+- `beztrace-0.1.1.pkg`: Developer ID-signed and Apple-notarized installer.
+- `beztrace-0.1.1-macos-universal.zip`: signed universal executable with
   licenses, notices, schemas, and SPDX SBOMs.
 - `SHA256SUMS`: SHA-256 hashes for the distributed binary assets and SBOMs.
 - `release-manifest.json`: machine-readable version, architecture, signature,
   notarization, artifact, and SBOM inventory.
-- `beztrace-0.1.0-source.spdx.json` and
-  `beztrace-0.1.0-binary.spdx.json`: SPDX 2.3 SBOMs.
+- `beztrace-0.1.1-source.spdx.json` and
+  `beztrace-0.1.1-binary.spdx.json`: SPDX 2.3 SBOMs.
 
 The canonical download location is the
-[GitHub v0.1.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.0).
+[GitHub v0.1.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.1).
 
 ## Verify and install
 
@@ -25,13 +25,13 @@ installation:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-pkgutil --check-signature beztrace-0.1.0.pkg
-xcrun stapler validate beztrace-0.1.0.pkg
-sudo installer -pkg beztrace-0.1.0.pkg -target /
+pkgutil --check-signature beztrace-0.1.1.pkg
+xcrun stapler validate beztrace-0.1.1.pkg
+sudo installer -pkg beztrace-0.1.1.pkg -target /
 beztrace --version
 ```
 
-The final command must print `beztrace 0.1.0`. The package installs the binary
+The final command must print `beztrace 0.1.1`. The package installs the binary
 at `/Library/Application Support/beztrace/bin/beztrace` and creates
 `/usr/local/bin/beztrace` as its command-line entry point.
 
@@ -49,7 +49,7 @@ Or create a transform-free SVG for design tools:
 beztrace trace input.png --format svg --output outline.svg
 ```
 
-Inputs are local PNG or JPEG files. Version `0.1.0` performs no network access,
+Inputs are local PNG or JPEG files. Version `0.1.1` performs no network access,
 telemetry, automatic updating, Glyphs document mutation, or Glyphs MCP
 integration.
 
@@ -83,3 +83,28 @@ automatically. There is no development installer package.
 
 See [small-contour verification](SMALL_CONTOUR_FIX.md) and the
 [companion prerelease procedure](../Companions/Glyphs/RELEASE.md).
+
+## Stable 0.1.1
+
+This release promotes the small-contour, handle-rounding, topology-safe Grid and
+small convex-curve corrections described in [development verification](SMALL_CONTOUR_FIX.md).
+The neutral contract remains JSON schema v1 and pathDataVersion 2.
+The prior [0.1.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.0)
+and development prerelease remain available with their original assets.
+
+Reproduction uses a clean source revision and a fresh staging directory:
+
+```sh
+BEZTRACE_EXTERNAL_WORK=/private/tmp/beztrace-milestone-7-v0.1.1 \
+BEZTRACE_APPLICATION_IDENTITY='Developer ID Application: <name> (<team>)' \
+BEZTRACE_INSTALLER_IDENTITY='Developer ID Installer: <name> (<team>)' \
+  scripts/build_release_candidate.sh --final --version 0.1.1 --notarize
+```
+
+The script refuses existing output and checks the compiled engine version.
+The notary keychain profile defaults to `beztrace-notary`. Never publish unsigned
+or unnotarized output as a stable release. The distribution excludes the Glyphs
+companion. Source build 12 accepts 0.1.1; earlier installed builds reject it and
+require a separate companion upgrade or an explicit supported engine path.
+
+See [0.1.1 qualification](RELEASE_0.1.1.md) for the release evidence.

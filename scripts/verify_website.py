@@ -92,7 +92,7 @@ def main() -> int:
         failures.append(f"expected at least {REQUIRED_EXAMPLES} trace examples, found {parser.examples}")
     if len(parser.ids) != len(set(parser.ids)):
         failures.append("HTML ids must be unique")
-    for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.0", "Glyphs MCP", "discreet nodes and handles"):
+    for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.1", "Glyphs MCP", "discreet nodes and handles"):
         if phrase not in source:
             failures.append(f"missing product contract copy: {phrase}")
     if f'href="{GLYPHS_MCP_URL}"' not in source:

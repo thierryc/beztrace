@@ -11,7 +11,11 @@ The standalone viability review approves merge after human acceptance,
 performance, robustness, universal packaging, Developer ID signing, Apple
 notarization, installation, and non-Glyphs workflow verification passed. The
 project owner authorized merge and separately authorized publication of
-version `0.1.0`. That release authorization does not extend to later releases.
+version `0.1.0`. The project owner subsequently requested stable 0.1.1 and GitHub publication
+on 2026-10-04, authorizing `lit/release-v0.1.1`, required standalone signing,
+notarization, installation verification, merge and publication of that version.
+That release authorization does not extend to later releases or companion
+distribution.
 The project owner has separately authorized the Glyphs 4 companion under `Companions/Glyphs` on
 `lit/glyphs-companion`, using the released CLI and neutral JSON contract. This
 authorizes source, tests, and unsigned local packaging only; live installation,
