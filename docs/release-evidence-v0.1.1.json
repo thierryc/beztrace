@@ -5122,5 +5122,160 @@
     "loadedBuild": "not-established",
     "published": false
   },
-  "engineBlockers": []
+  "engineBlockers": [],
+  "websiteVerification": {
+    "status": "pass",
+    "url": "https://thierryc.github.io/beztrace/",
+    "httpStatus": 200,
+    "anonymous": true,
+    "sourceCommit": "70994faf46cdd826f370c2df92b455acedd819cb",
+    "deploymentRun": 37328127813,
+    "htmlSHA256": "b44dd609ad88054c4bdf0f66418fca1a4fd2fd41e2eeab6301746724df02a6fc",
+    "stableDownloadLinkVerified": true,
+    "localHTMLByteIdentical": true,
+    "verifiedAtUTC": "2026-10-05T14:54:54.401532+00:00"
+  },
+  "previousReleasesPreserved": {
+    "verified": true,
+    "unchangedAssetInventories": [
+      {
+        "assets": [
+          {
+            "digest": "sha256:2e966a96b5eda1f58fb270258d9f098632e44bcd965f16ceaa3a81c9b0c06314",
+            "id": 596697910,
+            "name": "beztrace-0.1.1-dev.1-binary.spdx.json",
+            "size": 1882,
+            "updated_at": "2026-09-28T23:43:22Z"
+          },
+          {
+            "digest": "sha256:d11933aeeb85387ef8a0efdf8b8574843a0aeb16f1c9669919cdc77d606f319e",
+            "id": 596697911,
+            "name": "beztrace-0.1.1-dev.1-macos-universal.zip",
+            "size": 581872,
+            "updated_at": "2026-09-28T23:43:23Z"
+          },
+          {
+            "digest": "sha256:88ce1f754dc5f47d70b9dcfbc31a10bda0916b04940e33f8dc27fa4336c7ae35",
+            "id": 596697912,
+            "name": "beztrace-0.1.1-dev.1-source.spdx.json",
+            "size": 21980,
+            "updated_at": "2026-09-28T23:43:22Z"
+          },
+          {
+            "digest": "sha256:90b3c79540ae6220d78f3924077dff8fc0cba1782ee6320efe5813e4ddb57624",
+            "id": 596697909,
+            "name": "beztrace-glyphs-0.1.0-build6-macos-universal.zip",
+            "size": 81559,
+            "updated_at": "2026-09-28T23:43:23Z"
+          },
+          {
+            "digest": "sha256:79cd950b431668af761ccc3980816776853f906311bad1f56ca6f2d8d0b9b631",
+            "id": 596697917,
+            "name": "beztrace-glyphs-0.1.0-build6.spdx.json",
+            "size": 2951,
+            "updated_at": "2026-09-28T23:43:23Z"
+          },
+          {
+            "digest": "sha256:9557a5ca4aa6548e5691f39840ef15e2085110b1ac4ce28106c3cac9923b1702",
+            "id": 596697919,
+            "name": "companion-manifest.json",
+            "size": 8367,
+            "updated_at": "2026-09-28T23:43:23Z"
+          },
+          {
+            "digest": "sha256:d28f331bc2dc7250c5bbf90a941411fda04b7d713ce0353bb8604aac93486c4b",
+            "id": 596697920,
+            "name": "development-engine.json",
+            "size": 5456,
+            "updated_at": "2026-09-28T23:43:23Z"
+          },
+          {
+            "digest": "sha256:9b076dfad5700b2ad45ff48d4641abd01f17eab4fee4b8c9c60a350a3b3f2f77",
+            "id": 596697921,
+            "name": "development-release-manifest.json",
+            "size": 1914,
+            "updated_at": "2026-09-28T23:43:23Z"
+          },
+          {
+            "digest": "sha256:a4849b244278f7cf7c0555d302e0c331edd5b2e3b22bb373465384474d08d27a",
+            "id": 596697922,
+            "name": "manifest-v1.schema.json",
+            "size": 6686,
+            "updated_at": "2026-09-28T23:43:23Z"
+          },
+          {
+            "digest": "sha256:53347eaa34228b6df36989b72196c8b26372508a0d30186411ea391f48eecd68",
+            "id": 596697908,
+            "name": "SHA256SUMS",
+            "size": 999,
+            "updated_at": "2026-09-28T23:43:22Z"
+          },
+          {
+            "digest": "sha256:b05b8cea12a25287ffb388ac813c2cc29b1982aa5aeb5a7281ea9f6a79d331be",
+            "id": 596697926,
+            "name": "trace-result-v1.schema.json",
+            "size": 5588,
+            "updated_at": "2026-09-28T23:43:23Z"
+          }
+        ],
+        "id": 398709775,
+        "tag_name": "v0.1.1-dev.1"
+      },
+      {
+        "assets": [
+          {
+            "digest": "sha256:1955bdf43d5edf4d9870ae6595e2a4f88af35c720897d64169986ec6227bc2cd",
+            "id": 533117595,
+            "name": "beztrace-0.1.0-binary.spdx.json",
+            "size": 1870,
+            "updated_at": "2026-08-28T01:55:22Z"
+          },
+          {
+            "digest": "sha256:6ca498f4dce36985a53c3c5d8a8e7935211fd82b71e4ad45816db93b7629795c",
+            "id": 533117573,
+            "name": "beztrace-0.1.0-macos-universal.zip",
+            "size": 597619,
+            "updated_at": "2026-08-28T01:55:24Z"
+          },
+          {
+            "digest": "sha256:14d45dbfdcd20211035984c4f72351446981c74d3bca11e25dd4e9da669967ed",
+            "id": 533117577,
+            "name": "beztrace-0.1.0-source.spdx.json",
+            "size": 21968,
+            "updated_at": "2026-08-28T01:55:22Z"
+          },
+          {
+            "digest": "sha256:7973afeffaa218aea4440f78d960142cf7f2eeb0912e2c61b92df2596e6421fc",
+            "id": 533117572,
+            "name": "beztrace-0.1.0.pkg",
+            "size": 612509,
+            "updated_at": "2026-08-28T01:55:23Z"
+          },
+          {
+            "digest": "sha256:7b4dae27a2e92a8ed50a70b99dabe702d6813f11f2e78e82668a7739ee853c5d",
+            "id": 533117576,
+            "name": "release-manifest.json",
+            "size": 1038,
+            "updated_at": "2026-08-28T01:55:22Z"
+          },
+          {
+            "digest": "sha256:8e9eda58f287d7cf322cb742a27fa9b1bdd6d77860c706a7affb187c533468f6",
+            "id": 533117571,
+            "name": "SHA256SUMS",
+            "size": 382,
+            "updated_at": "2026-08-28T01:55:21Z"
+          }
+        ],
+        "id": 378219549,
+        "tag_name": "v0.1.0"
+      }
+    ]
+  },
+  "tagSignature": {
+    "format": "OpenPGP",
+    "algorithm": "EDDSA",
+    "keyFingerprint": "1F7704C2E61C10698BC5BF3D850806FAD8A2793A",
+    "verification": "good signature",
+    "tagObjectSHA": "b2c5aed32ebdc074140e3f76af74e386e02594dd"
+  }
 }
