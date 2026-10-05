@@ -1,7 +1,7 @@
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
-**0.1.0 build 13** accepts the separately installed **beztrace 0.1.0 or 0.1.1** engine
+**0.1.0 build 14** accepts the separately installed **beztrace 0.1.0 or 0.1.1** engine
 or local **0.1.1-dev.1** through **0.1.1-dev.4** development engines,
 JSON schema **1**, and path data **2**.
 
@@ -91,8 +91,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build13
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build13
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build14
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build14
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font
@@ -156,5 +156,15 @@ companion build. This invalidates Glyphs' separate timestamp-based PythonCache
 when updated source has the same size. Repeat packages of the same build remain
 byte-identical; future changed distributions must increment the companion build.
 
-For the current build 13 review, environment-specific native results and pending
+For the historical build 13 review, environment-specific native results and pending
 release gates, see [build 13 qualification](QUALIFICATION_BUILD13.md).
+
+
+## Build 14 development prerelease
+
+Build 14 preserves saved native preferences by normalizing PyObjC numeric
+wrappers at the preferences boundary. Strict input validation remains intact.
+It retains build 13's lazy image initialization and distinct build timestamp;
+its ZIP timestamp is 2026-09-27 00:00:28. The stable engine 0.1.1 is unchanged.
+See [build 14 qualification](QUALIFICATION_BUILD14.md). This unsigned companion
+prerelease is independent of engine distribution and is not fully native-qualified.

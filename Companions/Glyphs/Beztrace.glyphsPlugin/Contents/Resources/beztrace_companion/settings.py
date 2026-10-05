@@ -20,6 +20,25 @@ def _number(value):
     return type(value) in (int, float) and math.isfinite(value)
 
 
+def native_preference_value(value):
+    """Normalize NSNumber subclasses only at the native preferences boundary.
+
+    Keep booleans, strings and malformed fields intact so contract validation
+    still rejects coercible but invalid values rather than silently accepting them.
+    """
+    if value is None:
+        return None
+    result = dict(value)
+    for key, item in result.items():
+        if isinstance(item, bool):
+            continue
+        if isinstance(item, int):
+            result[key] = int(item)
+        elif isinstance(item, float):
+            result[key] = float(item)
+    return result
+
+
 def quantize_slider(value, minimum, maximum, step):
     if not all(_number(number) for number in (value, minimum, maximum, step)) or step <= 0 or minimum > maximum:
         raise ValueError('Invalid slider range')

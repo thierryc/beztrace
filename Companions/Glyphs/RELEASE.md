@@ -128,3 +128,12 @@ Provide Glyphs MCP a source URL only when the named revision is actually
 available remotely under separate push authorization. Until then provide the
 local patch, tests, package, manifest, checksums and explicit pending status.
 The published stable engine's signature and notarization never qualify this plugin.
+
+## Build 14 publication authorization — 2026-10-05
+
+The owner requested the preference fix and GitHub publication of the latest
+companion. Publish build14 as an independently tagged unsigned development
+prerelease, `glyphs-v0.1.0-build14`, never latest. Freeze clean source, reproduce
+twice, attach the manifest/schema/SBOM/checksums and bounded qualification report,
+and verify anonymous downloads. Full native and signed distribution gates are
+not waived. Preserve all engine tags/assets and historical companion bytes.

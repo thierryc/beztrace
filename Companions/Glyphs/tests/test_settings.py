@@ -3,7 +3,7 @@
 import unittest
 from dataclasses import replace
 from test_contract import ROOT
-from beztrace_companion.settings import GRID_VALUES,PRESETS,TraceSettings,quantize_slider
+from beztrace_companion.settings import GRID_VALUES,PRESETS,TraceSettings,quantize_slider,native_preference_value
 
 
 class SettingsTests(unittest.TestCase):
@@ -50,6 +50,28 @@ class SettingsTests(unittest.TestCase):
         for broken in [None,{},dict(value,schemaVersion=2),dict(value,accuracy=99),
                        dict(value,preset='Balanced'),dict(value,advanced=1)]:
             self.assertEqual(TraceSettings.from_persistent_value(broken),(TraceSettings(),False))
+
+    def test_native_number_wrappers_round_trip_without_relaxing_contract(self):
+        class NativeInt(int): pass
+        class NativeFloat(float): pass
+        settings=TraceSettings(threshold=255,accuracy=.75,smoothing=.25,
+                               corner_threshold=60,grid=8,min_contour_area=1000)
+        value=settings.persistent_value(advanced=True)
+        wrapped={key: NativeInt(item) if type(item) is int else
+                 NativeFloat(item) if type(item) is float else item
+                 for key,item in value.items()}
+        self.assertEqual(TraceSettings.from_persistent_value(wrapped),(TraceSettings(),False))
+        normalized=native_preference_value(wrapped)
+        self.assertEqual(TraceSettings.from_persistent_value(normalized),(settings,True))
+        self.assertIs(normalized['invert'],False)
+        self.assertIs(normalized['advanced'],True)
+        for malformed in [dict(wrapped,threshold='255'),dict(wrapped,invert=NativeInt(1)),
+                          dict(wrapped,advanced=NativeInt(1)),dict(wrapped,smoothing=float('nan')),
+                          dict(wrapped,threshold=NativeFloat(255)),dict(wrapped,grid=True)]:
+            with self.subTest(malformed=malformed):
+                self.assertEqual(TraceSettings.from_persistent_value(native_preference_value(malformed)),
+                                 (TraceSettings(),False))
+        self.assertIsNone(native_preference_value(None))
 
 
 if __name__=='__main__': unittest.main()

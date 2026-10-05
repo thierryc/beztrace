@@ -462,3 +462,15 @@ injected recovery faults. Installed VM UI evidence applies to the historical
 build-13 candidate. Full installed UI and final committed-artifact qualification
 remain incomplete; Intel is deferred. See [the detailed record](QUALIFICATION_BUILD13.md).
 The candidate remains development-unqualified, unsigned and unpublished.
+
+## Build 13 native follow-up and build 14
+
+The committed build13 archive was installed and its loaded identity verified on
+macOS14.6.1 arm64, Glyphs4.1.1/build4108, official Python3.14.6 without clearing
+PythonCache. Twenty-three installed controller cases and foreground zero-width
+mouse Trace/Done/native Undo/Redo passed. Saved preference reopen failed; a
+separate native diagnostic confirmed wrapped numeric values were rejected.
+Build13 fails that release gate. Historical raw receipts are retained under
+`.build/companion-build13-qualification-20261005/followup-m39-m40` in the primary
+checkout. Build14 corrects conversion at the native boundary; see
+[its qualification procedure](QUALIFICATION_BUILD14.md) and final release report.

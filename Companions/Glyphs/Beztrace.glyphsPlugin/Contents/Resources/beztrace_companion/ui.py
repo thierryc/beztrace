@@ -20,7 +20,7 @@ from .native import GlyphsHost
 from .adapter import revalidate, apply_paths, RecoveryError
 from .session import Session
 from .canvas import transform_paths
-from .settings import TraceSettings,quantize_slider
+from .settings import TraceSettings,quantize_slider,native_preference_value
 from . import image_io
 
 PREFERENCES_KEY='dev.beztrace.glyphs.trace-settings-v1'
@@ -38,7 +38,7 @@ class SettingValidationError(CompanionError):
 
 def load_preferences():
     value=NSUserDefaults.standardUserDefaults().dictionaryForKey_(PREFERENCES_KEY)
-    return TraceSettings.from_persistent_value(dict(value) if value is not None else None)
+    return TraceSettings.from_persistent_value(native_preference_value(value))
 
 
 def save_preferences(settings,advanced):
@@ -569,7 +569,7 @@ class BeztraceWindowController(NSWindowController):
         alert.setInformativeText_(self.details or 'No errors.'); alert.runModal()
 
     def showAbout_(self,sender):
-        alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace 0.1.0 · build 13')
+        alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace 0.1.0 · build 14')
         alert.setInformativeText_('Supports beztrace 0.1.0, 0.1.1 and 0.1.1-dev.1 through 0.1.1-dev.4.\nEngine: '+self.engine+'\n\nUnsigned local development build. Native qualification status is recorded with the package.')
         alert.runModal()
 
