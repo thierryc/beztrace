@@ -59,7 +59,7 @@ full details in **⋯ → Error Details…**. Recovery failures stop further wri
 
 Install the bundle under the **actual Glyphs 4 Application Support directory**,
 ending in `Plugins/Beztrace.glyphsPlugin`. Do not assume the Glyphs 3 directory.
-The current development link points to `.build/glyphs-companion-dev/Beztrace.glyphsPlugin`.
+The inspected development link points to `.build/glyphs-companion-0.1.0-build11/Beztrace.glyphsPlugin` (build 11).
 Replacing that payload requires a Glyphs relaunch to load its new code. Installed
 files and the running revision are different evidence; About shows the loaded build.
 
@@ -108,20 +108,22 @@ checks versus remaining visible in-app qualification.
 
 [Installer integration](INTEGRATION.md) · [API evidence](SDK_EVIDENCE.md)
 
-## Small-contour development fix
+## Historical small-contour development fixes
 
 Engine 0.1.1-dev.1 fixes the collapse of small closed contours reported with the
 blob-letter image. Local 0.1.1-dev.2 also prevents unsafe final handle rounding
 at valid Accuracy/Grid combinations. Local 0.1.1-dev.3 additionally prevents
 Grid snapping from creating invalid topology. Local 0.1.1-dev.4 preserves
-meaningful curvature on small convex contours. Released 0.1.0 remains installed
-and supported, but still has those bugs. Build the local universal engine from the repository root:
+meaningful curvature on small convex contours. Engine 0.1.0 remains supported
+but has those bugs; the shared installation is now stable 0.1.1. The commands
+below describe the historical development workflow from its matching source
+checkpoint. Use the published stable installer for current integration:
 
 ```sh
 python3 scripts/build_development_engine.py
 ```
 
-When build 11 runs from this source checkout and
+When the development companion runs from this source checkout and
 `.build/beztrace-0.1.1-dev.4/bin/beztrace` is executable, the panel selects that
 corrected development engine automatically. **⋯ → Choose Engine…** remains
 available for an explicit alternative. A packaged companion outside the checkout
@@ -134,3 +136,5 @@ Unsigned development build 12 adds exact engine 0.1.1 compatibility. Build 11
 and earlier reject that version. This source update does not install or relaunch
 the plugin, and the standalone 0.1.1 release does not distribute a companion.
 Native UI qualification and companion publication remain separate.
+
+Stable engine 0.1.1 is now separately published and verified. Build 12 has a verified unsigned local package; installed build 11 rejects stable 0.1.1. Select the stable engine explicitly for the additional minimum-node cleanup; the preserved dev.4 artifact predates that follow-up. See the [integration handoff](../../docs/GLYPHS_MCP_V2_HANDOFF.md) for exact statuses and missing native work.

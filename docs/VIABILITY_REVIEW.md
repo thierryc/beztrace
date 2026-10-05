@@ -98,10 +98,6 @@ Version `0.1.0` may be published under the project owner's subsequent explicit
 authorization. A Glyphs MCP adapter still requires its own separately scoped
 implementation authorization.
 
-## 0.1.1 source checkpoint
+## 0.1.1 stable release
 
-The owner explicitly authorized PR #9 source merge and website/documentation
-updates. Engineering gates pass, but binary publication remains pending installer
-Keychain approval, Apple upload authorization, notarization and installed-package
-verification. This historical 0.1.0 approval does not qualify 0.1.1 artifacts.
-See [0.1.1 qualification](RELEASE_0.1.1.md).
+The owner authorized source merge, stable publication and Apple uploads. Fresh qualification of the branded distribution passes all gates, including exact installed standalone JSON/SVG use. Public release/API and anonymous asset hashes are verified. This is separate evidence from the historical 0.1.0 approval. See [0.1.1 qualification](RELEASE_0.1.1.md) and the [integration handoff](GLYPHS_MCP_V2_HANDOFF.md).

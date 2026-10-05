@@ -1,49 +1,13 @@
-# 0.1.1 source qualification and publication status
+# 0.1.1 stable release qualification
 
-The project owner requested stable 0.1.1 and GitHub publication, then explicitly
-requested merging PR #9 and updating the website and documentation on 2026-10-04.
-That latest request authorizes source merge while binary release checks remain
-pending. It does not waive those checks or authorize another version or companion
-installation/publication. Automatic approval review requires explicit permission
-for uploading the ZIP and PKG to Apple; that permission remains pending.
+Stable 0.1.1 is public, signed, Apple-notarized and installed. The owner explicitly authorized Apple uploads on 2026-10-05 and completed the required local Keychain and administrator authentication. No distribution gate was waived.
 
-## Verified engineering checkpoint
+All 27 clean-source qualification commands pass at `9737f21fabfda0dc9e6728bd34df2f83380238e9`. Both arm64 and x86_64/Rosetta execute 100 optimized Swift tests with one intentional maintenance skip and zero failures. All six native GitHub CI jobs pass. All 100 immutable corpus traces reproduce the accepted paths, bounds, statistics and warnings; the original human acceptance is reused unchanged. JSON is byte-identical across architectures. The 50,000-case AddressSanitizer fuzz evidence is reused with an explicit unchanged core/harness source proof. The 107 companion contracts and isolated fake-host AppKit check pass with the final engine. Relative performance, CLI latency and memory gates pass: process p95 349.070–763.480 ms; maximum RSS 28.422 MiB, with three warmups and 30 measurements per fixture and engine.
 
-The source revision `7e43a0b48fec0634e9393f9f33d2d5cc260ced39` passed:
+The final tag/source is `9737f21fabfda0dc9e6728bd34df2f83380238e9`. It preserves the engine and schemas of historical qualified `7e43a0b48fec0634e9393f9f33d2d5cc260ced39`; subsequent source changes add installer identity and isolate CLI tests from historical development artifacts. PR #9 source merge is `1c89f50538cff2351cdb2e4558d1f1e3e7292ceb`.
 
-- All 27 commands in the clean detached quality matrix.
-- All 100 optimized Swift tests on arm64 and x86_64/Rosetta, with one intentional
-  maintenance-only skip and no failures per architecture.
-- All six GitHub jobs, including native Apple Silicon, native Intel and ASan.
-- The immutable 62-glyph reference, provenance, license and dependency audits.
-- Repeated JSON, baked SVG and preserve SVG traces for all 100 corpus inputs.
-- Exact paths, bounds, statistics and warnings matching the previously accepted
-  corpus; the original human acceptance document is preserved unchanged.
-- Byte-identical JSON on arm64 and x86_64 for all 100 images.
-- 50,000/50,000 malformed-input rejections under a verified AddressSanitizer runtime.
-- All 107 companion contract tests and a packaged standalone JSON/SVG workflow.
-- Developer ID signature verification for the universal engine executable.
-- All five relative performance, absolute process-time and memory gates.
-  Recorded CLI p95: 262.051–710.416 ms; maximum peak RSS: 27.953 MiB.
+The original temporary artifacts were unavailable on fresh inspection. New candidates were built without overwriting historical releases. The first new candidate was installed, then preserved when the owner requested installer branding. The final branded candidate was separately signed, notarized, stapled and installed; its exact executable hash matches the PKG and ZIP.
 
-Benchmarks use the same machine and fixtures, three warmups and 30 measured runs
-per fixture, the checksum-matching pinned Rust reference binary, and release
-builds. The machine-readable records contain hardware, OS, toolchains, binary and
-source hashes, cold/warm state, samples and timings. Evidence is kept outside Git.
+The public API and release page return HTTP 200. Every release asset downloads without authentication and matches its published checksum. Website/download links changed only after these checks.
 
-## Remaining distribution gates
-
-Installer signing failed because macOS could not obtain local Keychain
-authorization. A retry is awaiting local approval. Apple notarization upload was
-rejected by automatic approval review because GitHub authorization did not
-explicitly cover sending release binaries to Apple. Installation verification
-also requires local administrator authentication. The formal viability evaluator
-therefore rejects binary publication until those gates pass.
-
-The website retains working 0.1.0 installer/download links while explaining the
-0.1.1 source checkpoint. It must switch to 0.1.1 assets only after publication.
-
-The companion remains separately versioned, unsigned and native-unqualified.
-Source build 12 adds exact engine 0.1.1 compatibility and is excluded from the
-standalone distribution. No Glyphs installation, relaunch or font edit is part
-of this release task.
+See the [complete Glyphs MCP v2 handoff](GLYPHS_MCP_V2_HANDOFF.md) for all URLs, hashes, source reconciliation, notarization IDs, metadata and independently unqualified companion status. The [machine-readable evidence](release-evidence-v0.1.1.json) retains measurements and verification records.

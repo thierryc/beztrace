@@ -3,8 +3,8 @@
 > [!NOTE]
 > The complete standalone pipeline, placement, stable public request/result
 > types, JSON/SVG serialization, CLI, performance hardening, and universal
-> distribution originated in released version `0.1.0`. Source `0.1.1` adds
-> tracing corrections under the same API; its binary publication is pending.
+> distribution originated in released version `0.1.0`. Stable `0.1.1` adds
+> tracing corrections under the same API; its binary distribution is verified.
 
 ## Product shape
 

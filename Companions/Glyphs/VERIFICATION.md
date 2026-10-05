@@ -446,3 +446,9 @@ Source build 12 adds exact beztrace 0.1.1 compatibility and retains earlier
 accepted versions. It changes version checks and distribution metadata only.
 Native visible UI qualification, live installation/relaunch, signing and
 publication remain separate; no companion is included in stable engine assets.
+
+## Build 12 — 2026-10-05 engine handoff
+
+Source and verified local unsigned package are 0.1.0 build 12. The ZIP SHA-256 is `6341e27f50a180b6b6258a19029942181d3c974c3a55c6c367097744db41212f`; packaging, payload inventory and checksums pass. All 107 contracts and isolated AppKit checks pass with the final stable 0.1.1 engine. The installed symlink still points to build 11, whose version contract rejects stable 0.1.1; the loaded build is not established here. Build 12 has no native-tested Glyphs builds and remains development-unqualified, unsigned, unnotarized and unpublished. No companion install/relaunch or user-font operation was performed.
+
+See the [integration handoff](../../docs/GLYPHS_MCP_V2_HANDOFF.md) for exact installation instructions and the complete missing native/distribution work. Contract and fake-host checks do not qualify native acceptance.

@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 source — 2026-10-04 (binary publication pending)
+## 0.1.1 — 2026-10-05
 
 - Promote the four development engine corrections to a stable standalone release.
 - Preserve small closed contours and meaningful convex curvature.
@@ -8,9 +8,10 @@
   invalidate topology, with deterministic fallback warnings.
 - Guarantee at least three on-curve nodes by exact subdivision of two-segment loops.
 - Retain JSON schema v1, pathDataVersion 2, and the public Swift API.
-- Prepare universal distribution and SPDX SBOMs. The executable is Developer ID
-  signed; installer signing, Apple notarization and installation verification
-  remain pending before binary publication.
+- Publish checksum-verified universal ZIP/PKG, manifest and SPDX SBOMs after
+  Developer ID signing, Apple notarization, Gatekeeper and installation checks.
+- Name Beztrace 0.1.1 in the installer title, welcome and completion pages.
+- Bind CLI process tests to their own build, preserving historical artifacts.
 - Companion source build 12 adds engine compatibility; it remains an unsigned,
   separately qualified development product and is not a stable release asset.
 

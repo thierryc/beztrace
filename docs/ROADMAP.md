@@ -132,14 +132,17 @@ None of that integration is part of this repository's initial work.
 
 The project owner authorized `lit/glyphs-companion`: a separately versioned
 plugin, pure JSON adapter, native UI, tests, and unsigned packaging under
-`Companions/Glyphs`. It reuses released engine 0.1.0. Native qualification and
-release remain separate gates. Glyphs MCP setup and adapter work are external.
+`Companions/Glyphs`. It consumes the standalone engine; source build 12 accepts
+stable 0.1.1. Native qualification and release remain separate gates.
+Glyphs MCP setup and adapter work are external.
 
-## 9. 0.1.1 source checkpoint — merge authorized
+## 9. Stable 0.1.1 — published
 
-The four development tracing corrections are consolidated into source 0.1.1.
-All engineering, architecture, corpus, sanitizer and performance checks pass.
-The owner explicitly requested source merge and website/documentation updates.
-Stable binary publication remains pending signing/notarization authorization and
-installed-package verification; downloads continue to point to stable 0.1.0.
-See [qualification](RELEASE_0.1.1.md).
+Tracing corrections and minimum-node cleanup retain the neutral schema/path-data
+contract. Source, universal distribution, signing/notarization, installed
+standalone use and public download checks pass. Companion build 12 accepts
+engine 0.1.1 but remains independently native-unqualified.
+
+Stable 0.1.1 distribution and Glyphs MCP v2 handoff were completed on 2026-10-05.
+See [verified handoff](GLYPHS_MCP_V2_HANDOFF.md); companion native qualification
+remains separate.

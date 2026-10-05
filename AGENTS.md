@@ -16,10 +16,12 @@ GitHub publication on 2026-10-04, authorizing `lit/release-v0.1.1` and release
 preparation. The owner then explicitly requested merging PR #9 and updating the
 website/documentation while distribution checks were still pending. That latest
 instruction authorizes the source merge; it does not waive stable binary gates.
-Apple upload authorization, local installer Keychain approval, notarization and
-installation verification remain pending. Do not publish 0.1.1 binary assets or
-claim notarized distribution until these pass. Authorization does not extend to
-later versions or companion distribution.
+The owner explicitly authorized Apple uploads on 2026-10-05 and completed local
+Keychain and administrator approval. Stable 0.1.1 signing, notarization,
+installation, source qualification and anonymous GitHub asset verification
+passed; publication is complete. Preserve the immutable v0.1.1 tag and
+distributed bytes. Authorization does not extend to later versions or companion
+distribution.
 The project owner has separately authorized the Glyphs 4 companion under `Companions/Glyphs` on
 `lit/glyphs-companion`, using the released CLI and neutral JSON contract. This
 authorizes source, tests, and unsigned local packaging only; live installation,
