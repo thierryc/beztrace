@@ -70,3 +70,23 @@ The 107 contract tests and isolated AppKit smoke check use the final engine and 
 ## Website and final handoff verification
 
 [Live website](https://thierryc.github.io/beztrace/) returns HTTP 200 and serves the exact updated HTML from documentation/website commit `70994faf46cdd826f370c2df92b455acedd819cb`. [Pages deployment](https://github.com/thierryc/beztrace/actions/runs/37328127813) passed. Its stable 0.1.1 installer link and separate companion status were checked after anonymous release/asset verification. Prior 0.1.0 and dev.1 release asset IDs, hashes, sizes and update timestamps are unchanged. No engine handoff blocker remains. The Glyphs MCP repository and runtime were not modified or installed.
+
+
+## Independent companion release — 2026-10-05
+
+[Beztrace for Glyphs 0.1.0/build 15](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.1.0)
+is independently Developer ID signed and Apple-notarized. Source is frozen at
+`dbd7a696afda9a215c8e8a4aa42315cd799116f9`; stable engine 0.1.1 and the neutral
+public contracts remain unchanged. The earlier build-12 status above is historical.
+
+Native qualification passes on macOS 14.6.1 arm64, Glyphs 4.1.1/build 4108 trial,
+official Python 3.14.6. Intel execution is untested, explicitly owner-waived.
+Universal loader slice/signature checks do not count as Intel native testing.
+The independently accepted companion Apple submission is
+`66043b20-bb3a-40b9-bce2-ebcb790d93eb`; engine acceptance is separate.
+
+See the [companion release record](GLYPHS_COMPANION_RELEASE.md) and the release's
+manifest, checksums, SPDX inventory and qualification report for exact final
+identity and tested scope. Glyphs MCP integration remains separate; the MCP
+repository and public API were not modified. No automatic plugin installation
+is included.
