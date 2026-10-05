@@ -22,8 +22,10 @@ cubic Bezier outlines.
 > convex-curve and minimum-node corrections. Its signed/notarized distribution,
 > exact installed workflow and anonymous downloads are verified. See the
 > [Glyphs MCP v2 integration handoff](docs/GLYPHS_MCP_V2_HANDOFF.md).
-> A separately versioned [Glyphs 4 companion](Companions/Glyphs/README.md) is
-> under development in this repository; its native qualification is pending.
+> A separately versioned [Glyphs 4 companion](https://github.com/thierryc/beztrace/blob/glyphs-v0.1.0/Companions/Glyphs/README.md)
+> is independently released as signed/notarized **0.1.0/build 15**, qualified
+> on Apple Silicon with Intel testing explicitly owner-waived. See the
+> [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
 > Glyphs MCP setup and adapter integration remain separate work.
 
 ## Intended product
@@ -48,18 +50,21 @@ package or CLI dependencies. Future Glyphs MCP integration remains separate.
 
 ## Optional Glyphs companion
 
-[Beztrace for Glyphs](Companions/Glyphs/README.md) adds **Path → Beztrace…** to trace a native canvas image
+[Beztrace for Glyphs](https://github.com/thierryc/beztrace/blob/glyphs-v0.1.0/Companions/Glyphs/README.md) adds **Path → Beztrace…** to trace a native canvas image
 at its existing placement, with reversible native path insertion. A separate
 Python API supports automatic image placement for coding agents.
-Its unsigned development artifact is versioned independently of the engine.
-Full native UI qualification and signed distribution remain pending.
+Its [signed 0.1.0/build 15 release](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.1.0)
+is versioned independently of the engine. Native qualification covers macOS
+14.6.1 arm64, Glyphs 4.1.1/build 4108 and Python 3.14.6. Intel native execution
+is untested and explicitly owner-waived; universal signature verification does
+not establish Intel runtime qualification. See the [release record](docs/GLYPHS_COMPANION_RELEASE.md).
 
 Stable **0.1.1** incorporates all four development engine corrections while
 retaining JSON schema v1, path data version 2, and the public Swift API.
 The [development verification history](docs/SMALL_CONTOUR_FIX.md) records those fixes.
-Companion source build 12 accepts 0.1.1; older installed companions must continue
-using a supported engine until separately upgraded. The standalone distribution does
-not include the unsigned, native-unqualified Glyphs companion.
+Companion build 15 accepts stable 0.1.1; older installed companions must continue
+using a supported engine until separately upgraded. The standalone distribution
+does not include the separately distributed native Glyphs companion.
 
 ## Standalone v1 boundaries
 
