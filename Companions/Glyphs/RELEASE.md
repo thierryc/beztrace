@@ -137,3 +137,15 @@ prerelease, `glyphs-v0.1.0-build14`, never latest. Freeze clean source, reproduc
 twice, attach the manifest/schema/SBOM/checksums and bounded qualification report,
 and verify anonymous downloads. Full native and signed distribution gates are
 not waived. Preserve all engine tags/assets and historical companion bytes.
+
+## Build 15 independent signing authorization — 2026-10-05
+
+The owner explicitly requested signing and the official companion release. This
+authorizes use of the existing Developer ID identity and Apple notarization
+profile, companion source commits/pushes, GitHub assets and publication. The
+owner separately instructed bypassing native Intel testing because no recent
+Intel Mac is available. Record Intel as **untested, owner-waived**, with Apple
+Silicon as the native qualification scope. This exception does not waive other
+native checklist items. Preserve the published engine and earlier companion
+release bytes. Build 15 changes only release wording in About and its identity;
+build 14 signed candidates and Apple receipts remain historical artifacts.

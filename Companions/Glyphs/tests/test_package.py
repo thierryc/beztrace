@@ -22,8 +22,8 @@ class PackageTests(unittest.TestCase):
             first,second=Path(tmp)/'first',Path(tmp)/'second'
             a,b=build(first),build(second)
             self.assertEqual(a,b)
-            self.assertEqual(a['build'],14)
-            self.assertIn('build14',a['artifacts'][0]['path'])
+            self.assertEqual(a['build'],15)
+            self.assertIn('build15',a['artifacts'][0]['path'])
             self.assertEqual((first/a['artifacts'][0]['path']).read_bytes(),(second/b['artifacts'][0]['path']).read_bytes())
             self.assertEqual(verify(first),a)
             self.assertFalse(a['engine']['bundled'])

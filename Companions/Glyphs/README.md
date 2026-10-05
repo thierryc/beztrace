@@ -1,7 +1,7 @@
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
-**0.1.0 build 14** accepts the separately installed **beztrace 0.1.0 or 0.1.1** engine
+**0.1.0 build 15** accepts the separately installed **beztrace 0.1.0 or 0.1.1** engine
 or local **0.1.1-dev.1** through **0.1.1-dev.4** development engines,
 JSON schema **1**, and path data **2**.
 
@@ -63,8 +63,8 @@ The historical host inspection recorded a development link pointing to `.build/g
 Replacing that payload requires a Glyphs relaunch to load its new code. Installed
 files and the running revision are different evidence; About shows the loaded build.
 
-Artifacts are unsigned local development builds. This is an informational status,
-not a runtime tracing restriction. See [release procedure](RELEASE.md) for the
+The source package builder produces unsigned artifacts. Release signing and
+native qualification are recorded separately in the release manifest. See [release procedure](RELEASE.md) for the
 separate signing/notarization workflow. The plugin never saves a font.
 
 ## Placement and safety
@@ -91,8 +91,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build14
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build14
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build15
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build15
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font
@@ -168,3 +168,15 @@ It retains build 13's lazy image initialization and distinct build timestamp;
 its ZIP timestamp is 2026-09-27 00:00:28. The stable engine 0.1.1 is unchanged.
 See [build 14 qualification](QUALIFICATION_BUILD14.md). This unsigned companion
 prerelease is independent of engine distribution and is not fully native-qualified.
+
+## Build 15 signed release preparation
+
+Build 15 corrects the About dialog to refer to the release manifest for signing
+and qualification status. Its deterministic ZIP timestamp is 2026-09-27 00:00:30,
+so it cannot reuse build 14 Python bytecode. The owner authorized independent
+companion signing, notarization and official publication on 2026-10-05, then
+explicitly waived native Intel testing because no recent Intel Mac is available.
+Intel runtime qualification is untested and waived, never a passing result.
+Universal loader slices remain present and signature-verified. Remaining native
+gates must be reported from actual results; signing alone cannot qualify them.
+See [build 15 qualification](QUALIFICATION_BUILD15.md).
