@@ -110,10 +110,16 @@ rm -f "$ZIP" "$UNSIGNED_PKG" "$PKG"
 (cd "$ROOT_PAYLOAD/Library/Application Support" && ditto -c -k --keepParent beztrace "$ZIP")
 pkgbuild --root "$ROOT_PAYLOAD" --identifier "$PACKAGE_ID" --version "$VERSION" \
     --install-location / --scripts "$ROOT/release/package-scripts" "$UNSIGNED_PKG"
+DISTRIBUTION="$STAGING/Distribution.xml"
+INSTALLER_RESOURCES="$STAGING/installer-resources"
+productbuild --synthesize --package "$UNSIGNED_PKG" "$DISTRIBUTION"
+python3 "$ROOT/scripts/configure_installer.py" --distribution "$DISTRIBUTION" \
+    --resources "$INSTALLER_RESOURCES" --version "$VERSION"
+PRODUCT_ARGS=(--distribution "$DISTRIBUTION" --resources "$INSTALLER_RESOURCES" --package-path "$RELEASE")
 if [ -n "$INSTALLER_IDENTITY" ]; then
-    productbuild --package "$UNSIGNED_PKG" --sign "$INSTALLER_IDENTITY" "$PKG"
+    productbuild "${PRODUCT_ARGS[@]}" --sign "$INSTALLER_IDENTITY" "$PKG"
 else
-    cp "$UNSIGNED_PKG" "$PKG"
+    productbuild "${PRODUCT_ARGS[@]}" "$PKG"
 fi
 
 CHECKSUM_FILES=("$(basename "$ZIP")" "$(basename "$PKG")")
