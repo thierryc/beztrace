@@ -49,7 +49,7 @@ class PackageTests(unittest.TestCase):
             os.utime(module_path,(old_stamp,old_stamp))
             py_compile.compile(str(module_path),doraise=True)
             # Updating a bundle does not clear Glyphs' separate PythonCache.
-            module_path.write_text("loaded_build = 13\n")
+            module_path.write_text("loaded_build = %s\n" % manifest['build'])
             os.utime(module_path,(new_stamp,new_stamp))
             spec=importlib.util.spec_from_file_location('cached_companion',module_path)
             module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
