@@ -7,6 +7,7 @@ Never signs, installs, downloads, publishes, or launches Glyphs.
 """
 import argparse
 import ast
+from datetime import datetime, timedelta
 import hashlib
 import json
 import os
@@ -37,7 +38,7 @@ def validate_source():
     meta=plistlib.loads((BUNDLE/'Contents/Info.plist').read_bytes())
     if not (meta['CFBundleIdentifier']=='dev.beztrace.glyphs'):
         raise ValueError('Package validation failed at package.py:38')
-    if not (meta['CFBundleShortVersionString']=='0.1.0' and meta['CFBundleVersion']=='12'):
+    if not (meta['CFBundleShortVersionString']=='0.1.0' and meta['CFBundleVersion']=='13'):
         raise ValueError('Package validation failed at package.py:39')
     source=json.loads((BUNDLE/'Contents/Resources/GlyphsSDK-SOURCE.json').read_text())
     loader=BUNDLE/'Contents/MacOS/plugin'
@@ -128,11 +129,16 @@ def build(output):
                                  'relatedSpdxElement':'SPDXRef-StableEngine1',
                                  'comment':'Supported stable alternative; never bundled.'})
     write_json(resources/'sbom.spdx.json',sbom)
-    archive=output/'beztrace-glyphs-0.1.0-build12-macos-universal.zip'
+    archive=output/'beztrace-glyphs-0.1.0-build13-macos-universal.zip'
+    # Glyphs caches timestamp-based Python bytecode outside the bundle. Each
+    # independently numbered build must invalidate same-size source changes,
+    # while repeat packages of that build remain byte-reproducible. ZIP times
+    # have two-second resolution; reserve one distinct slot per build.
+    stamp = (datetime(2026, 9, 27) + timedelta(seconds=2*int(meta['CFBundleVersion']))).timetuple()[:6]
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
         for p in sorted(bundle.rglob('*')):
             if not p.is_file(): continue
-            info=zipfile.ZipInfo(p.relative_to(output).as_posix(),(2026,9,27,0,0,0))
+            info=zipfile.ZipInfo(p.relative_to(output).as_posix(),stamp)
             info.create_system=3
             mode=0o755 if os.access(p,os.X_OK) else 0o644
             info.external_attr=(stat.S_IFREG|mode)<<16
@@ -140,7 +146,7 @@ def build(output):
             z.writestr(info,p.read_bytes(),compresslevel=9)
     files=inventory(bundle)
     manifest={
-        'schemaVersion':1,'id':'beztrace-glyphs','name':'Beztrace for Glyphs','version':'0.1.0','build':12,
+        'schemaVersion':1,'id':'beztrace-glyphs','name':'Beztrace for Glyphs','version':'0.1.0','build':13,
         'bundleIdentifier':'dev.beztrace.glyphs','bundleName':'Beztrace.glyphsPlugin',
         'sourceRevision':revision,'sourceTreeDirty':dirty,'payloadSha256':hashlib.sha256(json.dumps(files,sort_keys=True,separators=(',',':')).encode()).hexdigest(),
         'platform':{'minimumMacOS':'13.0','architectures':['arm64','x86_64'],

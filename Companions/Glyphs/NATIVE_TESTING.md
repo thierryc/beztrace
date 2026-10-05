@@ -21,9 +21,9 @@ foreground/background preservation and native image/path Undo/Redo. Document
 membership is replaced by an explicit detached-fixture ownership check; it cannot
 establish in-app selection or menu behavior.
 
-## Visible build-12 acceptance — pending
+## Visible build-13 acceptance — pending
 
-After an authorized relaunch, verify About shows build 12 and the menu reads
+After an authorized relaunch, verify About shows build 13 and the menu reads
 **Path → Beztrace…**. Use a new disposable font with two glyphs and two masters.
 
 - Check the 300 × 210 collapsed, 300 × 410 expanded Auto-threshold and 300 × 434
@@ -59,7 +59,7 @@ Record workspace, installed and loaded versions separately. No file checksum
 alone establishes a loaded revision or visible alignment. A failed native check
 remains a qualification blocker.
 
-For build 12 and stable engine 0.1.1, set `BEZTRACE_TEST_ENGINE` to
+For build 13 and stable engine 0.1.1, set `BEZTRACE_TEST_ENGINE` to
 `/Library/Application Support/beztrace/bin/beztrace` before an independently
 authorized native run. Earlier dev.4 backend evidence is historical. Optional
 `BEZTRACE_ACCEPTANCE_IMAGE` supplies a local PNG/JPEG for preparation, tracing,
@@ -67,3 +67,14 @@ affine insertion and Undo/Redo in the detached fixture. The harness writes a
 normalized PNG and result JSON under `.build/glyphs-native-canvas` for comparison.
 It never reads or edits a running user font. Omit the variable for public CI;
 the user-supplied image is not a committed fixture.
+
+### Build 13 first-trace regression
+
+Attach a fresh PNG and a fresh JPEG without preloading their native image
+properties. Verify each first Trace reaches Done in foreground/background,
+including a default crop and an explicit crop. Confirm the source image,
+existing paths/components/anchors and width survive. Verify native Undo and
+Redo with the edit view focused; do not run mutation scripts between them.
+Real image/crop/placement changes must still reject a pending result.
+
+Current bounded results and remaining gates: [build 13 qualification](QUALIFICATION_BUILD13.md).

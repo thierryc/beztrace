@@ -176,3 +176,15 @@ schema v1 and path data v2 remain unchanged.
 
 Detect numeric build 11 and verify payload hashes. Dev.4 and build 11 remain
 unsigned, uninstalled and development-unqualified local artifacts.
+
+## Current build 13 qualification handoff
+
+The current source candidate is 0.1.0/build 13 and accepts stable engine 0.1.1.
+It corrects lazy default-crop capture and assigns distinct deterministic ZIP
+member timestamps per build to invalidate external PythonCache. The earlier
+build descriptions above are historical. See the
+[qualification record](QUALIFICATION_BUILD13.md) for bounded evidence and gates.
+No committed/published build-13 source URL or stable plugin download is established
+by an uncommitted package. Keep the existing public source pin until a new source
+checkpoint is authorized and remotely available. Require exact final archive,
+manifest and checksums; native-tested status, signing and notarization are separate.

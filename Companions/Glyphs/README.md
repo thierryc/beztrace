@@ -1,7 +1,7 @@
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
-**0.1.0 build 12** accepts the separately installed **beztrace 0.1.0 or 0.1.1** engine
+**0.1.0 build 13** accepts the separately installed **beztrace 0.1.0 or 0.1.1** engine
 or local **0.1.1-dev.1** through **0.1.1-dev.4** development engines,
 JSON schema **1**, and path data **2**.
 
@@ -59,7 +59,7 @@ full details in **⋯ → Error Details…**. Recovery failures stop further wri
 
 Install the bundle under the **actual Glyphs 4 Application Support directory**,
 ending in `Plugins/Beztrace.glyphsPlugin`. Do not assume the Glyphs 3 directory.
-The inspected development link points to `.build/glyphs-companion-0.1.0-build11/Beztrace.glyphsPlugin` (build 11).
+The historical host inspection recorded a development link pointing to `.build/glyphs-companion-0.1.0-build11/Beztrace.glyphsPlugin` (build 11).
 Replacing that payload requires a Glyphs relaunch to load its new code. Installed
 files and the running revision are different evidence; About shows the loaded build.
 
@@ -91,8 +91,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build12
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build12
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.1.0-build13
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.1.0-build13
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font
@@ -137,4 +137,24 @@ and earlier reject that version. This source update does not install or relaunch
 the plugin, and the standalone 0.1.1 release does not distribute a companion.
 Native UI qualification and companion publication remain separate.
 
-Stable engine 0.1.1 is now separately published and verified. Build 12 has a verified unsigned local package; installed build 11 rejects stable 0.1.1. Select the stable engine explicitly for the additional minimum-node cleanup; the preserved dev.4 artifact predates that follow-up. See the [integration handoff](../../docs/GLYPHS_MCP_V2_HANDOFF.md) for exact statuses and missing native work.
+Stable engine 0.1.1 is now separately published and verified. Build 12 has a verified unsigned local package; that historical installed build 11 rejects stable 0.1.1. Select the stable engine explicitly for the additional minimum-node cleanup; the preserved dev.4 artifact predates that follow-up. See the [integration handoff](../../docs/GLYPHS_MCP_V2_HANDOFF.md) for exact statuses and missing native work.
+
+## Build 13: first-trace capture correction
+
+Build 13 loads the native canvas image before recording its crop in the target
+fingerprint. Glyphs initializes an unloaded image's default crop during that
+read; capturing the earlier zero-sized crop caused the first trace to reject
+its own image snapshot as an external edit. Explicit crops are preserved.
+Actual content, crop, placement and source-file edits still invalidate results.
+The standalone 0.1.1 engine, schema v1 and path-data v2 are unchanged.
+
+This is a separately versioned unsigned development candidate. Automated
+regressions do not establish complete native qualification or publication.
+
+Build 13 also gives archive members a deterministic timestamp unique to the
+companion build. This invalidates Glyphs' separate timestamp-based PythonCache
+when updated source has the same size. Repeat packages of the same build remain
+byte-identical; future changed distributions must increment the companion build.
+
+For the current build 13 review, environment-specific native results and pending
+release gates, see [build 13 qualification](QUALIFICATION_BUILD13.md).

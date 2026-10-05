@@ -452,3 +452,13 @@ publication remain separate; no companion is included in stable engine assets.
 Source and verified local unsigned package are 0.1.0 build 12. The ZIP SHA-256 is `6341e27f50a180b6b6258a19029942181d3c974c3a55c6c367097744db41212f`; packaging, payload inventory and checksums pass. All 107 contracts and isolated AppKit checks pass with the final stable 0.1.1 engine. The installed symlink still points to build 11, whose version contract rejects stable 0.1.1; the loaded build is not established here. Build 12 has no native-tested Glyphs builds and remains development-unqualified, unsigned, unnotarized and unpublished. No companion install/relaunch or user-font operation was performed.
 
 See the [integration handoff](../../docs/GLYPHS_MCP_V2_HANDOFF.md) for exact installation instructions and the complete missing native/distribution work. Contract and fake-host checks do not qualify native acceptance.
+
+## Build 13 — independent review 2026-10-05
+
+The prepared lazy-image and deterministic cache timestamp fixes pass 113 tests
+with stable engine 0.1.1. Bounded native backend checks cover placement, zero
+width, replacement/Undo/Redo, stale images, cancellation, invalid options and
+injected recovery faults. Installed VM UI evidence applies to the historical
+build-13 candidate. Full installed UI and final committed-artifact qualification
+remain incomplete; Intel is deferred. See [the detailed record](QUALIFICATION_BUILD13.md).
+The candidate remains development-unqualified, unsigned and unpublished.

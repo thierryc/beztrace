@@ -179,7 +179,7 @@ class GlyphsHost:
                 tuple(_properties(g, ['position','angle','name','locked']) for g in _native_items(layer.guides)),
                 tuple(_properties(a, ['position','text','type','width','angle']) for a in _native_items(layer.annotations)),
                 tuple(_properties(h, ['type','origin','target','other1','other2','horizontal','options','name','scale']) for h in _native_items(layer.hints)),
-                _properties(layer.backgroundImage, ['path','transform','alpha','crop','locked']) if layer.backgroundImage else None)
+                self.image_state(layer.backgroundImage))
 
     def fingerprint(self, layer):
         return copy.deepcopy((tuple(self.shape_state(s) for s in layer.shapes), self.preserved_state(layer)))
@@ -295,7 +295,14 @@ class GlyphsHost:
         return image
 
     def image_state(self, image):
-        return _properties(image,['path','transform','alpha','crop','locked']) if image else None
+        if image is None:
+            return None
+        # Glyphs lazily initializes the default crop when loading the bitmap.
+        # Materialize it before capture so our later image snapshot cannot look
+        # like an external edit. Never reset an explicit user crop.
+        if image.image is None:
+            raise CompanionError('The canvas image cannot be loaded')
+        return _properties(image,['path','transform','alpha','crop','locked'])
 
     def set_image(self, layer, image):
         layer.backgroundImage=image

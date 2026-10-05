@@ -569,7 +569,7 @@ class BeztraceWindowController(NSWindowController):
         alert.setInformativeText_(self.details or 'No errors.'); alert.runModal()
 
     def showAbout_(self,sender):
-        alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace 0.1.0 · build 12')
+        alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace 0.1.0 · build 13')
         alert.setInformativeText_('Supports beztrace 0.1.0, 0.1.1 and 0.1.1-dev.1 through 0.1.1-dev.4.\nEngine: '+self.engine+'\n\nUnsigned local development build. Native qualification status is recorded with the package.')
         alert.runModal()
 
