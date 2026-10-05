@@ -97,32 +97,13 @@ final class CLIProcessTests: XCTestCase {
     }
 
     private func executableURL() throws -> URL {
-        #if arch(arm64)
-        let architecture = "arm64"
-        #elseif arch(x86_64)
-        let architecture = "x86_64"
-        #else
-        let architecture = "unsupported"
-        #endif
-        let build = repositoryRoot.appendingPathComponent(".build", isDirectory: true)
-        let direct = build
-            .appendingPathComponent("\(architecture)-apple-macosx", isDirectory: true)
-            .appendingPathComponent("release", isDirectory: true)
+        // Use the executable built beside this test bundle. Searching .build
+        // can select an archived development engine or another scratch build.
+        let direct = Bundle(for: CLIProcessTests.self).bundleURL
+            .deletingLastPathComponent()
             .appendingPathComponent("beztrace")
         if FileManager.default.isExecutableFile(atPath: direct.path) { return direct }
-        if let enumerator = FileManager.default.enumerator(
-            at: build,
-            includingPropertiesForKeys: [.isExecutableKey, .isRegularFileKey]
-        ) {
-            for case let candidate as URL in enumerator
-            where candidate.lastPathComponent == "beztrace"
-                && candidate.path.contains("\(architecture)-apple-macosx")
-                && FileManager.default.isExecutableFile(atPath: candidate.path)
-            {
-                return candidate
-            }
-        }
-        XCTFail("SwiftPM did not build the \(architecture) beztrace executable")
+        XCTFail("SwiftPM did not build beztrace beside the current test bundle: \(direct.path)")
         throw CocoaError(.fileNoSuchFile)
     }
 

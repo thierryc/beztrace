@@ -9,6 +9,7 @@ import json
 import subprocess
 import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
@@ -16,6 +17,40 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseMetadataTests(unittest.TestCase):
+    def test_packaged_installer_identifies_product_and_contains_welcome(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            payload = root / "payload"
+            payload.mkdir()
+            (payload / "test.txt").write_text("installer metadata fixture")
+            component = root / "component.pkg"
+            distribution = root / "Distribution.xml"
+            resources = root / "resources"
+            product = root / "product.pkg"
+            commands = [
+                ["pkgbuild", "--root", str(payload), "--identifier", "dev.beztrace.cli",
+                 "--version", "0.1.1", str(component)],
+                ["productbuild", "--synthesize", "--package", str(component), str(distribution)],
+                ["python3", str(ROOT / "scripts/configure_installer.py"),
+                 "--distribution", str(distribution), "--resources", str(resources),
+                 "--version", "0.1.1"],
+                ["productbuild", "--distribution", str(distribution), "--resources", str(resources),
+                 "--package-path", str(root), str(product)],
+                ["pkgutil", "--expand", str(product), str(root / "expanded")],
+            ]
+            for command in commands:
+                subprocess.run(command, check=True, capture_output=True)
+            expanded = root / "expanded"
+            xml = ET.parse(expanded / "Distribution").getroot()
+            self.assertEqual(xml.findtext("title"), "Beztrace 0.1.1")
+            for tag in ("welcome", "conclusion"):
+                reference = xml.find(tag)
+                self.assertIsNotNone(reference)
+                resource = expanded / "Resources" / reference.get("file")
+                self.assertIn("Beztrace 0.1.1", resource.read_text())
+            package = xml.find("pkg-ref[@version='0.1.1']")
+            self.assertEqual(package.get("id"), "dev.beztrace.cli")
+
     def test_development_sbom_requires_and_records_explicit_prerelease_version(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
