@@ -1,0 +1,63 @@
+{
+  "contours": [
+    {
+      "closed": true,
+      "nodes": [
+        {
+          "x": 230,
+          "y": 0,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 355,
+          "y": 0,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 355,
+          "y": 280,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 580,
+          "y": 716,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 445,
+          "y": 716,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 292,
+          "y": 413,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 145,
+          "y": 716,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 10,
+          "y": 716,
+          "type": "line",
+          "smooth": false
+        },
+        {
+          "x": 230,
+          "y": 280,
+          "type": "line",
+          "smooth": false
+        }
+      ]
+    }
+  ]
+}

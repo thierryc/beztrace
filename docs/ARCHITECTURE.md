@@ -56,6 +56,12 @@ See [companion architecture and workflow](../Companions/Glyphs/README.md).
 
 ## Core subsystems
 
+The standalone matching preview adds `PairMatcher`, shared vector/raster segment
+fitting and sampled interpolation validation beside the existing tracer. CLI
+file jobs remain adapters over neutral core inputs and results. Native HOI and
+font application belong to separately qualified consumers; Glyphs is not a core
+dependency. See [development contract](MASTER_MATCHING.md).
+
 ### Geometry
 
 Local value types represent points, vectors, affine transforms, lines, cubic

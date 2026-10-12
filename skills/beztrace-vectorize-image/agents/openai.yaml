@@ -1,0 +1,4 @@
+interface:
+  display_name: "Beztrace Image Vectorization"
+  short_description: "Trace glyph images into economical Bézier outlines"
+  default_prompt: "Use $beztrace-vectorize-image to vectorize this glyph image, preserve its placement, and review the outline quality."

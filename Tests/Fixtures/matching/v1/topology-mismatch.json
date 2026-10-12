@@ -1,0 +1,118 @@
+{
+  "axis": {
+    "locations": [
+      100,
+      900
+    ],
+    "tag": "wght"
+  },
+  "options": {
+    "contourPairs": [],
+    "fitTolerance": 1,
+    "referencePolicy": "fixed",
+    "startNodes": []
+  },
+  "reference": {
+    "id": "Light",
+    "outline": {
+      "contours": [
+        {
+          "closed": true,
+          "nodes": [
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 100,
+              "y": 0
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 100,
+              "y": 200
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 0,
+              "y": 200
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "schemaVersion": 1,
+  "target": {
+    "id": "Bold",
+    "outline": {
+      "contours": [
+        {
+          "closed": true,
+          "nodes": [
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 100,
+              "y": 0
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 100,
+              "y": 200
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 0,
+              "y": 200
+            }
+          ]
+        },
+        {
+          "closed": true,
+          "nodes": [
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 250,
+              "y": 0
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 280,
+              "y": 0
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 280,
+              "y": 30
+            },
+            {
+              "smooth": false,
+              "type": "line",
+              "x": 250,
+              "y": 30
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "unitsPerEm": 1000
+}

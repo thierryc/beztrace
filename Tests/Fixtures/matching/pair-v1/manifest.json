@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "provenance": "Original beztrace-owned controlled R/Y outlines, authored before fitting. No upstream dependency or font artwork. Frozen numerical controls; image encodings are renderer evidence, not exact coordinate oracles.",
+  "files": {
+    "R-bold.outline.json": "d2a8c98c263d3d3041ccdc1c88035dfde125c235125582776217125be45e4185",
+    "R-bold.png": "5a7e85158d15a0c5f7fa0912454685af3d1faa9d106f81b35de53757c7e8fb11",
+    "R-bold.transform.json": "bac9169e2398c4b87425216cd22eb6cba7646e10dcfd39ad35aa7a71b24f158c",
+    "R-regular.outline.json": "d7a5fef79cc12709638c106f1d269c3b2202770ec8ada3371a8300d4d482cf31",
+    "R-regular.png": "0ccbeec8bb87b4a3c1686244d9deb73aa6ddee78256578b688b043a45a44d1f4",
+    "R-regular.transform.json": "12222e60cee96661219b1e2d6588979ec83aaca0d5f1df82eec3a0aef1b6ce6f",
+    "Y-bold.outline.json": "3899640234a75fc6968975cb092feec1b54988e37178b3b86ee0b020d03924fc",
+    "Y-bold.png": "0b89b885829a462061beda78fb36a7c583b670e0deaafd7b61c9246f72ee9a88",
+    "Y-bold.transform.json": "673bbb56b26307d95ba77382080404d66bc2d180f01d507eb7fc7a5f8d2f0c0b",
+    "Y-regular.outline.json": "9f560327bc8bb2c34e8e74facf468d02c9619a91f79535598a550da48768a7d8",
+    "Y-regular.png": "a4f09a7c5e3979b37e08f494f22b4dfe294fc48ab55c94ee0864354a8bdae4e4",
+    "Y-regular.transform.json": "7b86a9092358172741fbaf23d373872d6283d24b58664b074ae5ffcdaf1feb86"
+  }
+}

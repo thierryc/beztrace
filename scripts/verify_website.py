@@ -14,7 +14,6 @@ from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
-WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 REQUIRED_EXAMPLES = 8
 HERO_PREVIEW = SITE / "assets" / "examples" / "glyph-ampersand-inspection.svg"
 GLYPHS_MCP_URL = "https://ap.cx/tools/glyphs-mcp/"
@@ -71,8 +70,6 @@ def main() -> int:
     index = SITE / "index.html"
     if not index.is_file():
         failures.append("missing site/index.html")
-    if not WORKFLOW.is_file():
-        failures.append("missing GitHub Pages workflow")
     if failures:
         print("website verification failed:")
         for failure in failures:
@@ -92,7 +89,7 @@ def main() -> int:
         failures.append(f"expected at least {REQUIRED_EXAMPLES} trace examples, found {parser.examples}")
     if len(parser.ids) != len(set(parser.ids)):
         failures.append("HTML ids must be unique")
-    for phrase in ("Y-up JSON", "transform-free SVG", "v0.1.1", "Glyphs MCP", "discreet nodes and handles"):
+    for phrase in ("Y-up JSON", "transform-free SVG", "v0.2.0", "Glyphs MCP", "discreet nodes and handles"):
         if phrase not in source:
             failures.append(f"missing product contract copy: {phrase}")
     if f'href="{GLYPHS_MCP_URL}"' not in source:
@@ -249,26 +246,12 @@ def main() -> int:
                     if marker not in display_text:
                         failures.append(f"{example.get('id', '<unknown>')} display SVG lacks {marker}")
 
-    workflow = WORKFLOW.read_text(encoding="utf-8")
-    for requirement in (
-        "pages: write",
-        "id-token: write",
-        "actions/configure-pages@v6.0.0",
-        "actions/upload-pages-artifact@v5",
-        "actions/deploy-pages@v5",
-        "python3 scripts/align_site_example_svgs_test.py",
-        "python3 scripts/align_site_example_svgs.py",
-        "python3 scripts/verify_website.py",
-    ):
-        if requirement not in workflow:
-            failures.append(f"Pages workflow lacks {requirement}")
-
     if failures:
         print("website verification failed:")
         for failure in failures:
             print(f"- {failure}")
         return 1
-    print(f"verified GitHub Pages site with {parser.examples} trace examples")
+    print(f"verified static site with {parser.examples} trace examples")
     return 0
 
 

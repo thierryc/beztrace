@@ -1,5 +1,35 @@
 # Release and verification
 
+Version `0.2.0` is the standalone matching release. The final release receipt
+records completion of distribution gates; a source checkout alone is not a
+verified signed download. The signed ZIP runs without installation and includes
+all schemas, owned R/Y examples and review proofs. The signed, notarized PKG
+installs the standalone CLI. Python and Glyphs are not runtime dependencies.
+
+Download from [the v0.2.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0),
+verify SHA256SUMS, then check the PKG signature and stapled ticket before installing:
+
+```sh
+shasum -a 256 -c SHA256SUMS
+pkgutil --check-signature beztrace-0.2.0.pkg
+xcrun stapler validate beztrace-0.2.0.pkg
+sudo installer -pkg beztrace-0.2.0.pkg -target /
+beztrace --version
+```
+
+The version must be `beztrace 0.2.0`. Installation uses the same managed CLI path
+as prior releases. **The released Glyphs companion requires its supported 0.1.1
+engine separately.** Installing 0.2.0 does not upgrade the companion; use the
+standalone ZIP when retaining the existing shared engine is preferable.
+No Glyphs restart or font mutation is performed by this tool.
+
+Run `./run-example.sh Y-images-smart /tmp/beztrace-Y-images` from the extracted
+ZIP, or follow [the pair workflow](PAIR_WORKFLOW.md) for your own inputs.
+[0.2.0 qualification](RELEASE_0.2.0.md) explains the release boundary.
+
+## Historical stable 0.1.1
+
+
 Version `0.1.1` is the current downloadable stable standalone beztrace release. It supports macOS 13
 or later on Apple Silicon and Intel Macs and has no non-system runtime
 dependency.

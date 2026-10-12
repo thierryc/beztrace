@@ -99,3 +99,38 @@ Integration consumers may be planned only after all of the following are true:
 
 Until then, beztrace is not a viable dependency and Glyphs MCP integration is
 prohibited.
+
+
+## Optional master matching extension (0.2 development)
+
+These gates supplement the tracing gates; they do not relax stable release rules.
+The native layer/HOI/UI/export requirements qualify consumers that perform those
+operations. The standalone engine includes none of those native operations; its
+geometry, CLI, resource, package and distribution requirements still apply.
+The development contract and frozen matching/raster inputs are described in
+[master matching](MASTER_MATCHING.md).
+
+- Verify vector matching, ambiguity overrides, exact reference preservation,
+  shared subdivision, topology and measured target error. Test fixed-reference
+  failures and reliable corner/extremum/tangent correspondence.
+- Preserve both layers and all captured attributes; native precision, one Undo
+  group, committed readback, complete recovery verification and session write
+  blocking must pass on the recorded Glyphs/Python/OS build.
+- New HOI must pass all 201 regular/interleaved positions, supported joins and
+  neighbors, endpoint-based residual limits and bounded outline movement.
+  Imported claims are discarded and native settings revalidated.
+- Require native visible select/prepare/preview/apply/Undo/Redo/save/reopen/export
+  and standalone import acceptance on disposable fonts. Record native storage
+  rounding separately from live coordinate readback. Verify exported variable
+  interpolation; a generated source or CLI exit status is insufficient.
+- Raster stages require correct nonzero-fill counters, native crop/affine/source
+  evidence preservation, common planning before joint fitting, bounded deviation
+  against each original extracted boundary and known-variable-font comparisons.
+- Qualify protocol resource limits, cancellation, worst-case contour/point sizes,
+  malformed/oversized inputs and font-copy cost. Record cold/warm matching and
+  HOI timing, peak memory, and maximum main-thread chunk duration on both target
+  architectures. A timeout is a safety bound, not a passing performance result.
+- Preserve frozen tracing regression; include new schemas/provenance/licenses in
+  reproducible universal development packages and verify independent non-Glyphs
+  matching/file exchange. Stable signing, notarization, installation, review and
+  publication remain separate gates and authorizations.

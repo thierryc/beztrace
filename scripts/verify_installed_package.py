@@ -35,6 +35,16 @@ def run(command: list[str]) -> subprocess.CompletedProcess[bytes]:
     return subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 
 
+def notarization_trusted(signature_valid: bool, signature_text: str,
+                         assessment_ok: bool, assessment_text: str) -> bool:
+    # pkgutil presentation differs between macOS releases. Require an actual
+    # successful trust assessment, not merely a valid developer signature.
+    return signature_valid and (
+        "Notarization: trusted by the Apple notary service" in signature_text
+        or (assessment_ok and "source=Notarized Developer ID" in assessment_text)
+    )
+
+
 def validate_record(record: dict, version: str = VERSION) -> list[str]:
     failures: list[str] = []
     if record.get("packageID") != PACKAGE_ID or record.get("version") != version:
@@ -105,11 +115,16 @@ def main() -> int:
     package_signature = run(["pkgutil", "--check-signature", str(package)])
     package_signature_text = (package_signature.stdout + package_signature.stderr).decode("utf-8", "replace")
     record["packageSignatureValid"] = package_signature.returncode == 0
-    record["notarizationTrusted"] = "Notarization: trusted by the Apple notary service" in package_signature_text
+    record["notarizationTrusted"] = False
     staple = run(["xcrun", "stapler", "validate", str(package)])
     record["stapleValid"] = staple.returncode == 0
     gatekeeper = run(["spctl", "--assess", "--type", "install", "--verbose=4", str(package)])
     record["gatekeeperAccepted"] = gatekeeper.returncode == 0
+    record["notarizationTrusted"] = notarization_trusted(
+        record["packageSignatureValid"], package_signature_text,
+        record["gatekeeperAccepted"],
+        (gatekeeper.stdout + gatekeeper.stderr).decode("utf-8", "replace"),
+    )
     version = run([str(INSTALLED_LINK), "--version"])
     record["versionOutput"] = version.stdout.decode("utf-8", "replace").strip() if not version.returncode else None
     if INSTALLED_BINARY.is_file():

@@ -41,8 +41,9 @@ def main():
     subprocess.run(['lipo', '-create', *map(str, slices), '-output', str(binary)], check=True)
     assert set(run('lipo', '-archs', str(binary)).split()) == {'arm64', 'x86_64'}
     assert run(str(binary), '--version') == 'beztrace '+VERSION
-    for source in ('LICENSE-APACHE', 'LICENSE-MIT', 'THIRD_PARTY_NOTICES', 'Schemas/trace-result-v1.schema.json'):
-        shutil.copy2(ROOT/source, output/Path(source).name)
+    for source in [ROOT/'LICENSE-APACHE', ROOT/'LICENSE-MIT', ROOT/'THIRD_PARTY_NOTICES',
+                   *sorted((ROOT/'Schemas').glob('*.json'))]:
+        shutil.copy2(source, output/source.name)
     subprocess.run(['python3', str(ROOT/'scripts/generate_sbom.py'), '--binary', str(binary),
                     '--output-dir', str(output), '--release-kind',
                     'development' if '-dev.' in VERSION else 'final', '--version', VERSION], check=True)

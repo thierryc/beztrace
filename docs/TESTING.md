@@ -1,5 +1,41 @@
 # Test workflow
 
+## Local checks only
+
+The owner disabled GitHub Actions and removed repository workflows on 2026-10-12.
+Run checks on local Macs; do not dispatch hosted runners or add workflows.
+Historical native Intel/Apple Silicon receipts remain evidence of earlier runs.
+
+From a clean checkout with Xcode and the maintenance Python dependencies:
+
+```sh
+python3 -m pip install -r scripts/requirements-checks.txt
+scripts/check_local.sh .build/local-checks
+```
+
+Choose a fresh result directory. The command runs fixture/oracle and schema
+checks, Python tooling tests, optimized Swift/CLI tests, AddressSanitizer,
+local x86_64 tests, universal staging, both R/Y pair matrices when matching exists in this revision, and the detached
+companion contract/package checks against its supported 0.1.1 engine.
+It writes logs and evidence locally and does not install, sign, upload or publish.
+On Apple Silicon, x86_64 executes under Rosetta; this is explicitly not a fresh
+native Intel qualification. Run on a local Intel Mac for native Intel evidence.
+
+If the default Xcode sanitizer runtime fails before test execution, select an
+already-installed alternative explicitly, retaining the original failure log:
+
+```sh
+BEZTRACE_ASAN_DEVELOPER_DIRECTORY=/Applications/Xcode-beta.app/Contents/Developer \
+  scripts/check_local.sh .build/local-checks-beta-asan
+```
+
+Signing, notarization, benchmarks, the 50,000-case campaign, human acceptance
+and installed-package checks remain separate release gates. In particular,
+this command never replaces the host engine; verify installation only on the
+named disposable local qualification VM. GitHub Pages publishing also remains
+paused: its previous deployment used Actions. The static website can be
+verified and served locally without Actions.
+
 ## Test-first rule
 
 The reference checkpoint must remain reproducible throughout implementation.
@@ -27,7 +63,7 @@ python3 scripts/verify_milestone5.py
 ```
 
 The deterministic fixture and generated-source maintenance scripts use the
-CI-only Pillow version pinned in `.github/requirements-ci.txt`. Pillow is not a
+maintenance-only Pillow version pinned in `scripts/requirements-checks.txt`. Pillow is not a
 production or distributed runtime dependency of the Swift library or CLI.
 
 The pinned source files live beside their license texts in
@@ -127,7 +163,7 @@ independently without rewriting them:
 python3 scripts/verify_oracle.py
 ```
 
-`--allow-incomplete` is reserved for developing a future oracle version. CI and
+`--allow-incomplete` is reserved for developing a future oracle version. Local checks and
 the normal test workflow require the complete hashed v1 manifest.
 
 Capture, for all 62 Basic Latin glyphs, the prepared raster, subpixel contour,
@@ -175,12 +211,12 @@ all 86 structural plans; and topology-preserving numeric comparisons for the
 checked after scaling and snapping, and all 24 reviewed glyph and symbol images
 must trace twice to identical finite, closed, correctly wound internal
 outlines. The complete 100-image corpus must trace twice to identical finite,
-closed outlines with its declared contour counts. CI runs the optimized suite
-on native Apple Silicon and Intel hosts.
+closed outlines with its declared contour counts. Run the optimized suite
+on local Apple Silicon and Intel hosts; label Rosetta evidence explicitly.
 
 The test-only evaluator export is an explicit maintenance operation. It writes
 only below the caller-selected external work directory and is skipped by
-ordinary tests and CI:
+ordinary tests:
 
 ```sh
 BEZTRACE_EXTERNAL_WORK=/Volumes/T9/beztrace/milestone-3 \
@@ -191,7 +227,7 @@ BEZTRACE_EXTERNAL_WORK=/Volumes/T9/beztrace/milestone-3 \
 The Milestone 3 candidate export passes all 62 pinned structural reports with
 a mean score of `0.964`; the public replacement acceptance floor remains
 `0.961`. Overlays, transient evaluation data, reports, and provisional
-benchmarks belong outside the repository and are not CI inputs.
+benchmarks belong outside the repository and are not test inputs.
 
 ## Standalone interface and CLI
 
@@ -216,8 +252,8 @@ the architecture-specific release executable and fail if it is absent; they
 never skip silently.
 
 The complete optimized checkpoint includes one intentional maintenance-export
-skip. It runs on Apple Silicon and local x86_64 under Rosetta, while CI repeats
-the suite on native Apple Silicon and Intel runners. The exact test count and
+skip. It runs on Apple Silicon and local x86_64 under Rosetta, with native Intel checks run separately
+on a local Intel Mac. The exact test count and
 result are recorded with each checkpoint rather than treated as an interface
 contract.
 Generated images remain reviewed acceptance fixtures and are never treated as
