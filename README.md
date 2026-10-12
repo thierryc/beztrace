@@ -1,5 +1,7 @@
 # beztrace
 
+Beztrace — /ˈbɛz.treɪs/
+
 `beztrace` is a macOS-native tracing engine for
 converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
@@ -104,6 +106,23 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
+## Compatible master matching preview
+
+[Download 0.2.0-dev.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.0-dev.1)
+for detached matching of two images, an outline plus an image, or two outlines.
+Provide your two glyph sources, run matching, and review the compatible outlines
+and intermediate weights before importing them into your font editor.
+
+```sh
+./bin/beztrace match-pair JOB.json --output-directory RESULTS --json-errors
+```
+
+The archive includes runnable R/Y examples, schemas and visual review reports.
+A vector reference stays exact by default; shared growth requires explicit limits.
+This is an **unsigned development preview**. Native matching UI, font application
+and stable release qualification remain separate. See [preview status](docs/RELEASE_0.2.0-dev.1.md)
+and [configuration](docs/PAIR_WORKFLOW.md).
+
 ## Install the current stable release (v0.1.1)
 
 Download `beztrace-0.1.1.pkg` and `SHA256SUMS` from the
@@ -129,6 +148,8 @@ documented gates pass.
 
 ## Project documents
 
+- [Master matching development contract](docs/MASTER_MATCHING.md)
+- [Standalone pair matching workflow](docs/PAIR_WORKFLOW.md)
 - [Implementation directive](docs/IMPLEMENTATION_DIRECTIVE.md)
 - [Requirements](docs/REQUIREMENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)
@@ -140,6 +161,14 @@ documented gates pass.
 - [Roadmap](docs/ROADMAP.md)
 - [Milestone 6 viability review](docs/VIABILITY_REVIEW.md)
 - [Release and verification](docs/RELEASE.md)
+
+## Agent skills
+
+Two generic source skills cover [image vectorization](skills/beztrace-vectorize-image/SKILL.md)
+and [compatible master matching with point limits](skills/beztrace-match-masters/SKILL.md).
+Matching requires the optional development capability; ordinary tracing remains
+standalone. Their [Glyphs MCP skill catalog handoff](docs/BEZTRACE_SKILLS_CATALOG_PLAN.md)
+describes planned app packaging and qualification; it does not change the app.
 
 ## License
 

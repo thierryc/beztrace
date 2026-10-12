@@ -1,0 +1,4 @@
+interface:
+  display_name: "Beztrace Master Matching"
+  short_description: "Match master outlines with explicit point limits"
+  default_prompt: "Use $beztrace-match-masters to trace this image against an existing master and explain any changes to node structure."

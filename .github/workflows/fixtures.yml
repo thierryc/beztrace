@@ -2,7 +2,7 @@ name: Reference and standalone Swift tool
 
 on:
   push:
-    branches: [main, lit/initial-swift-port]
+    branches: [main, lit/initial-swift-port, lit/master-matching]
     tags: ['v*']
   pull_request:
 
@@ -51,6 +51,7 @@ jobs:
           python3 scripts/verify_product_boundaries.py
           python3 scripts/verify_viability_test.py
           python3 scripts/release_metadata_test.py
+          python3 scripts/compare_pair_architectures_test.py
           bash -n scripts/capture_img2bez_oracle.sh
           bash -n scripts/build_release_candidate.sh
           bash -n release/package-scripts/preinstall
@@ -117,11 +118,16 @@ jobs:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v7
-      - name: Build independent tracing engine
-        run: swift build --configuration release --product beztrace
+        with:
+          fetch-depth: 0
+      - name: Build released companion's supported stable engine
+        run: |
+          mkdir -p .build/companion-stable-source
+          git archive v0.1.1 | tar -x -C .build/companion-stable-source
+          swift build --package-path .build/companion-stable-source --configuration release --product beztrace
       - name: Test companion without Glyphs
         env:
-          BEZTRACE_TEST_ENGINE: ${{ github.workspace }}/.build/release/beztrace
+          BEZTRACE_TEST_ENGINE: ${{ github.workspace }}/.build/companion-stable-source/.build/release/beztrace
         run: python3 -m unittest discover -s Companions/Glyphs/tests -v
       - name: Package and verify unsigned companion
         run: |
@@ -129,4 +135,30 @@ jobs:
           python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion
           python3 scripts/verify_product_boundaries.py
       - name: Confirm tracked inputs remain unchanged
+        run: git diff --exit-code
+
+  matching-pairs:
+    name: Standalone pair examples (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-26, macos-26-intel]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Install schema-validation maintenance dependency
+        run: python3 -m pip install jsonschema==4.24.0
+      - name: Build standalone preview
+        run: swift build --configuration release --product beztrace
+      - name: Replay all controlled pair jobs and schemas
+        run: python3 scripts/qualify_pair_matching.py --engine .build/release/beztrace --output .build/pair-qualification
+      - name: Retain controlled comparison evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: pair-qualification-${{ matrix.runner }}
+          path: .build/pair-qualification
+      - name: Confirm tracked inputs are unchanged
         run: git diff --exit-code

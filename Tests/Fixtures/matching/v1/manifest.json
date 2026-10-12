@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "source": "beztrace-owned synthetic geometry; created before matcher implementation",
+  "fixtures": [
+    {
+      "name": "identical",
+      "file": "identical.json",
+      "sha256": "cc53749d994a60466fdd0dd17f9fb86b510b547c9118249a2a51eb84aceb90a8",
+      "outcome": "success"
+    },
+    {
+      "name": "shifted-start",
+      "file": "shifted-start.json",
+      "sha256": "bb0cb57a340ab1e77c7a14b211c20e3e033973b104a8fc6430f9a95a578f93f5",
+      "outcome": "success"
+    },
+    {
+      "name": "reversed-winding",
+      "file": "reversed-winding.json",
+      "sha256": "cdf551bfaddf7a53d0efe4fae154186e20cf3d08b0489f781924f97775d8e6b5",
+      "outcome": "success"
+    },
+    {
+      "name": "fixed-target-subdivision",
+      "file": "fixed-target-subdivision.json",
+      "sha256": "550fb80eba55b8db7fa20ca6ef8dd3c296e38c3be5765c184f2a92e4e5e89faa",
+      "outcome": "success"
+    },
+    {
+      "name": "fixed-redundant-target",
+      "file": "fixed-redundant-target.json",
+      "sha256": "d5f683179a2801e7d79893014c50728d7ed7718904d476ef9d3133a9fa3559fa",
+      "outcome": "success"
+    },
+    {
+      "name": "shared-subdivision",
+      "file": "shared-subdivision.json",
+      "sha256": "0fac2525f6ba807a8f8daa1c193690b9d19da7976a1aa588a656bf8214b245de",
+      "outcome": "success"
+    },
+    {
+      "name": "contour-swaps",
+      "file": "contour-swaps.json",
+      "sha256": "f259ca150cb15383b5dea0bcdb3fbfc72c78a5b465ee4391582fead402ec90b6",
+      "outcome": "success"
+    },
+    {
+      "name": "topology-mismatch",
+      "file": "topology-mismatch.json",
+      "sha256": "005d7f10e5a58e787b679c2c1cd4e645a5a6b279d5478210a5978b8e7e527ee1",
+      "outcome": "topology"
+    },
+    {
+      "name": "fixed-feature-conflict",
+      "file": "fixed-feature-conflict.json",
+      "sha256": "47329d602858121117974f19cc16f2460c6a3d1e27a5463f6417b221eee73ed4",
+      "outcome": "fit"
+    },
+    {
+      "name": "ambiguous-contours",
+      "file": "ambiguous-contours.json",
+      "sha256": "3d11e9dcba20ecc89d72b78a0cf44910a3beb6a8b0487ebad6e522464a2bcc2c",
+      "outcome": "ambiguous-contour"
+    },
+    {
+      "name": "explicit-contours",
+      "file": "explicit-contours.json",
+      "sha256": "44ccbb67f7ab97bedf459863202d61f30b5fe82a6418d58af7405282fc4d96b1",
+      "outcome": "success"
+    }
+  ]
+}
