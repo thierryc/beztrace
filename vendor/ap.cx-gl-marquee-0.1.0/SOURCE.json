@@ -1,0 +1,17 @@
+{
+  "package": "@ap.cx/gl-marquee",
+  "version": "0.1.0",
+  "license": "MIT",
+  "tarball": "https://registry.npmjs.org/@ap.cx/gl-marquee/-/gl-marquee-0.1.0.tgz",
+  "integrity": "sha512-Rlz151ZBQhmsHnap4s/Sn4EUtgleHpTMavN3b4GPxnKTc8UzCrX0/nc7frhCDR7pHx9kwVtPf/JLG5C84lLEkQ==",
+  "tarballSHA256": "36230558b95c1797d76f2219e5ad397f33057fa105cb75ddc51f3b2e8998a2fa",
+  "files": {
+    "dist/index.js": "ed741c7345245415172fd3b6026ed8a682ad2d0b4a8cafd34f96a3050dfb74fb",
+    "dist/mount.js": "f6fc9dcbd4a48463abb8f334b5d7e0d6b8cfd7a08a175829286d2d333eb8b7b4",
+    "dist/renderer.js": "9702b1fdd1a665adf9bcf6e7eb298b0cc1e3799d8e646d34d5925100cd6d5971",
+    "LICENSE": "d00f74f2b335c1f4f048a0bd31bb70b6a3a97bd6064f124e60cb9997a68f4e9a",
+    "package.json": "0dbc621e1471e5c566caf8c2de6da75130f320718de90ef94e02296ea96389eb",
+    "README.md": "78835f6bab5b6117c6b3de98619dab37214c39f2495d526dbf5b27763aab3cdb"
+  },
+  "scope": "Unmodified official npm package files for the static website only. Not included in the Swift library, CLI, ZIP or installer."
+}
