@@ -1,9 +1,9 @@
-# Standalone master matching preview
+# Standalone master matching
 
-Version `0.2.0-dev.1` adds detached matching for one glyph, two masters and one
+Version `0.2.0` adds detached matching for one glyph, two masters and one
 axis. The engine runs independently of Glyphs and does not write font files.
-Stable `0.1.1` remains the ordinary tracing release. The development companion
-and native HOI work are not distributed with this standalone preview.
+Ordinary tracing retains the 0.1.1 contract and accepted corpus geometry.
+The development companion and native HOI work are not distributed with the engine.
 
 Provide two images of the same glyph at different weights—or an existing Regular
 outline and a Bold image—run matching, and review the outlines and intermediate
@@ -86,7 +86,7 @@ root rather than platform-dependent hypot results. Sequential-image seeds use
 the same neutral matcher as joint fitting. Output coordinates are not rounded to
 conceal architecture differences.
 
-## Preview qualification and limits
+## Qualification and limits
 
 The frozen owned corpora under `Tests/Fixtures/matching` exercise vectors, rasters,
 point ceilings and correspondence. The R/Y pair corpus covers all three input
@@ -102,6 +102,6 @@ Private artwork regressions remain outside public fixtures and downloads.
 
 Sampling is finite. Smooth-join residuals remain advisory and may need visual or
 native repair before font application. Neutral results never claim native HOI,
-Undo/Redo, save/reopen or exported-font qualification. Native Intel execution,
-Developer ID signing, notarization and stable distribution gates remain pending
-for this preview. See [release status](RELEASE_0.2.0-dev.1.md).
+Undo/Redo, save/reopen or exported-font qualification. Native arm64 and Intel CI passed all 161 tests (two expected skips) and all
+18 controlled matching cases with identical output files for the preview source.
+Stable distribution is separately qualified. See [release status](RELEASE_0.2.0.md).

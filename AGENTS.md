@@ -20,8 +20,12 @@ The owner explicitly authorized Apple uploads on 2026-10-05 and completed local
 Keychain and administrator approval. Stable 0.1.1 signing, notarization,
 installation, source qualification and anonymous GitHub asset verification
 passed; publication is complete. Preserve the immutable v0.1.1 tag and
-distributed bytes. Authorization does not extend to later versions or companion
-distribution.
+distributed bytes. Authorization did not extend to later versions or companion distribution.
+On 2026-10-12 the owner separately authorized the signed public standalone
+matching release 0.2.0, including Developer ID signing and Apple notarization.
+Use `lit/master-matching`; preserve all existing release tags and assets.
+Native font edits, companion distribution and Glyphs installation/restarts
+remain outside this release. No stable gate is waived.
 The project owner has separately authorized the Glyphs 4 companion under `Companions/Glyphs` on
 `lit/glyphs-companion`, using the released CLI and neutral JSON contract. This
 authorizes source, tests, and unsigned local packaging only; live installation,

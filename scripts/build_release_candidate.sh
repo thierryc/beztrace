@@ -92,7 +92,54 @@ fi
 
 cp "$ROOT/LICENSE-APACHE" "$ROOT/LICENSE-MIT" "$ROOT/THIRD_PARTY_NOTICES" \
     "$ROOT/README.md" "$ROOT/CHANGELOG.md" "$SHARE/"
-cp "$ROOT/Schemas/trace-result-v1.schema.json" "$SHARE/"
+cp "$ROOT"/Schemas/*.json "$SHARE/"
+# The file-based matching workflow is distributed independently of Glyphs.
+SUPPORT="$ROOT_PAYLOAD/Library/Application Support/beztrace"
+PAIR_EVIDENCE="$STAGING/pair-evidence"
+python3 "$ROOT/scripts/qualify_pair_matching.py" --engine "$BIN_DIR/beztrace" --output "$PAIR_EVIDENCE"
+cp -R "$PAIR_EVIDENCE/examples" "$SUPPORT/examples"
+cp -R "$ROOT/Schemas" "$SUPPORT/Schemas"
+mkdir -p "$SUPPORT/review/results"
+cp "$PAIR_EVIDENCE/index.html" "$SUPPORT/review/index.html"
+# Only result directories are public; process logs contain local staging paths.
+for result in "$PAIR_EVIDENCE"/results/*; do
+    if [ -d "$result" ]; then cp -R "$result" "$SUPPORT/review/results/"; fi
+done
+cp "$ROOT/docs/PAIR_WORKFLOW.md" "$SUPPORT/WORKFLOW.md"
+python3 - "$PAIR_EVIDENCE" "$SUPPORT" "$VERSION" <<'PYCODE'
+import json, pathlib, shutil, sys
+source, support = map(pathlib.Path, sys.argv[1:3])
+receipt = json.loads((source / 'receipt.json').read_text())
+receipt['enginePath'] = 'bin/beztrace'
+receipt['qualification'] = 'Controlled matching examples; native font application remains separate.'
+(support / 'review/receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+(support / 'README.txt').write_text(f"""Beztrace {sys.argv[3]} — standalone tracing and master matching
+
+Run without installing:
+  ./run-example.sh Y-images-smart /tmp/beztrace-Y-images
+  ./run-example.sh R-mixed-direct /tmp/beztrace-R-mixed
+  ./run-example.sh R-outlines-smart /tmp/beztrace-R-outlines
+
+For your own sources, copy an example job, set its files and image placement,
+then run ./bin/beztrace match-pair JOB.json --output-directory NEW_RESULTS --json-errors.
+Open NEW_RESULTS/index.html and review the outlines and intermediate weights.
+The recommended.master-set.json file contains the matched paths.
+See WORKFLOW.md for tolerance, point limits, retracing and smart comparison.
+
+Use a new output directory for each run. No Python or Glyphs runtime is needed.
+Native font application, HOI, Undo/Redo and save/reopen are outside this tool.
+The released Glyphs companion requires its supported 0.1.1 engine separately.
+Installing this engine does not upgrade that companion.
+""")
+(support / 'run-example.sh').write_text('''#!/bin/sh
+set -eu
+package_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+example=${1:-Y-images-smart}
+result=${2:-"$PWD/beztrace-pair-result"}
+exec "$package_dir/bin/beztrace" match-pair "$package_dir/examples/$example.job.json" --output-directory "$result" --json-errors
+''')
+(support / 'run-example.sh').chmod(0o755)
+PYCODE
 python3 "$ROOT/scripts/generate_sbom.py" --binary "$BIN_DIR/beztrace" \
     --output-dir "$SHARE" --release-kind "$RELEASE_KIND" --version "$VERSION"
 if [ "$RELEASE_KIND" = "final" ]; then

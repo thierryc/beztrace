@@ -39,12 +39,12 @@
   <main id="main">
     <section class="hero" id="top">
       <div class="hero-copy">
-        <div class="eyebrow"><span class="status-dot"></span> v0.1.1 stable · macOS 13+</div>
+        <div class="eyebrow"><span class="status-dot"></span> v0.2.0 stable · macOS 13+</div>
         <h1>From bitmap<br>to <em>Bézier.</em></h1>
         <p class="hero-pronunciation">Beztrace — /ˈbɛz.treɪs/</p>
         <p class="hero-lede">Trace clean glyphs and symbols into economical cubic outlines—deterministically, locally, and ready for real design work.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/download/v0.1.1/beztrace-0.1.1.pkg">Download notarized PKG</a>
+          <a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/download/v0.2.0/beztrace-0.2.0.pkg">Download notarized PKG</a>
           <a class="button button-secondary" href="https://github.com/thierryc/beztrace">View source <span aria-hidden="true">↗</span></a>
         </div>
         <p class="hero-note">Universal Apple Silicon + Intel binary. Apache-2.0 OR MIT.</p>
@@ -231,7 +231,7 @@
 
     <section class="section matching" id="matching" aria-labelledby="matching-title">
       <div class="section-heading">
-        <div><p class="kicker">0.2.0-dev.1 · Development preview</p><h2 id="matching-title">Two weights. Compatible paths.</h2></div>
+        <div><p class="kicker">0.2.0 · Signed standalone release</p><h2 id="matching-title">Two weights. Compatible paths.</h2></div>
         <p>Provide two images of the same glyph at different weights—or an existing Regular outline and a Bold image—run matching, and review the outlines and intermediate weights before importing them into your font editor.</p>
       </div>
       <div class="matching-features">
@@ -243,13 +243,13 @@
       <div class="matching-workflow">
         <div class="matching-copy">
           <h3>Choose your sources. Review the pair.</h3>
-          <p>The preview includes ready-to-run R and Y examples. Copy an example job, choose your source files and image placement, then run the standalone matching command.</p>
+          <p>The release includes ready-to-run R and Y examples. Copy an example job, choose your source files and image placement, then run the standalone matching command.</p>
           <p>Open the result’s <strong>index.html</strong> to inspect numbered nodes and intermediate weights. The matched-master JSON contains the outlines; the comparison report records measurements and any refused alternatives.</p>
-          <p><a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/tag/v0.2.0-dev.1">Get the matching preview <span aria-hidden="true">↗</span></a></p>
-          <a href="https://github.com/thierryc/beztrace/blob/v0.2.0-dev.1/docs/PAIR_WORKFLOW.md">Simple workflow and configuration <span aria-hidden="true">↗</span></a>
+          <p><a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/tag/v0.2.0">Get the matching release <span aria-hidden="true">↗</span></a></p>
+          <a href="https://github.com/thierryc/beztrace/blob/v0.2.0/docs/PAIR_WORKFLOW.md">Simple workflow and configuration <span aria-hidden="true">↗</span></a>
         </div>
         <div class="code-window" aria-label="Standalone matching command">
-          <div class="code-title"><span><i></i><i></i><i></i></span><b>Matching preview · Terminal</b></div>
+          <div class="code-title"><span><i></i><i></i><i></i></span><b>Master matching · Terminal</b></div>
           <pre><code><span class="muted"># Run a bundled two-image example</span>
 <span class="prompt">$</span> ./run-example.sh Y-images-smart /tmp/Y-pair
 
@@ -260,7 +260,7 @@
 <span class="muted"># Open RESULTS/index.html to review the pair</span></code></pre>
         </div>
       </div>
-      <p class="matching-status"><strong>Development preview:</strong> universal standalone engine for macOS 13+, with no Glyphs or Python runtime requirement. Default tolerance is 1 unit per 1000 UPM; a vector reference stays exact unless shared changes are explicitly allowed. The preview is unsigned and not notarized. Native matching UI, smooth-join repair and font application remain separate; stable 0.1.1 continues to provide the signed tracing download.</p>
+      <p class="matching-status"><strong>Standalone release:</strong> universal standalone engine for macOS 13+, with no Glyphs or Python runtime requirement. Default tolerance is 1 unit per 1000 UPM; a vector reference stays exact unless shared changes are explicitly allowed. The universal executable and installer are Developer ID signed and Apple-notarized. Native matching UI, smooth-join repair and font application remain separate. The released Glyphs companion requires its supported 0.1.1 engine; use the standalone ZIP when retaining that shared installation.</p>
     </section>
 
     <section class="section companion" id="glyphs">
@@ -295,9 +295,9 @@
         <p>The notarized package installs a universal binary and exposes <code>beztrace</code> at <code>/usr/local/bin/beztrace</code>.</p>
       </div>
       <div class="install-action">
-        <div class="install-command"><code>sudo installer -pkg beztrace-0.1.1.pkg -target /</code><button type="button" data-copy aria-label="Copy install command">Copy</button></div>
+        <div class="install-command"><code>sudo installer -pkg beztrace-0.2.0.pkg -target /</code><button type="button" data-copy aria-label="Copy install command">Copy</button></div>
         <div class="install-links">
-          <a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/tag/v0.1.1">Get stable v0.1.1</a>
+          <a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/tag/v0.2.0">Get stable v0.2.0</a>
           <a href="https://github.com/thierryc/beztrace/blob/main/docs/RELEASE.md">Verify signatures &amp; checksums <span aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -308,7 +308,7 @@
     <div class="product-footer">
       <div class="brand footer-brand"><span class="brand-mark" aria-hidden="true">B<span>z</span></span><span>beztrace</span></div>
       <p>Standalone raster-to-path engine. Built in Swift for macOS.</p>
-      <div><a href="https://github.com/thierryc/beztrace">Source</a><a href="https://github.com/thierryc/beztrace/releases/tag/v0.1.1">Release</a><a href="https://github.com/thierryc/beztrace/blob/main/LICENSE-MIT">License</a></div>
+      <div><a href="https://github.com/thierryc/beztrace">Source</a><a href="https://github.com/thierryc/beztrace/releases/tag/v0.2.0">Release</a><a href="https://github.com/thierryc/beztrace/blob/main/LICENSE-MIT">License</a></div>
     </div>
     <div class="apcx-footer" id="apcx-footer">
       <div class="apcx-footer-marquee" aria-hidden="true"></div>

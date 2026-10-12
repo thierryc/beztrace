@@ -50,7 +50,7 @@ launches Glyphs, applies font data or publishes files. Python is not required.
         (out/'verification').mkdir()
         for f in a.verification_file:shutil.copy2(f,out/'verification'/f.name)
     hashes={str(f.relative_to(out)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(out.rglob('*')) if f.is_file()};(out/'SHA256SUMS').write_text(''.join(f'{h}  {name}\n' for name,h in hashes.items()))
-    archive=out.with_suffix('.zip')
+    archive=out.parent/(out.name+'.zip')
     if archive.exists():raise FileExistsError(archive)
     with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED) as z:
         for f in sorted(out.rglob('*')):

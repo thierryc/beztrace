@@ -104,6 +104,9 @@ prohibited.
 ## Optional master matching extension (0.2 development)
 
 These gates supplement the tracing gates; they do not relax stable release rules.
+The native layer/HOI/UI/export requirements qualify consumers that perform those
+operations. The standalone engine includes none of those native operations; its
+geometry, CLI, resource, package and distribution requirements still apply.
 The development contract and frozen matching/raster inputs are described in
 [master matching](MASTER_MATCHING.md).
 

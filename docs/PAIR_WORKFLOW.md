@@ -1,4 +1,4 @@
-# Standalone pair matching (development)
+# Standalone pair matching
 
 `beztrace match-pair JOB.json --output-directory NEW_DIRECTORY --json-errors`
 prepares two compatible outlines and a local review. No font application occurs.
@@ -101,7 +101,8 @@ replays the immutable R/Y control corpus through every applicable route. This
 script is a maintenance/qualification helper; Python is not a product runtime
 dependency. Legacy `match`, tracing schemas and public stable bytes are unchanged.
 
-Unsigned local packaging is development delivery only. Cross-architecture
+Unsigned local packaging is development delivery only. Signed public artifacts
+require the separate release gates in [release verification](RELEASE.md). Cross-architecture
 matching uses explicitly ordered Double distance arithmetic and IEEE square root,
 without coordinate rounding. Compare the actual candidate bytes on both architectures
 with `scripts/compare_pair_architectures.py`; passing unit tests alone does not

@@ -7,7 +7,7 @@ converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 [Project website](https://thierryc.github.io/beztrace/) ·
-[Download stable v0.1.1](https://github.com/thierryc/beztrace/releases/tag/v0.1.1) ·
+[Download stable v0.2.0](https://github.com/thierryc/beztrace/releases/tag/v0.2.0) ·
 [Release verification](docs/RELEASE.md)
 
 > [!IMPORTANT]
@@ -75,9 +75,9 @@ does not include the separately distributed native Glyphs companion.
 - PNG and JPEG input by path or standard input.
 - Canonical neutral geometry plus explicit caller-supplied placement.
 - Versioned JSON and SVG output.
-- No photography, arbitrary multicolor segmentation, variable-font master
-  matching, UFO/GLIF writing, learned models, network access, or Glyphs.app
-  dependency in v1.
+- No photography, arbitrary multicolor segmentation, UFO/GLIF writing, learned
+  models, network access, or Glyphs.app dependency. Version 0.2 adds detached
+  compatible-master geometry under explicit limits.
 
 The implementation is a one-time derivative Swift port of img2bez
 commit `23073ca08ecdac61ad0e838bfae49a590bc2c7cc`, licensed under
@@ -106,9 +106,9 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
-## Compatible master matching preview
+## Compatible master matching
 
-[Download 0.2.0-dev.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.0-dev.1)
+[Download 0.2.0](https://github.com/thierryc/beztrace/releases/tag/v0.2.0)
 for detached matching of two images, an outline plus an image, or two outlines.
 Provide your two glyph sources, run matching, and review the compatible outlines
 and intermediate weights before importing them into your font editor.
@@ -119,19 +119,19 @@ and intermediate weights before importing them into your font editor.
 
 The archive includes runnable R/Y examples, schemas and visual review reports.
 A vector reference stays exact by default; shared growth requires explicit limits.
-This is an **unsigned development preview**. Native matching UI, font application
-and stable release qualification remain separate. See [preview status](docs/RELEASE_0.2.0-dev.1.md)
+The signed standalone release includes no native matching UI or font writer.
+See [release qualification](docs/RELEASE_0.2.0.md)
 and [configuration](docs/PAIR_WORKFLOW.md).
 
-## Install the current stable release (v0.1.1)
+## Install the current stable release (v0.2.0)
 
-Download `beztrace-0.1.1.pkg` and `SHA256SUMS` from the
-[v0.1.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.1),
+Download `beztrace-0.2.0.pkg` and `SHA256SUMS` from the
+[v0.2.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0),
 verify the checksum, then install the notarized package:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-sudo installer -pkg beztrace-0.1.1.pkg -target /
+sudo installer -pkg beztrace-0.2.0.pkg -target /
 beztrace --version
 ```
 

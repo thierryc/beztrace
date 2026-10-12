@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0 — standalone master matching
+
+- Match two glyph masters from images, outlines, or one of each with `match-pair`.
+- Keep a vector reference exact by default; shared structure changes require explicit budgets.
+- Add direct, retracing and smart routes with measured source fidelity and structured refusals.
+- Improve bounded fixed-structure fitting for the R controls and remove observed architecture differences.
+- Preserve tolerance, placement, intentional segment types and immutable fixtures.
+- Include versioned schemas, owned R/Y examples, numbered proofs and source provenance.
+- Keep native font application, matching UI and native HOI outside the standalone release.
+
 ## 0.1.1 — 2026-10-05
 
 - Promote the four development engine corrections to a stable standalone release.
