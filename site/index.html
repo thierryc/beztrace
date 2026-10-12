@@ -29,6 +29,7 @@
     <nav aria-label="Primary navigation">
       <a href="#examples">Examples</a>
       <a href="#pipeline">Pipeline</a>
+      <a href="#matching">Master matching</a>
       <a href="#glyphs">Glyphs</a>
       <a href="#install">Install</a>
       <a class="nav-github" href="https://github.com/thierryc/beztrace">GitHub <span aria-hidden="true">↗</span></a>
@@ -40,6 +41,7 @@
       <div class="hero-copy">
         <div class="eyebrow"><span class="status-dot"></span> v0.1.1 stable · macOS 13+</div>
         <h1>From bitmap<br>to <em>Bézier.</em></h1>
+        <p class="hero-pronunciation">Beztrace — /ˈbɛz.treɪs/</p>
         <p class="hero-lede">Trace clean glyphs and symbols into economical cubic outlines—deterministically, locally, and ready for real design work.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/download/v0.1.1/beztrace-0.1.1.pkg">Download notarized PKG</a>
@@ -193,7 +195,7 @@
         <li><span>01</span><div><h3>Prepare</h3><p>Decode PNG or JPEG, resolve alpha and threshold, normalize coverage.</p></div></li>
         <li><span>02</span><div><h3>Structure</h3><p>Find subpixel contours, corners, straights, extrema, and inflections.</p></div></li>
         <li><span>03</span><div><h3>Fit</h3><p>Build economical lines and constrained cubic Bézier sections.</p></div></li>
-        <li><span>04</span><div><h3>Refine</h3><p>Measure raster loss, polish handles, and preserve design joints.</p></div></li>
+        <li><span>04</span><div><h3>Refine &amp; clean</h3><p>Measure raster loss, polish handles, simplify redundant geometry, and preserve corners and meaningful small curves. Remove specks with an explicit minimum contour area.</p></div></li>
         <li><span>05</span><div><h3>Validate</h3><p>Check winding, closure, intersections, handle reach, and determinism.</p></div></li>
       </ol>
     </section>
@@ -225,6 +227,40 @@
   ]
 }</code></pre>
       </div>
+    </section>
+
+    <section class="section matching" id="matching" aria-labelledby="matching-title">
+      <div class="section-heading">
+        <div><p class="kicker">0.2.0-dev.1 · Development preview</p><h2 id="matching-title">Two weights. Compatible paths.</h2></div>
+        <p>Provide two images of the same glyph at different weights—or an existing Regular outline and a Bold image—run matching, and review the outlines and intermediate weights before importing them into your font editor.</p>
+      </div>
+      <div class="matching-features">
+        <article><span class="matching-number" aria-hidden="true">01</span><h3>Two images</h3><p>Trace both weights together to produce two outlines with corresponding contours and nodes.</p></article>
+        <article><span class="matching-number" aria-hidden="true">02</span><h3>An outline and an image</h3><p>Keep your finished Regular master exact and trace a Bold image to its existing structure.</p></article>
+        <article><span class="matching-number" aria-hidden="true">03</span><h3>Two outlines</h3><p>Keep the reference exact while aligning and refitting the second master, or explicitly permit shared changes within your point limits.</p></article>
+        <article><span class="matching-number" aria-hidden="true">04</span><h3>Compare the routes</h3><p>Smart mode compares applicable matching and retracing routes within the same tolerance and point budget. Review fidelity, correspondence and intermediate shapes; artistic judgment stays with you.</p></article>
+      </div>
+      <div class="matching-workflow">
+        <div class="matching-copy">
+          <h3>Choose your sources. Review the pair.</h3>
+          <p>The preview includes ready-to-run R and Y examples. Copy an example job, choose your source files and image placement, then run the standalone matching command.</p>
+          <p>Open the result’s <strong>index.html</strong> to inspect numbered nodes and intermediate weights. The matched-master JSON contains the outlines; the comparison report records measurements and any refused alternatives.</p>
+          <p><a class="button button-primary" href="https://github.com/thierryc/beztrace/releases/tag/v0.2.0-dev.1">Get the matching preview <span aria-hidden="true">↗</span></a></p>
+          <a href="https://github.com/thierryc/beztrace/blob/v0.2.0-dev.1/docs/PAIR_WORKFLOW.md">Simple workflow and configuration <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="code-window" aria-label="Standalone matching command">
+          <div class="code-title"><span><i></i><i></i><i></i></span><b>Matching preview · Terminal</b></div>
+          <pre><code><span class="muted"># Run a bundled two-image example</span>
+<span class="prompt">$</span> ./run-example.sh Y-images-smart /tmp/Y-pair
+
+<span class="muted"># Match your own two sources</span>
+<span class="prompt">$</span> ./bin/beztrace match-pair JOB.json \
+  --output-directory RESULTS --json-errors
+
+<span class="muted"># Open RESULTS/index.html to review the pair</span></code></pre>
+        </div>
+      </div>
+      <p class="matching-status"><strong>Development preview:</strong> universal standalone engine for macOS 13+, with no Glyphs or Python runtime requirement. Default tolerance is 1 unit per 1000 UPM; a vector reference stays exact unless shared changes are explicitly allowed. The preview is unsigned and not notarized. Native matching UI, smooth-join repair and font application remain separate; stable 0.1.1 continues to provide the signed tracing download.</p>
     </section>
 
     <section class="section companion" id="glyphs">
