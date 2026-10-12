@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import time
 from pathlib import Path
@@ -20,12 +21,14 @@ def asan_command(swift_executable: str) -> list[str]:
     ]
 
 
-def execute(command: list[str]) -> dict:
+def execute(command: list[str], environment: dict[str, str] | None = None) -> dict:
     started = time.monotonic()
-    process = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+    process = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
+                             env=None if environment is None else {**os.environ, **environment})
     output = process.stdout.decode("utf-8", "replace")
     return {
         "command": command,
+        "environmentOverrides": environment or {},
         "returnCode": process.returncode,
         "status": "pass" if process.returncode == 0 else "fail",
         "durationSeconds": round(time.monotonic() - started, 6),
@@ -49,6 +52,8 @@ def main() -> int:
     parser.add_argument("--release-kind", choices=("candidate", "final"), default="candidate")
     parser.add_argument("--version", default="0.1.0")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--source-only", action="store_true", help="Check sources without requiring a staged installer")
+    parser.add_argument("--asan-developer-directory", type=Path, help="Explicit Xcode selection for the sanitizer command only")
     parser.add_argument("--skip-x86", action="store_true")
     parser.add_argument("--skip-asan", action="store_true")
     parser.add_argument("--asan-swift", default="swift")
@@ -59,6 +64,7 @@ def main() -> int:
         ["python3", "scripts/verify_milestone5.py"],
         ["python3", "scripts/verify_oracle.py"],
         ["python3", "scripts/verify_repository.py"],
+        ["python3", "scripts/verify_website.py"],
         ["python3", "scripts/verify_product_boundaries.py"],
         ["python3", "scripts/check_reference_ufo.py", "Tests/Fixtures/oracle/v1/reference-source/VirtuaGrotesk-Regular.ufo"],
         ["python3", "scripts/generate_deterministic_fixtures.py", "--check"],
@@ -85,11 +91,16 @@ def main() -> int:
             "--configuration", "release", "--triple", "x86_64-apple-macosx13.0",
             "--scratch-path", ".build/x86_64-target",
         ])
+    if args.source_only:
+        commands = [command for command in commands if "scripts/verify_release_candidate.py" not in command]
     clean_before = tracked_status() == ""
     records: list[dict] = []
     for index, command in enumerate(commands, 1):
         print(f"[{index:02d}/{len(commands):02d}] {' '.join(command)}", flush=True)
-        record = execute(command)
+        overrides = None
+        if args.asan_developer_directory and "--sanitize=address" in command:
+            overrides = {"DEVELOPER_DIR": str(args.asan_developer_directory.resolve())}
+        record = execute(command, overrides)
         records.append(record)
         if record["status"] == "fail":
             print(record["outputTail"], flush=True)

@@ -36,6 +36,15 @@ Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
 discard unrelated changes.
 
+## Local execution policy
+
+On 2026-10-12 the owner explicitly requested removal of all GitHub workflows
+and Actions. Run tests and qualification locally with `scripts/check_local.sh`;
+do not enable Actions, add workflow files, dispatch cloud runners, or expand
+workflow token permissions. Preserve historical receipts without presenting
+Rosetta as native Intel evidence. Keep website deployment paused while its
+hosting path requires Actions; prepare and verify the static site locally.
+
 ## Branch contract
 
 - Keep `main` usable for reviewed documentation, requirement, and project

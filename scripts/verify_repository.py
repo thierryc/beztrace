@@ -16,6 +16,9 @@ LINK = re.compile(r"\[[^]]+\]\(([^)]+)\)")
 
 def main() -> int:
     failures: list[str] = []
+    workflows = ROOT / ".github" / "workflows"
+    if workflows.exists() and any(path.is_file() for path in workflows.rglob("*")):
+        failures.append("GitHub workflows are forbidden by the owner; use scripts/check_local.sh")
     markdown = [ROOT / "README.md", ROOT / "AGENTS.md", *sorted((ROOT / "docs").glob("*.md"))]
     for document in markdown:
         text = document.read_text(encoding="utf-8")

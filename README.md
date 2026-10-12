@@ -157,7 +157,7 @@ documented gates pass.
 - [Porting and licensing](docs/PORTING_AND_LICENSE.md)
 - [Port map](docs/PORT_MAP.md)
 - [Quality gates](docs/QUALITY_GATES.md)
-- [Test workflow](docs/TESTING.md)
+- [Local checks (no GitHub Actions)](docs/TESTING.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Milestone 6 viability review](docs/VIABILITY_REVIEW.md)
 - [Release and verification](docs/RELEASE.md)

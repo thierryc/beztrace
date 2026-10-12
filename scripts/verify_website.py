@@ -14,7 +14,6 @@ from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
-WORKFLOW = ROOT / ".github" / "workflows" / "pages.yml"
 REQUIRED_EXAMPLES = 8
 HERO_PREVIEW = SITE / "assets" / "examples" / "glyph-ampersand-inspection.svg"
 GLYPHS_MCP_URL = "https://ap.cx/tools/glyphs-mcp/"
@@ -71,8 +70,6 @@ def main() -> int:
     index = SITE / "index.html"
     if not index.is_file():
         failures.append("missing site/index.html")
-    if not WORKFLOW.is_file():
-        failures.append("missing GitHub Pages workflow")
     if failures:
         print("website verification failed:")
         for failure in failures:
