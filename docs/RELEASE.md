@@ -1,22 +1,23 @@
 # Release and verification
 
-Version `0.1.1` is the current downloadable stable standalone beztrace release. It supports macOS 13
+Version `0.2.0` is the current downloadable stable standalone beztrace release. It supports macOS 13
 or later on Apple Silicon and Intel Macs and has no non-system runtime
 dependency.
 
 ## Release assets
 
-- `beztrace-0.1.1.pkg`: Developer ID-signed and Apple-notarized installer.
-- `beztrace-0.1.1-macos-universal.zip`: signed universal executable with
+- `beztrace-0.2.0.pkg`: Developer ID-signed and Apple-notarized installer.
+- `beztrace-0.2.0-macos-universal.zip`: signed universal executable with
   licenses, notices, schemas, and SPDX SBOMs.
 - `SHA256SUMS`: SHA-256 hashes for the distributed binary assets and SBOMs.
+- `qualification-receipt.json`: public distribution check results and scope.
 - `release-manifest.json`: machine-readable version, architecture, signature,
   notarization, artifact, and SBOM inventory.
-- `beztrace-0.1.1-source.spdx.json` and
-  `beztrace-0.1.1-binary.spdx.json`: SPDX 2.3 SBOMs.
+- `beztrace-0.2.0-source.spdx.json` and
+  `beztrace-0.2.0-binary.spdx.json`: SPDX 2.3 SBOMs.
 
 The canonical download location is the
-[GitHub v0.1.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.1).
+[GitHub v0.2.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0).
 
 ## Verify and install
 
@@ -25,13 +26,13 @@ installation:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-pkgutil --check-signature beztrace-0.1.1.pkg
-xcrun stapler validate beztrace-0.1.1.pkg
-sudo installer -pkg beztrace-0.1.1.pkg -target /
+pkgutil --check-signature beztrace-0.2.0.pkg
+xcrun stapler validate beztrace-0.2.0.pkg
+sudo installer -pkg beztrace-0.2.0.pkg -target /
 beztrace --version
 ```
 
-The final command must print `beztrace 0.1.1`. The package installs the binary
+The final command must print `beztrace 0.2.0`. The package installs the binary
 at `/Library/Application Support/beztrace/bin/beztrace` and creates
 `/usr/local/bin/beztrace` as its command-line entry point.
 
@@ -49,9 +50,28 @@ Or create a transform-free SVG for design tools:
 beztrace trace input.png --format svg --output outline.svg
 ```
 
-Inputs are local PNG or JPEG files. Version `0.1.1` performs no network access,
+Inputs are local PNG or JPEG files. Version `0.2.0` performs no network access,
 telemetry, automatic updating, Glyphs document mutation, or Glyphs MCP
 integration.
+
+## Match two masters
+
+Use the ZIP without installing to keep another engine version available:
+
+```sh
+./beztrace/run-example.sh Y-images-smart /tmp/beztrace-example
+./beztrace/bin/beztrace match-pair JOB.json --output-directory RESULTS --json-errors
+```
+
+The matching command accepts two images, an outline plus an image, or two outlines.
+Review `index.html` and consume `recommended.master-set.json`. The default keeps a
+vector reference exact. Additional nodes and shared subdivision require explicit
+limits; smart routes share the same tolerance and budgets.
+
+[Configuration](https://github.com/thierryc/beztrace/blob/v0.2.0/docs/PAIR_WORKFLOW.md)
+and [0.2.0 qualification](RELEASE_0.2.0.md) describe the contracts and evidence.
+All new builds, tests and qualification run locally. GitHub Actions test and
+release workflows have been removed.
 
 ## Contract
 
@@ -64,9 +84,10 @@ Use `--svg-transform preserve` when SVG path coordinates must stay Y-up.
 
 The separately versioned [Glyphs 4 plugin](../Companions/Glyphs/README.md) has its
 own [release procedure](../Companions/Glyphs/RELEASE.md) and artifact manifest.
-It is not included in engine 0.1.1 assets and does not change their checksums,
-signatures, or installation behavior. Current companion artifacts are unsigned
-and native-unqualified.
+It is not included in engine 0.2.0 assets and does not change their checksums,
+signatures, or installation behavior. The independently released companion 0.1.0/build 15 requires its supported
+0.1.1 engine. Keep that installation and run the standalone 0.2.0 ZIP separately
+until native matching integration is independently qualified.
 
 ## 0.1.1-dev.1 development prerelease
 

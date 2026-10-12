@@ -5,7 +5,7 @@ converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 [Project website](https://thierryc.github.io/beztrace/) ·
-[Download stable v0.1.1](https://github.com/thierryc/beztrace/releases/tag/v0.1.1) ·
+[Download stable v0.2.0](https://github.com/thierryc/beztrace/releases/tag/v0.2.0) ·
 [Release verification](docs/RELEASE.md)
 
 > [!IMPORTANT]
@@ -66,7 +66,7 @@ Companion build 15 accepts stable 0.1.1; older installed companions must continu
 using a supported engine until separately upgraded. The standalone distribution
 does not include the separately distributed native Glyphs companion.
 
-## Standalone v1 boundaries
+## Original tracing boundaries (v0.1)
 
 - macOS 13 or later, Swift 6, `arm64` and `x86_64`.
 - Clean, high-resolution monochrome or alpha glyph images.
@@ -104,15 +104,34 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
-## Install the current stable release (v0.1.1)
+## Compatible glyph masters (v0.2.0)
 
-Download `beztrace-0.1.1.pkg` and `SHA256SUMS` from the
-[v0.1.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.1),
+Give Beztrace two images, an outline and an image, or two outlines; run one
+matching job and review the compatible paths and intermediate weights before
+importing them into your font editor. A vector reference stays exact by default.
+
+```sh
+./beztrace/bin/beztrace match-pair JOB.json --output-directory RESULTS --json-errors
+./beztrace/run-example.sh Y-images-smart /tmp/beztrace-example
+```
+
+The signed, Apple-notarized [0.2.0 standalone release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0)
+includes schemas, R/Y examples and review reports. Read the
+[tagged workflow guide](https://github.com/thierryc/beztrace/blob/v0.2.0/docs/PAIR_WORKFLOW.md)
+and [distribution qualification](docs/RELEASE_0.2.0.md).
+Implementation source is pinned by the release tag; the matching source PR remains
+separate from this documentation update. Use the ZIP independently if your
+released Glyphs companion still needs its supported 0.1.1 engine.
+
+## Install the current stable release (v0.2.0)
+
+Download `beztrace-0.2.0.pkg` and `SHA256SUMS` from the
+[v0.2.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0),
 verify the checksum, then install the notarized package:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-sudo installer -pkg beztrace-0.1.1.pkg -target /
+sudo installer -pkg beztrace-0.2.0.pkg -target /
 beztrace --version
 ```
 

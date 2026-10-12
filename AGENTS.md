@@ -28,6 +28,14 @@ authorizes source, tests, and unsigned local packaging only; live installation,
 relaunch, user-font edits, signing, notarization, and publication require separate
 authorization.
 
+The owner separately authorized signed public standalone 0.2.0 distribution on
+2026-10-12. The immutable v0.2.0 tag pins revision
+0344b8d6c1935b9de3009cbd46257bfa99060b8a. Signatures, Apple notarization,
+local qualification, isolated macOS 14.6.1 installation, exact installed matching
+output and anonymous public-asset verification pass; publication is complete.
+Preserve the tag and all distributed bytes. Source PR #11 and native matching
+integration remain separate. The host engine and live font were not replaced.
+
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
 discard unrelated changes.
