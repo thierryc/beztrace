@@ -46,8 +46,16 @@ On 2026-10-12 the owner explicitly requested removal of all GitHub workflows
 and Actions. Run tests and qualification locally with `scripts/check_local.sh`;
 do not enable Actions, add workflow files, dispatch cloud runners, or expand
 workflow token permissions. Preserve historical receipts without presenting
-Rosetta as native Intel evidence. Keep website deployment paused while its
-hosting path requires Actions; prepare and verify the static site locally.
+Rosetta as native Intel evidence.
+
+The owner subsequently authorized a narrow GitHub Pages deployment exception
+on 2026-10-12. Build and verify the static site locally, push only its output to
+`gh-pages`, and configure Pages as Deploy from a branch, `gh-pages`, `/(root)`.
+Retain `.nojekyll`. This configuration was verified live while repository Actions
+remained disabled; no custom workflow or hosted engine test/build ran. Keep
+Actions disabled unless the owner's Pages-only exception is actually needed for
+that built-in deployment. The exception never authorizes hosted engine builds,
+tests, release qualification, or restoration of custom workflow files.
 
 ## Branch contract
 

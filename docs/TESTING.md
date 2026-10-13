@@ -32,9 +32,22 @@ BEZTRACE_ASAN_DEVELOPER_DIRECTORY=/Applications/Xcode-beta.app/Contents/Develope
 Signing, notarization, benchmarks, the 50,000-case campaign, human acceptance
 and installed-package checks remain separate release gates. In particular,
 this command never replaces the host engine; verify installation only on the
-named disposable local qualification VM. GitHub Pages publishing also remains
-paused: its previous deployment used Actions. The static website can be
-verified and served locally without Actions.
+named disposable local qualification VM.
+
+## Static website deployment
+
+Build and verify the static website locally with `python3 scripts/verify_website.py`,
+then push the static output to `gh-pages` with a root `.nojekyll` file. In repository
+Settings → Pages, select **Deploy from a branch**, **gh-pages**, **/(root)**.
+The previous setting was a custom Actions workflow; pushing `gh-pages` did not
+publish while that source remained selected.
+
+On 2026-10-12 this branch-based configuration published the locally checked site
+with repository Actions still disabled and no active hosted workflow runs.
+All 39 public static files were compared byte-for-byte with the local build.
+The owner also authorized only the built-in Pages deployment if it becomes
+necessary. That narrow exception does not authorize hosted engine builds, tests,
+release qualification, or new custom workflow files.
 
 ## Test-first rule
 
