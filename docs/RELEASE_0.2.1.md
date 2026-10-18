@@ -155,3 +155,15 @@ the external release receipts record final qualification.
 and [companion qualification](https://github.com/thierryc/beztrace/releases/download/glyphs-v0.2.0/qualification.json)
 state bounded coverage and the explicit native Intel waiver. ZIPs have no
 stapled ticket; the engine PKG does. Published older releases stay unchanged.
+
+## Publication verification — 2026-10-18
+
+All nine engine assets and eight companion assets were downloaded anonymously
+and match their qualified SHA-256 hashes and sizes. The downloaded engine ZIP
+passes an actual standalone JSON/SVG trace. Older engine 0.2.0 and companion
+0.1.0/build 15 metadata and every asset ID, hash, size and timestamp are unchanged.
+
+The live [project site](https://thierryc.github.io/beztrace/) matches the locally
+verified output from `gh-pages` commit `ab577fd`. GitHub Actions remains disabled;
+Pages is configured for the branch root with `.nojekyll`. No hosted engine build
+or test ran.
