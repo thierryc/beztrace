@@ -18,6 +18,30 @@ The Swift implementation and standalone executable add no third-party runtime
 dependencies. Image decoding and hashing use Apple system frameworks, and
 local geometry replaces Rust dependency implementations.
 
+The optional matching fitter independently implements the mathematical
+area/first-moment construction described by Raph Levien in Fitting cubic
+Bézier curves (2021), https://raphlinus.github.io/curves/2021/03/11/bezier-fitting.html.
+LevienCubicFitter.swift and FitPolynomial.swift are beztrace work; no Kurbo
+implementation is translated or linked into the Swift library.
+
+Local curve-optimization research additionally invokes, but does not distribute
+or link into the Swift product:
+
+  Project: kurbo
+  Repository: https://github.com/linebender/kurbo
+  Version: 0.13.1
+  Packaged revision: 838b69ef35f3381cefc007d86aa8364f5a6dc673
+  Archive SHA-256: 4b60dfc32f652b926df6192e55525b16d186c69d47876c3ead4da5cc9f8450e2
+  License: Apache-2.0 OR MIT
+
+The maintenance driver in scripts/curve_benchmark/reference calls unmodified
+published APIs. Its Cargo.lock pins its separate Rust dependency graph; the
+benchmark README records algorithm provenance and reproduction. This does not
+authorize translating dependency implementation into the production engine.
+The local experiment also uses NumPy (BSD-3-Clause); no NumPy runtime or source
+is included in the product. Reference-tool dependency/license inventory is
+recorded with the local benchmark receipt.
+
   Project: Noto Sans
   Repository: https://github.com/google/fonts
   Source revision: c28e08582e7bd36751febb3391142a5eb18bbb34
@@ -50,6 +74,20 @@ Tests/Fixtures/oracle/v1/reference-source.
 
 This file must be updated before any additional third-party source or binary
 dependency is added.
+
+The optional companion's HOI implementation additionally adapts:
+
+  Project: Native Dekink / dekink-glyphs4
+  Repository: https://github.com/thierryc/dekink-glyphs4
+  Source revision: f6c33d969732716698e8a10e0714e1ec4b74a118
+  Directory: rebuild/dekink-native/scripts
+  Copyright: Copyright 2026 Thierry Charbonnel (thierryc)
+  License: Apache-2.0
+
+Candidate mathematics and native evaluator concepts are adapted for the plugin;
+MCP orchestration and dynamic source execution are excluded. The original NOTICE
+and Apache license are retained in companion resources. This is not a standalone
+engine runtime dependency.
 
 The static project website additionally uses:
 

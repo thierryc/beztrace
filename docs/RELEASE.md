@@ -1,6 +1,14 @@
 # Release and verification
 
-Version `0.1.1` is the current downloadable stable standalone beztrace release. It supports macOS 13
+The signed/notarized standalone **0.2.0** release was published on 2026-10-12.
+Its immutable tag is `0344b8d6c1935b9de3009cbd46257bfa99060b8a`. See the
+[0.2.0 qualification record](RELEASE_0.2.0.md) and
+[download](https://github.com/thierryc/beztrace/releases/tag/v0.2.0).
+The new engine **0.2.1** and companion **0.2.0/build 24** are in
+[local release preparation](RELEASE_0.2.1.md); prior release evidence does not
+qualify their new bytes. The following 0.1.1 instructions remain historical.
+
+Version `0.1.1` is the preceding stable standalone beztrace release. It supports macOS 13
 or later on Apple Silicon and Intel Macs and has no non-system runtime
 dependency.
 

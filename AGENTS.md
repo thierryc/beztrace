@@ -28,9 +28,40 @@ authorizes source, tests, and unsigned local packaging only; live installation,
 relaunch, user-font edits, signing, notarization, and publication require separate
 authorization.
 
+A read-only audit on 2026-10-17 verified that standalone engine 0.2.0 was already
+published on 2026-10-12 at tag commit
+`0344b8d6c1935b9de3009cbd46257bfa99060b8a`. Preserve that tag and every distributed
+asset as well. The owner selected engine 0.2.1 and companion 0.2.0 for the newer
+fitting, smoothing and sidebar work. This authorizes version preparation, tests
+and local unsigned packages; source freeze, installation/relaunch, signing,
+notarization and publication retain their separate requirements and gates.
+
+The owner subsequently approved source reconciliation/commits and installation
+of companion 0.2.0/build 24, including a Glyphs relaunch and native acceptance on
+disposable test fonts. Preserve unrelated unsaved fonts before relaunching.
+Signing, notarization and publication of these new artifacts are not included in
+that approval and remain separate final steps after qualification.
+
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
 discard unrelated changes.
+
+## Local execution policy
+
+On 2026-10-12 the owner explicitly requested removal of all GitHub workflows
+and Actions. Run tests and qualification locally with `scripts/check_local.sh`;
+do not enable Actions, add workflow files, dispatch cloud runners, or expand
+workflow token permissions. Preserve historical receipts without presenting
+Rosetta as native Intel evidence.
+
+The owner subsequently authorized a narrow GitHub Pages deployment exception
+on 2026-10-12. Build and verify the static site locally, push only its output to
+`gh-pages`, and configure Pages as Deploy from a branch, `gh-pages`, `/(root)`.
+Retain `.nojekyll`. This configuration was verified live while repository Actions
+remained disabled; no custom workflow or hosted engine test/build ran. Keep
+Actions disabled unless the owner's Pages-only exception is actually needed for
+that built-in deployment. The exception never authorizes hosted engine builds,
+tests, release qualification, or restoration of custom workflow files.
 
 ## Branch contract
 

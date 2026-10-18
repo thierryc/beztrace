@@ -56,10 +56,11 @@ enum CLIApplication {
                 return success(output: Data("beztrace \(BezierTraceVersion.engine)\n".utf8))
             }
             if arguments == ["--help"] || arguments == ["help"] {
-                return success(output: Data((help + "\nMatching development:\n  beztrace match-pair JOB.json --output-directory NEW_DIRECTORY [--json-errors]\n  beztrace match REQUEST.json|- [--output RESULT.json] [--json-errors]\n  beztrace match-preflight REQUEST.json|- [--output REPORT.json] [--json-errors]\n  beztrace match-plan REQUEST.json|- [--output PLAN.json] [--json-errors]\n  beztrace capabilities --format json\n").utf8))
+                return success(output: Data((help + "\nMatching development:\n  beztrace smooth-masters REQUEST.json|- [--output RESULT.json] [--json-errors]\n  beztrace match-pair JOB.json --output-directory NEW_DIRECTORY [--json-errors]\n  beztrace match REQUEST.json|- [--output RESULT.json] [--json-errors]\n  beztrace match-preflight REQUEST.json|- [--output REPORT.json] [--json-errors]\n  beztrace match-plan REQUEST.json|- [--output PLAN.json] [--json-errors]\n  beztrace capabilities --format json\n").utf8))
             }
             if arguments.first == "capabilities" { return try executeCapabilities(arguments) }
             if arguments.first == "match-pair" { return try PairCLI.execute(arguments) }
+            if arguments.first == "smooth-masters" { return try SmoothingCLI.execute(arguments,standardInput:standardInput) }
             if arguments.first == "match" { return try executeMatch(arguments, standardInput: standardInput) }
             if arguments.first == "match-preflight" { return try executeMatch(arguments,standardInput:standardInput,preflightOnly:true) }
             if arguments.first == "match-plan" { return try executeMatch(arguments,standardInput:standardInput,planOnly:true) }
@@ -94,7 +95,8 @@ enum CLIApplication {
         }
         let value: [String: Any] = ["schemaVersion": 1, "engineVersion": BezierTraceVersion.engine,
             "traceSchemaVersion": 1, "pathDataVersion": 2, "matchSchemaVersion": 1,
-            "maxMasters": 2, "maxAxes": 1, "nativeHOI": false, "nodeBudgetVersion": 1,
+            "maxMasters": 2, "maxAxes": 1, "nativeHOI": false, "nodeBudgetVersion": 1, "jointSmoothingVersion": 1,
+            "matchSmoothingVersion": 1, "hybridFittingVersion": 1,
             "rasterMatchSchemaVersion": 1, "rasterPlanningVersion": 1, "matchDiagnosticVersion": 1, "referencePreflightVersion": 1, "matchModes": ["outlines", "review", "trace-to-reference", "trace-both"],
             "pairJobVersion": 1, "pairComparisonVersion": 1, "pairStrategies": ["direct", "retrace-target", "retrace-both", "smart"], "referencePolicies": ["fixed", "shared-subdivision"]]
         var data = try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]); data.append(10)

@@ -147,6 +147,10 @@
           "items": {
             "type": "integer"
           }
+        },
+        "smoothJoins": {
+          "type": "boolean",
+          "default": false
         }
       },
       "required": []

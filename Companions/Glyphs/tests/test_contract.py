@@ -74,7 +74,7 @@ class ContractTests(unittest.TestCase):
                 with self.assertRaises(CompanionError): self.decode(data)
 
     def test_engine_source_and_neutral_checks(self):
-        for section,key,value in [('engine','version','0.2.0'),('engine','name','other'),('source','sha256','b'*64),
+        for section,key,value in [('engine','version','0.3.0'),('engine','name','other'),('source','sha256','b'*64),
                                   ('source','width',4097),('resolvedOptions','targetHeight',700),('statistics','nodeCount',3)]:
             with self.subTest(section=section,key=key):
                 data=sample(); data[section][key]=value

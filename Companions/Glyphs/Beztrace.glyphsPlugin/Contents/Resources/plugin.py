@@ -16,12 +16,29 @@ class BeztracePlugin(GeneralPlugin):
     def settings(self):
         self.name = 'Beztrace'
         self.controller = None
+        self.matchingController = None
 
     @objc.python_method
     def start(self):
         self.menuItem = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Beztrace…','showTrace:', '')
         self.menuItem.setTarget_(self)
         Glyphs.menu[PATH_MENU].append(self.menuItem)
+        self.matchingMenuItem = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Beztrace Match Masters…','showMatching:', '')
+        self.matchingMenuItem.setTarget_(self)
+        Glyphs.menu[PATH_MENU].append(self.matchingMenuItem)
+
+    def showMatching_(self,sender):
+        try:
+            from beztrace_companion.matching_ui import MatchingWindowController
+            if self.matchingController is None or self.matchingController.closed:
+                self.matchingController = MatchingWindowController.alloc().init()
+            self.matchingController.mode.setSelectedSegment_(3)
+            self.matchingController.modeChanged_(None)
+            self.matchingController.showWindow_(self)
+            self.matchingController.window().makeKeyAndOrderFront_(self)
+        except Exception as exc:
+            alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace matching could not open')
+            alert.setInformativeText_(str(exc)); alert.runModal()
 
     def showTrace_(self,sender):
         try:
@@ -29,11 +46,13 @@ class BeztracePlugin(GeneralPlugin):
                 raise RuntimeError('Beztrace requires a Glyphs Python runtime version 3.9 or later')
             if int(platform.mac_ver()[0].split('.')[0]) < 13:
                 raise RuntimeError('Beztrace requires macOS 13 or later')
-            from beztrace_companion.ui import BeztraceWindowController
-            if self.controller is None or self.controller.session.closed:
-                self.controller = BeztraceWindowController.alloc().init()
-            self.controller.showWindow_(self)
-            self.controller.window().makeKeyAndOrderFront_(self)
+            from beztrace_companion.matching_ui import MatchingWindowController
+            if self.matchingController is None or self.matchingController.closed:
+                self.matchingController = MatchingWindowController.alloc().init()
+            self.matchingController.mode.setSelectedSegment_(0)
+            self.matchingController.modeChanged_(None)
+            self.matchingController.showWindow_(self)
+            self.matchingController.window().makeKeyAndOrderFront_(self)
         except Exception as exc:
             alert = NSAlert.alloc().init()
             alert.setMessageText_('Beztrace could not open')

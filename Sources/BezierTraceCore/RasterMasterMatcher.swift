@@ -310,7 +310,8 @@ public enum RasterMasterMatcher {
             }
         }
         let a = MatchMaster(id:referenceID,outline:Outline(contours:aa)), b = MatchMaster(id:targetID,outline:Outline(contours:bb))
-        let linear = try InterpolationValidator.validate(reference:a.outline,target:b.outline,unitsPerEm:request.unitsPerEm)
+        let linear = request.options.smoothJoins ? MatchSmoothing.pending() :
+            try InterpolationValidator.validate(reference:a.outline,target:b.outline,unitsPerEm:request.unitsPerEm)
         if let invalid = linear.issues.first(where: { $0.message != "smooth join tangency residual" }) {
             if let diagnostic = invalid.diagnostic { throw MasterMatchError.geometryDiagnostic(diagnostic) }
             throw MasterMatchError.geometry("raster interpolation fails at \(invalid.factor): \(invalid.message)")
@@ -324,6 +325,23 @@ public enum RasterMasterMatcher {
             rasterSources:extracted.map(\.report))
         result.nodeBudget = try MatchNodeBudget.check(aa.reduce(0) { $0+$1.nodes.filter { $0.type != .offcurve }.count },
             referenceCount:request.mode == .traceToReference ? reference.reduce(0) { $0+$1.spans.count } : nil, options:request.options,totalNodes:aa.reduce(0) { $0+$1.nodes.count })
+        // These are the unsimplified, placed marching-squares boundaries, not
+        // the fitted sourceMasters used for node mappings/file exchange.
+        let originalBoundaries=pairs.map { targets[$0].original }
+        result=try MatchSmoothing.apply(result) { proposal in
+            let rings=try proposal.contours.map(MatchRing.init),eps=request.options.fitTolerance/200
+            var lower=0.0,upper=0.0
+            for (raw,ring) in zip(originalBoundaries,rings) {
+                let closed=raw.last == raw.first ? raw : raw+[raw[0]]
+                let deviation=try PairGeometry.measure(closed,PairGeometry.flatten(ring,epsilon:eps),
+                    tolerance:request.options.fitTolerance,flattenAllowance:eps)
+                lower=max(lower,deviation.lowerBound);upper=max(upper,deviation.upperBound)
+            }
+            return .init(lowerBound:lower,upperBound:upper,uncertainty:upper-lower)
+        }
+        if let smoothing=result.jointSmoothing,let i=result.rasterSources?.indices.last {
+            result.rasterSources![i].maximumBoundaryDeviation=smoothing.proposalDeviation!.upperBound
+        }
         return result
     }
 

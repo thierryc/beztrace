@@ -27,6 +27,8 @@ public struct MasterMatchOptions: Codable, Sendable {
     public var startNodes: [Int]
     /// Review existing correspondence without reordering or changing structure.
     public var preserveStructure: Bool
+    /// Reference-locked joint smoothing under the same original-source budget.
+    public var smoothJoins: Bool
     /// Additional on-curves across the entire glyph; zero is the safe default.
     public var maxAdditionalOnCurveNodes: Int
     /// Absolute ceiling across all contours, also used for joint raster tracing.
@@ -35,15 +37,17 @@ public struct MasterMatchOptions: Codable, Sendable {
     public var maxNodes: Int
     public init(referencePolicy: ReferencePolicy = .fixed, fitTolerance: Double = 1,
                 contourPairs: [Int] = [], startNodes: [Int] = [], preserveStructure: Bool = false,
-                maxAdditionalOnCurveNodes: Int = 0, maxOnCurveNodes: Int = 64, maxNodes: Int = 64) {
+                maxAdditionalOnCurveNodes: Int = 0, maxOnCurveNodes: Int = 64, maxNodes: Int = 64,
+                smoothJoins: Bool = false) {
         self.referencePolicy = referencePolicy; self.fitTolerance = fitTolerance
         self.contourPairs = contourPairs; self.startNodes = startNodes
         self.preserveStructure = preserveStructure
+        self.smoothJoins = smoothJoins
         self.maxAdditionalOnCurveNodes = maxAdditionalOnCurveNodes
         self.maxOnCurveNodes = maxOnCurveNodes
         self.maxNodes = maxNodes
     }
-    enum CodingKeys: String, CodingKey { case referencePolicy, fitTolerance, contourPairs, startNodes, preserveStructure, maxAdditionalOnCurveNodes, maxOnCurveNodes, maxNodes }
+    enum CodingKeys: String, CodingKey { case referencePolicy, fitTolerance, contourPairs, startNodes, preserveStructure, maxAdditionalOnCurveNodes, maxOnCurveNodes, maxNodes, smoothJoins }
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         self.init(referencePolicy: try c.decodeIfPresent(ReferencePolicy.self, forKey: .referencePolicy) ?? .fixed,
@@ -53,7 +57,18 @@ public struct MasterMatchOptions: Codable, Sendable {
                   preserveStructure: try c.decodeIfPresent(Bool.self, forKey: .preserveStructure) ?? false,
                   maxAdditionalOnCurveNodes: try c.decodeIfPresent(Int.self, forKey: .maxAdditionalOnCurveNodes) ?? 0,
                   maxOnCurveNodes: try c.decodeIfPresent(Int.self, forKey: .maxOnCurveNodes) ?? 64,
-                  maxNodes: try c.decodeIfPresent(Int.self, forKey: .maxNodes) ?? 64)
+                  maxNodes: try c.decodeIfPresent(Int.self, forKey: .maxNodes) ?? 64,
+                  smoothJoins: try c.decodeIfPresent(Bool.self, forKey: .smoothJoins) ?? false)
+    }
+    public func encode(to encoder: Encoder) throws {
+        var c=encoder.container(keyedBy:CodingKeys.self)
+        try c.encode(referencePolicy,forKey:.referencePolicy);try c.encode(fitTolerance,forKey:.fitTolerance)
+        try c.encode(contourPairs,forKey:.contourPairs);try c.encode(startNodes,forKey:.startNodes)
+        try c.encode(preserveStructure,forKey:.preserveStructure)
+        try c.encode(maxAdditionalOnCurveNodes,forKey:.maxAdditionalOnCurveNodes)
+        try c.encode(maxOnCurveNodes,forKey:.maxOnCurveNodes);try c.encode(maxNodes,forKey:.maxNodes)
+        // Preserve the existing wire output for callers that do not opt in.
+        if smoothJoins { try c.encode(true,forKey:.smoothJoins) }
     }
 }
 
@@ -129,6 +144,7 @@ public struct MasterMatchResult: Codable, Sendable {
     public var warnings: [String]
     public var rasterSources: [RasterMatchSourceReport]? = nil
     public var nodeBudget: MatchNodeBudgetReport? = nil
+    public var jointSmoothing: JointSmoothingReport? = nil
 }
 
 public enum MasterMatchError: Error, CustomStringConvertible {

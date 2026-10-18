@@ -4,11 +4,12 @@
 """Replay immutable owned R/Y controls through the file-based pair CLI.
 This is development evidence, not release or native-font qualification.
 """
-import argparse,hashlib,json,pathlib,shutil,subprocess,time
+import argparse,hashlib,json,pathlib,platform,shutil,subprocess,time
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--engine',required=True,type=pathlib.Path);parser.add_argument('--output',required=True,type=pathlib.Path)
+    parser=argparse.ArgumentParser();parser.add_argument('--engine',required=True,type=pathlib.Path);parser.add_argument('--output',required=True,type=pathlib.Path);parser.add_argument('--architecture',choices=['arm64','x86_64'])
     args=parser.parse_args();engine=args.engine.resolve();out=args.output.resolve();out.mkdir(parents=True,exist_ok=False)
+    engine_command=(["arch","-"+args.architecture] if args.architecture else [])+[str(engine)]
     root=pathlib.Path(__file__).resolve().parents[1];source=root/'Tests/Fixtures/matching/pair-v1';assets=out/'examples/assets';assets.mkdir(parents=True)
     manifest=json.loads((source/'manifest.json').read_text())
     for name,expected in manifest['files'].items():
@@ -40,7 +41,7 @@ def main():
                 if scenario=='images' or unlocked:job['options']={'referencePolicy':'shared-subdivision','maxAdditionalOnCurveNodes':40,'maxOnCurveNodes':64,'maxNodes':160}
                 stem=glyph+'-'+scenario+'-'+strategy;file=out/'examples'/(stem+'.job.json');file.write_text(json.dumps(job,indent=2)+'\n');validate(job,'pair-job-v1.schema.json')
                 started=time.monotonic();result=out/'results'/stem
-                process=subprocess.run([str(engine),'match-pair',str(file),'--output-directory',str(result),'--json-errors'],capture_output=True,timeout=120)
+                process=subprocess.run(engine_command+['match-pair',str(file),'--output-directory',str(result),'--json-errors'],capture_output=True,timeout=120)
                 result.parent.mkdir(exist_ok=True)
                 (result.parent/(stem+'.stdout')).write_bytes(process.stdout);(result.parent/(stem+'.stderr')).write_bytes(process.stderr)
                 report=json.loads((result/'comparison.json').read_text());validate(report,'pair-comparison-v1.schema.json')
@@ -52,7 +53,7 @@ def main():
                 assert process.returncode==(0 if report.get('recommendedRoute') else 5)
                 records.append({'case':stem,'exitCode':process.returncode,'seconds':time.monotonic()-started,'recommendedRoute':report.get('recommendedRoute'),'candidates':report['candidates'],'reportSHA256':hashlib.sha256((result/'comparison.json').read_bytes()).hexdigest()})
                 print(stem,process.returncode,report.get('recommendedRoute'),flush=True)
-    identity={'enginePath':str(engine),'engineSHA256':hashlib.sha256(engine.read_bytes()).hexdigest(),'engineVersion':subprocess.check_output([str(engine),'--version']).decode().strip(),'capabilities':json.loads(subprocess.check_output([str(engine),'capabilities','--format','json'])),'cases':records,'qualification':'detached development; native and release gates not established'}
+    identity={'enginePath':str(engine),'executionArchitecture':args.architecture or platform.machine(),'emulated':platform.machine()=='arm64' and args.architecture=='x86_64','engineSHA256':hashlib.sha256(engine.read_bytes()).hexdigest(),'engineVersion':subprocess.check_output(engine_command+['--version']).decode().strip(),'capabilities':json.loads(subprocess.check_output(engine_command+['capabilities','--format','json'])),'cases':records,'qualification':'detached development; native and release gates not established'}
     (out/'receipt.json').write_text(json.dumps(identity,indent=2)+'\n')
     rows=''.join(f'<tr><td>{r["case"]}</td><td>{r["exitCode"]}</td><td>{r["recommendedRoute"] or "refused"}</td><td><a href="results/{r["case"]}/index.html">review</a></td></tr>' for r in records)
     (out/'index.html').write_text('<!doctype html><meta charset="utf-8"><title>BezTrace pair qualification</title><style>body{font:16px/1.5 system-ui;max-width:1200px;margin:auto;padding:30px}td,th{padding:10px;border-bottom:1px solid #ddd}table{border-collapse:collapse}</style><h1>R/Y pair workflow evidence</h1><p>Owned known-outline controls. All sources frozen before fitting. Refusals remain visible; no native font application.</p><table><tr><th>Case</th><th>Exit</th><th>Recommendation</th><th>Evidence</th></tr>'+rows+'</table>')

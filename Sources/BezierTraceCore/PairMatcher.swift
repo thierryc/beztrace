@@ -52,6 +52,9 @@ public enum PairMatcher {
             }
         } else { routes=[strategy == .direct && reference.vector==nil ? "joint-images" : strategy.rawValue] }
         var reports: [PairCandidateReport]=[],results: [String:MasterMatchResult]=[:],renders: [String:Data]=[:]
+        // Smooth only after this route's envelope constraints, against the
+        // original pair inputs. Never smooth an internal seed or spend twice.
+        var matchingOptions=options;matchingOptions.smoothJoins=false
         for route in routes {
             var receipt=PairCandidateReport(route:route,accepted:false)
             do {
@@ -68,9 +71,9 @@ public enum PairMatcher {
                 }
                 var result: MasterMatchResult
                 if route == "direct",let a=reference.vector,let b=target.vector {
-                    result=try OutlineMatcher.match(.init(unitsPerEm:unitsPerEm,axis:axis,reference:a,target:b,options:options))
+                    result=try OutlineMatcher.match(.init(unitsPerEm:unitsPerEm,axis:axis,reference:a,target:b,options:matchingOptions))
                 } else if route == "direct" || route == "retrace-target" {
-                    var routeOptions=options
+                    var routeOptions=matchingOptions
                     if route == "retrace-target" { routeOptions.referencePolicy = .fixed }
                     result=try RasterMasterMatcher.match(.init(mode:.traceToReference,unitsPerEm:unitsPerEm,axis:axis,reference:reference.vector,images:[image(target)],options:routeOptions,rasterOptions:rasterOptions))
                 } else if route == "sequential-images" {
@@ -81,12 +84,12 @@ public enum PairMatcher {
                     let seedID=a.id=="reference-seed" ? "target-seed" : "reference-seed"
                     let copy=MatchRasterInput(id:seedID,imageData:a.imageData,transform:a.transform)
                     let seed=try RasterMasterMatcher.match(.init(mode:.traceBoth,unitsPerEm:unitsPerEm,
-                        axis:axis,images:[a,copy],options:options,rasterOptions:rasterOptions))
+                        axis:axis,images:[a,copy],options:matchingOptions,rasterOptions:rasterOptions))
                     let outline=seed.reference.outline
-                    var fixed=options;fixed.referencePolicy = .fixed
+                    var fixed=matchingOptions;fixed.referencePolicy = .fixed
                     result=try RasterMasterMatcher.match(.init(mode:.traceToReference,unitsPerEm:unitsPerEm,axis:axis,reference:.init(id:a.id,outline:outline),images:[b],options:fixed,rasterOptions:rasterOptions))
                 } else {
-                    result=try RasterMasterMatcher.match(.init(mode:.traceBoth,unitsPerEm:unitsPerEm,axis:axis,images:[image(reference),image(target)],options:options,rasterOptions:rasterOptions))
+                    result=try RasterMasterMatcher.match(.init(mode:.traceBoth,unitsPerEm:unitsPerEm,axis:axis,images:[image(reference),image(target)],options:matchingOptions,rasterOptions:rasterOptions))
                 }
                 // Rasterization can move an extremum a fraction of a pixel.
                 // Fit the existing nodes back INSIDE the original vector ink
@@ -105,7 +108,14 @@ public enum PairMatcher {
                         if index==0 { result.reference.outline=adjusted } else { result.target.outline=adjusted }
                     }
                 }
-                if !receipt.envelopeAdjustments.isEmpty {
+                result.options.smoothJoins=options.smoothJoins
+                result=try MatchSmoothing.apply(result) { proposed in
+                    switch target {
+                    case .outline(let original): return try PairGeometry.measure(original.outline,proposed,tolerance:options.fitTolerance)
+                    case .image(let original): return try RasterMasterMatcher.pairSourceDeviation(original,outline:proposed,options:rasterOptions,tolerance:options.fitTolerance)
+                    }
+                }
+                if !receipt.envelopeAdjustments.isEmpty || options.smoothJoins {
                     var maximum=0.0
                     for source in result.rasterSources ?? [] {
                         let originalInput: PairInput=source.masterID==reference.id ? reference : target
@@ -122,7 +132,9 @@ public enum PairMatcher {
                         if let i=result.rasterSources?.firstIndex(where: { $0.masterID==source.masterID }) { result.rasterSources![i].maximumBoundaryDeviation=m.upperBound }
                     }
                     for i in result.contours.indices { result.contours[i].maximumTargetDeviation=max(result.contours[i].maximumTargetDeviation,maximum) }
-                    result.warnings.append("Retraced vertical envelope fitted inside original vector bounds; pair comparison records the adjustment and independent original-source limits.")
+                    if !receipt.envelopeAdjustments.isEmpty {
+                        result.warnings.append("Retraced vertical envelope fitted inside original vector bounds; pair comparison records the adjustment and independent original-source limits.")
+                    }
                 }
                 var deviations: [PairDeviation]=[]
                 for (source,fitted) in [(reference,result.reference),(target,result.target)] {
@@ -139,7 +151,9 @@ public enum PairMatcher {
                         guard new.maxY<=old.maxY+unitsPerEm*1e-12,new.minY>=old.minY-unitsPerEm*1e-12 else { throw MasterMatchError.geometry("\(source.id) retraced outline grows beyond the original vertical ink envelope") }
                     }
                 }
-                result.interpolation=try InterpolationValidator.validate(reference:result.reference.outline,target:result.target.outline,unitsPerEm:unitsPerEm,intervals:200)
+                if !options.smoothJoins {
+                    result.interpolation=try InterpolationValidator.validate(reference:result.reference.outline,target:result.target.outline,unitsPerEm:unitsPerEm,intervals:200)
+                }
                 guard !result.interpolation.issues.contains(where: { $0.message != "smooth join tangency residual" }) else { throw MasterMatchError.geometry("201-position interpolation verification failed") }
                 let on=result.reference.outline.contours.reduce(0) { $0+$1.nodes.filter { $0.type != .offcurve }.count },total=result.reference.outline.contours.reduce(0) { $0+$1.nodes.count }
                 guard on<=options.maxOnCurveNodes,total<=options.maxNodes else { throw MasterMatchError.nodeBudget("pair result exceeds absolute ceilings") }

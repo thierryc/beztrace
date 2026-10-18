@@ -7,7 +7,7 @@ converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 [Project website](https://thierryc.github.io/beztrace/) ·
-[Download stable v0.1.1](https://github.com/thierryc/beztrace/releases/tag/v0.1.1) ·
+[Download stable v0.2.0](https://github.com/thierryc/beztrace/releases/tag/v0.2.0) ·
 [Release verification](docs/RELEASE.md)
 
 > [!IMPORTANT]
@@ -106,6 +106,14 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
+## Engine 0.2.1 and companion 0.2.0 preparation
+
+The working engine is **0.2.1** and the companion is **0.2.0/build 24**. This
+includes verified hybrid fitting, joint smoothing and the grouped four-mode
+sidebar. Local unsigned preparation remains separate from final qualification,
+signing and notarization. The published standalone engine 0.2.0 and all earlier
+release assets retain their original bytes. See the [release preparation record](docs/RELEASE_0.2.1.md).
+
 ## Compatible master matching preview
 
 [Download 0.2.0-dev.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.0-dev.1)
@@ -123,22 +131,32 @@ This is an **unsigned development preview**. Native matching UI, font applicatio
 and stable release qualification remain separate. See [preview status](docs/RELEASE_0.2.0-dev.1.md)
 and [configuration](docs/PAIR_WORKFLOW.md).
 
-## Install the current stable release (v0.1.1)
+The working source also provides an explicit [joint smoothing step](docs/JOINT_SMOOTHING.md)
+for already-compatible outlines, preserving the reference and node structure
+under the original-source error limit. Use a locally built engine advertising
+`jointSmoothingVersion: 1`; this addition is not a newly published release.
+The working companion 0.2.0/build 24 integrates this as **Smooth compatible joins**
+using matching capability `matchSmoothingVersion: 1`, with native HOI correction
+in the contextual Interpolation group. See the [companion development workflow](Companions/Glyphs/README.md).
 
-Download `beztrace-0.1.1.pkg` and `SHA256SUMS` from the
-[v0.1.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.1.1),
-verify the checksum, then install the notarized package:
+## Install the published standalone release (0.2.0)
+
+Download `beztrace-0.2.0.pkg` and `SHA256SUMS` from the
+[v0.2.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0),
+verify the checksum, then install the signed, notarized package:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-sudo installer -pkg beztrace-0.1.1.pkg -target /
+sudo installer -pkg beztrace-0.2.0.pkg -target /
 beztrace --version
 ```
 
 The installer places the universal executable under
 `/Library/Application Support/beztrace/bin` and exposes it as
-`/usr/local/bin/beztrace`. See the [release and verification guide](docs/RELEASE.md)
-for assets, signatures, SBOMs, and smoke tests.
+`/usr/local/bin/beztrace`. The released Glyphs companion requires its separately
+supported 0.1.1 engine; installing the CLI does not upgrade that consumer.
+Use the standalone ZIP when retaining the existing shared engine. See the
+[release guide](docs/RELEASE.md) and [0.2.0 record](docs/RELEASE_0.2.0.md).
 
 ## Repository policy
 
@@ -157,7 +175,7 @@ documented gates pass.
 - [Porting and licensing](docs/PORTING_AND_LICENSE.md)
 - [Port map](docs/PORT_MAP.md)
 - [Quality gates](docs/QUALITY_GATES.md)
-- [Test workflow](docs/TESTING.md)
+- [Local checks (no GitHub Actions)](docs/TESTING.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Milestone 6 viability review](docs/VIABILITY_REVIEW.md)
 - [Release and verification](docs/RELEASE.md)

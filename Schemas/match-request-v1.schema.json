@@ -95,6 +95,10 @@
           "minimum": 3,
           "maximum": 4096,
           "default": 64
+        },
+        "smoothJoins": {
+          "type": "boolean",
+          "default": false
         }
       }
     }

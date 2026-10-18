@@ -36,7 +36,7 @@ enum MatchingStructureFitter {
                 source:Outline(contours:[target.serialized().0]),bounds:target.bounds,tolerance:tolerance)
             fitted=try MatchRing(adjusted.contours[0])
         }
-        guard MatchGeometry.deviation(target,fitted,tolerance:tolerance)<=tolerance else {
+        guard try PairGeometry.measure(target,fitted,tolerance:tolerance).upperBound<=tolerance else {
             throw MasterMatchError.fit(contour,"vector boundary refinement did not establish full-source tolerance")
         }
         return fitted
@@ -253,6 +253,10 @@ enum MatchingStructureFitter {
             let (i,t) = ring.location(fraction)
             let atCorner = t < 1e-7 && abs(OutlineMatcher.signature(ring,i)) == 1
             return (atCorner ? one : b-a).matchNormalized() ?? Vector2D(dx:1,dy:0)
+        }
+        if refine && !straight,let result=HybridCubicFitter.fit(polyline:boundaryPoints,tolerance:tolerance,
+            start:points[0],end:points.last!,startTangent:tangent(start,outgoing:true),endTangent:tangent(end,outgoing:false)) {
+            return MatchSpan(curve:result.curve,line:false,startSource:nil,controlSources:[nil,nil],smooth:!corner)
         }
         var curve = straight ? lineCubic(from:points[0],to:points.last!) : ContourFitter.constrainedCubicFit(
             samples:points,startTangent:tangent(start,outgoing:true),endTangent:-tangent(end,outgoing:false),deterministicLengths:true).curve

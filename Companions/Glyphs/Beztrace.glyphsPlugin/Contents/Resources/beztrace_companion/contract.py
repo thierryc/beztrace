@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 ENGINE_VERSION = '0.1.0'
-ENGINE_VERSIONS = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1')
+ENGINE_VERSIONS = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1', '0.2.0-dev.1', '0.2.0', '0.2.1')
 MAX_INPUT = 16 * 1024 * 1024
 MAX_OUTPUT = 32 * 1024 * 1024
 MAX_NODES = 100000
@@ -60,8 +60,9 @@ def validate_schema(value, schema, root=None, path='$'):
              'number': lambda: number(value),
              'boolean': lambda: type(value) is bool,
              'null': lambda: value is None}
-    if kind and not valid[kind]():
-        raise CompanionError(path + ': expected ' + kind)
+    kinds=kind if isinstance(kind,list) else [kind]
+    if kind and not any(valid[k]() for k in kinds):
+        raise CompanionError(path + ': expected ' + str(kind))
     if 'const' in schema and (type(value) is not type(schema['const']) or value != schema['const']):
         raise CompanionError(path + ': unsupported value')
     if 'enum' in schema and value not in schema['enum']:
@@ -91,6 +92,8 @@ def validate_schema(value, schema, root=None, path='$'):
                 raise CompanionError(path + ': out of range')
     if isinstance(value, str) and 'pattern' in schema and not re.fullmatch(schema['pattern'], value):
         raise CompanionError(path + ': invalid format')
+    if isinstance(value, str) and not schema.get('minLength',0)<=len(value)<=schema.get('maxLength',1_000_000):
+        raise CompanionError(path + ': invalid string length')
 
 
 def segments(contour):

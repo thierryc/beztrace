@@ -148,6 +148,24 @@ struct MatchRing {
         if ta > 1e-7 || upper < 1 - 1e-7 { s.controlSources = [nil, nil] }
         return s
     }
+
+    /// Exact original cubic pieces for a non-wrapping arc-length interval.
+    /// Final fitting verifies against these, never against an earlier fit.
+    func sourceCurves(_ start: Double,_ end: Double) -> [CubicBezier] {
+        guard start>=0,end<=1,start<end else { return [] }
+        let (a,ta)=location(start),(b,tb)=location(end)
+        var result:[CubicBezier]=[]
+        for i in a...b {
+            let lo=i==a ? ta : 0,hi=i==b ? tb : 1
+            if hi>lo {
+                var curve=spans[i].curve
+                if hi<1 { curve=curve.split(at:hi).0 }
+                if lo>0 { curve=curve.split(at:lo/hi).1 }
+                result.append(curve)
+            }
+        }
+        return result
+    }
 }
 
 enum MatchGeometry {
