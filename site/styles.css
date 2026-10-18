@@ -319,7 +319,7 @@ h3 { margin-bottom: 0; font-size: 1.1rem; line-height: 1.2; letter-spacing: -.03
 .matching-workflow > div { min-width: 0; }
 .matching-copy p { margin: 20px 0; color: #555b68; }
 .matching-copy code { font: inherit; font-weight: 650; }
-.matching-copy a { color: var(--blue); font-weight: 700; }
+.matching-copy a:not(.button) { color: var(--blue); font-weight: 700; }
 .matching-status { margin: 48px 0 0; padding: 20px 24px; border-left: 3px solid var(--blue); background: #f4f6fb; color: #555b68; font-size: .86rem; }
 .matching-status strong { color: var(--ink); }
 
