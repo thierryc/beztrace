@@ -39,10 +39,11 @@ enum CLIApplication {
         let code: Int32
         let type: String
         let message: String
+        var diagnostic: MatchDiagnostic? = nil
     }
 
     private struct ErrorEnvelope: Encodable {
-        struct Detail: Encodable { let type: String; let message: String }
+        struct Detail: Encodable { let type: String; let message: String; var diagnostic: MatchDiagnostic? = nil }
         let schemaVersion = 1
         let exitCode: Int32
         let error: Detail
@@ -55,8 +56,14 @@ enum CLIApplication {
                 return success(output: Data("beztrace \(BezierTraceVersion.engine)\n".utf8))
             }
             if arguments == ["--help"] || arguments == ["help"] {
-                return success(output: Data(help.utf8))
+                return success(output: Data((help + "\nMatching development:\n  beztrace smooth-masters REQUEST.json|- [--output RESULT.json] [--json-errors]\n  beztrace match-pair JOB.json --output-directory NEW_DIRECTORY [--json-errors]\n  beztrace match REQUEST.json|- [--output RESULT.json] [--json-errors]\n  beztrace match-preflight REQUEST.json|- [--output REPORT.json] [--json-errors]\n  beztrace match-plan REQUEST.json|- [--output PLAN.json] [--json-errors]\n  beztrace capabilities --format json\n").utf8))
             }
+            if arguments.first == "capabilities" { return try executeCapabilities(arguments) }
+            if arguments.first == "match-pair" { return try PairCLI.execute(arguments) }
+            if arguments.first == "smooth-masters" { return try SmoothingCLI.execute(arguments,standardInput:standardInput) }
+            if arguments.first == "match" { return try executeMatch(arguments, standardInput: standardInput) }
+            if arguments.first == "match-preflight" { return try executeMatch(arguments,standardInput:standardInput,preflightOnly:true) }
+            if arguments.first == "match-plan" { return try executeMatch(arguments,standardInput:standardInput,planOnly:true) }
             let parsed = try parse(arguments)
             switch parsed.command {
             case .trace, .inspect:
@@ -66,6 +73,12 @@ enum CLIApplication {
             }
         } catch let failure as Failure {
             return failed(failure, json: jsonErrors)
+        } catch let error as PairInputFileError {
+            return failed(Failure(code:3,type:"input",message:error.message),json:jsonErrors)
+        } catch let error as MasterMatchError {
+            let code: Int32
+            code = error.isInvalidRequest ? 2 : 5
+            return failed(Failure(code: code, type: "matching", message: error.description, diagnostic:error.diagnostic), json: jsonErrors)
         } catch let error as TraceError {
             return failed(failure(for: error), json: jsonErrors)
         } catch {
@@ -74,6 +87,77 @@ enum CLIApplication {
                 json: jsonErrors
             )
         }
+    }
+
+    private static func executeCapabilities(_ arguments: [String]) throws -> CLIRunResult {
+        guard arguments == ["capabilities"] || arguments == ["capabilities", "--format", "json"] else {
+            throw Failure(code: 2, type: "argument", message: "capabilities accepts only --format json")
+        }
+        let value: [String: Any] = ["schemaVersion": 1, "engineVersion": BezierTraceVersion.engine,
+            "traceSchemaVersion": 1, "pathDataVersion": 2, "matchSchemaVersion": 1,
+            "maxMasters": 2, "maxAxes": 1, "nativeHOI": false, "nodeBudgetVersion": 1, "jointSmoothingVersion": 1,
+            "matchSmoothingVersion": 1, "hybridFittingVersion": 1,
+            "rasterMatchSchemaVersion": 1, "rasterPlanningVersion": 1, "matchDiagnosticVersion": 1, "referencePreflightVersion": 1, "matchModes": ["outlines", "review", "trace-to-reference", "trace-both"],
+            "pairJobVersion": 1, "pairComparisonVersion": 1, "pairStrategies": ["direct", "retrace-target", "retrace-both", "smart"], "referencePolicies": ["fixed", "shared-subdivision"]]
+        var data = try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]); data.append(10)
+        return success(output: data)
+    }
+
+    private static func executeMatch(_ arguments: [String], standardInput: Data, planOnly: Bool = false, preflightOnly: Bool = false) throws -> CLIRunResult {
+        var input: String?, output: String?, index = 1
+        while index < arguments.count {
+            let arg = arguments[index]
+            if arg == "--json-errors" { index += 1; continue }
+            if arg == "--output" {
+                guard output == nil, index + 1 < arguments.count else { throw Failure(code: 2, type: "argument", message: "--output requires one path") }
+                output = arguments[index + 1]; index += 2; continue
+            }
+            guard input == nil, arg == "-" || !arg.hasPrefix("-") else { throw Failure(code: 2, type: "argument", message: "match requires one request and optional --output") }
+            input = arg; index += 1
+        }
+        guard let input else { throw Failure(code: 2, type: "argument", message: "match requires REQUEST.json or -") }
+        let data = try readInput(input, standardInput: standardInput)
+        guard !data.isEmpty, data.count <= 16 * 1024 * 1024 else { throw Failure(code: 3, type: "input", message: "matching request must be 1 byte...16 MiB") }
+        let result: MasterMatchResult
+        let mode: String?
+        do {
+            let object = try JSONSerialization.jsonObject(with: data)
+            try MatchingJSONValidation.validate(object,preflight:preflightOnly)
+            mode = (object as? [String:Any])?["mode"] as? String
+        }
+        catch { throw Failure(code: 3, type: "input", message: "invalid matching JSON: \(error)") }
+        if preflightOnly {
+            let request: MatchPreflightRequest
+            do { request = try JSONDecoder().decode(MatchPreflightRequest.self,from:data) }
+            catch { throw Failure(code:3,type:"input",message:"invalid preflight JSON: \(error)") }
+            let report = try MatchPreflight.inspect(request)
+            let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
+            var encoded = try encoder.encode(report); encoded.append(10)
+            if let output { try write(encoded,to:output); return success() }
+            return success(output:encoded)
+        }
+        if mode != nil {
+            let request: RasterMasterMatchRequest
+            do { request = try JSONDecoder().decode(RasterMasterMatchRequest.self, from: data) }
+            catch { throw Failure(code: 3, type: "input", message: "invalid raster matching JSON: \(error)") }
+            if planOnly {
+                let plan = try RasterMasterMatcher.plan(request)
+                let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
+                var encoded = try encoder.encode(plan); encoded.append(10)
+                if let output { try write(encoded,to:output); return success() }
+                return success(output:encoded)
+            }
+            result = try RasterMasterMatcher.match(request)
+        } else {
+            guard !planOnly else { throw Failure(code:2,type:"argument",message:"match-plan requires a raster request") }
+            let request: MasterMatchRequest
+            do { request = try JSONDecoder().decode(MasterMatchRequest.self, from: data) }
+            catch { throw Failure(code: 3, type: "input", message: "invalid matching JSON: \(error)") }
+            result = try OutlineMatcher.match(request)
+        }
+        var encoded = try MasterMatchSerializer.json(result); encoded.append(10)
+        if let output { try write(encoded, to: output); return success() }
+        return success(output: encoded)
     }
 
     private static func executeSingle(
@@ -439,7 +523,7 @@ enum CLIApplication {
             encoder.outputFormatting = [.sortedKeys]
             let envelope = ErrorEnvelope(
                 exitCode: failure.code,
-                error: .init(type: failure.type, message: failure.message)
+                error: .init(type: failure.type, message: failure.message, diagnostic:failure.diagnostic)
             )
             var encoded = (try? encoder.encode(envelope)) ?? Data()
             encoded.append(0x0A)

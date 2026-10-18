@@ -202,4 +202,13 @@ def run():
           'No Glyphs process or user font accessed.')
 
 
-if __name__=='__main__': run()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--native-worker',action='store_true',help=argparse.SUPPRESS)
+    arguments=parser.parse_args()
+    if arguments.native_worker:
+        run()
+    else:
+        from appkit_smoke_runner import run_native
+        raise SystemExit(run_native(__file__,sys.argv[1:]))

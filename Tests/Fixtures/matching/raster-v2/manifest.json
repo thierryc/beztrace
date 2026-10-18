@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "purpose": "Raster tangent regression; analytical ellipse, no font source.",
+  "files": [
+    {
+      "path": "ellipse-1024.png",
+      "sha256": "4c8054e457048c43055271ad8e50855e860d189b20c4cb9f61275c280191bd5b"
+    }
+  ]
+}

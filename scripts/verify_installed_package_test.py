@@ -5,10 +5,17 @@ from __future__ import annotations
 
 import unittest
 
-from verify_installed_package import validate_record
+from verify_installed_package import validate_record, notarization_trusted
 
 
 class VerifyInstalledPackageTests(unittest.TestCase):
+    def test_trust_requires_notarized_assessment_when_pkgutil_omits_it(self) -> None:
+        signature = "Status: signed by a developer certificate issued by Apple for distribution"
+        self.assertTrue(notarization_trusted(True, signature, True, "accepted\nsource=Notarized Developer ID"))
+        self.assertFalse(notarization_trusted(True, signature, True, "accepted\nsource=Developer ID"))
+        self.assertFalse(notarization_trusted(True, signature, False, "source=Notarized Developer ID"))
+        self.assertFalse(notarization_trusted(False, signature, True, "source=Notarized Developer ID"))
+
     def test_accepts_matching_notarized_installation(self) -> None:
         record = {
             "packageID": "dev.beztrace.cli",

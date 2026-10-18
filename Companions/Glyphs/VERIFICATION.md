@@ -452,3 +452,496 @@ publication remain separate; no companion is included in stable engine assets.
 Source and verified local unsigned package are 0.1.0 build 12. The ZIP SHA-256 is `6341e27f50a180b6b6258a19029942181d3c974c3a55c6c367097744db41212f`; packaging, payload inventory and checksums pass. All 107 contracts and isolated AppKit checks pass with the final stable 0.1.1 engine. The installed symlink still points to build 11, whose version contract rejects stable 0.1.1; the loaded build is not established here. Build 12 has no native-tested Glyphs builds and remains development-unqualified, unsigned, unnotarized and unpublished. No companion install/relaunch or user-font operation was performed.
 
 See the [integration handoff](../../docs/GLYPHS_MCP_V2_HANDOFF.md) for exact installation instructions and the complete missing native/distribution work. Contract and fake-host checks do not qualify native acceptance.
+
+## Build 13 — independent review 2026-10-05
+
+The prepared lazy-image and deterministic cache timestamp fixes pass 113 tests
+with stable engine 0.1.1. Bounded native backend checks cover placement, zero
+width, replacement/Undo/Redo, stale images, cancellation, invalid options and
+injected recovery faults. Installed VM UI evidence applies to the historical
+build-13 candidate. Full installed UI and final committed-artifact qualification
+remain incomplete; Intel is deferred. See [the detailed record](QUALIFICATION_BUILD13.md).
+The candidate remains development-unqualified, unsigned and unpublished.
+
+## Build 13 native follow-up and build 14
+
+The committed build13 archive was installed and its loaded identity verified on
+macOS14.6.1 arm64, Glyphs4.1.1/build4108, official Python3.14.6 without clearing
+PythonCache. Twenty-three installed controller cases and foreground zero-width
+mouse Trace/Done/native Undo/Redo passed. Saved preference reopen failed; a
+separate native diagnostic confirmed wrapped numeric values were rejected.
+Build13 fails that release gate. Historical raw receipts are retained under
+`.build/companion-build13-qualification-20261005/followup-m39-m40` in the primary
+checkout. Build14 corrects conversion at the native boundary; see
+[its qualification procedure](QUALIFICATION_BUILD14.md) and final release report.
+
+
+## Build 16 — master matching development
+
+See [the build-16 qualification record](QUALIFICATION_BUILD16.md). Source and
+unsigned packages extend qualified build 15 with neutral matching, file exchange,
+detached native HOI and raster planning. Automated suites and detached native
+backend checks pass. Visible installation acceptance and compiled-font export
+remain pending; this is not a usable-milestone or release qualification.
+
+### AppKit matching diagnostics — 2026-10-11
+
+Branch `lit/master-matching`, macOS 26.7.1 (25G309), arm64, Python 3.14.6.
+Scope: workspace source in an isolated real AppKit process with a fake host;
+no Glyphs process, installation/relaunch, font file, save, or export access.
+
+The restricted shell reproduces SIGABRT at `NSApplication.sharedApplication()`
+in macOS `_RegisterApplication`, before companion controls are constructed.
+Crash record: `Python-2026-10-11-120119.ips`, incident
+`C50FEC9E-3D29-4756-BEC5-674E05E2C07F`. The identical minimal initialization and
+ordinary smoke pass with authorized GUI access outside that shell sandbox.
+`appkit_smoke_runner.py` now isolates native work in a child, reports signals and
+the GUI requirement, preserves assertion/nonzero failures and times out instead
+of terminating the parent. The restricted retry exits 1 with a clear failure;
+it does not report success. Four runner regression tests pass.
+
+The ordinary AppKit smoke passes its unchanged control/layout, live fake-host
+tracing, validation, state and cleanup checks. The new matching smoke passes
+**nine native checks** and **eight rendering cases**: real-engine Prepare;
+read-only endpoint/midpoint/reversed-reference previews; Cancel; line and cubic
+input refusals for both reference and target; structured segment/source-node IDs;
+red segment/approximate crossing markers in Aqua and DarkAqua; source-half-only
+drawing; clearing stale highlights; refusing to show fitted failure geometry;
+disabled Apply/Export on refusal; window/timer cleanup. The native raster checks
+measure 3,941–3,948 added red pixels per case and require pixels near both
+segments and the analytical crossing. Cubic cases use collinear controls to
+exercise the native cubic drawing branch with independently known geometry.
+The host raises on Apply/write and fake layers/Undo state remain unchanged.
+
+Actual screen and accessibility inspection verifies the visible matching panel,
+controls, red source segments/marker and disabled Apply/Export. The native Details
+dialog displays both locations, original nodes and coordinates; it was dismissed
+and the owned window closed by the check. An initial computer-use lookup timed
+out; binding the exact Python 3.14 app path resolves the multiple Python app
+identities. View-cache PNGs do not capture every composited control and are used
+only as custom preview evidence, not full-window screenshots. An initial
+synthetic equal-lobed crossing hit the existing zero-area rejection before the
+crossing check; the smoke fixture now uses unequal lobes. That failed attempt
+was retained and is not counted as passing evidence.
+
+Final companion suite: **144 tests, zero failures**. Source syntax and diff
+checks pass. Engine behavior, tolerance and point caps are unchanged. Tested
+matching UI SHA-256:
+`84ed9ad8582dc03d41e993bd8e216a3e53aec892fcafb2ce480d47b2a02716df`;
+preview SHA-256:
+`6e1e4310a0a8006a620ebaead0a136b0f23168cdff8d218830d313b2bc0503c3`;
+development engine SHA-256:
+`901b7aaef703179df7c68e7d10ca93a4cb9f1bee44fae772510fd9b6be9a058f`.
+All matching-module hashes, native results and images are in
+`.build/glyphs-appkit-matching/report.json`. This establishes isolated native
+AppKit behavior; installed Glyphs integration, actual font transactions,
+save/reopen/export and Intel execution remain unqualified by this check.
+
+### Live Glyphs panel — 2026-10-11
+
+Tested inside the running **Glyphs 4.2/build 4201**, Python **3.14.6**, macOS
+26.7.1 arm64. A new pathless font, **Beztrace Matching Disposable QA 2026-10-11**,
+held two Weight masters and five synthetic glyphs: valid shifted starts,
+reference/target line crossings and reference/target cubic crossings. The native
+script route created only these disposable objects. The installed companion is
+stable build 15 without matching; the unchanged workspace matching package was
+temporarily loaded under `beztrace_matching_live_20261011` with the **real
+MatchingHost**, not a fake host. No installation, plugin overwrite or app restart
+occurred. This is live source-loaded panel evidence, not installed menu acceptance.
+The matching UI, preview and engine hashes are the same as the isolated record
+above; loaded source paths and hashes were read inside Glyphs.
+
+Passed native/on-screen checks:
+
+- A valid detached Prepare returns a four-node result and enables Apply/Export;
+  moving the slider to 50 shows Weight 500. No Apply or export was invoked.
+- All four source-crossing cases report the correct reference/target master,
+  segments 0/2, line source node pairs 0→1 and 2→3 or cubic pairs 0→3 and 4→7,
+  and the crossing at approximately (64.444444, 108.888889). Actual Glyphs
+  screenshots show both red source segments and marker. The native Details
+  dialog displays the structured locations and was dismissed.
+- Each refusal produces no plan and disables Apply/Export. Settings invalidation
+  clears diagnostic highlights/markers. A three-point ceiling rejects the
+  four-point valid reference without raising the ceiling or changing tolerance.
+- Native fingerprints for every source layer in all five QA glyphs, including
+  widths, anchors and native flags, remain unchanged throughout verification.
+- Closing the panel removes its timer. All script recovery workflows were
+  settled without saving; the disposable font was discarded and closed, and
+  the previously current document reactivated.
+
+**One native preview defect remains:** after a successful shifted-start match,
+leave the slider at 50, select another glyph, then rebind the shifted-start
+source. Before matching, raw source nodes are interpolated by index; the two
+different starts collapse the midpoint. `matching_preview.payload` calls
+`commands(actual)`, and `contract.segments` raises **Degenerate segment**.
+`useSelection_` catches this and clears the context, disabling Prepare for a
+valid source. Resetting the slider to 0 and rebinding recovers. This is a failed
+verification case, not a geometry rejection from the engine; source geometry,
+tolerance, budgets and refusal rules are unchanged. No production fix is claimed.
+The right-hand drawing on refused inputs is raw source interpolation, not a
+successful fitted result; disabled Apply/Export and absence of a plan were
+independently checked. Full panel acceptance is therefore not claimed.
+
+The initial stale tab/preparation and uncertain repeated Edit-tab opening were
+reconciled using fresh selection/context reads, without replaying an uncertain
+Open. Two budget-harness assertions failed before a fresh raw inspection confirmed
+the refusal; those failures remain in evidence and are not counted as passes.
+Native evidence is `.build/glyphs-live-matching-panel/report.json`, and the
+repeatable guarded probe is `scripts/live_matching_panel_probe.py`.
+
+Existing open font files retain their before/after SHA-256 values:
+`opf-logo.glyphs`: `5387024b4b463cc44de2829bbdee5cea369533524f0f7ac35b461698e52762a8`;
+`LeftyNote-Bold700-Group01.glyphs`: `f32e4c34dee6aa52dc9edcd234b9014f60b6d4177925ef506882f92d965ca712`.
+The already-dirty logo document remained dirty; its reported generation advanced
+during the session, so these hashes establish disk preservation, not whole-font
+in-memory equality. Every script was bound to the exact QA document and every
+panel context/font identity checked against it. No existing font was saved,
+discarded or targeted for edits. Native HOI remains disabled on 4201, and
+installed-menu, Apply/Undo/Redo, save/reopen/export, Intel and release qualification
+remain outside this test's scope.
+
+### Source-linked development installation — 2026-10-11
+
+The owner explicitly requested installation as a development symbolic link and
+will save their work and restart Glyphs themselves. The actual Glyphs 4 path
+`/Users/thierryc/Library/Application Support/Glyphs 4/Plugins/Beztrace.glyphsPlugin`
+now links directly to this checkout's `Companions/Glyphs/Beztrace.glyphsPlugin`
+(0.2.0-dev.1/build 16). The prior signed build 15 directory was moved intact to
+`/Users/thierryc/Library/Application Support/beztrace/Plugin Backups/20261011T180844Z/Beztrace.glyphsPlugin`,
+outside plugin discovery. All original file hashes match the preserved backup.
+Source bundle validation and installed-link/content comparison pass.
+
+The source default now selects the fresh universal diagnostics engine at
+`.build/beztrace-0.2.0-dev.1-diagnostics/bin/beztrace`, SHA-256
+`c15872c23d6e5e8ce2607e6977d7630bf506a7dd1da14529399c21de2efeb12a`.
+Both arm64 and x86_64 slices were rebuilt from current Swift sources, with a
+source-hash receipt. The prior correspondence engine and stable system engine
+remain untouched. Two engine-selection regressions and four matching diagnostics
+tests pass. An isolated AppKit check against the fresh universal engine passes
+all nine checks and eight light/dark rendering cases; it uses a read-only fake
+host and accesses no Glyphs process or font files. This does not qualify the
+installed menu or cure the live midpoint preview defect recorded above.
+
+No Glyphs restart, font Save, Apply or export was performed. Existing font-file
+hashes match the two values in the live record. The running plugin remains the
+previously loaded build until the user's restart; installed menu loading is
+pending. The local installation/backup inventory is
+`.build/glyphs-development-link-install/report.json`; isolated native evidence
+is `.build/glyphs-development-link-install/appkit/report.json`.
+
+
+### Matching dialog simplification — 2026-10-11
+
+The owner requested a simpler native dialog with the selected master as target,
+a previous/last-selected reference, a larger preview and an explicit Process →
+Apply workflow. The current source-linked build 16 now opens at 900 × 760, with
+an 852 × 416 centered preview (2.23 times the former preview area, over half the
+main content area). The current foreground master is the target; reference
+selection prefers a remembered different master on the same font, otherwise the
+previous master in font order. In the supported two-master workflow this is the
+other master. Opening an existing controller recaptures current selection.
+
+The native accent/default button is Process before a result, Apply after a
+verified result, and Process again after settings invalidate the proposal. Cancel
+appears only while processing. The interpolation slider appears only with a
+processed result. The main window holds the master choices and preview; Options
+holds source mode, reference policy, fit tolerance, node limits and manual
+correspondence. Image and unavailable repair controls are hidden when irrelevant.
+Import/Export, current glyph and engine selection live in More. Successful
+processing uses a short instruction; numerical reports remain in Details.
+
+The previously recorded midpoint defect is fixed in preview preparation: raw
+source outlines are never interpolated by unverified node index. The unprocessed
+right-hand preview shows the target. Rebinding resets the slider and can process
+either selected master at a midpoint. Invalid selection clears stale preview
+geometry; invalidation removes the previous proposal and its diagnostics. Engine
+geometry rejection, fit tolerance and point-budget values are unchanged.
+
+All 148 companion tests pass, including four new presentation regressions.
+The expanded isolated AppKit suite tests default master choices, native default
+buttons, Process/Apply/invalidation state, options visibility and bounds,
+midpoint rebinding, exact node-budget refusal, empty targets, four source
+line/cubic refusals in light/dark appearances, fitted refusal, missing selection
+and close/timer cleanup. Source fingerprints remain unchanged; the fake host
+rejects native writes. Native reports and source hashes are under
+`.build/glyphs-matching-ui-redesign/`.
+
+Full-window computer-use inspection of the isolated Python app timed out; a
+bundle identifier lookup also reported multiple installed Python apps. These
+attempts are not counted as visual acceptance. NSView-cache PNGs substantiate
+the custom preview rendering but omit some composited native controls; native
+default-cell, accent color, visibility and layout assertions provide programmatic
+UI evidence. Full installed menu/appearance acceptance remains pending the
+user's restart. No Glyphs restart, existing font operation, Apply or font Save
+was performed by this UI change. The existing development link points directly
+to the revised source; the prior source bundle is preserved at
+`.build/glyphs-panel-before-ui-20261011`. Stable distributions and the compiled
+matching engine are unchanged.
+
+
+## Build 17: unified mode dialog (2026-10-12)
+
+Implemented on `lit/master-matching`, preserving the existing dirty worktree.
+The 820 × 640 AppKit window replaces the matching Options window with an inline
+inspector and four icon modes. Both native menu entries use the unified controller.
+Single-image preparation now uses the existing detached API, followed by explicit
+Apply; the historical immediate Trace/Done controller and released payload remain.
+
+- 154 companion tests pass with the installed stable tracing executable and an
+  absolute path to the existing diagnostics matching engine. The first run used
+  a relative matching executable and failed the transport's required absolute-path
+  check; `.build/glyphs-layout-tests.log` retains that failure. The passing log is
+  `.build/glyphs-layout-tests-absolute.log`.
+- The isolated AppKit/real-engine check passes all four modes (including a one-master font for Single image), settings visibility,
+  no-op events, display tabs, interpolation endpoints, reference reversal, kept
+  stale preview, secondary Update/primary Apply, cancellation and late results,
+  source changes, point-budget refusals, line/cubic diagnostics in light and dark,
+  preference loading/persistence via a test seam, idle Cancel and timer cleanup.
+  The read-only fake host forbids Undo, installation and recovery writes; it never
+  imports GlyphsApp or reads font files. This is not installed-Glyphs qualification.
+- Final native evidence is `.build/glyphs-layout-acceptance/report.json`.
+  Offscreen AppKit bitmaps omit some composited controls on macOS 26; actual
+  WindowServer captures were used for visual review. The corrected capture is
+  `.build/glyphs-layout-final/native-window.png` (inactive-window appearance).
+- Product-boundary checks and local unsigned build-17 packaging pass. The existing
+  SDK loader/license/source hashes are validated by the repository packager. The
+  generic installed skill scaffolder rejects this plugin's unchanged pinned
+  `GlyphsSDK-SOURCE.json` against its own template; that mismatch was not corrected
+  by replacing the project's reviewed provenance.
+
+The proposal key includes effective settings, mode, masters, engine and imports.
+Presentation-only changes do not invalidate it. External source edits revoke Apply,
+while both application APIs independently revalidate before touching a font.
+Only a successful current result enables Apply; HOI refusals remain blockers.
+No standalone engine source/schema changes, release changes, installation, Glyphs
+relaunch, font save, signing, notarization or publication occurred as part of this
+UI revision.
+Exactly two masters/one axis remain the paired-mode limit; no unsupported add-master
+control is shown. Single-image mode retains its own ordinary destination checks.
+
+
+## Build 18: layout review against the selected mockup (2026-10-12)
+
+The review captured a fresh isolated native window before editing it. Compared
+with the selected image, build 17 had horizontal icons, exposed axis metadata,
+a glyph heading, a mode explanation and utility buttons competing with Apply.
+The 820 × 620 revision stacks native SF Symbol icons above mode labels, aligns
+source selectors showing only master names, groups preview/inspector in lightly
+bordered native surfaces, and moves reference policy and utility actions into
+Advanced. The percentage is visible; the exact axis value remains a tooltip.
+The footer contains only secondary Update Preview, Cancel and primary Apply.
+Actionable failures remain visible, with Error Details available in Advanced.
+
+154 companion tests pass (`.build/glyphs-layout-build18-tests.log`). Isolated
+AppKit checks pass (`.build/glyphs-layout-build18-final-review/report.json`), including
+native mode-button clicks and clicking the selected mode without invalidating
+its result. Native drawing, dark/light diagnostics, detached preparation,
+source guards, cancellation, saved preferences and all four modes remain covered.
+The reviewed image/image screenshot uses the owned R regular/bold PNG fixtures
+and real matched outlines, with fit tolerance edited to show Update enabled and
+Apply disabled. Evidence is under `.build/glyphs-layout-build18-final-review`.
+These are fake-font AppKit checks; installed Glyphs qualification remains pending.
+The generic scaffolder's pinned SDK metadata mismatch noted for build 17 is
+unchanged. The project packager validates the preserved loader/source/license
+hashes instead. No engine or released payload changes, installation, relaunch,
+signing or publication are part of this refinement.
+
+
+## Build 19: native text alignment and spacing (2026-10-12)
+
+Form labels now use their intrinsic text height and are vertically centered on
+AppKit's control title rectangles. Reference/Target and inspector field labels
+are right-aligned with 12-point label/control gaps. Both source dropdowns have
+equal widths; Single image centers its lone source group. Inspector rows use a
+consistent rhythm, with the first control aligned to the preview tabs. Surface
+insets and gutters are 12 points; the source/mode gap is 16 points and the
+body/footer gap is 12 points.
+Mode tiles have equal 4-point internal margins. Slider endpoint labels are
+centered vertically on the slider. Percentage text is hidden while an actionable
+status occupies the same lower preview area, preventing text overlap.
+
+154 companion tests pass in `.build/glyphs-layout-build19-tests.log`. The isolated
+native checks, including all modes, Advanced geometry, dark/light drawing,
+source guards, cancellation and saved preferences, pass in
+`.build/glyphs-layout-build19-spacing/report.json`. The actual window capture is
+`.build/glyphs-layout-build19-spacing/native-window.png`, reviewed with the owned
+R fixtures. Update/Apply behavior is unchanged. This is an unsigned source/local
+package revision; no installation or native Glyphs qualification is claimed.
+
+## Build 20: completed dialog layout (2026-10-12)
+
+The final candidate includes the reduced 12-point body/footer gap and keeps all
+three footer buttons on one baseline. All four modes and their relevant settings,
+the neutral two-arrow Update Preview button, and the primary Apply action retain
+their tested behavior. The companion build advances to 20 so a later installation
+cannot reuse build 19's timestamp-based external bytecode cache.
+
+All 154 companion tests passed in `.build/glyphs-layout-build20-tests.log`.
+Isolated AppKit checks with real tracing/matching engines passed for all modes,
+stale-source guards, cancellation, saved preferences and diagnostic drawing.
+Evidence is in `.build/glyphs-layout-build20-final/report.json`; the reviewed
+window capture is `.build/glyphs-layout-build20-final/native-window.png`.
+The standalone product-boundary audit also passed.
+
+The local unsigned candidate is staged under
+`.build/glyphs-companion-build20-final-candidate`, with a second reproducibility
+copy under `.build/glyphs-companion-build20-final-repeat`. Installed Glyphs
+transactions, Undo/Redo, save/reopen and export acceptance remain outside these
+fake-font checks. No live installation, relaunch, signing or publication occurred.
+
+## Build 21: Apply-only hint preservation (2026-10-17)
+
+Removed the blanket hint refusal from matching context capture and revalidation.
+Detached preview layers omit source hints; live layers and hints remain intact.
+Immediately before Apply, both masters are preflighted using the exact native
+source outline and explicit contour/node mappings. Raster-boundary indices are
+never treated as destination node indices. Unchanged layers retain their native
+paths, nodes and hints. Changed layers receive hint copies attached to their
+actual installed nodes, with native settings and absolute values preserved.
+Removed/retyped nodes, ambiguous or unsupported attachments and changed
+corner/cap adjacency refuse Apply before Undo begins. Such a refusal retains
+the reviewed preview and interpolation controls. Hint edits invalidate a plan.
+Readback checks hint references/settings, and recovery restores paths and hints
+together if either master fails installation or verification.
+
+Local evidence:
+
+- All 169 companion tests pass in `.build/glyphs-hints-build21-final-tests.log`.
+  The 15 focused hint tests also pass after the final recovery refinement in
+  `.build/glyphs-hints-build21-focused-final.log`. These use identity-aware native
+  doubles and real engine output; they do not qualify installed native hints.
+- Isolated AppKit checks pass in `.build/glyphs-hints-build21-appkit/report.json`,
+  including retaining the preview/slider after an Apply-only hint refusal.
+- The standalone product-boundary audit and whitespace checks pass.
+- The requested `scripts/check_local.sh .build/local-checks-hints-build21`
+  invocation passes dependencies, then stops at its existing Bash empty-array
+  error: `ASAN_ARGS[@]: unbound variable` (line 28). It does not establish a full
+  repository qualification result. The scoped companion checks above ran directly.
+- The generic skill scaffold validator still rejects the unchanged pinned
+  `GlyphsSDK-SOURCE.json` attribution format. The repository packager verifies
+  the preserved SDK loader hash, license, schemas and payload instead.
+
+The unsigned local build-21 package is staged in
+`.build/glyphs-companion-build21-hints-candidate`, with the repeat build in
+`.build/glyphs-companion-build21-hints-repeat`. Live installation, loaded-build
+verification, native hint/Undo/Redo/save/reopen/export acceptance, signing,
+notarization and publication were not performed.
+## Build 22: verified fitting and joint smoothing integration (2026-10-17)
+
+Local source build 22 adds **Smooth compatible joins** to the three paired modes.
+The existing engine uses verified Levien-first fitting with refined least-squares
+fallback. The optional `smoothJoins` matching step runs one target-only projection
+after fitting and envelope constraints, preserving the matched reference,
+on-curves, flags, node types/order/counts and point ceilings. Vector verification
+uses the original target; raster verification uses the retained unsimplified,
+placed boundary. There is one final 201-position sweep, with no production graph
+selection or tolerance relaxation. Native HOI is an explicit Advanced option.
+
+- 21 focused Swift smoothing/integration tests pass, including original raw
+  raster measurement, blocking refusal and unchanged default wire output.
+- All 175 companion tests pass; the final 57 matching-specific tests pass after
+  import review was made read-only for the recorded smoothing choice.
+- The isolated AppKit harness passes 22 checks, including all four modes, the
+  smoothing toggle, stale previews, Apply/refusal guards and imported settings.
+  Captures and module hashes are in `.build/joint-app-appkit-accepted`. This uses
+  a fake host and accesses no Glyphs process or font files.
+- The actual matching command reproduces all 12 frozen smoothing jobs: identical
+  accepted geometry/reports and refusal bounds, with byte-identical arm64/Rosetta
+  output. The full 28-case/1260-configuration benchmark preserves historical
+  geometry, acceptance and smoothing reports. Evidence is in
+  `test-work/curve-benchmark-20261017-app-integration` and
+  `test-work/curve-benchmark-20261017-app-full`.
+- All 18 existing pair-workflow jobs pass on both architectures and are
+  byte-identical; see `.build/joint-app-pair-comparison.json`.
+
+The unsigned universal engine is
+`.build/beztrace-0.2.0-dev.1-smoothing/bin/beztrace`, SHA-256
+`f445ef91f33c5301bd3434a569351d7cf0085699f35a040a9d469730c88b1c1b`.
+The local matrix is recorded under `.build/joint-app-local-checks`; the sanitizer
+helper remains blocked by macOS platform policy. Native arm64 and Rosetta each
+pass 194 tests with two skips and zero failures; 26/27 source commands pass.
+The existing dirty worktree
+prevents clean qualification. Rosetta does not qualify native Intel execution.
+No live installation, Glyphs relaunch, user-font edits, signing, notarization or
+publication is performed. Earlier build/release records remain historical.
+
+## Build 23: contextual sidebar groups (2026-10-17)
+
+Local source build 23 removes the unified dialog's global Advanced disclosure.
+Image/Curves, Reference, Fitting, Correspondence and Interpolation groups appear
+only in relevant modes. Manual correspondence exposes contour/start selectors;
+shared subdivision exposes the growth allowance; selected native HOI correction
+exposes its thresholds. Review hides manual overrides. Additional actions stays
+available in each mode. The fixed preview/window size is preserved; expanded
+controls scroll within the inspector. The legacy trace preference format remains
+compatible, including its stored disclosure preference for the older trace panel.
+
+- All 175 companion tests pass. The final real-AppKit fake-host harness passes
+  23 checks, including all four actual-engine routes, row bounds/overlap, visual
+  tab order, dependent controls, no-op presentation changes, stale previews,
+  imported smoothing choices and saved trace settings. Evidence and captures are
+  in `.build/grouped-sidebar-appkit-final` and
+  `test-work/sidebar-groups-20261017`.
+- No fitting, smoothing, verifier, schema, tolerance, reference or node-policy
+  change is introduced. The engine SHA-256 remains
+  `f445ef91f33c5301bd3434a569351d7cf0085699f35a040a9d469730c88b1c1b`,
+  identical to the build-22 integration benchmark. The frozen benchmark records
+  remain unchanged; the UI harness exercises the existing engine in all modes.
+- The required local check is recorded in `.build/grouped-sidebar-local-checks`;
+  its results remain separate from native Glyphs qualification. The existing
+  dirty worktree prevents clean qualification, and the earlier build-22 record
+  documents the sanitizer helper's macOS platform-policy limitation.
+- Unsigned local packaging is staged in `.build/glyphs-companion-build23-sidebar`
+  and independently repeated in `.build/glyphs-companion-build23-sidebar-repeat`.
+  Both are subject to manifest, ZIP and payload verification.
+
+No Glyphs process or font files were accessed by these UI checks. No installation,
+relaunch, font edits, signing, notarization or publication was performed. Historical
+release and build-22 engine/benchmark evidence is preserved.
+
+## 0.2.0/build 24 version promotion (2026-10-17)
+
+The final-version source uses engine 0.2.1 and companion 0.2.0, companion build 24.
+Explicit companion compatibility includes 0.2.0 and 0.2.1 while retaining all earlier
+accepted versions. The source-checkout executable path points to the newly
+built local universal engine. The approved sidebar and geometry algorithms are
+unchanged. The incremented build invalidates the external Python bytecode cache.
+
+Local preparation uses `.build/beztrace-0.2.1`,
+`.build/glyphs-companion-0.2.0-build24-final` and a fresh repeat-package directory.
+Verification results, checksums, the architecture comparison and exact source
+hashes are recorded with the local artifacts. The required local matrix uses
+`.build/final-0.2.1-local-checks`. Historical build-23 and benchmark records are
+retained; the new executable must reproduce their geometry and refusal limits.
+
+This version promotion does not establish installed/loaded Glyphs qualification,
+clean-source provenance, signing, notarization, installation or publication.
+The outstanding gates are listed in the [release record](../../docs/RELEASE_0.2.1.md).
+
+## Build 25: native getter-backed metadata (2026-10-17)
+
+Additional detached native hint acceptance on Glyphs 4.2/build 4202 found that
+GSHint metadata can be exposed as raw zero-argument Objective-C getters. Build 24
+compared the selector description, whose identity differs across copied hints,
+and refused Apply; its recovery fingerprint also failed. This was observed only
+on a newly created detached synthetic font. No user font was accessed or changed.
+The first two harness attempts had separate fixture/API errors; their logs are
+retained independently from the third attempt's actual product failure.
+
+Build 25 resolves getter-backed values before normalization and comparison,
+retaining fail-closed native read errors. Regression cases compare copied getter
+objects, detect real metadata changes and propagate unavailable getter failures.
+The build increment prevents stale external Python bytecode. Engine 0.2.1,
+fitting, smoothing, error limits, references and node compatibility are unchanged.
+Native fixture evidence and final package hashes remain in the external release
+qualification records. Build-24 source/package evidence remains historical and
+does not qualify build 25.
+
+The same native fixture exposed GSHint.copy() omitting custom userData on
+Glyphs 4.2. Build 25 copies that dictionary before attachment, transfers each
+prepared hint once, snapshots recovery dictionaries explicitly, and includes
+stem/alignment/userData in preserved-state checks. Unit coverage includes native
+copies omitting dictionaries and a guard against metadata setters on attached
+hints. Actual native Apply now retains those values. Headless hint Undo raises
+a GSUndoManager grouping error and remains unqualified pending the authorized
+installed-document acceptance; it is not counted as passing native Undo.

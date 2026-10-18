@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "license": "Apache-2.0 OR MIT",
+  "provenance": "Original beztrace analytic sine-stroke test; no font or external artwork.",
+  "recipe": "x=300+170*sin(2*pi*t), y=600*(1-t); offset +/-20 or +/-65 along the analytic unit normal; t=i/64; sides joined by straight terminals.",
+  "files": [
+    {
+      "path": "serpentine.json",
+      "sha256": "642a97a8034db12c03ecfe13f597651dfb270efe1435b1df6fc6b2131f5d7a11"
+    }
+  ]
+}

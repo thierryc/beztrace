@@ -224,18 +224,22 @@ enum ContourFitter {
     static func constrainedCubicFit(
         samples: [Point2D],
         startTangent: Vector2D,
-        endTangent: Vector2D
+        endTangent: Vector2D,
+        deterministicLengths: Bool = false
     ) -> CubicFitResult {
         precondition(!samples.isEmpty)
         let start = samples[0]
         let end = samples[samples.count - 1]
-        let chord = start.distance(to: end)
+        func distance(_ a: Point2D,_ b: Point2D) -> Double {
+            deterministicLengths ? a.matchDistance(to:b) : a.distance(to:b)
+        }
+        let chord = distance(start,end)
 
         var parameters = [0.0]
         parameters.reserveCapacity(samples.count)
         var accumulated = 0.0
         for index in 1..<samples.count {
-            accumulated += samples[index].distance(to: samples[index - 1])
+            accumulated += distance(samples[index],samples[index - 1])
             parameters.append(accumulated)
         }
         let total = max(accumulated, 1e-12)
@@ -327,7 +331,7 @@ enum ContourFitter {
             end: end
         )
         let error = zip(parameters, samples).reduce(0) { maximum, pair in
-            max(maximum, curve.point(at: pair.0).distance(to: pair.1))
+            max(maximum, distance(curve.point(at:pair.0),pair.1))
         }
         return CubicFitResult(curve: curve, maximumError: error)
     }

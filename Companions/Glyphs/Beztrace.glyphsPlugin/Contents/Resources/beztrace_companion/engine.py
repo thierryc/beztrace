@@ -12,7 +12,7 @@ from pathlib import Path
 from .contract import CompanionError, ENGINE_VERSIONS, MAX_INPUT, MAX_OUTPUT, parse_result, number
 
 DEFAULT_ENGINE = '/Library/Application Support/beztrace/bin/beztrace'
-DEVELOPMENT_ENGINE = '.build/beztrace-0.1.1-dev.4/bin/beztrace'
+DEVELOPMENT_ENGINE = '.build/beztrace-0.2.1/bin/beztrace'
 DEFAULT_OPTIONS = dict(threshold='auto', invert=False, accuracy=2.0, smoothing=1.0,
                        corner_threshold=12.0, min_contour_area=100.0, grid=2,
                        structure_grid=0, refine_raster=True, rtl_start=False, diagnostics='none')

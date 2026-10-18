@@ -31,7 +31,15 @@ def _native_items(collection):
 
 
 def _properties(obj, names):
-    return tuple((key, _value(getattr(obj, key, None))) for key in names)
+    # Some Glyphs versions expose model properties as raw zero-argument ObjC
+    # selectors. Compare their values, never an address-bearing method repr.
+    result = []
+    for key in names:
+        value = getattr(obj, key, None)
+        if callable(value):
+            value = value()
+        result.append((key, _value(value)))
+    return tuple(result)
 
 
 class GlyphsHost:
@@ -167,7 +175,7 @@ class GlyphsHost:
     def shape_state(self, shape):
         if isinstance(shape, self.Path):
             return ('path', self.path_data(shape), _properties(shape, ['locked','attributes']),
-                    tuple(_properties(n, ['name','userData']) for n in shape.nodes))
+                    tuple(_properties(n, ['name','userData','attributes']) for n in shape.nodes))
         return ('component', _properties(shape, ['componentName','transform','alignment','locked',
                                                'smartComponentValues','attributes']))
 
@@ -178,8 +186,8 @@ class GlyphsHost:
                 tuple(_properties(a, ['name','position','userData']) for a in _native_items(layer.anchors)),
                 tuple(_properties(g, ['position','angle','name','locked']) for g in _native_items(layer.guides)),
                 tuple(_properties(a, ['position','text','type','width','angle']) for a in _native_items(layer.annotations)),
-                tuple(_properties(h, ['type','origin','target','other1','other2','horizontal','options','name','scale']) for h in _native_items(layer.hints)),
-                _properties(layer.backgroundImage, ['path','transform','alpha','crop','locked']) if layer.backgroundImage else None)
+                tuple(_properties(h, ['type','origin','target','other1','other2','horizontal','options','name','scale','stem','alignment','userData']) for h in _native_items(layer.hints)),
+                self.image_state(layer.backgroundImage))
 
     def fingerprint(self, layer):
         return copy.deepcopy((tuple(self.shape_state(s) for s in layer.shapes), self.preserved_state(layer)))
@@ -295,7 +303,14 @@ class GlyphsHost:
         return image
 
     def image_state(self, image):
-        return _properties(image,['path','transform','alpha','crop','locked']) if image else None
+        if image is None:
+            return None
+        # Glyphs lazily initializes the default crop when loading the bitmap.
+        # Materialize it before capture so our later image snapshot cannot look
+        # like an external edit. Never reset an explicit user crop.
+        if image.image is None:
+            raise CompanionError('The canvas image cannot be loaded')
+        return _properties(image,['path','transform','alpha','crop','locked'])
 
     def set_image(self, layer, image):
         layer.backgroundImage=image

@@ -32,22 +32,23 @@ BEZTRACE_ASAN_DEVELOPER_DIRECTORY=/Applications/Xcode-beta.app/Contents/Develope
 Signing, notarization, benchmarks, the 50,000-case campaign, human acceptance
 and installed-package checks remain separate release gates. In particular,
 this command never replaces the host engine; verify installation only on the
-named disposable local qualification VM.
+named disposable local qualification VM. The owner's narrow GitHub Pages
+exception allows locally verified static output on `gh-pages`, with `.nojekyll`
+and Pages configured as Deploy from a branch, `gh-pages`, `/(root)`.
+Keep Actions disabled; this exception does not authorize hosted engine builds,
+tests or custom workflow files.
 
-## Static website deployment
+Verify the website locally before deploying only the contents of `site/`:
 
-Build and verify the static website locally with `python3 scripts/verify_website.py`,
-then push the static output to `gh-pages` with a root `.nojekyll` file. In repository
-Settings → Pages, select **Deploy from a branch**, **gh-pages**, **/(root)**.
-The previous setting was a custom Actions workflow; pushing `gh-pages` did not
-publish while that source remained selected.
+```sh
+python3 scripts/verify_website.py
+python3 scripts/align_site_example_svgs_test.py
+python3 scripts/align_site_example_svgs.py
+```
 
-On 2026-10-12 this branch-based configuration published the locally checked site
-with repository Actions still disabled and no active hosted workflow runs.
-All 39 public static files were compared byte-for-byte with the local build.
-The owner also authorized only the built-in Pages deployment if it becomes
-necessary. That narrow exception does not authorize hosted engine builds, tests,
-release qualification, or new custom workflow files.
+The [0.2.1 preparation record](RELEASE_0.2.1.md) records the clean-source matrix,
+repeat benchmark and build-25 native acceptance. Historical failed toolchain
+attempts remain separate from the final passing sanitizer run.
 
 ## Test-first rule
 
@@ -326,3 +327,16 @@ and deterministic packaging checks. The real-engine integration test consumes
 all 100 frozen images; set `BEZTRACE_TEST_ENGINE` to an accepted 0.1.0 or 0.1.1 executable if needed.
 These checks do not establish native Glyphs UI or Undo/Redo behavior. See the
 [separate native checklist](../Companions/Glyphs/NATIVE_TESTING.md).
+
+
+## Verified hybrid fitting
+
+The optional matching engine's proposal/acceptance boundary, fallback behavior,
+limits and evaluation scope are documented in [Verified hybrid fitting](HYBRID_FITTING.md).
+Run the [curve benchmark](../scripts/curve_benchmark/README.md) with a fresh
+output directory after changing fitting or verification. Compare the sequential
+Swift hybrid with the verified Swift least-squares baseline; raw proposal-only
+Rust/Swift timings measure a different workload. The benchmark is a local
+research check, not a replacement for qualification.
+
+Reference-locked joint smoothing has a separate [workflow and acceptance contract](JOINT_SMOOTHING.md). Its tests cover atomic refusal, original-source budgets, fixed reference/on-curves/types/flags, line joins, corners, idempotence and analytic collapse between sample factors.

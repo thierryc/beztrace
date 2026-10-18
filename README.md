@@ -1,11 +1,13 @@
 # beztrace
 
+Beztrace — /ˈbɛz.treɪs/
+
 `beztrace` is a macOS-native tracing engine for
 converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 [Project website](https://thierryc.github.io/beztrace/) ·
-[Download stable v0.2.0](https://github.com/thierryc/beztrace/releases/tag/v0.2.0) ·
+[Download stable v0.2.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.1) ·
 [Release verification](docs/RELEASE.md)
 
 > [!IMPORTANT]
@@ -22,8 +24,8 @@ cubic Bezier outlines.
 > convex-curve and minimum-node corrections. Its signed/notarized distribution,
 > exact installed workflow and anonymous downloads are verified. See the
 > [Glyphs MCP v2 integration handoff](docs/GLYPHS_MCP_V2_HANDOFF.md).
-> A separately versioned [Glyphs 4 companion](https://github.com/thierryc/beztrace/blob/glyphs-v0.1.0/Companions/Glyphs/README.md)
-> is independently released as signed/notarized **0.1.0/build 15**, qualified
+> A separately versioned [Glyphs 4 companion](https://github.com/thierryc/beztrace/blob/glyphs-v0.2.0/Companions/Glyphs/README.md)
+> is independently released as signed/notarized **0.2.0/build 25**, qualified
 > on Apple Silicon with Intel testing explicitly owner-waived. See the
 > [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
 > Glyphs MCP setup and adapter integration remain separate work.
@@ -50,32 +52,32 @@ package or CLI dependencies. Future Glyphs MCP integration remains separate.
 
 ## Optional Glyphs companion
 
-[Beztrace for Glyphs](https://github.com/thierryc/beztrace/blob/glyphs-v0.1.0/Companions/Glyphs/README.md) adds **Path → Beztrace…** to trace a native canvas image
-at its existing placement, with reversible native path insertion. A separate
-Python API supports automatic image placement for coding agents.
-Its [signed 0.1.0/build 15 release](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.1.0)
-is versioned independently of the engine. Native qualification covers macOS
-14.6.1 arm64, Glyphs 4.1.1/build 4108 and Python 3.14.6. Intel native execution
-is untested and explicitly owner-waived; universal signature verification does
-not establish Intel runtime qualification. See the [release record](docs/GLYPHS_COMPANION_RELEASE.md).
+[Beztrace for Glyphs](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.0)
+**0.2.0/build 25** adds four native tracing and matching modes, grouped settings,
+verified fitting and optional compatible smoothing. Install the separately
+released **engine 0.2.1**, then open the plugin in Glyphs and relaunch.
+Native qualification covers Apple Silicon / Glyphs 4.2/build 4202, including
+signed Apply/Undo/Redo and installation/update/rollback/removal/reinstallation.
+Native Intel remains **untested, explicitly owner-waived** for these versions.
+See the [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
 
-Stable **0.1.1** incorporates all four development engine corrections while
-retaining JSON schema v1, path data version 2, and the public Swift API.
-The [development verification history](docs/SMALL_CONTOUR_FIX.md) records those fixes.
-Companion build 15 accepts stable 0.1.1; older installed companions must continue
-using a supported engine until separately upgraded. The standalone distribution
-does not include the separately distributed native Glyphs companion.
+Stable engine **0.2.1** retains the standalone matching introduced in 0.2.0 and
+adds independently verified fitting and smoothing, retaining JSON schema v1 and
+path data version 2. Older companion 0.1.0/build 15 continues to require its
+supported 0.1.1 engine until separately upgraded. The standalone CLI does not
+install or upgrade the companion.
 
-## Original tracing boundaries (v0.1)
+## Standalone v1 boundaries
 
 - macOS 13 or later, Swift 6, `arm64` and `x86_64`.
 - Clean, high-resolution monochrome or alpha glyph images.
 - PNG and JPEG input by path or standard input.
 - Canonical neutral geometry plus explicit caller-supplied placement.
 - Versioned JSON and SVG output.
-- No photography, arbitrary multicolor segmentation, variable-font master
-  matching, UFO/GLIF writing, learned models, network access, or Glyphs.app
-  dependency in v1.
+- Standalone two-master matching of clean images and line/cubic outlines, with
+  explicit correspondence, fit tolerance, node limits and interpolation review.
+- No photography, arbitrary multicolor segmentation, UFO/GLIF writing, learned
+  models, network access, or Glyphs.app dependency.
 
 The implementation is a one-time derivative Swift port of img2bez
 commit `23073ca08ecdac61ad0e838bfae49a590bc2c7cc`, licensed under
@@ -104,41 +106,60 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
-## Compatible glyph masters (v0.2.0)
+## Engine 0.2.1 and companion 0.2.0 — released 2026-10-18
 
-Give Beztrace two images, an outline and an image, or two outlines; run one
-matching job and review the compatible paths and intermediate weights before
-importing them into your font editor. A vector reference stays exact by default.
+Both distributions are universal arm64 + x86_64, Developer ID signed and
+Apple-notarized. The engine PKG has a validated stapled ticket. The fitting
+pipeline uses Levien-style proposals with refined least-squares fallback and an
+independent original-source verifier. Efficient joint smoothing preserves the
+reference, on-curves and node structure within the same error limit. Graph
+selection remains deferred.
+
+All 27 local checks pass. The same 12 smoothing cases retain exact geometry,
+reports, bounds and refusal limits; all 18 pair jobs match across native arm64
+and Rosetta. Signed installation, rollback, removal and reinstallation pass in
+the owned macOS 14.6.1 arm64 VM. Signed companion UI Undo/Redo is exact on
+Glyphs 4.2/build 4202; earlier unchanged Python source qualification includes
+fresh-file exchange and 603 compiled interpolation checks. Native Intel is
+untested and explicitly owner-waived, with Rosetta recorded separately.
+
+See the [release qualification](docs/RELEASE_0.2.1.md) and
+[build 25 qualification](Companions/Glyphs/QUALIFICATION_BUILD25.md).
+
+## Standalone compatible master matching
+
+[Download stable 0.2.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.1)
+for detached matching of two images, an outline plus an image, or two outlines.
+Provide two glyph sources, run matching, and review the compatible outlines and
+intermediate weights before importing them into your font editor.
 
 ```sh
-./beztrace/bin/beztrace match-pair JOB.json --output-directory RESULTS --json-errors
-./beztrace/run-example.sh Y-images-smart /tmp/beztrace-example
+./bin/beztrace match-pair JOB.json --output-directory RESULTS --json-errors
 ```
 
-The signed, Apple-notarized [0.2.0 standalone release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0)
-includes schemas, R/Y examples and review reports. Read the
-[tagged workflow guide](https://github.com/thierryc/beztrace/blob/v0.2.0/docs/PAIR_WORKFLOW.md)
-and [distribution qualification](docs/RELEASE_0.2.0.md).
-Implementation source is pinned by the release tag; the matching source PR remains
-separate from this documentation update. Use the ZIP independently if your
-released Glyphs companion still needs its supported 0.1.1 engine.
+The archive includes runnable R/Y examples, schemas and visual reviews.
+A vector reference stays exact by default; shared growth requires explicit limits.
+See [configuration](docs/PAIR_WORKFLOW.md) and the explicit
+[joint smoothing step](docs/JOINT_SMOOTHING.md). Companion 0.2.0/build 25 exposes
+this as **Smooth compatible joins**. For already-compatible outlines, choose
+**Review existing structure** to retain the existing correspondence.
 
-## Install the current stable release (v0.2.0)
+## Install the published standalone release (0.2.1)
 
-Download `beztrace-0.2.0.pkg` and `SHA256SUMS` from the
-[v0.2.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0),
-verify the checksum, then install the notarized package:
+Download `beztrace-0.2.1.pkg` and the release assets from the
+[v0.2.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.1),
+verify `SHA256SUMS`, then install the signed, notarized package:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-sudo installer -pkg beztrace-0.2.0.pkg -target /
+sudo installer -pkg beztrace-0.2.1.pkg -target /
 beztrace --version
 ```
 
-The installer places the universal executable under
-`/Library/Application Support/beztrace/bin` and exposes it as
-`/usr/local/bin/beztrace`. See the [release and verification guide](docs/RELEASE.md)
-for assets, signatures, SBOMs, and smoke tests.
+The universal executable is installed under
+`/Library/Application Support/beztrace/bin`, exposed as `/usr/local/bin/beztrace`.
+Use the ZIP to run separately while retaining an older shared engine. Installing
+the CLI does not upgrade an existing companion. See the [release guide](docs/RELEASE.md).
 
 ## Repository policy
 
@@ -148,6 +169,8 @@ documented gates pass.
 
 ## Project documents
 
+- [Master matching development contract](docs/MASTER_MATCHING.md)
+- [Standalone pair matching workflow](docs/PAIR_WORKFLOW.md)
 - [Implementation directive](docs/IMPLEMENTATION_DIRECTIVE.md)
 - [Requirements](docs/REQUIREMENTS.md)
 - [Architecture](docs/ARCHITECTURE.md)
@@ -159,6 +182,14 @@ documented gates pass.
 - [Roadmap](docs/ROADMAP.md)
 - [Milestone 6 viability review](docs/VIABILITY_REVIEW.md)
 - [Release and verification](docs/RELEASE.md)
+
+## Agent skills
+
+Two generic source skills cover [image vectorization](skills/beztrace-vectorize-image/SKILL.md)
+and [compatible master matching with point limits](skills/beztrace-match-masters/SKILL.md).
+Matching requires the optional development capability; ordinary tracing remains
+standalone. Their [Glyphs MCP skill catalog handoff](docs/BEZTRACE_SKILLS_CATALOG_PLAN.md)
+describes planned app packaging and qualification; it does not change the app.
 
 ## License
 

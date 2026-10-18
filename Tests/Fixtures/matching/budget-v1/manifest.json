@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "source": "Beztrace-owned synthetic geometry: mandatory added corner versus redundant collinear target knot. Acceptance frozen before matcher changes; legacy v1 is untouched.",
+  "fixtures": [
+    {
+      "file": "shared-zero-budget.json",
+      "sha256": "ab73d61a974a2c47ac412ea9e0a8d70369572710f66e132160f2eceface754ce",
+      "outcome": "budget"
+    },
+    {
+      "file": "shared-explicit-budget.json",
+      "sha256": "0ac3fa52a5aea22e2b25b410997523ea7a9b577699399b553d8659db516448ed",
+      "outcome": "success"
+    },
+    {
+      "file": "redundant-zero-budget.json",
+      "sha256": "4caaf4e8ec6dcad1ec0d594333cdbc2fa388f3b426e76f264299d41acfb0ce2c",
+      "outcome": "success"
+    }
+  ]
+}

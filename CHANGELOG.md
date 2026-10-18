@@ -1,5 +1,32 @@
 # Changelog
 
+## Engine 0.2.1 / companion 0.2.0 — 2026-10-18
+
+- Retain standalone matching of two images, image to reference, and two outlines.
+- Add independently verified Levien-first fitting with refined least-squares fallback.
+- Add efficient joint smoothing within the original error limit, preserving the
+  reference, on-curves and compatible node structure. Graph selection is deferred.
+- Add the four-mode Glyphs companion with contextual sidebar groups, bounded point
+  growth, explicit correspondence, native HOI opt-in and hint-preserving application.
+- Retain schema v1 and pathDataVersion 2; add exact engine 0.2.0/0.2.1 compatibility in
+  companion build 25 while retaining earlier supported engine versions.
+- Normalize native getter-backed metadata and preserve custom hint userData
+  through Apply and recovery on Glyphs 4.2.
+- Reproduce both unsigned universal archives from clean frozen source; pass all
+  27 local source checks and installed native acceptance on Apple Silicon / Glyphs
+  4.2 build 4202, including Undo/Redo, fresh-file exchange and 603 compiled
+  interpolation checks. The same 12 smoothing jobs retain geometry and bounds.
+- Publish the separately signed/notarized universal engine and companion after
+  signed installation/lifecycle and exact native UI Undo/Redo verification.
+  Native Intel remains untested and explicitly owner-waived for these versions.
+
+## 0.2.0 — 2026-10-12
+
+- Publish standalone master matching with unchanged preview geometry and fixtures.
+- Distribute the signed/notarized universal ZIP and installer, schemas and R/Y examples.
+- Qualify the standalone package independently; native font application and the
+  companion remain outside the engine release. Preserve the tag and asset bytes.
+
 ## 0.1.1 — 2026-10-05
 
 - Promote the four development engine corrections to a stable standalone release.

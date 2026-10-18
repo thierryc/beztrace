@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "provenance": "beztrace-owned synthetic silhouettes; frozen before raster matcher implementation",
+  "files": [
+    {
+      "path": "counter.png",
+      "sha256": "4cc5529f0b7e8bd15ae8e5a548a436a0b7aa99e8ecb4fa03abb890491542483a"
+    },
+    {
+      "path": "rectangle.png",
+      "sha256": "c163a3a368f0cabb594c58f89e389c6d4f9ac8305910e5137fbe92814c24fc12"
+    },
+    {
+      "path": "round.png",
+      "sha256": "98528d86f4619854aaeaea838fd3837e9016d2d24797723ec624872e317425b4"
+    },
+    {
+      "path": "terminal.png",
+      "sha256": "a75c36bd8fdf05310a61c43695b619f8db3fa8486c637a9a7acfe790097c3ff9"
+    },
+    {
+      "path": "wide-rectangle.png",
+      "sha256": "8abdcdcd34f573d77af6a7a3cbac61b9a3c31a22323f5c666362c442bfeeeb5f"
+    }
+  ],
+  "acceptance": [
+    "exact reference preserved",
+    "shared structure planned before fitting",
+    "deviation measured against extracted boundary",
+    "affine placement applied once",
+    "counters retained or topology error",
+    "fitting tolerance failures"
+  ]
+}

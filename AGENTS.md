@@ -28,17 +28,31 @@ authorizes source, tests, and unsigned local packaging only; live installation,
 relaunch, user-font edits, signing, notarization, and publication require separate
 authorization.
 
-The owner separately authorized signed public standalone 0.2.0 distribution on
-2026-10-12. The immutable v0.2.0 tag pins revision
-0344b8d6c1935b9de3009cbd46257bfa99060b8a. Signatures, Apple notarization,
-local qualification, isolated macOS 14.6.1 installation, exact installed matching
-output and anonymous public-asset verification pass; publication is complete.
-Preserve the tag and all distributed bytes. Source PR #11 and native matching
-integration remain separate. The host engine and live font were not replaced.
+A read-only audit on 2026-10-17 verified that standalone engine 0.2.0 was already
+published on 2026-10-12 at tag commit
+`0344b8d6c1935b9de3009cbd46257bfa99060b8a`. Preserve that tag and every distributed
+asset as well. The owner selected engine 0.2.1 and companion 0.2.0 for the newer
+fitting, smoothing and sidebar work. This authorizes version preparation, tests
+and local unsigned packages; source freeze, installation/relaunch, signing,
+notarization and publication retain their separate requirements and gates.
+
+The owner subsequently approved source reconciliation/commits and installation
+of companion 0.2.0/build 24, including a Glyphs relaunch and native acceptance on
+disposable test fonts. Preserve unrelated unsaved fonts before relaunching.
+Signing, notarization and publication of these new artifacts are not included in
+that approval and remain separate final steps after qualification.
 
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
 discard unrelated changes.
+
+On 2026-10-18 the owner explicitly approved signing and notarization of engine
+0.2.1 and companion 0.2.0/build 25 using the existing Developer ID/Apple
+credentials, signed installation qualification, and publication to the existing
+GitHub repository only after the remaining distribution checks pass. Native
+Intel testing is untested and owner-waived for these exact versions; Rosetta
+must still be reported separately. This does not waive other release gates or
+authorize changes to previously published tags or assets.
 
 ## Local execution policy
 
@@ -122,3 +136,13 @@ A working local executable is not a viable product. No v1 release is eligible
 until the library, CLI, schema, fixtures, benchmarks, licensing, SBOM,
 universal build, Developer ID signing, notarization, package installation, and
 non-Glyphs workflow validation all pass the documented gates.
+
+## Qualified 2026-10-18 release
+
+The owner separately authorized engine 0.2.1 and companion 0.2.0/build 25 signing,
+Apple notarization, signed installation qualification and publication, and
+explicitly waived native Intel testing for these versions. Signed universal
+archives and the stapled engine installer are qualified and published at
+`v0.2.1` and `glyphs-v0.2.0`, frozen source `217dcc0`. Native Intel remains
+untested, owner-waived; Rosetta is separate evidence. Preserve these tags and
+every distributed asset. This authorization does not extend to future versions.

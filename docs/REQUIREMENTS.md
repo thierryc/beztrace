@@ -76,6 +76,13 @@ alpha-defined silhouette on a plain background.
 - Meet all correctness, quality, performance, memory, signing, and packaging
   gates in `QUALITY_GATES.md`.
 
+## Optional 0.2 development extension
+
+Owner-authorized two-master outline matching and sampled interpolation checks
+use a separate versioned contract. The native companion owns Glyphs HOI and
+reviewed application. See [master matching](MASTER_MATCHING.md). The original
+single-image contract and published releases remain unchanged.
+
 ## Explicitly out of scope for the standalone engine v1
 
 - Photographs and scans of printed type.
