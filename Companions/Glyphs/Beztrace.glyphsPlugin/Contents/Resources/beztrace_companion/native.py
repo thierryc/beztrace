@@ -31,7 +31,15 @@ def _native_items(collection):
 
 
 def _properties(obj, names):
-    return tuple((key, _value(getattr(obj, key, None))) for key in names)
+    # Some Glyphs versions expose model properties as raw zero-argument ObjC
+    # selectors. Compare their values, never an address-bearing method repr.
+    result = []
+    for key in names:
+        value = getattr(obj, key, None)
+        if callable(value):
+            value = value()
+        result.append((key, _value(value)))
+    return tuple(result)
 
 
 class GlyphsHost:
@@ -178,7 +186,7 @@ class GlyphsHost:
                 tuple(_properties(a, ['name','position','userData']) for a in _native_items(layer.anchors)),
                 tuple(_properties(g, ['position','angle','name','locked']) for g in _native_items(layer.guides)),
                 tuple(_properties(a, ['position','text','type','width','angle']) for a in _native_items(layer.annotations)),
-                tuple(_properties(h, ['type','origin','target','other1','other2','horizontal','options','name','scale']) for h in _native_items(layer.hints)),
+                tuple(_properties(h, ['type','origin','target','other1','other2','horizontal','options','name','scale','stem','alignment','userData']) for h in _native_items(layer.hints)),
                 self.image_state(layer.backgroundImage))
 
     def fingerprint(self, layer):

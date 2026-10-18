@@ -2,7 +2,7 @@
 
 The owner requested a final companion 0.2.0 on 2026-10-17 and selected engine
 0.2.1 after verification of the existing published 0.2.0 engine. The source engine
-is 0.2.1; the companion is 0.2.0/build 24. This prepares local
+is 0.2.1; the companion is 0.2.0/build 25. This prepares local
 unsigned artifacts; it does not claim stable distribution qualification.
 Published engines 0.2.0 and 0.1.1, the 0.2.0-dev.1 preview and companion releases retain
 their original tags and bytes.
@@ -26,7 +26,7 @@ Its release receipts are historical evidence, not qualification for 0.2.1.
 - The four-mode Glyphs companion has small contextual sidebar groups, conditional
   manual correspondence/growth/native HOI controls, hint-preserving application,
   stale-result protection and validated import/export.
-- JSON schema v1 and path data v2 remain unchanged. Companion build 24 explicitly
+- JSON schema v1 and path data v2 remain unchanged. Companion build 25 explicitly
   accepts engine 0.2.1 and retains support for previously accepted versions.
 
 The promotion changes version identity, compatibility and release documentation;
@@ -39,8 +39,8 @@ never install, sign, notarize or publish:
 
 ```sh
 python3 scripts/build_development_engine.py --output .build/beztrace-0.2.1
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.0-build24-final
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.0-build24-final
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.0-build25-ready
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.0-build25-ready
 BEZTRACE_ASAN_DEVELOPER_DIRECTORY=/Applications/Xcode-beta.app/Contents/Developer \
   bash scripts/check_local.sh .build/final-0.2.1-local-checks
 ```

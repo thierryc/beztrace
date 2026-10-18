@@ -1,7 +1,7 @@
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
-**0.2.0 build 24** provides the four-mode dialog, grouped settings, verified joint
+**0.2.0 build 25** provides the four-mode dialog, grouped settings, verified joint
 smoothing and hint-preserving matching. Ordinary tracing accepts the separately
 installed **beztrace 0.1.0 or 0.1.1** engine
 or local **0.1.1-dev.1** through **0.1.1-dev.4** development engines,
@@ -174,8 +174,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.0-build24-final
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.0-build24-final
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.0-build25-ready
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.0-build25-ready
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font
@@ -207,7 +207,7 @@ python3 scripts/build_development_engine.py
 ```
 
 Historically the source companion selected
-`.build/beztrace-0.1.1-dev.4/bin/beztrace`; build 24 now selects the matching
+`.build/beztrace-0.1.1-dev.4/bin/beztrace`; build 25 now selects the matching
 smoothing engine described above. **⋯ → Choose Engine…** remains available
 for an explicit alternative in the trace panel; matching uses **Additional actions… → Choose
 engine…**. A packaged companion outside the checkout still

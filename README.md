@@ -108,7 +108,7 @@ JSON schema v1 is committed at
 
 ## Engine 0.2.1 and companion 0.2.0 preparation
 
-The working engine is **0.2.1** and the companion is **0.2.0/build 24**. This
+The working engine is **0.2.1** and the companion is **0.2.0/build 25**. This
 includes verified hybrid fitting, joint smoothing and the grouped four-mode
 sidebar. Local unsigned preparation remains separate from final qualification,
 signing and notarization. The published standalone engine 0.2.0 and all earlier
@@ -135,7 +135,7 @@ The working source also provides an explicit [joint smoothing step](docs/JOINT_S
 for already-compatible outlines, preserving the reference and node structure
 under the original-source error limit. Use a locally built engine advertising
 `jointSmoothingVersion: 1`; this addition is not a newly published release.
-The working companion 0.2.0/build 24 integrates this as **Smooth compatible joins**
+The working companion 0.2.0/build 25 integrates this as **Smooth compatible joins**
 using matching capability `matchSmoothingVersion: 1`, with native HOI correction
 in the contextual Interpolation group. See the [companion development workflow](Companions/Glyphs/README.md).
 

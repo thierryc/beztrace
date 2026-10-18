@@ -9,7 +9,7 @@
 - Add the four-mode Glyphs companion with contextual sidebar groups, bounded point
   growth, explicit correspondence, native HOI opt-in and hint-preserving application.
 - Retain schema v1 and pathDataVersion 2; add exact engine 0.2.0/0.2.1 compatibility in
-  companion build 24 while retaining earlier supported engine versions.
+  companion build 25 while retaining earlier supported engine versions.
 - Stage local universal packages; clean-source/native acceptance, signed and
   notarized distribution, installation and publication remain separate gates.
 
@@ -95,3 +95,5 @@ First standalone release.
 
 Glyphs.app and Glyphs MCP integration are deliberately not included. They are
 future consumers of the neutral JSON contract.
+
+Native qualification correction (build 25): evaluate native metadata getters, preserve custom hint user data across native copies and recovery, and prepare detached hint copies before attachment. Native hinted Undo remains under qualification.

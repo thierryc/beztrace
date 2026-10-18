@@ -210,3 +210,14 @@ record source provenance. Native installed/loaded acceptance, a clean reviewed
 source revision, the current architecture/performance gates, signing, notarization,
 installation and publication remain required. This request does not perform
 Apple uploads, GitHub publication, font edits, installation or relaunch.
+
+## Build 25 native qualification correction
+
+Within the approved source-freeze/native-acceptance iteration, build 25 corrects
+native getter-backed hint metadata comparison on Glyphs 4.2. The actual Apply
+and recovery failure on a disposable fixture blocks build 24 from release.
+Reproduce and qualify build 25, keeping prior candidates and failure logs.
+The engine version remains 0.2.1 and the companion version remains 0.2.0.
+Build 25 also preserves custom hint userData omitted by the native copy operation,
+including recovery snapshots. An actual installed-document Undo/Redo pass is
+required; the headless hint Undo grouping failure is retained as pending evidence.

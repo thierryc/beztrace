@@ -38,7 +38,7 @@ def validate_source():
     meta=plistlib.loads((BUNDLE/'Contents/Info.plist').read_bytes())
     if not (meta['CFBundleIdentifier']=='dev.beztrace.glyphs'):
         raise ValueError('Package validation failed at package.py:38')
-    if not (meta['CFBundleShortVersionString']=='0.2.0' and meta['CFBundleVersion']=='24'):
+    if not (meta['CFBundleShortVersionString']=='0.2.0' and meta['CFBundleVersion']=='25'):
         raise ValueError('Package validation failed at package.py:39')
     version=meta['CFBundleShortVersionString']
     source=json.loads((BUNDLE/'Contents/Resources/GlyphsSDK-SOURCE.json').read_text())

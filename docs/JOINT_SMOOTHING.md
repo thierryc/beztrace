@@ -20,7 +20,7 @@ use the original target outline. Raster jobs use the unsimplified, placed image
 boundary retained by extraction; the fitted `sourceMasters` snapshot cannot reset
 the budget. Pair routes also retain their original vector/raster and envelope
 gates. Accepted geometry reuses the smoother's final interpolation sweep. No
-second smoothing pass or graph search is added. Companion 0.2.0/build 24 exposes this
+second smoothing pass or graph search is added. Companion 0.2.0/build 25 exposes this
 as **Smooth compatible joins**; optional native HOI sits in the Interpolation group.
 
 ## Use

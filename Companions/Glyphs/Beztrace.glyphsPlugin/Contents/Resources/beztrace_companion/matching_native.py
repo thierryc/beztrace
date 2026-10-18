@@ -207,21 +207,27 @@ class MatchingHost(GlyphsHost):
         return prepare(self,ctx,stage,result)
 
     def snapshot(self,layer):
+        from .matching_hints import user_data
         snapshot=super().snapshot(layer)
         snapshot['hints']=list(_native_items(layer.hints))
+        snapshot['hintUserData']=[user_data(hint) for hint in snapshot['hints']]
         return snapshot
 
     def restore(self,layer,snapshot):
+        from .matching_hints import restore_user_data
         if [self.shape_state(s) for s in snapshot['shapes']]==snapshot['shapeStates']:
             layer.hints=[]
             layer.shapes=snapshot['shapes']; layer.hints=snapshot['hints']
             layer.width=snapshot['width']
+            restore_user_data(layer.hints,snapshot['hintUserData'])
             if self.preserved_state(layer)==snapshot['preserved']:
                 return
         # Copy paths and hints together so backup references remain coherent.
         backup=snapshot['layer'].copy()
+        restore_user_data(backup.hints,snapshot['hintUserData'])
         layer.hints=[]
         layer.shapes=list(backup.shapes); layer.hints=list(_native_items(backup.hints))
+        restore_user_data(layer.hints,snapshot['hintUserData'])
         layer.width=snapshot['width']
 
     def verify_stage(self,ctx,stage,snapshots):

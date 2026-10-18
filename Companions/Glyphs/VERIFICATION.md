@@ -917,3 +917,31 @@ retained; the new executable must reproduce their geometry and refusal limits.
 This version promotion does not establish installed/loaded Glyphs qualification,
 clean-source provenance, signing, notarization, installation or publication.
 The outstanding gates are listed in the [release record](../../docs/RELEASE_0.2.1.md).
+
+## Build 25: native getter-backed metadata (2026-10-17)
+
+Additional detached native hint acceptance on Glyphs 4.2/build 4202 found that
+GSHint metadata can be exposed as raw zero-argument Objective-C getters. Build 24
+compared the selector description, whose identity differs across copied hints,
+and refused Apply; its recovery fingerprint also failed. This was observed only
+on a newly created detached synthetic font. No user font was accessed or changed.
+The first two harness attempts had separate fixture/API errors; their logs are
+retained independently from the third attempt's actual product failure.
+
+Build 25 resolves getter-backed values before normalization and comparison,
+retaining fail-closed native read errors. Regression cases compare copied getter
+objects, detect real metadata changes and propagate unavailable getter failures.
+The build increment prevents stale external Python bytecode. Engine 0.2.1,
+fitting, smoothing, error limits, references and node compatibility are unchanged.
+Native fixture evidence and final package hashes remain in the external release
+qualification records. Build-24 source/package evidence remains historical and
+does not qualify build 25.
+
+The same native fixture exposed GSHint.copy() omitting custom userData on
+Glyphs 4.2. Build 25 copies that dictionary before attachment, transfers each
+prepared hint once, snapshots recovery dictionaries explicitly, and includes
+stem/alignment/userData in preserved-state checks. Unit coverage includes native
+copies omitting dictionaries and a guard against metadata setters on attached
+hints. Actual native Apply now retains those values. Headless hint Undo raises
+a GSUndoManager grouping error and remains unqualified pending the authorized
+installed-document acceptance; it is not counted as passing native Undo.

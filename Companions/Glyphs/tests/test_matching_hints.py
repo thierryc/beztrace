@@ -11,6 +11,28 @@ from beztrace_companion.contract import CompanionError
 from beztrace_companion.matching_native import MatchingHost
 
 
+class NativePropertyTests(unittest.TestCase):
+    def test_copied_native_getters_compare_values_and_detect_real_changes(self):
+        class RawHint:
+            type=0
+            def __init__(self): self.data={'custom':'preserve'}
+            def userData(self): return self.data
+            def scale(self): return (1.,1.)
+        hint=RawHint(); clone=copy.deepcopy(hint)
+        self.assertEqual(matching_hints.metadata(hint),matching_hints.metadata(clone))
+        values=dict(matching_hints.metadata(hint))
+        self.assertEqual(values['userData'],(('custom','preserve'),))
+        self.assertEqual(values['scale'],(1.,1.))
+        clone.data['custom']='changed'
+        self.assertNotEqual(matching_hints.metadata(hint),matching_hints.metadata(clone))
+
+    def test_unreadable_native_getter_is_not_hidden_by_a_description(self):
+        class BrokenHint:
+            def userData(self): raise RuntimeError('native read failed')
+        with self.assertRaisesRegex(RuntimeError,'native read failed'):
+            matching_hints.metadata(BrokenHint())
+
+
 class Native:
     @property
     def pyobjc_instanceMethods(self):
@@ -154,6 +176,44 @@ class HintTransactionTests(unittest.TestCase):
             ci,ni=mapping[(0,old)]
             self.assertIs(getattr(installed,name),self.host.layers[1].paths[ci].nodes[ni])
         self.assertEqual(self.host.events,['begin','end','redraw'])
+    def test_native_copy_omitting_user_data_is_repaired_before_apply(self):
+        hint=self.attach(1); before=matching_hints.metadata(hint)
+        original_copy=Hint.copy
+        def native_copy(source):
+            clone=original_copy(source); clone.userData={}; return clone
+        with patch.object(Hint,'copy',native_copy):
+            plan=self.prepare(); matching.apply_match(plan)
+        self.assertEqual(matching_hints.metadata(self.host.layers[1].hints[0]),before)
+
+    def test_hint_metadata_is_set_while_detached_before_collection_undo(self):
+        class NativeCopyHint(Hint):
+            def copy(self):
+                clone=copy.copy(self); clone.parent=None; clone.userData={}; return clone
+            def setUserData_(self,value):
+                if self.parent is not None:
+                    raise RuntimeError('attached metadata setter adds native Undo operations')
+                self.userData=value
+        layer=self.host.layers[1]
+        hint=NativeCopyHint(layer,[layer.paths[0].nodes[i] for i in range(4)])
+        layer.hints.append(hint); before=matching_hints.metadata(hint)
+        plan=self.prepare(); matching.apply_match(plan)
+        self.assertEqual(matching_hints.metadata(layer.hints[0]),before)
+
+    def test_recovery_preserves_user_data_when_native_layer_copy_omits_it(self):
+        self.attach(0); self.attach(1)
+        original_copy=Layer.copy
+        def native_copy(layer):
+            clone=original_copy(layer)
+            for hint in clone.hints: hint.userData={}
+            return clone
+        before=[self.host.fingerprint(layer) for layer in self.host.layers]
+        with patch.object(Layer,'copy',native_copy):
+            plan=self.prepare(); self.host.fail='install'
+            with self.assertRaisesRegex(CompanionError,'both master layers were restored'):
+                matching.apply_match(plan)
+        self.assertEqual([self.host.fingerprint(layer) for layer in self.host.layers],before)
+        self.assertFalse(plan.poisoned)
+
     def test_ghost_and_absolute_hints_are_preserved(self):
         self.attach(1,(0,None,None,None)); absolute=self.attach(1,(None,None,None,None))
         plan=self.prepare(); matching.apply_match(plan)

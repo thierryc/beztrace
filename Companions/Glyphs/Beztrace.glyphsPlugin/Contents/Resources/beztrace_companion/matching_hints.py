@@ -1,6 +1,7 @@
 # Copyright 2026 beztrace contributors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Apply-only hint correspondence. Never infer node identity from proximity."""
+import copy
 from .contract import CompanionError
 from .native import _native_items, _properties
 
@@ -16,6 +17,29 @@ class HintMappingError(CompanionError):
 
 def metadata(hint):
     return _properties(hint, METADATA)
+
+
+def user_data(hint):
+    """Capture the actual native dictionary before any layer replacement."""
+    value=getattr(hint,'userData',None)
+    if callable(value): value=value()
+    return None if value is None else copy.deepcopy(dict(value))
+
+
+def set_user_data(hint,value):
+    # GSHint.copy() omits userData on Glyphs 4.2. Restore it on the actual
+    # destination object, including copies made by native collection setters.
+    value=copy.deepcopy(value)
+    setter=getattr(hint,'setUserData_',None)
+    if callable(setter): setter(value)
+    else: hint.userData=value
+
+
+def restore_user_data(hints,values):
+    hints=_native_items(hints)
+    if len(hints)!=len(values): raise CompanionError('Matching changed the hint count during recovery')
+    for hint,value in zip(hints,values):
+        if user_data(hint)!=value: set_user_data(hint,value)
 
 
 def node_map(current, result, master):
@@ -97,8 +121,11 @@ def _prepare(host, ctx, stage, result):
                            (dest_ci, (dest_ni + delta) % new_count) for delta in (-1, 1)):
                         raise HintMappingError('Apply blocked: matching changes the segments used by a corner or cap hint. Review that hint before applying.')
             absolute=[key for ref,key in zip(old_refs,('position','width')) if ref is None]
-            transfer['hints'].append(dict(hint=hint.copy(), refs=mapped, metadata=metadata(hint),
-                                          absolute=_properties(hint, absolute)))
+            data=user_data(hint); clone=hint.copy(); set_user_data(clone,data)
+            if metadata(clone)!=metadata(hint):
+                raise HintMappingError('Apply blocked: native hint settings could not be copied safely.')
+            transfer['hints'].append(dict(hint=clone, refs=mapped, metadata=metadata(hint),
+                                          userData=data,absolute=_properties(hint, absolute)))
     return dict(stage, hint_transfers=transfers)
 
 
@@ -109,7 +136,10 @@ def install(host, layer, prepared, transfer):
     # installed nodes. Never leave a copied hint pointing into the preview font.
     layer.hints = []
     layer.shapes = [s.copy() for s in prepared.shapes]
-    layer.hints = [entry['hint'].copy() for entry in transfer['hints']]
+    # Transfer each already-detached, metadata-verified hint exactly once.
+    # Copying again drops native userData; setting it after attachment also
+    # adds native Undo operations outside the intended collection transaction.
+    layer.hints = [entry['hint'] for entry in transfer['hints']]
     for hint, entry in zip(_native_items(layer.hints), transfer['hints']):
         for (attribute, _), ref in zip(REFERENCES, entry['refs']):
             if ref is not None:
