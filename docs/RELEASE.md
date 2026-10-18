@@ -1,5 +1,10 @@
 # Release and verification
 
+The new engine **0.2.1** and companion **0.2.0/build 24** are in
+[release preparation](RELEASE_0.2.1.md). Their new bytes require independent
+qualification and signing. The following published 0.2.0 assets retain their
+original tag and checksums.
+
 Version `0.2.0` is the standalone matching release. The final release receipt
 records completion of distribution gates; a source checkout alone is not a
 verified signed download. The signed ZIP runs without installation and includes
@@ -30,7 +35,7 @@ ZIP, or follow [the pair workflow](PAIR_WORKFLOW.md) for your own inputs.
 ## Historical stable 0.1.1
 
 
-Version `0.1.1` is the current downloadable stable standalone beztrace release. It supports macOS 13
+Version `0.1.1` is the preceding stable standalone beztrace release. It supports macOS 13
 or later on Apple Silicon and Intel Macs and has no non-system runtime
 dependency.
 

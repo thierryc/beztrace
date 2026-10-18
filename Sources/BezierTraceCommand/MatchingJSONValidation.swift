@@ -24,7 +24,7 @@ enum MatchingJSONValidation {
         }
         let root = try keys(object,preflight ? ["schemaVersion","unitsPerEm","reference","options","rasterOptions","referenceImage"] : ["schemaVersion","unitsPerEm","axis","reference","target","options","mode","images","rasterOptions"])
         if let axis = root["axis"] { _ = try keys(axis,["tag","locations"]) }
-        if let options = root["options"] { _ = try keys(options,["referencePolicy","fitTolerance","contourPairs","startNodes","preserveStructure","maxAdditionalOnCurveNodes","maxOnCurveNodes","maxNodes"]) }
+        if let options = root["options"] { _ = try keys(options,["referencePolicy","fitTolerance","contourPairs","startNodes","preserveStructure","maxAdditionalOnCurveNodes","maxOnCurveNodes","maxNodes","smoothJoins"]) }
         if let reference = root["reference"] { try master(reference) }
         if let target = root["target"] { try master(target) }
         if preflight {

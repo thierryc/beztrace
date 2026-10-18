@@ -104,6 +104,10 @@
           "minimum": 3,
           "maximum": 4096,
           "default": 64
+        },
+        "smoothJoins": {
+          "type": "boolean",
+          "default": false
         }
       }
     },
@@ -428,6 +432,106 @@
           "type": "integer",
           "minimum": 3,
           "maximum": 4096
+        }
+      }
+    },
+    "jointSmoothing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "eligibleJoins",
+        "changedHandles",
+        "proposedHandleChanges",
+        "referenceUnchanged",
+        "structurePreserved",
+        "sampleCount",
+        "nativeHOIVerified",
+        "proposalDeviation",
+        "beforeMaximumTangencyResidual",
+        "afterMaximumTangencyResidual"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "smoothed",
+            "unchanged"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "eligibleJoins": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "changedHandles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "contour",
+              "node"
+            ],
+            "properties": {
+              "contour": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "node": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "proposedHandleChanges": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "proposalDeviation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "lowerBound",
+            "upperBound",
+            "uncertainty"
+          ],
+          "properties": {
+            "lowerBound": {
+              "type": "number",
+              "minimum": 0
+            },
+            "upperBound": {
+              "type": "number",
+              "minimum": 0
+            },
+            "uncertainty": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "beforeMaximumTangencyResidual": {
+          "type": "number",
+          "minimum": 0
+        },
+        "afterMaximumTangencyResidual": {
+          "type": "number",
+          "minimum": 0
+        },
+        "referenceUnchanged": {
+          "const": true
+        },
+        "structurePreserved": {
+          "const": true
+        },
+        "sampleCount": {
+          "const": 201
+        },
+        "nativeHOIVerified": {
+          "const": false
         }
       }
     }

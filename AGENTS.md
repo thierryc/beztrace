@@ -20,17 +20,27 @@ The owner explicitly authorized Apple uploads on 2026-10-05 and completed local
 Keychain and administrator approval. Stable 0.1.1 signing, notarization,
 installation, source qualification and anonymous GitHub asset verification
 passed; publication is complete. Preserve the immutable v0.1.1 tag and
-distributed bytes. Authorization did not extend to later versions or companion distribution.
-On 2026-10-12 the owner separately authorized the signed public standalone
-matching release 0.2.0, including Developer ID signing and Apple notarization.
-Use `lit/master-matching`; preserve all existing release tags and assets.
-Native font edits, companion distribution and Glyphs installation/restarts
-remain outside this release. No stable gate is waived.
+distributed bytes. Authorization does not extend to later versions or companion
+distribution.
 The project owner has separately authorized the Glyphs 4 companion under `Companions/Glyphs` on
 `lit/glyphs-companion`, using the released CLI and neutral JSON contract. This
 authorizes source, tests, and unsigned local packaging only; live installation,
 relaunch, user-font edits, signing, notarization, and publication require separate
 authorization.
+
+A read-only audit on 2026-10-17 verified that standalone engine 0.2.0 was already
+published on 2026-10-12 at tag commit
+`0344b8d6c1935b9de3009cbd46257bfa99060b8a`. Preserve that tag and every distributed
+asset as well. The owner selected engine 0.2.1 and companion 0.2.0 for the newer
+fitting, smoothing and sidebar work. This authorizes version preparation, tests
+and local unsigned packages; source freeze, installation/relaunch, signing,
+notarization and publication retain their separate requirements and gates.
+
+The owner subsequently approved source reconciliation/commits and installation
+of companion 0.2.0/build 24, including a Glyphs relaunch and native acceptance on
+disposable test fonts. Preserve unrelated unsaved fonts before relaunching.
+Signing, notarization and publication of these new artifacts are not included in
+that approval and remain separate final steps after qualification.
 
 Before any future implementation work, read every document linked from the
 root `README.md`, confirm the current branch, and inspect the worktree. Never
@@ -42,8 +52,16 @@ On 2026-10-12 the owner explicitly requested removal of all GitHub workflows
 and Actions. Run tests and qualification locally with `scripts/check_local.sh`;
 do not enable Actions, add workflow files, dispatch cloud runners, or expand
 workflow token permissions. Preserve historical receipts without presenting
-Rosetta as native Intel evidence. Keep website deployment paused while its
-hosting path requires Actions; prepare and verify the static site locally.
+Rosetta as native Intel evidence.
+
+The owner subsequently authorized a narrow GitHub Pages deployment exception
+on 2026-10-12. Build and verify the static site locally, push only its output to
+`gh-pages`, and configure Pages as Deploy from a branch, `gh-pages`, `/(root)`.
+Retain `.nojekyll`. This configuration was verified live while repository Actions
+remained disabled; no custom workflow or hosted engine test/build ran. Keep
+Actions disabled unless the owner's Pages-only exception is actually needed for
+that built-in deployment. The exception never authorizes hosted engine builds,
+tests, release qualification, or restoration of custom workflow files.
 
 ## Branch contract
 

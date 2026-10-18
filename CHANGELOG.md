@@ -1,14 +1,24 @@
 # Changelog
 
-## 0.2.0 — standalone master matching
+## Engine 0.2.1 / companion 0.2.0 — preparation, not yet published
 
-- Match two glyph masters from images, outlines, or one of each with `match-pair`.
-- Keep a vector reference exact by default; shared structure changes require explicit budgets.
-- Add direct, retracing and smart routes with measured source fidelity and structured refusals.
-- Improve bounded fixed-structure fitting for the R controls and remove observed architecture differences.
-- Preserve tolerance, placement, intentional segment types and immutable fixtures.
-- Include versioned schemas, owned R/Y examples, numbered proofs and source provenance.
-- Keep native font application, matching UI and native HOI outside the standalone release.
+- Retain standalone matching of two images, image to reference, and two outlines.
+- Add independently verified Levien-first fitting with refined least-squares fallback.
+- Add efficient joint smoothing within the original error limit, preserving the
+  reference, on-curves and compatible node structure. Graph selection is deferred.
+- Add the four-mode Glyphs companion with contextual sidebar groups, bounded point
+  growth, explicit correspondence, native HOI opt-in and hint-preserving application.
+- Retain schema v1 and pathDataVersion 2; add exact engine 0.2.0/0.2.1 compatibility in
+  companion build 24 while retaining earlier supported engine versions.
+- Stage local universal packages; clean-source/native acceptance, signed and
+  notarized distribution, installation and publication remain separate gates.
+
+## 0.2.0 — 2026-10-12
+
+- Publish standalone master matching with unchanged preview geometry and fixtures.
+- Distribute the signed/notarized universal ZIP and installer, schemas and R/Y examples.
+- Qualify the standalone package independently; native font application and the
+  companion remain outside the engine release. Preserve the tag and asset bytes.
 
 ## 0.1.1 — 2026-10-05
 

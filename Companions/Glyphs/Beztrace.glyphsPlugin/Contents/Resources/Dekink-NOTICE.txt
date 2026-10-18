@@ -1,0 +1,14 @@
+Native Dekink
+Copyright 2026 Thierry Charbonnel (thierryc)
+
+This skill is contributed to glyphs-mcp-skills under Apache-2.0.
+The included LICENSE applies to the instructions, scripts, synthetic regression
+fonts and recorded qualification evidence in this folder.
+
+Source: https://github.com/thierryc/dekink-glyphs4
+Directory: rebuild/dekink-native
+Source commit: f6c33d969732716698e8a10e0714e1ec4b74a118
+
+Catalog packaging adds license/attribution, invocation boundaries and examples,
+and replaces a reference outside the skill folder with a pinned source URL.
+Native scripts, test fonts and qualification reports are unchanged.

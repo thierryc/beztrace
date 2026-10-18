@@ -176,3 +176,37 @@ schema v1 and path data v2 remain unchanged.
 
 Detect numeric build 11 and verify payload hashes. Dev.4 and build 11 remain
 unsigned, uninstalled and development-unqualified local artifacts.
+
+## Current build 13 qualification handoff
+
+The current source candidate is 0.1.0/build 13 and accepts stable engine 0.1.1.
+It corrects lazy default-crop capture and assigns distinct deterministic ZIP
+member timestamps per build to invalidate external PythonCache. The earlier
+build descriptions above are historical. See the
+[qualification record](QUALIFICATION_BUILD13.md) for bounded evidence and gates.
+No committed/published build-13 source URL or stable plugin download is established
+by an uncommitted package. Keep the existing public source pin until a new source
+checkpoint is authorized and remotely available. Require exact final archive,
+manifest and checksums; native-tested status, signing and notarization are separate.
+
+
+## Development build 16: matching
+
+`0.2.0-dev.1` / build 16 extends qualified build 15 without changing its trace
+flow. `matching.prepare_match(font, glyph, reference_id, settings=..., engine=...)`
+
+Matching settings include `maxAdditionalOnCurveNodes=0`, `maxOnCurveNodes=64`
+and `maxNodes=64`. Limits cover all contours; `maxNodes` includes off-curve
+handles. `nodeBudgetVersion=1` is required in engine capabilities. Imports and
+Apply independently check geometry counts; preserved-structure review adds no
+nodes. The native panel initializes its total ceiling to 125% of the selected
+reference's count, and users explicitly choose any extra-point allowance.
+returns a cancellable preparation. Call `advance()` from the main thread until
+`done`; inspect `plan`, then call `apply_match(plan)` once. `export_match(plan)`
+returns the reviewed master-set bytes. Import passes `imported=bytes` and
+`confirm_axis=True` after the caller presents the two mappings. `source_mode` is
+0 for vectors, 1 for reference-guided tracing, 2 for joint raster planning and 3
+for structure-preserving review. Raster options are a separate neutral object.
+The matching API version and envelope version are 1; trace schema 1/path data 2
+remain unchanged. The core never verifies native HOI. Build 16 is unsigned and
+awaits native qualification.

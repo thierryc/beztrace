@@ -149,3 +149,34 @@ contract. Different counter topology, genuine crossings, ambiguity and exhausted
 limits still require a refusal or explicit correspondence/artwork correction.
 This scope is not a guarantee that every imaginable silhouette can fit every
 reference within a finite budget.
+
+## Explicit joint smoothing of compatible outlines
+
+After correspondence is prepared, the standalone `smooth-masters` command can
+repair eligible target smooth joins while keeping the supplied reference and
+all node types, ordering, flags and on-curves fixed. This is a separate opt-in
+operation, documented in [Joint smoothing](JOINT_SMOOTHING.md). It verifies the
+complete target against the original vector source under the same tolerance;
+a failed proposal returns the unmodified pair and an explicit refusal.
+
+For a vector-to-vector master set, construct a request using its original source:
+
+```sh
+python3 - <<'PY'
+import json
+m = json.load(open('recommended.master-set.json'))
+source = next(s['outline'] for s in m['sourceMasters'] if s['id'] == m['target']['id'])
+request = dict(schemaVersion=1, unitsPerEm=m['unitsPerEm'],
+               fitTolerance=m['options']['fitTolerance'],
+               reference=m['reference']['outline'], target=m['target']['outline'],
+               sourceTarget=source)
+with open('smoothing-request.json', 'w') as f:
+    json.dump(request, f)
+PY
+beztrace smooth-masters smoothing-request.json --output smoothing-result.json --json-errors
+```
+
+Inspect `report.status` as well as the exit code. Preserve the original request.
+This command accepts vector source outlines; it does not replace the pair
+workflow's verification against original raster coverage. Native HOI metadata
+remains outside the neutral geometry contract.

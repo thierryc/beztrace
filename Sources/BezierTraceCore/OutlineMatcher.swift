@@ -74,7 +74,7 @@ public enum OutlineMatcher {
             guard refData.0.nodes.map(\.type) == targetData.0.nodes.map(\.type) else {
                 throw MasterMatchError.fit(i, "reference segment types cannot represent the target")
             }
-            let deviation = request.options.referencePolicy == .sharedSubdivision ? 0 : MatchGeometry.deviation(original, tt, tolerance: tolerance)
+            let deviation = try PairGeometry.measure(original,tt,tolerance:tolerance).upperBound
             guard deviation <= tolerance else { throw MasterMatchError.fit(i, "target deviation \(deviation) exceeds tolerance \(tolerance)") }
             outputReference.append(refData.0); outputTarget.append(targetData.0)
             reports.append(MatchContourReport(referenceContour: i, targetContour: pairs[i], targetStartNode: targetStart,
@@ -84,7 +84,8 @@ public enum OutlineMatcher {
                 nodeIDs: refData.0.nodes.indices.map { "c\(i).n\($0)" }))
         }
         let a = Outline(contours: outputReference), b = Outline(contours: outputTarget)
-        let interpolation = try InterpolationValidator.validate(reference: a, target: b, unitsPerEm: request.unitsPerEm)
+        let interpolation = request.options.smoothJoins ? MatchSmoothing.pending() :
+            try InterpolationValidator.validate(reference: a, target: b, unitsPerEm: request.unitsPerEm)
         let invalid = interpolation.issues.filter { $0.message != "smooth join tangency residual" }
         if let issue = invalid.first {
             if let diagnostic = issue.diagnostic { throw MasterMatchError.geometryDiagnostic(diagnostic) }
@@ -97,7 +98,9 @@ public enum OutlineMatcher {
             contours: reports, interpolation: interpolation,
             warnings: interpolation.issues.isEmpty ? [] : ["Linear interpolation has sampled tangency residuals; native HOI review is required."])
         result.nodeBudget=try MatchNodeBudget.check(outputReference.reduce(0) { $0+$1.nodes.filter { $0.type != .offcurve }.count },referenceCount:referenceCount,options:request.options,totalNodes:outputReference.reduce(0) { $0+$1.nodes.count })
-        return result
+        return try MatchSmoothing.apply(result) {
+            try PairGeometry.measure(request.target.outline,$0,tolerance:request.options.fitTolerance)
+        }
     }
 
     private static func review(_ request: MasterMatchRequest) throws -> MasterMatchResult {
@@ -108,7 +111,8 @@ public enum OutlineMatcher {
         guard zip(a.contours,b.contours).allSatisfy({ $0.nodes.map(\.type) == $1.nodes.map(\.type) }) else {
             throw MasterMatchError.topology("review requires compatible node structures")
         }
-        let report = try InterpolationValidator.validate(reference:a,target:b,unitsPerEm:request.unitsPerEm)
+        let report = request.options.smoothJoins ? MatchSmoothing.pending() :
+            try InterpolationValidator.validate(reference:a,target:b,unitsPerEm:request.unitsPerEm)
         if let issue = report.issues.first(where: { $0.message != "smooth join tangency residual" }) {
             if let diagnostic = issue.diagnostic { throw MasterMatchError.geometryDiagnostic(diagnostic) }
             throw MasterMatchError.geometry("review interpolation fails at \(issue.factor): \(issue.message)")
@@ -119,9 +123,10 @@ public enum OutlineMatcher {
             referenceSourceNodes:a.contours[i].nodes.indices.map { Optional($0) },
             targetSourceNodes:b.contours[i].nodes.indices.map { Optional($0) },
             nodeIDs:a.contours[i].nodes.indices.map { "c\(i).n\($0)" }) }
-        return MasterMatchResult(unitsPerEm:request.unitsPerEm,axis:request.axis,reference:request.reference,target:request.target,
+        let result = MasterMatchResult(unitsPerEm:request.unitsPerEm,axis:request.axis,reference:request.reference,target:request.target,
             options:request.options,sourceHashes:try [hash(a),hash(b)],sourceMasters:[request.reference,request.target],
             contours:contours,interpolation:report,warnings:report.issues.isEmpty ? [] : ["Sampled smooth joins require native HOI review."])
+        return try MatchSmoothing.apply(result) { try PairGeometry.measure(b,$0,tolerance:request.options.fitTolerance) }
     }
 
     static func validate(_ r: MasterMatchRequest) throws {
@@ -357,8 +362,9 @@ public enum OutlineMatcher {
                     ? target.spans[(bi + target.spans.count - 1) % target.spans.count].curve.derivative(at: 1)
                     : target.spans[bi].curve.derivative(at: bt)
                 let db = -(incoming.matchNormalized() ?? Vector2D(dx: 1, dy: 0))
-                let fit = ContourFitter.constrainedCubicFit(samples: samples, startTangent: da, endTangent: db, deterministicLengths: true)
-                span = MatchSpan(curve: fit.curve, line: false, startSource: at < 1e-7 ? target.spans[ai].startSource : nil,
+                let fitted = HybridCubicFitter.fit(target.sourceCurves(start,end),tolerance:tolerance)?.curve
+                    ?? ContourFitter.constrainedCubicFit(samples: samples, startTangent: da, endTangent: db, deterministicLengths: true).curve
+                span = MatchSpan(curve: fitted, line: false, startSource: at < 1e-7 ? target.spans[ai].startSource : nil,
                                  controlSources: [nil, nil], smooth: at < 1e-7 ? target.spans[ai].smooth : true)
                 if chordDeviation(samples) <= 1e-8 { span.curve = lineCubic(from: samples[0], to: samples.last!); span.line = true }
             }

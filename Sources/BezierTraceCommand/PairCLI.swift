@@ -110,7 +110,7 @@ enum PairCLI {
         _=try keys(d["axis"] as Any,["tag","locations"],"axis")
         guard let inputs=d["inputs"] as? [Any],inputs.count==2 else { throw MasterMatchError.invalid("inputs must contain exactly two entries") }
         for (i,v) in inputs.enumerated() { _=try keys(v,["id","kind","path","transform"],"inputs[\(i)]") }
-        if let o=d["options"] { _=try keys(o,["referencePolicy","fitTolerance","maxAdditionalOnCurveNodes","maxOnCurveNodes","maxNodes","contourPairs","startNodes"],"options") }
+        if let o=d["options"] { _=try keys(o,["referencePolicy","fitTolerance","maxAdditionalOnCurveNodes","maxOnCurveNodes","maxNodes","contourPairs","startNodes","smoothJoins"],"options") }
         if let o=d["rasterOptions"] { _=try keys(o,["threshold","invert","minimumContourArea","smoothing","cornerThresholdDegrees"],"rasterOptions") }
     }
     static func validateOutline(_ raw: Any) throws {

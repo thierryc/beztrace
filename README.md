@@ -75,9 +75,9 @@ does not include the separately distributed native Glyphs companion.
 - PNG and JPEG input by path or standard input.
 - Canonical neutral geometry plus explicit caller-supplied placement.
 - Versioned JSON and SVG output.
-- No photography, arbitrary multicolor segmentation, UFO/GLIF writing, learned
-  models, network access, or Glyphs.app dependency. Version 0.2 adds detached
-  compatible-master geometry under explicit limits.
+- No photography, arbitrary multicolor segmentation, variable-font master
+  matching, UFO/GLIF writing, learned models, network access, or Glyphs.app
+  dependency in v1.
 
 The implementation is a one-time derivative Swift port of img2bez
 commit `23073ca08ecdac61ad0e838bfae49a590bc2c7cc`, licensed under
@@ -106,9 +106,17 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
-## Compatible master matching
+## Engine 0.2.1 and companion 0.2.0 preparation
 
-[Download 0.2.0](https://github.com/thierryc/beztrace/releases/tag/v0.2.0)
+The working engine is **0.2.1** and the companion is **0.2.0/build 24**. This
+includes verified hybrid fitting, joint smoothing and the grouped four-mode
+sidebar. Local unsigned preparation remains separate from final qualification,
+signing and notarization. The published standalone engine 0.2.0 and all earlier
+release assets retain their original bytes. See the [release preparation record](docs/RELEASE_0.2.1.md).
+
+## Compatible master matching preview
+
+[Download 0.2.0-dev.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.0-dev.1)
 for detached matching of two images, an outline plus an image, or two outlines.
 Provide your two glyph sources, run matching, and review the compatible outlines
 and intermediate weights before importing them into your font editor.
@@ -119,15 +127,23 @@ and intermediate weights before importing them into your font editor.
 
 The archive includes runnable R/Y examples, schemas and visual review reports.
 A vector reference stays exact by default; shared growth requires explicit limits.
-The signed standalone release includes no native matching UI or font writer.
-See [release qualification](docs/RELEASE_0.2.0.md)
+This is an **unsigned development preview**. Native matching UI, font application
+and stable release qualification remain separate. See [preview status](docs/RELEASE_0.2.0-dev.1.md)
 and [configuration](docs/PAIR_WORKFLOW.md).
 
-## Install the current stable release (v0.2.0)
+The working source also provides an explicit [joint smoothing step](docs/JOINT_SMOOTHING.md)
+for already-compatible outlines, preserving the reference and node structure
+under the original-source error limit. Use a locally built engine advertising
+`jointSmoothingVersion: 1`; this addition is not a newly published release.
+The working companion 0.2.0/build 24 integrates this as **Smooth compatible joins**
+using matching capability `matchSmoothingVersion: 1`, with native HOI correction
+in the contextual Interpolation group. See the [companion development workflow](Companions/Glyphs/README.md).
+
+## Install the published standalone release (0.2.0)
 
 Download `beztrace-0.2.0.pkg` and `SHA256SUMS` from the
 [v0.2.0 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.0),
-verify the checksum, then install the notarized package:
+verify the checksum, then install the signed, notarized package:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
@@ -137,8 +153,10 @@ beztrace --version
 
 The installer places the universal executable under
 `/Library/Application Support/beztrace/bin` and exposes it as
-`/usr/local/bin/beztrace`. See the [release and verification guide](docs/RELEASE.md)
-for assets, signatures, SBOMs, and smoke tests.
+`/usr/local/bin/beztrace`. The released Glyphs companion requires its separately
+supported 0.1.1 engine; installing the CLI does not upgrade that consumer.
+Use the standalone ZIP when retaining the existing shared engine. See the
+[release guide](docs/RELEASE.md) and [0.2.0 record](docs/RELEASE_0.2.0.md).
 
 ## Repository policy
 

@@ -7,6 +7,7 @@ Never signs, installs, downloads, publishes, or launches Glyphs.
 """
 import argparse
 import ast
+from datetime import datetime, timedelta
 import hashlib
 import json
 import os
@@ -37,8 +38,9 @@ def validate_source():
     meta=plistlib.loads((BUNDLE/'Contents/Info.plist').read_bytes())
     if not (meta['CFBundleIdentifier']=='dev.beztrace.glyphs'):
         raise ValueError('Package validation failed at package.py:38')
-    if not (meta['CFBundleShortVersionString']=='0.1.0' and meta['CFBundleVersion']=='12'):
+    if not (meta['CFBundleShortVersionString']=='0.2.0' and meta['CFBundleVersion']=='24'):
         raise ValueError('Package validation failed at package.py:39')
+    version=meta['CFBundleShortVersionString']
     source=json.loads((BUNDLE/'Contents/Resources/GlyphsSDK-SOURCE.json').read_text())
     loader=BUNDLE/'Contents/MacOS/plugin'
     if not (sha(loader)==source['loaderSha256']):
@@ -51,6 +53,9 @@ def validate_source():
         ast.parse(p.read_text(),filename=str(p))
     if not ((BUNDLE/'Contents/Resources/trace-result-v1.schema.json').read_bytes()==(REPO/'Schemas/trace-result-v1.schema.json').read_bytes()):
         raise ValueError('Package validation failed at package.py:47')
+    for name in ['match-request-v1.schema.json','master-set-v1.schema.json','raster-match-request-v1.schema.json','raster-plan-v1.schema.json','match-diagnostic-v1.schema.json','match-preflight-request-v1.schema.json','match-preflight-result-v1.schema.json']:
+        if (BUNDLE/'Contents/Resources'/name).read_bytes()!=(REPO/'Schemas'/name).read_bytes():
+            raise ValueError('Matching schema drift: '+name)
     return meta,source
 
 
@@ -72,17 +77,18 @@ def build(output):
     for document in sorted(ROOT.glob('*.md')):
         shutil.copy2(document,resources/document.name)
     shutil.copy2(ROOT/'manifest-v1.schema.json',resources/'companion-manifest-v1.schema.json')
+    version=meta['CFBundleShortVersionString']; build_number=int(meta['CFBundleVersion'])
     files=inventory(bundle)
     fingerprint=hashlib.sha256(json.dumps(files,sort_keys=True,separators=(',',':')).encode()).hexdigest()
     revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
     dirty=bool(subprocess.check_output(['git','status','--porcelain','--untracked-files=normal'],cwd=REPO,text=True).strip())
     sbom={
         'spdxVersion':'SPDX-2.3','dataLicense':'CC0-1.0','SPDXID':'SPDXRef-DOCUMENT',
-        'name':'Beztrace for Glyphs 0.1.0',
-        'documentNamespace':'https://beztrace.dev/spdx/glyphs/0.1.0/'+fingerprint,
+        'name':'Beztrace for Glyphs '+version,
+        'documentNamespace':'https://beztrace.dev/spdx/glyphs/'+version+'/'+fingerprint,
         'creationInfo':{'created':'2026-09-27T00:00:00Z','creators':['Organization: beztrace contributors']},
         'packages':[
-            {'name':'Beztrace for Glyphs','SPDXID':'SPDXRef-Companion','versionInfo':'0.1.0',
+            {'name':'Beztrace for Glyphs','SPDXID':'SPDXRef-Companion','versionInfo':version,
              'downloadLocation':'NOASSERTION','filesAnalyzed':False,'licenseConcluded':'Apache-2.0 OR MIT',
              'licenseDeclared':'Apache-2.0 OR MIT','copyrightText':'Copyright 2026 beztrace contributors'},
             {'name':'GlyphsSDK general plugin loader','SPDXID':'SPDXRef-GlyphsSDK','versionInfo':source['revision'],
@@ -128,11 +134,30 @@ def build(output):
                                  'relatedSpdxElement':'SPDXRef-StableEngine1',
                                  'comment':'Supported stable alternative; never bundled.'})
     write_json(resources/'sbom.spdx.json',sbom)
-    archive=output/'beztrace-glyphs-0.1.0-build12-macos-universal.zip'
+    sbom['packages'].extend([
+        dict(sbom['packages'][3],SPDXID='SPDXRef-MatchingEngine',versionInfo='0.2.0-dev.1'),
+        dict(sbom['packages'][3],SPDXID='SPDXRef-MatchingEngine020',versionInfo='0.2.0'),
+        dict(sbom['packages'][3],SPDXID='SPDXRef-MatchingEngine021',versionInfo='0.2.1'),
+        dict(name='dekink-glyphs4 native candidate mathematics and evaluator',SPDXID='SPDXRef-Dekink',
+             versionInfo='f6c33d969732716698e8a10e0714e1ec4b74a118',downloadLocation='https://github.com/thierryc/dekink-glyphs4',
+             filesAnalyzed=False,licenseConcluded='Apache-2.0',licenseDeclared='Apache-2.0',
+             copyrightText='Copyright 2026 Thierry Charbonnel')])
+    sbom['relationships'].extend([
+        dict(spdxElementId='SPDXRef-Companion',relationshipType='DEPENDS_ON',relatedSpdxElement='SPDXRef-MatchingEngine'),
+        dict(spdxElementId='SPDXRef-Companion',relationshipType='DEPENDS_ON',relatedSpdxElement='SPDXRef-MatchingEngine020'),
+        dict(spdxElementId='SPDXRef-Companion',relationshipType='DEPENDS_ON',relatedSpdxElement='SPDXRef-MatchingEngine021'),
+        dict(spdxElementId='SPDXRef-Companion',relationshipType='CONTAINS',relatedSpdxElement='SPDXRef-Dekink')])
+    write_json(resources/'sbom.spdx.json',sbom)
+    archive=output/('beztrace-glyphs-'+version+'-build'+str(build_number)+'-macos-universal.zip')
+    # Glyphs caches timestamp-based Python bytecode outside the bundle. Each
+    # independently numbered build must invalidate same-size source changes,
+    # while repeat packages of that build remain byte-reproducible. ZIP times
+    # have two-second resolution; reserve one distinct slot per build.
+    stamp = (datetime(2026, 9, 27) + timedelta(seconds=2*int(meta['CFBundleVersion']))).timetuple()[:6]
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
         for p in sorted(bundle.rglob('*')):
             if not p.is_file(): continue
-            info=zipfile.ZipInfo(p.relative_to(output).as_posix(),(2026,9,27,0,0,0))
+            info=zipfile.ZipInfo(p.relative_to(output).as_posix(),stamp)
             info.create_system=3
             mode=0o755 if os.access(p,os.X_OK) else 0o644
             info.external_attr=(stat.S_IFREG|mode)<<16
@@ -140,13 +165,13 @@ def build(output):
             z.writestr(info,p.read_bytes(),compresslevel=9)
     files=inventory(bundle)
     manifest={
-        'schemaVersion':1,'id':'beztrace-glyphs','name':'Beztrace for Glyphs','version':'0.1.0','build':12,
+        'schemaVersion':1,'id':'beztrace-glyphs','name':'Beztrace for Glyphs','version':version,'build':build_number,
         'bundleIdentifier':'dev.beztrace.glyphs','bundleName':'Beztrace.glyphsPlugin',
         'sourceRevision':revision,'sourceTreeDirty':dirty,'payloadSha256':hashlib.sha256(json.dumps(files,sort_keys=True,separators=(',',':')).encode()).hexdigest(),
         'platform':{'minimumMacOS':'13.0','architectures':['arm64','x86_64'],
                     'glyphsBundleIdentifier':'com.GeorgSeifert.Glyphs4','glyphsMajorVersion':4,'minimumGlyphsBuild':4107,
                     'python':{'minimumVersion':'3.9','provider':'Glyphs Python runtime','modules':['GlyphsApp','objc','AppKit','Foundation','Quartz']}},
-        'engine':{'name':'beztrace','versions':['0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4','0.1.1'],'bundled':False,'schemaVersions':[1],'pathDataVersions':[2],
+        'engine':{'name':'beztrace','versions':['0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4','0.1.1','0.2.0-dev.1','0.2.0','0.2.1'],'bundled':False,'schemaVersions':[1],'pathDataVersions':[2],
                   'defaultExecutable':'/Library/Application Support/beztrace/bin/beztrace',
                   'releaseUrl':'https://github.com/thierryc/beztrace/releases/tag/v0.1.0'},
         'installation':{'root':'glyphs4ApplicationSupport','relativePath':'Plugins/Beztrace.glyphsPlugin',

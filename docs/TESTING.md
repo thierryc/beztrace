@@ -313,3 +313,16 @@ and deterministic packaging checks. The real-engine integration test consumes
 all 100 frozen images; set `BEZTRACE_TEST_ENGINE` to an accepted 0.1.0 or 0.1.1 executable if needed.
 These checks do not establish native Glyphs UI or Undo/Redo behavior. See the
 [separate native checklist](../Companions/Glyphs/NATIVE_TESTING.md).
+
+
+## Verified hybrid fitting
+
+The optional matching engine's proposal/acceptance boundary, fallback behavior,
+limits and evaluation scope are documented in [Verified hybrid fitting](HYBRID_FITTING.md).
+Run the [curve benchmark](../scripts/curve_benchmark/README.md) with a fresh
+output directory after changing fitting or verification. Compare the sequential
+Swift hybrid with the verified Swift least-squares baseline; raw proposal-only
+Rust/Swift timings measure a different workload. The benchmark is a local
+research check, not a replacement for qualification.
+
+Reference-locked joint smoothing has a separate [workflow and acceptance contract](JOINT_SMOOTHING.md). Its tests cover atomic refusal, original-source budgets, fixed reference/on-curves/types/flags, line joins, corners, idempotence and analytic collapse between sample factors.

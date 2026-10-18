@@ -22,7 +22,7 @@ class ProcessTests(unittest.TestCase):
             (root/'Companions/Glyphs').mkdir(parents=True)
             module=root/'Companions/Glyphs/plugin/beztrace_companion/engine.py'
             module.parent.mkdir(parents=True); module.write_text('')
-            development=root/'.build/beztrace-0.1.1-dev.4/bin/beztrace'
+            development=root/'.build/beztrace-0.2.1/bin/beztrace'
             development.parent.mkdir(parents=True); development.write_text('#!/bin/sh\n')
             development.chmod(0o755)
             self.assertEqual(default_engine(module),str(development.resolve()))
@@ -79,10 +79,10 @@ class ProcessTests(unittest.TestCase):
         return str(path)
 
     def test_incompatible_version(self):
-        with self.assertRaisesRegex(CompanionError,'Incompatible'): trace(self.fake(version='beztrace 0.2.0'),b'image',{})
+        with self.assertRaisesRegex(CompanionError,'Incompatible'): trace(self.fake(version='beztrace 0.3.0'),b'image',{})
 
     def test_supported_versions_must_match_json(self):
-        versions = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1')
+        versions = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1', '0.2.0-dev.1', '0.2.0', '0.2.1')
         for executable_version in versions:
             for json_version in versions:
                 result = sample(); result['engine']['version'] = json_version

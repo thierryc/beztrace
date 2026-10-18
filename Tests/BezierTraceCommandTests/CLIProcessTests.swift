@@ -39,7 +39,7 @@ final class CLIProcessTests: XCTestCase {
     func testBuiltExecutableVersionAndFailureStreams() throws {
         let version = try launch(["--version"])
         XCTAssertEqual(version.status, 0)
-        XCTAssertEqual(String(decoding: version.output, as: UTF8.self), "beztrace 0.2.0\n")
+        XCTAssertEqual(String(decoding: version.output, as: UTF8.self), "beztrace 0.2.1\n")
         XCTAssertTrue(version.error.isEmpty)
 
         let failure = try launch(["trace"])
