@@ -1,6 +1,13 @@
-# Verified hybrid fitting (development matching)
+# Verified hybrid fitting (engine 0.2.1)
 
-The optional standalone matching engine now tries independently implemented
+Engine **0.2.1** and companion **0.2.0/build 25** are released as signed,
+Apple-notarized universal distributions. Clean-source checks, the repeated
+benchmark and signed installation/native acceptance pass. See the
+[release qualification](RELEASE_0.2.1.md) for exact coverage and the explicit
+native Intel waiver. Earlier evaluation checkpoints below retain their original
+results and toolchain limitations. Graph selection remains deferred.
+
+The standalone matching engine tries independently implemented
 Levien area/first-moment cubic proposals before its existing refined
 least-squares fallback. Both pass the same original-source verifier. No external
 runtime dependency, public JSON/schema change, tracing-pipeline replacement or

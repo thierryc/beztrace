@@ -1,4 +1,11 @@
-# Companion 0.2.0/build 25 — local native acceptance
+# Companion 0.2.0/build 25 — qualification history
+
+Current status: **signed, Apple-notarized and published on 2026-10-18**. See the
+[final release record](../../docs/RELEASE_0.2.1.md) for signed distribution checks
+and the explicit native Intel waiver. The original unsigned acceptance record
+below is preserved as historical evidence.
+
+## Unsigned local native acceptance — 2026-10-17
 
 Date: 2026-10-17. Source:
 `217dcc0aad50a4c4a6b7e8c65e6bacc0931e2054`.

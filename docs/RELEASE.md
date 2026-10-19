@@ -99,8 +99,9 @@ The separately versioned [Glyphs 4 plugin](../Companions/Glyphs/README.md) has i
 own [release procedure](../Companions/Glyphs/RELEASE.md) and artifact manifest.
 It is not included in engine 0.1.1 assets and does not change their checksums,
 signatures, or installation behavior. Companion 0.1.0/build 15 is independently
-signed and published. The new 0.2.0/build 25 is an unsigned local candidate;
-see [its qualification record](../Companions/Glyphs/QUALIFICATION_BUILD25.md).
+signed and published. Current companion **0.2.0/build 25** is also independently
+signed, notarized and published; see
+[its qualification record](../Companions/Glyphs/QUALIFICATION_BUILD25.md).
 
 ## 0.1.1-dev.1 development prerelease
 

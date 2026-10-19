@@ -11,23 +11,13 @@ cubic Bezier outlines.
 [Release verification](docs/RELEASE.md)
 
 > [!IMPORTANT]
-> Reference capture, the Swift tracing pipeline, neutral public API, placement,
-> versioned JSON/SVG, and the standalone command-line tool are implemented and
-> tested. The 100-image release-candidate input corpus is frozen and passes
-> automatic topology and determinism checks, and the project owner accepted all
-> 100 reviewed traces. The optimized test matrix, performance, memory,
-> cross-architecture, fuzz, and packaged-workflow gates pass. The current
-> Milestone 6 viability review approves merge: the universal executable and
-> installer are Developer ID signed, Apple-notarized, installed, and verified
-> through a real standalone JSON/SVG workflow.
-> Stable `0.1.1` includes the small-contour, handle-rounding, topology-safe Grid,
-> convex-curve and minimum-node corrections. Its signed/notarized distribution,
-> exact installed workflow and anonymous downloads are verified. See the
-> [Glyphs MCP v2 integration handoff](docs/GLYPHS_MCP_V2_HANDOFF.md).
-> A separately versioned [Glyphs 4 companion](https://github.com/thierryc/beztrace/blob/glyphs-v0.2.0/Companions/Glyphs/README.md)
-> is independently released as signed/notarized **0.2.0/build 25**, qualified
-> on Apple Silicon with Intel testing explicitly owner-waived. See the
+> The current stable engine is **0.2.1**. The optional Glyphs 4 companion is
+> **0.2.0/build 25**. Both are published as universal arm64 + x86_64 distributions,
+> Developer ID signed and Apple-notarized; the engine installer has a stapled ticket.
+> See the [current release qualification](docs/RELEASE_0.2.1.md) and
 > [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
+> Native Intel execution is untested and explicitly owner-waived for these versions;
+> Rosetta results are separate evidence. The engine runs without Glyphs or Python.
 > Glyphs MCP setup and adapter integration remain separate work.
 
 ## Intended product
@@ -63,11 +53,11 @@ See the [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
 
 Stable engine **0.2.1** retains the standalone matching introduced in 0.2.0 and
 adds independently verified fitting and smoothing, retaining JSON schema v1 and
-path data version 2. Older companion 0.1.0/build 15 continues to require its
-supported 0.1.1 engine until separately upgraded. The standalone CLI does not
-install or upgrade the companion.
+path data version 2. The standalone CLI does not install or upgrade the
+companion. For older companion versions, check the compatibility notes in the
+[release guide](docs/RELEASE.md) before upgrading a shared engine.
 
-## Standalone v1 boundaries
+## Supported inputs and platforms
 
 - macOS 13 or later, Swift 6, `arm64` and `x86_64`.
 - Clean, high-resolution monochrome or alpha glyph images.
@@ -169,7 +159,7 @@ documented gates pass.
 
 ## Project documents
 
-- [Master matching development contract](docs/MASTER_MATCHING.md)
+- [Master matching contract](docs/MASTER_MATCHING.md)
 - [Standalone pair matching workflow](docs/PAIR_WORKFLOW.md)
 - [Implementation directive](docs/IMPLEMENTATION_DIRECTIVE.md)
 - [Requirements](docs/REQUIREMENTS.md)
@@ -187,8 +177,8 @@ documented gates pass.
 
 Two generic source skills cover [image vectorization](skills/beztrace-vectorize-image/SKILL.md)
 and [compatible master matching with point limits](skills/beztrace-match-masters/SKILL.md).
-Matching requires the optional development capability; ordinary tracing remains
-standalone. Their [Glyphs MCP skill catalog handoff](docs/BEZTRACE_SKILLS_CATALOG_PLAN.md)
+Matching requires a compatible engine advertising the matching capabilities;
+ordinary tracing remains standalone. Their [Glyphs MCP skill catalog handoff](docs/BEZTRACE_SKILLS_CATALOG_PLAN.md)
 describes planned app packaging and qualification; it does not change the app.
 
 ## License

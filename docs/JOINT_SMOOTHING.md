@@ -1,5 +1,12 @@
 # Reference-locked joint smoothing
 
+Engine **0.2.1** and companion **0.2.0/build 25** are released as signed,
+Apple-notarized universal distributions. All 12 repeated smoothing jobs retain
+accepted geometry, reports, original-source bounds and refusals; signed native
+UI Apply/Undo/Redo preserves the reference and compatible node structure.
+See the [release qualification](RELEASE_0.2.1.md) for exact coverage and the
+explicit native Intel waiver. Earlier evaluation checkpoints below are historical.
+
 `JointMasterSmoother.smooth` and the standalone `smooth-masters` command smooth
 two already-compatible outlines. The reference is returned bit-for-bit intact.
 Only target off-curve coordinates may change. Contour/node order, node counts,
@@ -7,7 +14,7 @@ node types, smooth flags, all on-curves and intentional corner handles remain
 fixed. No correspondence search, graph selection, node insertion or font editing
 is performed. Existing matching commands retain their behavior.
 
-The development matching API now also accepts `options.smoothJoins:true` on
+The matching API now also accepts `options.smoothJoins:true` on
 `match` (vector, review or raster) and `match-pair`. Omission preserves the
 existing behavior and wire output. Check `matchSmoothingVersion:1` and
 `hybridFittingVersion:1` before using this option; engine version alone is
@@ -25,9 +32,9 @@ as **Smooth compatible joins**; optional native HOI sits in the Interpolation gr
 
 ## Use
 
-This is a source-development feature. Use a locally built engine advertising
-`jointSmoothingVersion: 1` in `capabilities --format json`; no new release is
-qualified or published by this work.
+Use engine **0.2.1** advertising `jointSmoothingVersion: 1` in
+`capabilities --format json`. The independently versioned companion integrates
+this capability as **Smooth compatible joins**.
 
 ```sh
 beztrace smooth-masters request.json --output result.json --json-errors
