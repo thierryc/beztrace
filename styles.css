@@ -85,7 +85,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .brand-mark span { color: var(--acid); }
 
-nav { display: flex; align-items: center; gap: 30px; }
+nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 30px; }
 nav a { font-size: .84rem; font-weight: 700; text-decoration: none; }
 nav a:hover { color: var(--blue); text-decoration: underline; }
 .nav-github { padding-left: 30px; border-left: 1px solid var(--line); }
