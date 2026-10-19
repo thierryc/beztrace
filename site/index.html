@@ -15,7 +15,7 @@
   <meta name="twitter:description" content="Native Swift tracing for clean glyphs and symbols.">
   <link rel="canonical" href="https://thierryc.github.io/beztrace/">
   <link rel="icon" href="assets/examples/glyph-ampersand.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=20261018-contrast">
+  <link rel="stylesheet" href="styles.css?v=20261019-agents">
   <script defer src="app.js"></script>
   <script type="module" src="footer.js"></script>
 </head>
@@ -31,6 +31,7 @@
       <a href="#pipeline">Pipeline</a>
       <a href="#matching">Master matching</a>
       <a href="#glyphs">Glyphs</a>
+      <a href="#coding-agents">Coding agents</a>
       <a href="#install">Install</a>
       <a class="nav-github" href="https://github.com/thierryc/beztrace">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
@@ -300,6 +301,35 @@
           Undo/Redo and update/rollback/removal/reinstallation pass. The shared
           engine stays separate; see the release manifest and qualification receipt.</p>
       </aside>
+    </section>
+
+    <section class="section matching" id="coding-agents" aria-labelledby="coding-agents-title">
+      <div class="section-heading">
+        <div><p class="kicker">Codex · Claude Code · Local CLI</p><h2 id="coding-agents-title">Your agent. Your outlines.</h2></div>
+        <p>Ask your coding agent to trace an image or prepare compatible masters. It runs the installed Beztrace engine on your Mac, with the same reference, error and node limits. No Beztrace MCP server or API key is needed.</p>
+      </div>
+      <div class="matching-features">
+        <article><h3>Use with Codex</h3><p>Copy the two Beztrace skill folders into <code>~/.agents/skills/</code>. In Codex CLI or the IDE, select them with <code>/skills</code> or mention <code>$beztrace-vectorize-image</code> and <code>$beztrace-match-masters</code> in your prompt.</p></article>
+        <article><h3>Use with Claude Code</h3><p>Copy the same folders into <code>~/.claude/skills/</code>. Start with <code>/beztrace-vectorize-image</code> to trace, or <code>/beztrace-match-masters</code> to match a pair. Include your source files, placement and limits.</p></article>
+      </div>
+      <div class="matching-workflow">
+        <div class="matching-copy">
+          <h3>Describe the result. Review the geometry.</h3>
+          <p>Install engine 0.2.1, add the skills, then give the agent your artwork and output directory. Ask it to show the paths and intermediate weights, including any refused result.</p>
+          <p>Other agents can use the same CLI and neutral JSON contracts. Agent-driven application in Glyphs additionally needs the optional companion and an authorized scripting connection.</p>
+          <a class="button button-primary" href="https://github.com/thierryc/beztrace/blob/main/docs/CODING_AGENTS.md">Coding-agent setup guide <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="code-window" aria-label="Example prompt for either coding agent">
+          <div class="code-title"><span><i></i><i></i><i></i></span><b>Example prompt · Master matching</b></div>
+          <pre><code>Match Bold.png to Regular.outline.json.
+Keep the Regular reference exact.
+Retain its node structure; add no on-curves.
+Use a 1-unit tolerance at 1000 UPM.
+Ask for placement if it is missing.
+Show the report and intermediate weights.
+Report refusals without raising the limits.</code></pre>
+        </div>
+      </div>
     </section>
 
     <section class="section install" id="install">

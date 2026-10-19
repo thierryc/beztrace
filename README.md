@@ -173,13 +173,33 @@ documented gates pass.
 - [Milestone 6 viability review](docs/VIABILITY_REVIEW.md)
 - [Release and verification](docs/RELEASE.md)
 
-## Agent skills
+## Use with coding agents
 
-Two generic source skills cover [image vectorization](skills/beztrace-vectorize-image/SKILL.md)
-and [compatible master matching with point limits](skills/beztrace-match-masters/SKILL.md).
-Matching requires a compatible engine advertising the matching capabilities;
-ordinary tracing remains standalone. Their [Glyphs MCP skill catalog handoff](docs/BEZTRACE_SKILLS_CATALOG_PLAN.md)
-describes planned app packaging and qualification; it does not change the app.
+Codex and Claude Code can run the installed **Beztrace 0.2.1** CLI on your Mac
+to trace images, match masters and review results. Beztrace itself needs no MCP
+server or API key; your coding agent uses its usual account and permissions.
+
+Install the complete folders for [image tracing](skills/beztrace-vectorize-image/SKILL.md)
+and [master matching](skills/beztrace-match-masters/SKILL.md) in your agent's
+skills directory:
+
+| Agent | Personal skills directory | Invoke in a prompt |
+| --- | --- | --- |
+| Codex CLI / IDE | `~/.agents/skills/` | `$beztrace-vectorize-image` or `$beztrace-match-masters` |
+| Claude Code | `~/.claude/skills/` | `/beztrace-vectorize-image` or `/beztrace-match-masters` |
+
+For example: “Use Beztrace to match this Bold image to my Regular outline.
+Keep the reference exact, retain its node structure, use a 1-unit tolerance
+at 1000 UPM, and show the comparison report and intermediate weights.”
+
+The [coding-agent setup guide](docs/CODING_AGENTS.md) includes installation
+commands, prompts for both agents, placement settings and result checks.
+Other agents with local shell access can use the same documented CLI and JSON
+contracts. Agent-driven application in Glyphs additionally requires the optional
+native companion and an authorized Glyphs scripting connection; installing these
+skills alone does not provide that connection. The separate
+[Glyphs MCP catalog handoff](docs/BEZTRACE_SKILLS_CATALOG_PLAN.md) records planned
+app packaging.
 
 ## License
 
