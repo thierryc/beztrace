@@ -1,23 +1,21 @@
 # Beztrace for Glyphs
 
-Companion **0.2.2/build 27** adds eight-point padding around sidebar controls so
-the focus border remains visible, including when a legacy scrollbar is shown.
-It uses the separately distributed engine 0.2.2. Qualification status and exact
-artifact hashes are recorded in its release manifest.
+**0.2.2/build 27** adds eight-point padding around sidebar controls so the focus
+border stays fully visible, including with an always-visible legacy scrollbar.
+It retains the four-mode tracing/matching dialog, verified fitting and smoothing,
+and persistent engine selection. The separately distributed **engine 0.2.2** is
+unchanged. JSON schema 1 and path data 2 are unchanged.
 
-**0.2.1/build 26** provides the four-mode tracing and matching dialog, verified
-fitting and smoothing, and persistent engine selection. Install the separately
-released **engine 0.2.2** for matching. JSON schema 1 and path data 2 are unchanged;
-earlier explicitly supported engine versions remain accepted for their supported workflows.
-
-[Signed universal release 0.2.1/build 26](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.1)
-is Developer ID signed and Apple-notarized. Both architectures target macOS 13+.
-Native qualification covers Apple Silicon, Glyphs 4.2/build 4202 and official
-Python 3.14.6 on macOS 26.7.1: Apply/Undo/Redo, persistent Choose Engine,
-save/reopen, neutral exchange, variable TTF export and rollback/removal/reinstall.
-Native Intel is untested and owner-waived until hardware is available; Rosetta
-is separate evidence. See the [release record](../../docs/RELEASE_0.2.2.md).
-Earlier [build 25 qualification](QUALIFICATION_BUILD25.md) remains historical.
+[Signed universal release 0.2.2/build 27](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.2)
+is Developer ID signed and Apple-notarized, targeting macOS 13+ on arm64/x86_64.
+Installed native qualification covers Glyphs 4.2/build 4202, official Python 3.14.6,
+macOS 26.7.1 arm64: the visible focus border, overlay/legacy scrollbar layouts,
+Apply/Undo/Redo, reference/node/width/live-hint preservation, save/reopen, rollback,
+removal and reinstall. Native Intel remains untested and owner-waived until
+hardware is available; Rosetta is separate evidence. See the
+[release record](../../docs/RELEASE_GLYPHS_0.2.2.md).
+Earlier [build 26 qualification](../../docs/RELEASE_0.2.2.md) and
+[build 25 qualification](QUALIFICATION_BUILD25.md) remain historical.
 
 ### Match Masters
 
@@ -187,8 +185,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.1-build26-ready
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.1-build26-ready
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.2-build27-ready
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.2-build27-ready
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font

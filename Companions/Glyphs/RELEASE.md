@@ -1,8 +1,9 @@
 # Companion release procedure
 
 The packaging script produces unsigned candidates; signing and notarization are
-separate steps. Current published engine 0.2.2 and companion 0.2.1/build 26 are
-qualified at frozen source `64c9c47`; see [the release record](../../docs/RELEASE_0.2.2.md).
+separate steps. Current companion 0.2.2/build 27 is qualified at frozen source `3294e20`;
+see [the release record](../../docs/RELEASE_GLYPHS_0.2.2.md). Engine 0.2.2
+remains unchanged at its separately published frozen source `64c9c47`.
 Future distributions require their own authorization and qualification.
 
 ## Local reproducibility
@@ -260,7 +261,7 @@ is available. Native Intel remains untested, owner-waived; arm64, Rosetta and
 universal inspection remain required. Other release gates still apply.
 See [qualification](../../docs/RELEASE_0.2.2.md).
 
-## Universal 0.2.2/build 27 — 2026-10-20
+## Signed universal 0.2.2/build 27 — 2026-10-20
 
 The owner requested final universal release and GitHub publication of the sidebar
 focus-ring spacing fix. Eight-point horizontal insets and viewport-aware row
@@ -270,3 +271,6 @@ native Python cache. Local AppKit checks cover all four modes and sixteen
 basic/expanded/scroller layouts. Final signing, notarization and installed
 qualification are recorded in the release manifest and public qualification receipt.
 Native Intel remains untested and owner-waived until hardware is available.
+
+Companion 0.2.2/build 27 is published at `glyphs-v0.2.2`. See the
+[final qualification record](../../docs/RELEASE_GLYPHS_0.2.2.md).

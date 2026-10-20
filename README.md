@@ -12,9 +12,10 @@ cubic Bezier outlines.
 
 > [!IMPORTANT]
 > The current stable engine is **0.2.2**. The optional Glyphs 4 companion is
-> **0.2.1/build 26**. Both are published as universal arm64 + x86_64 distributions,
+> **0.2.2/build 27**. Both are published as universal arm64 + x86_64 distributions,
 > Developer ID signed and Apple-notarized; the engine installer has a stapled ticket.
-> See the [current release qualification](docs/RELEASE_0.2.2.md) and
+> See the [engine qualification](docs/RELEASE_0.2.2.md),
+> [companion qualification](docs/RELEASE_GLYPHS_0.2.2.md) and
 > [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
 > Native Intel execution is untested and owner-waived until hardware is available;
 > Rosetta results are separate evidence. The engine runs without Glyphs or Python.
@@ -42,9 +43,10 @@ package or CLI dependencies. Future Glyphs MCP integration remains separate.
 
 ## Optional Glyphs companion
 
-[Beztrace for Glyphs](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.1)
-**0.2.1/build 26** adds four native tracing and matching modes, grouped settings,
-verified fitting, optional compatible smoothing and persistent engine selection. Install the separately
+[Beztrace for Glyphs](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.2)
+**0.2.2/build 27** adds four native tracing and matching modes, grouped settings,
+verified fitting, compatible smoothing, persistent engine selection and padded
+sidebar controls that keep focus borders visible. Install the separately
 released **engine 0.2.2**, then open the plugin in Glyphs and relaunch.
 Native qualification covers Apple Silicon / Glyphs 4.2/build 4202, including
 signed Apply/Undo/Redo and installation/update/rollback/removal/reinstallation.
@@ -130,7 +132,7 @@ intermediate weights before importing them into your font editor.
 The archive includes runnable R/Y examples, schemas and visual reviews.
 A vector reference stays exact by default; shared growth requires explicit limits.
 See [configuration](docs/PAIR_WORKFLOW.md) and the explicit
-[joint smoothing step](docs/JOINT_SMOOTHING.md). Companion 0.2.1/build 26 exposes
+[joint smoothing step](docs/JOINT_SMOOTHING.md). Companion 0.2.2/build 27 exposes
 this as **Smooth compatible joins**. For already-compatible outlines, choose
 **Review existing structure** to retain the existing correspondence.
 

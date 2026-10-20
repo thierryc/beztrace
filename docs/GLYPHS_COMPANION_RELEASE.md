@@ -1,13 +1,13 @@
 # Beztrace for Glyphs independent release
 
-[Current release: 0.2.1/build 26](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.1),
+[Current release: 0.2.2/build 27](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.2),
 published 2026-10-20, is a separately signed/notarized universal companion for
-engine 0.2.2. Source is frozen at `64c9c47`. Native Apple Silicon qualification
+engine 0.2.2. Source is frozen at `3294e20`. Native Apple Silicon qualification
 covers Glyphs 4.2/build 4202, signed Apply/Undo/Redo and update/rollback/removal/
 reinstallation. Native Intel is untested and explicitly owner-waived for these
-versions. See the [full release record](RELEASE_0.2.2.md),
-[manifest](https://github.com/thierryc/beztrace/releases/download/glyphs-v0.2.1/companion-manifest.json)
-and [qualification](https://github.com/thierryc/beztrace/releases/download/glyphs-v0.2.1/qualification.json).
+versions. See the [full release record](RELEASE_GLYPHS_0.2.2.md),
+[manifest](https://github.com/thierryc/beztrace/releases/download/glyphs-v0.2.2/companion-manifest.json)
+and [qualification](https://github.com/thierryc/beztrace/releases/download/glyphs-v0.2.2/qualification.json).
 
 Install engine 0.2.2 separately, then open the companion bundle in Glyphs and
 relaunch. Installing/removing the companion leaves the shared engine untouched.
@@ -15,6 +15,9 @@ The prior signed 0.1.0/build 15 release below retains its original tag and bytes
 
 Choose Engine now persists explicit selections while preserving managed and unknown settings.
 Native Intel qualification is deferred until hardware is available; all other gates remain required.
+
+The sidebar now keeps focused control borders inside its viewport with overlay
+and legacy scrollbars. The separately released engine 0.2.2 is unchanged.
 
 ## Historical 0.1.0/build 15 release
 

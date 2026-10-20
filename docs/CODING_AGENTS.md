@@ -147,7 +147,7 @@ two `SKILL.md` files and their supporting references. Provide the source files,
 placement, tolerance, node budgets and a fresh output directory in your request.
 
 For live Glyphs application, install the separately released
-[companion 0.2.1/build 26](GLYPHS_COMPANION_RELEASE.md). Native scripted use also
+[companion 0.2.2/build 27](GLYPHS_COMPANION_RELEASE.md). Native scripted use also
 needs an available, authorized Glyphs scripting connection. Standalone tracing
 and matching prepare detached paths; they do not write a font file. Preview and
 apply through the companion's supported interface, retaining its stale-target

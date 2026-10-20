@@ -1,10 +1,13 @@
 # Changelog
 
-## Companion 0.2.2/build 27 — release preparation
+## Companion 0.2.2/build 27 — 2026-10-20
 
 - Add eight-point horizontal sidebar padding so native focus rings stay visible.
 - Fit controls within the scroll viewport with overlay or legacy scrollbars.
 - Keep engine 0.2.2, geometry, contracts and font-editing behavior unchanged.
+- Publish the signed/notarized universal companion after local checks and exact
+  installed native qualification, including rollback/removal/reinstallation.
+- Verify all eight public assets anonymously and preserve every earlier release.
 
 ## Engine 0.2.2 / companion 0.2.1 build 26 — 2026-10-20
 

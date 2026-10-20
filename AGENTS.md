@@ -187,3 +187,16 @@ before publishing `glyphs-v0.2.2`. Native Intel remains untested, owner-waived
 until hardware is available; Rosetta is separate evidence. Preserve independent
 or modified installations and unrelated font work. Required Glyphs relaunch is
 subject to the existing native-test authorization rule.
+
+## Qualified companion 0.2.2/build 27
+
+The owner requested final universal release/GitHub publication and explicitly
+approved installing signed/notarized build 27, relaunching Glyphs, and disposable
+native acceptance. Companion 0.2.2/build 27 is signed, Apple-notarized and published
+at `glyphs-v0.2.2`, frozen source `3294e200d18c502b4d3b36d1ec48e3a6809ea1e4`.
+Preserve the tag and every distributed byte. Engine 0.2.2 remains unchanged.
+Native Intel remains untested, owner-waived until hardware is available; Rosetta
+is separate evidence. Existing releases, independent installations, user fonts
+and the host shared engine are preserved. Future versions retain their own
+release authorization and qualification requirements. See
+`docs/RELEASE_GLYPHS_0.2.2.md`.

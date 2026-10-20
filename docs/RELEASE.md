@@ -1,12 +1,13 @@
 # Release and verification
 
 Stable [engine 0.2.2](https://github.com/thierryc/beztrace/releases/tag/v0.2.2)
-and [companion 0.2.1/build 26](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.1)
-were released on 2026-10-20 from frozen source `64c9c47` after local source,
-performance, universal packaging, Developer ID signing, Apple notarization,
-signed installation and native companion qualification. Native Intel remains
-**untested, explicitly owner-waived**; Rosetta is separate evidence.
-See the [0.2.2 qualification record](RELEASE_0.2.2.md).
+remains frozen at `64c9c47`. The latest
+[companion 0.2.2/build 27](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.2)
+was published on 2026-10-20 from `3294e20` with the sidebar focus-border fix.
+Both are universal, Developer ID signed and Apple-notarized. Native Intel remains
+untested, owner-waived until hardware is available; Rosetta is separate evidence.
+See [engine qualification](RELEASE_0.2.2.md) and
+[companion qualification](RELEASE_GLYPHS_0.2.2.md).
 
 Download the engine release assets, verify their checksums, then install:
 
@@ -99,9 +100,9 @@ The separately versioned [Glyphs 4 plugin](../Companions/Glyphs/README.md) has i
 own [release procedure](../Companions/Glyphs/RELEASE.md) and artifact manifest.
 It is not included in engine 0.1.1 assets and does not change their checksums,
 signatures, or installation behavior. Companion 0.1.0/build 15 is independently
-signed and published. Current companion **0.2.1/build 26** is also independently
+signed and published. Current companion **0.2.2/build 27** is also independently
 signed, notarized and published; see
-[its qualification record](RELEASE_0.2.2.md).
+[its qualification record](RELEASE_GLYPHS_0.2.2.md).
 
 ## 0.1.1-dev.1 development prerelease
 
