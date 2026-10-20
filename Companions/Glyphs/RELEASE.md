@@ -259,3 +259,14 @@ The owner removed native Intel qualification as a blocker until an Intel machine
 is available. Native Intel remains untested, owner-waived; arm64, Rosetta and
 universal inspection remain required. Other release gates still apply.
 See [qualification](../../docs/RELEASE_0.2.2.md).
+
+## Universal 0.2.2/build 27 — 2026-10-20
+
+The owner requested final universal release and GitHub publication of the sidebar
+focus-ring spacing fix. Eight-point horizontal insets and viewport-aware row
+widths preserve the selected field border with overlay and legacy scrollbars.
+The separately released engine remains 0.2.2, unchanged. Build 27 invalidates the
+native Python cache. Local AppKit checks cover all four modes and sixteen
+basic/expanded/scroller layouts. Final signing, notarization and installed
+qualification are recorded in the release manifest and public qualification receipt.
+Native Intel remains untested and owner-waived until hardware is available.

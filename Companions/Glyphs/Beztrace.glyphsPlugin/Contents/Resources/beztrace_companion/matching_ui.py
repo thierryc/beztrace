@@ -307,7 +307,7 @@ class MatchingWindowController(NSWindowController):
             self.more_button.setBordered_(False); self.more_button.setAlignment_(0)
         row('actions',32,actions)
         # Expanded dependent controls scroll within the fixed inspector.
-        self.inspector=NSScrollView.alloc().initWithFrame_(((588,76),(200,388)))
+        self.inspector=NSScrollView.alloc().initWithFrame_(((580,76),(216,388)))
         self.inspector.setHasVerticalScroller_(True); self.inspector.setAutohidesScrollers_(True)
         self.inspector.setDrawsBackground_(False); self.content.addSubview_(self.inspector)
         self.inspector_content=NSView.alloc().initWithFrame_(((0,0),(200,388)))
@@ -333,18 +333,23 @@ class MatchingWindowController(NSWindowController):
         self.visible_rows=[name for _,names in groups for name in names]
         height=max(388,16+sum((24 if title else 8)+sum(rows[name][0] for name in names)
                              for title,names in groups))
-        self.inspector_content.setFrameSize_((200,height)); y=height-8
+        # Keep native focus rings inside the clip view, including with a legacy scroller.
+        self.inspector_content.setFrameSize_((216,height)); self.inspector.tile()
+        width=self.inspector.contentSize().width; inset=8; row_width=width-2*inset
+        self.inspector_content.setFrameSize_((width,height)); y=height-8
         for label in self.group_labels.values(): label.setHidden_(True)
         for title,names in groups:
             if title:
                 label=self.group_labels[title]; label.setHidden_(False)
-                label.setFrame_(((0,y-18),(200,18))); y-=24
+                label.setFrame_(((inset,y-18),(row_width,18))); y-=24
             else: y-=8
             for name in names:
                 h,views=rows[name]
                 content_height=max(frame.origin.y+frame.size.height for _,frame in views)
                 offset=y-content_height
-                for view,frame in views: view.setFrame_(((frame.origin.x,offset+frame.origin.y),frame.size))
+                for view,frame in views:
+                    size=(min(frame.size.width,row_width-frame.origin.x),frame.size.height)
+                    view.setFrame_(((inset+frame.origin.x,offset+frame.origin.y),size))
                 y-=h
         for name,_,views in self.option_rows:
             for view,_ in views: view.setHidden_(name not in self.visible_rows)

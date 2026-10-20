@@ -174,3 +174,16 @@ untested, owner-waived; Rosetta is separate evidence. All other release gates
 remain required. The host shared engine remains unchanged. Glyphs MCP managed
 installer/catalog support remains separate. This publication does not authorize
 future versions or replacement artifacts. See `docs/RELEASE_0.2.2.md`.
+
+## Companion spacing release requested 2026-10-20
+
+Following the completed universal release, the owner requested additional settings
+sidebar space and then instructed final universal release and GitHub publication.
+Prepare companion 0.2.2/build 27 on the existing `lit/release-v0.2.2` branch with
+the focus-ring padding fix. Engine 0.2.2 is unchanged and remains separately
+published. Preserve all earlier tags/assets. Complete local source, universal,
+Developer ID signing, Apple notarization and exact installation qualification
+before publishing `glyphs-v0.2.2`. Native Intel remains untested, owner-waived
+until hardware is available; Rosetta is separate evidence. Preserve independent
+or modified installations and unrelated font work. Required Glyphs relaunch is
+subject to the existing native-test authorization rule.
