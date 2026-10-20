@@ -1,31 +1,31 @@
 # Release and verification
 
-Stable [engine 0.2.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.1)
-and [companion 0.2.0/build 25](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.0)
-were released on 2026-10-18 from frozen source `217dcc0` after local source,
+Stable [engine 0.2.2](https://github.com/thierryc/beztrace/releases/tag/v0.2.2)
+and [companion 0.2.1/build 26](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.1)
+were released on 2026-10-20 from frozen source `64c9c47` after local source,
 performance, universal packaging, Developer ID signing, Apple notarization,
 signed installation and native companion qualification. Native Intel remains
 **untested, explicitly owner-waived**; Rosetta is separate evidence.
-See the [0.2.1 qualification record](RELEASE_0.2.1.md).
+See the [0.2.2 qualification record](RELEASE_0.2.2.md).
 
 Download the engine release assets, verify their checksums, then install:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-pkgutil --check-signature beztrace-0.2.1.pkg
-xcrun stapler validate beztrace-0.2.1.pkg
-sudo installer -pkg beztrace-0.2.1.pkg -target /
+pkgutil --check-signature beztrace-0.2.2.pkg
+xcrun stapler validate beztrace-0.2.2.pkg
+sudo installer -pkg beztrace-0.2.2.pkg -target /
 beztrace --version
 ```
 
-The final command prints `beztrace 0.2.1`. The signed ZIP runs independently
+The final command prints `beztrace 0.2.2`. The signed ZIP runs independently
 without installation and includes schemas, R/Y examples and reviews. The CLI
 has no Python or Glyphs runtime dependency. Run
 `./run-example.sh Y-images-smart /tmp/beztrace-Y-images` from its extracted root.
 
 Install the independently versioned companion separately and relaunch Glyphs.
 Companion 0.1.0/build 15 retains its supported 0.1.1 engine until upgraded.
-The new companion uses engine 0.2.1 for matching. See the
+The new companion uses engine 0.2.2 for matching. See the
 [companion record](GLYPHS_COMPANION_RELEASE.md).
 
 Published [engine 0.2.0](RELEASE_0.2.0.md), 0.1.1 and all earlier tags/assets
@@ -99,9 +99,9 @@ The separately versioned [Glyphs 4 plugin](../Companions/Glyphs/README.md) has i
 own [release procedure](../Companions/Glyphs/RELEASE.md) and artifact manifest.
 It is not included in engine 0.1.1 assets and does not change their checksums,
 signatures, or installation behavior. Companion 0.1.0/build 15 is independently
-signed and published. Current companion **0.2.0/build 25** is also independently
+signed and published. Current companion **0.2.1/build 26** is also independently
 signed, notarized and published; see
-[its qualification record](../Companions/Glyphs/QUALIFICATION_BUILD25.md).
+[its qualification record](RELEASE_0.2.2.md).
 
 ## 0.1.1-dev.1 development prerelease
 

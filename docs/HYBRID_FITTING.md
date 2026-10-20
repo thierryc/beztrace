@@ -1,9 +1,9 @@
-# Verified hybrid fitting (engine 0.2.1)
+# Verified hybrid fitting (engine 0.2.2)
 
-Engine **0.2.1** and companion **0.2.0/build 25** are released as signed,
+Engine **0.2.2** and companion **0.2.1/build 26** are released as signed,
 Apple-notarized universal distributions. Clean-source checks, the repeated
 benchmark and signed installation/native acceptance pass. See the
-[release qualification](RELEASE_0.2.1.md) for exact coverage and the explicit
+[release qualification](RELEASE_0.2.2.md) for exact coverage and the explicit
 native Intel waiver. Earlier evaluation checkpoints below retain their original
 results and toolchain limitations. Graph selection remains deferred.
 

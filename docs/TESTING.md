@@ -226,7 +226,9 @@ checked after scaling and snapping, and all 24 reviewed glyph and symbol images
 must trace twice to identical finite, closed, correctly wound internal
 outlines. The complete 100-image corpus must trace twice to identical finite,
 closed outlines with its declared contour counts. Run the optimized suite
-on local Apple Silicon and Intel hosts; label Rosetta evidence explicitly.
+on local Apple Silicon; label x86_64/Rosetta evidence explicitly. Native Intel
+qualification is deferred until hardware is available under the owner’s
+2026-10-20 instruction; keep it recorded as untested, owner-waived.
 
 The test-only evaluator export is an explicit maintenance operation. It writes
 only below the caller-selected external work directory and is skipped by
@@ -266,8 +268,7 @@ the architecture-specific release executable and fail if it is absent; they
 never skip silently.
 
 The complete optimized checkpoint includes one intentional maintenance-export
-skip. It runs on Apple Silicon and local x86_64 under Rosetta, with native Intel checks run separately
-on a local Intel Mac. The exact test count and
+skip. It runs on Apple Silicon and local x86_64 under Rosetta, with native Intel checks deferred until a local Intel Mac is available. The exact test count and
 result are recorded with each checkpoint rather than treated as an interface
 contract.
 Generated images remain reviewed acceptance fixtures and are never treated as

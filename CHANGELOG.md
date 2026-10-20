@@ -1,6 +1,6 @@
 # Changelog
 
-## Engine 0.2.2 / companion 0.2.1 build 26 — preparation
+## Engine 0.2.2 / companion 0.2.1 build 26 — 2026-10-20
 
 - Retain macOS 13+ universal arm64/x86_64 engine and companion distributions.
 - Add persistent companion engine selection using the shared v1 settings file;
@@ -12,6 +12,10 @@
 - Keep tracing, matching, fitting, smoothing and neutral contracts unchanged.
 - Defer native Intel qualification under the owner's 2026-10-20 instruction;
   retain universal inspection, arm64 and separate x86_64/Rosetta checks.
+
+- Publish Developer ID signed and Apple-notarized artifacts after local checks,
+  signed installation/lifecycle, native companion acceptance and performance pass.
+- Verify all 17 public assets anonymously; preserve all 70 earlier assets and nine tags.
 
 ## Engine 0.2.1 / companion 0.2.0 — 2026-10-18
 

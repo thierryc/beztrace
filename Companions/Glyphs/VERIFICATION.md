@@ -1,11 +1,11 @@
 # Companion verification history
 
-Current release: **0.2.0/build 25**, using engine **0.2.1** for matching. Both
+Current release: **0.2.1/build 26**, using engine **0.2.2** for matching. Both
 signed universal distributions are Apple-notarized and published. Signed native
 UI Apply/Undo/Redo and install/update/rollback/removal/reinstallation pass on
 Apple Silicon / Glyphs 4.2/build 4202. Native Intel remains untested and explicitly
-owner-waived for these versions. See [build 25 qualification](QUALIFICATION_BUILD25.md)
-and the [final release record](../../docs/RELEASE_0.2.1.md).
+owner-waived for these versions. See the [final release record](../../docs/RELEASE_0.2.2.md).
+Choose Engine persistence through reopen, relaunch and reinstall also passes.
 
 The entries below retain the results and pending statuses recorded at each
 historical checkpoint; they do not describe the current release status.

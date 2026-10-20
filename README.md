@@ -7,22 +7,18 @@ converting clean raster glyph images into economical, type-design-quality
 cubic Bezier outlines.
 
 [Project website](https://thierryc.github.io/beztrace/) ·
-[Download stable v0.2.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.1) ·
+[Download stable v0.2.2](https://github.com/thierryc/beztrace/releases/tag/v0.2.2) ·
 [Release verification](docs/RELEASE.md)
 
 > [!IMPORTANT]
-> The current stable engine is **0.2.1**. The optional Glyphs 4 companion is
-> **0.2.0/build 25**. Both are published as universal arm64 + x86_64 distributions,
+> The current stable engine is **0.2.2**. The optional Glyphs 4 companion is
+> **0.2.1/build 26**. Both are published as universal arm64 + x86_64 distributions,
 > Developer ID signed and Apple-notarized; the engine installer has a stapled ticket.
-> See the [current release qualification](docs/RELEASE_0.2.1.md) and
+> See the [current release qualification](docs/RELEASE_0.2.2.md) and
 > [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
-> Native Intel execution is untested and explicitly owner-waived for these versions;
+> Native Intel execution is untested and owner-waived until hardware is available;
 > Rosetta results are separate evidence. The engine runs without Glyphs or Python.
 > Glyphs MCP setup and adapter integration remain separate work.
-
-The next universal release is being prepared as engine **0.2.2** and companion
-**0.2.1/build 26**. See [its preparation and qualification record](docs/RELEASE_0.2.2.md).
-The published stable versions above remain unchanged until qualification finishes.
 
 ## Intended product
 
@@ -46,17 +42,17 @@ package or CLI dependencies. Future Glyphs MCP integration remains separate.
 
 ## Optional Glyphs companion
 
-[Beztrace for Glyphs](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.0)
-**0.2.0/build 25** adds four native tracing and matching modes, grouped settings,
-verified fitting and optional compatible smoothing. Install the separately
-released **engine 0.2.1**, then open the plugin in Glyphs and relaunch.
+[Beztrace for Glyphs](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.1)
+**0.2.1/build 26** adds four native tracing and matching modes, grouped settings,
+verified fitting, optional compatible smoothing and persistent engine selection. Install the separately
+released **engine 0.2.2**, then open the plugin in Glyphs and relaunch.
 Native qualification covers Apple Silicon / Glyphs 4.2/build 4202, including
 signed Apply/Undo/Redo and installation/update/rollback/removal/reinstallation.
 Native Intel remains **untested, explicitly owner-waived** for these versions.
 See the [companion release record](docs/GLYPHS_COMPANION_RELEASE.md).
 
-Stable engine **0.2.1** retains the standalone matching introduced in 0.2.0 and
-adds independently verified fitting and smoothing, retaining JSON schema v1 and
+Stable engine **0.2.2** retains standalone matching, independently verified fitting and smoothing,
+with unchanged JSON schema v1 and
 path data version 2. The standalone CLI does not install or upgrade the
 companion. For older companion versions, check the compatibility notes in the
 [release guide](docs/RELEASE.md) before upgrading a shared engine.
@@ -100,7 +96,7 @@ transform options.
 JSON schema v1 is committed at
 [`Schemas/trace-result-v1.schema.json`](Schemas/trace-result-v1.schema.json).
 
-## Engine 0.2.1 and companion 0.2.0 — released 2026-10-18
+## Engine 0.2.2 and companion 0.2.0 — released 2026-10-18
 
 Both distributions are universal arm64 + x86_64, Developer ID signed and
 Apple-notarized. The engine PKG has a validated stapled ticket. The fitting
@@ -117,12 +113,12 @@ Glyphs 4.2/build 4202; earlier unchanged Python source qualification includes
 fresh-file exchange and 603 compiled interpolation checks. Native Intel is
 untested and explicitly owner-waived, with Rosetta recorded separately.
 
-See the [release qualification](docs/RELEASE_0.2.1.md) and
+See the [release qualification](docs/RELEASE_0.2.2.md) and
 [build 25 qualification](Companions/Glyphs/QUALIFICATION_BUILD25.md).
 
 ## Standalone compatible master matching
 
-[Download stable 0.2.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.1)
+[Download stable 0.2.2](https://github.com/thierryc/beztrace/releases/tag/v0.2.2)
 for detached matching of two images, an outline plus an image, or two outlines.
 Provide two glyph sources, run matching, and review the compatible outlines and
 intermediate weights before importing them into your font editor.
@@ -134,19 +130,19 @@ intermediate weights before importing them into your font editor.
 The archive includes runnable R/Y examples, schemas and visual reviews.
 A vector reference stays exact by default; shared growth requires explicit limits.
 See [configuration](docs/PAIR_WORKFLOW.md) and the explicit
-[joint smoothing step](docs/JOINT_SMOOTHING.md). Companion 0.2.0/build 25 exposes
+[joint smoothing step](docs/JOINT_SMOOTHING.md). Companion 0.2.1/build 26 exposes
 this as **Smooth compatible joins**. For already-compatible outlines, choose
 **Review existing structure** to retain the existing correspondence.
 
-## Install the published standalone release (0.2.1)
+## Install the published standalone release (0.2.2)
 
-Download `beztrace-0.2.1.pkg` and the release assets from the
-[v0.2.1 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.1),
+Download `beztrace-0.2.2.pkg` and the release assets from the
+[v0.2.2 release](https://github.com/thierryc/beztrace/releases/tag/v0.2.2),
 verify `SHA256SUMS`, then install the signed, notarized package:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
-sudo installer -pkg beztrace-0.2.1.pkg -target /
+sudo installer -pkg beztrace-0.2.2.pkg -target /
 beztrace --version
 ```
 
@@ -179,7 +175,7 @@ documented gates pass.
 
 ## Use with coding agents
 
-Codex and Claude Code can run the installed **Beztrace 0.2.1** CLI on your Mac
+Codex and Claude Code can run the installed **Beztrace 0.2.2** CLI on your Mac
 to trace images, match masters and review results. Beztrace itself needs no MCP
 server or API key; your coding agent uses its usual account and permissions.
 

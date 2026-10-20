@@ -63,7 +63,9 @@ Completion: the byte-stable neutral Swift API, explicit placement, JSON schema
 v1, SVG, `trace`, `batch`, `inspect`, standard streams, diagnostics, and stable
 exit codes pass without Glyphs. The optimized suite runs 73 tests with one
 explicit maintenance-only skip and zero failures on Apple Silicon and local
-x86_64 under Rosetta; native Intel remains enforced by CI.
+x86_64 under Rosetta. The later local-only policy keeps Actions disabled; native
+Intel qualification is deferred until hardware is available, owner-waived and
+untested. Historical test counts remain checkpoint evidence.
 
 Pre-release interoperability correction: SVG now has explicit `bake` and
 `preserve` transform modes. Bake is the transform-free default for design

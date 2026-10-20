@@ -1,25 +1,18 @@
-> Next release: **0.2.1/build 26** with engine **0.2.2**, under qualification.
-> Both target macOS 13+ and arm64/x86_64. Native Intel is untested, owner-waived.
-> [Release record](../../docs/RELEASE_0.2.2.md). Published build 25 remains unchanged.
-
 # Beztrace for Glyphs
 
-A small native panel that traces the image already placed in Glyphs.
-**0.2.0 build 25** provides the four-mode dialog, grouped settings, verified joint
-smoothing and hint-preserving matching. Ordinary tracing retains compatibility
-with separately installed **beztrace 0.1.0 or 0.1.1** engines
-or local **0.1.1-dev.1** through **0.1.1-dev.4** development engines,
-JSON schema **1**, and path data **2**. The new matching panel requires the separately released **0.2.1** engine.
+**0.2.1/build 26** provides the four-mode tracing and matching dialog, verified
+fitting and smoothing, and persistent engine selection. Install the separately
+released **engine 0.2.2** for matching. JSON schema 1 and path data 2 are unchanged;
+earlier explicitly supported engine versions remain accepted for their supported workflows.
 
-[Signed release 0.2.0/build 25](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.0)
-is Developer ID signed and Apple-notarized. Native qualification covers Apple
-Silicon / Glyphs 4.2/build 4202, including signed UI Apply/Undo/Redo and signed
-update/rollback/removal/reinstallation. The unchanged Python source also passes
-all four modes, fresh-file exchange and 603 compiled interpolation checks.
-Native Intel is untested and explicitly owner-waived for this release.
-Install the separately released engine 0.2.1 for matching, then open the plugin
-and relaunch Glyphs. See [build 25 qualification](QUALIFICATION_BUILD25.md) and
-the [release record](../../docs/RELEASE_0.2.1.md).
+[Signed universal release 0.2.1/build 26](https://github.com/thierryc/beztrace/releases/tag/glyphs-v0.2.1)
+is Developer ID signed and Apple-notarized. Both architectures target macOS 13+.
+Native qualification covers Apple Silicon, Glyphs 4.2/build 4202 and official
+Python 3.14.6 on macOS 26.7.1: Apply/Undo/Redo, persistent Choose Engine,
+save/reopen, neutral exchange, variable TTF export and rollback/removal/reinstall.
+Native Intel is untested and owner-waived until hardware is available; Rosetta
+is separate evidence. See the [release record](../../docs/RELEASE_0.2.2.md).
+Earlier [build 25 qualification](QUALIFICATION_BUILD25.md) remains historical.
 
 ### Match Masters
 
@@ -63,8 +56,8 @@ after fitting. Single-image tracing retains its existing behavior.
 This step requires a locally built engine advertising `matchSmoothingVersion: 1`
 and `hybridFittingVersion: 1`; the earlier published matching preview does not
 provide this addition. Source-checkout builds select
-`.build/beztrace-0.2.1/bin/beztrace`. Build it locally with
-`python3 scripts/build_development_engine.py --output .build/beztrace-0.2.1`,
+`.build/beztrace-0.2.2/bin/beztrace`. Build it locally with
+`python3 scripts/build_development_engine.py --output .build/beztrace-0.2.2`,
 or select the verified development executable through **Additional actions… → Choose engine…**.
 
 **Native HOI correction** is a separate opt-in in **Interpolation** on a supported
@@ -158,7 +151,7 @@ For source development, `Plugins/Beztrace.glyphsPlugin` can be a symbolic link t
 this checkout's `Companions/Glyphs/Beztrace.glyphsPlugin`. Preserve the previous
 installation outside the Plugins folder first. Build the current development
 engine with `python3 scripts/build_development_engine.py --output
-.build/beztrace-0.2.1` from the repository root; the linked
+.build/beztrace-0.2.2` from the repository root; the linked
 plugin selects that executable automatically. Restart Glyphs after saving your
 work, then open **Path → Beztrace Match Masters…**. Installation alone does not
 change the running plugin. See [build 25 qualification](QUALIFICATION_BUILD25.md)
@@ -189,8 +182,8 @@ From the repository root, using Python 3.9+:
 python3 -m unittest discover -s Companions/Glyphs/tests -v
 python3 Companions/Glyphs/scripts/appkit_smoke.py
 python3 scripts/verify_product_boundaries.py
-python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.0-build25-ready
-python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.0-build25-ready
+python3 Companions/Glyphs/scripts/package.py --output .build/glyphs-companion-0.2.1-build26-ready
+python3 Companions/Glyphs/scripts/verify_package.py .build/glyphs-companion-0.2.1-build26-ready
 ```
 
 The AppKit check requires macOS, PyObjC and WindowServer access; it uses fake font

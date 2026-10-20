@@ -1,7 +1,9 @@
 # Companion release procedure
 
-The current implementation produces unsigned development packages only. It is
-not covered by the engine's earlier publication/signing authorization.
+The packaging script produces unsigned candidates; signing and notarization are
+separate steps. Current published engine 0.2.2 and companion 0.2.1/build 26 are
+qualified at frozen source `64c9c47`; see [the release record](../../docs/RELEASE_0.2.2.md).
+Future distributions require their own authorization and qualification.
 
 ## Local reproducibility
 
@@ -24,7 +26,9 @@ against the staged signed bundle afterward.
 
 1. Complete the native qualification checklist for the exact artifact and record
    each tested Glyphs build. Verify Python runtime setup on a fresh host, Apple
-   Silicon and Intel loading, and UI accessibility. Freeze the source revision,
+   Silicon loading, separate Rosetta evidence, universal slices and UI accessibility.
+   Native Intel loading is deferred under the owner’s 2026-10-20 instruction until
+   hardware is available; record it as untested, owner-waived. Freeze the source revision,
    plugin version/build, SDK provenance, and SBOM.
 2. Obtain separate authorization for signing, notarization, upload, publication,
    installation, and relaunch as applicable. Select the existing project's
@@ -244,9 +248,9 @@ See the [final release record](../../docs/RELEASE_0.2.1.md) and
 [public qualification receipt](https://github.com/thierryc/beztrace/releases/download/glyphs-v0.2.0/qualification.json).
 Native Intel remains untested, owner-waived; native HOI on 4202 remains unqualified.
 
-## Universal 0.2.1/build 26 preparation — 2026-10-20
+## Universal 0.2.1/build 26 published — 2026-10-20
 
-The new candidate consumes engine 0.2.2 and the shared v1 engine-settings
+The signed, Apple-notarized release consumes engine 0.2.2 and the shared v1 engine-settings
 contract, retaining earlier accepted engine versions. It persists explicit
 choices, honors user overrides before managed choices and never replaces an
 executable during engine selection. Existing releases remain immutable.

@@ -162,3 +162,15 @@ Record it as untested, owner-waived; never present Rosetta as native Intel evide
 Universal slice inspection, native Apple Silicon testing and x86_64/Rosetta
 qualification remain required. Other source, performance, signed distribution,
 notarization and installation gates remain unchanged.
+
+## Qualified 2026-10-20 universal release
+
+The owner requested a new engine and companion universal release and deferred
+native Intel qualification until hardware is available. Engine 0.2.2 and companion
+0.2.1/build 26 are signed, Apple-notarized, qualified and published from frozen
+source `64c9c47456b0bd671f1e129f75dbc9da8b602a6f` at `v0.2.2` and
+`glyphs-v0.2.1`. Preserve both tags and every distributed byte. Native Intel is
+untested, owner-waived; Rosetta is separate evidence. All other release gates
+remain required. The host shared engine remains unchanged. Glyphs MCP managed
+installer/catalog support remains separate. This publication does not authorize
+future versions or replacement artifacts. See `docs/RELEASE_0.2.2.md`.

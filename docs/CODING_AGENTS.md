@@ -9,7 +9,7 @@ installed engine and your artwork are accessible.
 
 ## Install the engine and skills
 
-Install the signed [engine 0.2.1](https://github.com/thierryc/beztrace/releases/tag/v0.2.1)
+Install the signed [engine 0.2.2](https://github.com/thierryc/beztrace/releases/tag/v0.2.2)
 using the [release guide](RELEASE.md). Check from your agent's terminal:
 
 ```sh
@@ -17,7 +17,7 @@ beztrace --version
 beztrace capabilities --format json
 ```
 
-Expect engine version `0.2.1`. Matching requires the advertised `matchModes`;
+Expect engine version `0.2.2`. Matching requires the advertised `matchModes`;
 verified fitting and joint smoothing advertise `hybridFittingVersion: 1` and
 `jointSmoothingVersion: 1`. If the agent cannot find the command, use the installed
 executable at `/Library/Application Support/beztrace/bin/beztrace` with the path
@@ -113,7 +113,7 @@ In Codex, begin with `$beztrace-match-masters`; in Claude Code, begin with
 `/beztrace-match-masters`. For example:
 
 ```text
-Use Beztrace 0.2.1 to match artwork/Bold.png to Regular.outline.json at 1000 UPM.
+Use Beztrace 0.2.2 to match artwork/Bold.png to Regular.outline.json at 1000 UPM.
 Keep Regular bit-for-bit unchanged and allow no extra on-curves. Use its
 on-curve and total-node counts as the ceilings, with a 1-unit fit tolerance.
 Ask me for the image placement if it is not specified. Write a pair job,
@@ -147,7 +147,7 @@ two `SKILL.md` files and their supporting references. Provide the source files,
 placement, tolerance, node budgets and a fresh output directory in your request.
 
 For live Glyphs application, install the separately released
-[companion 0.2.0/build 25](GLYPHS_COMPANION_RELEASE.md). Native scripted use also
+[companion 0.2.1/build 26](GLYPHS_COMPANION_RELEASE.md). Native scripted use also
 needs an available, authorized Glyphs scripting connection. Standalone tracing
 and matching prepare detached paths; they do not write a font file. Preview and
 apply through the companion's supported interface, retaining its stale-target
