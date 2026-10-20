@@ -146,3 +146,19 @@ archives and the stapled engine installer are qualified and published at
 `v0.2.1` and `glyphs-v0.2.0`, frozen source `217dcc0`. Native Intel remains
 untested, owner-waived; Rosetta is separate evidence. Preserve these tags and
 every distributed asset. This authorization does not extend to future versions.
+
+## Universal release requested 2026-10-20
+
+The owner requested a new universal engine and companion release. Prepare engine
+0.2.2 and companion 0.2.1/build 26 on `lit/release-v0.2.2`, preserving all earlier
+tags/assets and unrelated local changes. Both distributions target macOS 13+
+and arm64/x86_64. Managed engine selection must honor explicit user choices;
+independent or modified installations must not be overwritten automatically.
+The Glyphs MCP managed installer remains outside this repository's scope.
+
+The owner removed native Intel execution as a release gate because no Intel Mac
+is available. Defer native Intel qualification until the owner provides a machine.
+Record it as untested, owner-waived; never present Rosetta as native Intel evidence.
+Universal slice inspection, native Apple Silicon testing and x86_64/Rosetta
+qualification remain required. Other source, performance, signed distribution,
+notarization and installation gates remain unchanged.

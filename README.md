@@ -20,6 +20,10 @@ cubic Bezier outlines.
 > Rosetta results are separate evidence. The engine runs without Glyphs or Python.
 > Glyphs MCP setup and adapter integration remain separate work.
 
+The next universal release is being prepared as engine **0.2.2** and companion
+**0.2.1/build 26**. See [its preparation and qualification record](docs/RELEASE_0.2.2.md).
+The published stable versions above remain unchanged until qualification finishes.
+
 ## Intended product
 
 The standalone engine is split into two reusable layers:

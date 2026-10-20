@@ -10,9 +10,10 @@ import threading
 import time
 from pathlib import Path
 from .contract import CompanionError, ENGINE_VERSIONS, MAX_INPUT, MAX_OUTPUT, parse_result, number
+from .engine_settings import selected_engine
 
 DEFAULT_ENGINE = '/Library/Application Support/beztrace/bin/beztrace'
-DEVELOPMENT_ENGINE = '.build/beztrace-0.2.1/bin/beztrace'
+DEVELOPMENT_ENGINE = '.build/beztrace-0.2.2/bin/beztrace'
 DEFAULT_OPTIONS = dict(threshold='auto', invert=False, accuracy=2.0, smoothing=1.0,
                        corner_threshold=12.0, min_contour_area=100.0, grid=2,
                        structure_grid=0, refine_raster=True, rtl_start=False, diagnostics='none')
@@ -25,22 +26,21 @@ class Cancelled(CompanionError):
     pass
 
 
-def default_engine(module_path=__file__):
-    """Prefer the corrected engine only when this plugin is running from its source checkout.
+def default_engine(module_path=__file__, home=None):
+    """Honor persistent selections before a source-checkout or system fallback.
 
-    Packaged companions have no repository marker and retain the released system
-    executable as their default.  This keeps the unsigned development workflow
-    from silently falling back to the known small-contour behavior in 0.1.0 each
-    time a new panel is opened.
+    Packaged companions have no repository marker. A selected path remains
+    authoritative even when missing; the bounded transport reports that error.
     """
+    fallback = DEFAULT_ENGINE
     path = Path(module_path).resolve()
     for parent in path.parents:
         if (parent/'Package.swift').is_file() and (parent/'Companions/Glyphs').is_dir():
             candidate = parent/DEVELOPMENT_ENGINE
             if candidate.is_file() and os.access(candidate, os.X_OK):
-                return str(candidate)
+                fallback = str(candidate)
             break
-    return DEFAULT_ENGINE
+    return selected_engine(fallback, home=home)
 
 
 def arguments(options):
@@ -159,7 +159,7 @@ def trace(executable, image, options, cancel=None, progress=lambda stage: None,
     code, out, err = run_process(executable, ['--version'], b'', cancel, version_timeout, 4096)
     versions = {('beztrace ' + version).encode(): version for version in ENGINE_VERSIONS}
     if code or out.strip() not in versions or err:
-        raise CompanionError('Incompatible engine: beztrace 0.1.0 or a supported 0.1.1 development engine is required')
+        raise CompanionError('Incompatible engine: choose a supported beztrace executable (0.2.2 recommended)')
     checked_version = versions[out.strip()]
     progress('Tracing…')
     code, out, err = run_process(executable, args, image, cancel, trace_timeout)

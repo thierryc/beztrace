@@ -243,3 +243,15 @@ is unchanged. Earlier unsigned statuses and failed trials above are historical.
 See the [final release record](../../docs/RELEASE_0.2.1.md) and
 [public qualification receipt](https://github.com/thierryc/beztrace/releases/download/glyphs-v0.2.0/qualification.json).
 Native Intel remains untested, owner-waived; native HOI on 4202 remains unqualified.
+
+## Universal 0.2.1/build 26 preparation — 2026-10-20
+
+The new candidate consumes engine 0.2.2 and the shared v1 engine-settings
+contract, retaining earlier accepted engine versions. It persists explicit
+choices, honors user overrides before managed choices and never replaces an
+executable during engine selection. Existing releases remain immutable.
+
+The owner removed native Intel qualification as a blocker until an Intel machine
+is available. Native Intel remains untested, owner-waived; arm64, Rosetta and
+universal inspection remain required. Other release gates still apply.
+See [qualification](../../docs/RELEASE_0.2.2.md).
