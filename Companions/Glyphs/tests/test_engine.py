@@ -22,20 +22,20 @@ class ProcessTests(unittest.TestCase):
             (root/'Companions/Glyphs').mkdir(parents=True)
             module=root/'Companions/Glyphs/plugin/beztrace_companion/engine.py'
             module.parent.mkdir(parents=True); module.write_text('')
-            development=root/'.build/beztrace-0.2.1/bin/beztrace'
+            development=root/'.build/beztrace-0.2.2/bin/beztrace'
             development.parent.mkdir(parents=True); development.write_text('#!/bin/sh\n')
             development.chmod(0o755)
-            self.assertEqual(default_engine(module),str(development.resolve()))
+            self.assertEqual(default_engine(module, home=directory),str(development.resolve()))
 
     def test_packaged_or_missing_development_engine_uses_release(self):
         with tempfile.TemporaryDirectory() as directory:
             packaged=Path(directory)/'Beztrace.glyphsPlugin/Contents/Resources/beztrace_companion/engine.py'
             packaged.parent.mkdir(parents=True); packaged.write_text('')
-            self.assertEqual(default_engine(packaged),DEFAULT_ENGINE)
+            self.assertEqual(default_engine(packaged, home=directory),DEFAULT_ENGINE)
             root=Path(directory)/'checkout'; (root/'Package.swift').parent.mkdir(parents=True,exist_ok=True)
             (root/'Package.swift').write_text(''); (root/'Companions/Glyphs').mkdir(parents=True)
             module=root/'Companions/Glyphs/plugin/engine.py'; module.parent.mkdir(parents=True); module.write_text('')
-            self.assertEqual(default_engine(module),DEFAULT_ENGINE)
+            self.assertEqual(default_engine(module, home=directory),DEFAULT_ENGINE)
 
     def run_python(self,source,timeout=2,limit=4096,cancel=None,input=b''):
         return run_process(sys.executable,['-c',source],input,cancel or threading.Event(),timeout,limit)
@@ -82,7 +82,7 @@ class ProcessTests(unittest.TestCase):
         with self.assertRaisesRegex(CompanionError,'Incompatible'): trace(self.fake(version='beztrace 0.3.0'),b'image',{})
 
     def test_supported_versions_must_match_json(self):
-        versions = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1', '0.2.0-dev.1', '0.2.0', '0.2.1')
+        versions = ('0.1.0', '0.1.1-dev.1', '0.1.1-dev.2', '0.1.1-dev.3', '0.1.1-dev.4', '0.1.1', '0.2.0-dev.1', '0.2.0', '0.2.1', '0.2.2')
         for executable_version in versions:
             for json_version in versions:
                 result = sample(); result['engine']['version'] = json_version

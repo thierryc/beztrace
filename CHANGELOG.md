@@ -1,5 +1,18 @@
 # Changelog
 
+## Engine 0.2.2 / companion 0.2.1 build 26 — preparation
+
+- Retain macOS 13+ universal arm64/x86_64 engine and companion distributions.
+- Add persistent companion engine selection using the shared v1 settings file;
+  explicit user selection takes priority over managed selection and defaults.
+- Preserve managed/unknown settings when selecting an engine; refuse malformed,
+  oversized, symlinked or concurrently changed configuration. Never install,
+  update or replace an executable during selection.
+- Add exact engine 0.2.2 compatibility and correct the companion About identity.
+- Keep tracing, matching, fitting, smoothing and neutral contracts unchanged.
+- Defer native Intel qualification under the owner's 2026-10-20 instruction;
+  retain universal inspection, arm64 and separate x86_64/Rosetta checks.
+
 ## Engine 0.2.1 / companion 0.2.0 — 2026-10-18
 
 - Retain standalone matching of two images, image to reference, and two outlines.

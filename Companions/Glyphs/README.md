@@ -1,3 +1,7 @@
+> Next release: **0.2.1/build 26** with engine **0.2.2**, under qualification.
+> Both target macOS 13+ and arm64/x86_64. Native Intel is untested, owner-waived.
+> [Release record](../../docs/RELEASE_0.2.2.md). Published build 25 remains unchanged.
+
 # Beztrace for Glyphs
 
 A small native panel that traces the image already placed in Glyphs.
@@ -275,3 +279,23 @@ Intel runtime qualification is untested and waived, never a passing result.
 Universal loader slices remain present and signature-verified. Remaining native
 gates must be reported from actual results; signing alone cannot qualify them.
 See [build 15 qualification](QUALIFICATION_BUILD15.md).
+
+## Persistent engine selection (0.2.1/build 26)
+
+Both tracing and matching read
+`~/Library/Application Support/beztrace/engine-settings-v1.json` on opening a
+new panel. The v1 object contains `schemaVersion: 1` and optional absolute
+`userEngine` and `managedEngine` paths. An explicit `userEngine` wins over
+`managedEngine`, which wins over the source-checkout/system default. An invalid
+or missing selected executable produces an error; it never silently selects
+another engine. No ambient PATH search is performed.
+
+**Choose Engine…** saves `userEngine` atomically while preserving managed and
+unknown fields. Invalid, oversized or symlinked configuration is refused and
+left unchanged. Selecting an engine never writes, installs, updates or replaces
+an engine or companion installation. Existing panel jobs retain their selected
+engine; reopen the panel after an external settings change.
+
+The standalone engine and companion retain their macOS 13+ deployment targets.
+Any narrower support policy in a separately distributed managed installer belongs
+to that consumer; this release does not alter its catalog or installation rules.

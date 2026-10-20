@@ -77,7 +77,10 @@ sample count with every published benchmark.
   determinism tests.
 - JSON schema, SVG equivalence, standard-stream and exit-code tests.
 - Property/fuzz tests for bounds safety and non-finite geometry.
-- Native `arm64`, native or CI `x86_64`, and universal artifact inspection.
+- Native `arm64`, `x86_64` execution (Rosetta on Apple Silicon), and universal artifact inspection.
+  Per the owner's 2026-10-20 instruction, native Intel execution is deferred and
+  is not a release gate until an Intel machine is available. Record native Intel
+  as untested, owner-waived; Rosetta remains separate evidence.
 - Signed ZIP, installer, receipt, Gatekeeper, notarization, checksum, license,
   notice and SBOM verification.
 

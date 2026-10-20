@@ -16,6 +16,7 @@ from AppKit import (NSWindowController, NSPanel, NSButton, NSTextField, NSPopUpB
 from Foundation import NSTimer,NSUserDefaults
 from .contract import CompanionError, combined_warning
 from .engine import default_engine, trace, arguments
+from .engine_settings import save_user_engine
 from .native import GlyphsHost
 from .adapter import revalidate, apply_paths, RecoveryError
 from .session import Session
@@ -561,16 +562,19 @@ class BeztraceWindowController(NSWindowController):
         if self.session.busy: return
         panel=NSOpenPanel.openPanel(); panel.setCanChooseDirectories_(False); panel.setAllowsMultipleSelection_(False)
         if panel.runModal()==NSModalResponseOK:
-            self.engine=str(panel.URL().path()); self.status('Engine selected. Ready to trace.')
-            self.settingsChanged_(None)
+            try:
+                executable=str(panel.URL().path()); save_user_engine(executable)
+                self.engine=executable; self.status('Engine selected. Ready to trace.')
+                self.settingsChanged_(None)
+            except Exception as exc: self.status(str(exc))
 
     def showDetails_(self,sender):
         alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace details')
         alert.setInformativeText_(self.details or 'No errors.'); alert.runModal()
 
     def showAbout_(self,sender):
-        alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace 0.1.0 · build 15')
-        alert.setInformativeText_('Supports beztrace 0.1.0, 0.1.1 and 0.1.1-dev.1 through 0.1.1-dev.4.\nEngine: '+self.engine+'\n\nSigning and native qualification status are recorded in the release manifest.')
+        alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace 0.2.1 · build 26')
+        alert.setInformativeText_('Engine 0.2.2 recommended.\nEngine: '+self.engine+'\n\nSigning and native qualification status are recorded in the release manifest.')
         alert.runModal()
 
     def windowWillClose_(self,notification):

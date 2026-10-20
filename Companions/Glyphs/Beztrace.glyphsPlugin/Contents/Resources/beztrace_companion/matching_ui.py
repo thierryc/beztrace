@@ -27,6 +27,7 @@ from .matching_preview import commands
 from .contract import tight_bounds
 from .ui import load_preferences,save_preferences
 from .engine import default_engine
+from .engine_settings import save_user_engine
 from .adapter import RecoveryError
 from .contract import CompanionError
 
@@ -833,7 +834,10 @@ class MatchingWindowController(NSWindowController):
     def chooseEngine_(self,sender):
         dialog=NSOpenPanel.openPanel(); dialog.setAllowsMultipleSelection_(False)
         if dialog.runModal()==NSModalResponseOK:
-            self.engine=str(dialog.URL().path()); self.settingsChanged_(None)
+            try:
+                executable=str(dialog.URL().path()); save_user_engine(executable)
+                self.engine=executable; self.settingsChanged_(None)
+            except Exception as exc: self.failure(exc)
     def showDetails_(self,sender):
         alert=NSAlert.alloc().init(); alert.setMessageText_('Beztrace matching details')
         alert.setInformativeText_(self.details[:8000] or 'Update the preview to see its details.'); alert.runModal()

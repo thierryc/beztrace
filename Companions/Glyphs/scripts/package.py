@@ -38,7 +38,7 @@ def validate_source():
     meta=plistlib.loads((BUNDLE/'Contents/Info.plist').read_bytes())
     if not (meta['CFBundleIdentifier']=='dev.beztrace.glyphs'):
         raise ValueError('Package validation failed at package.py:38')
-    if not (meta['CFBundleShortVersionString']=='0.2.0' and meta['CFBundleVersion']=='25'):
+    if not (meta['CFBundleShortVersionString']=='0.2.1' and meta['CFBundleVersion']=='26'):
         raise ValueError('Package validation failed at package.py:39')
     version=meta['CFBundleShortVersionString']
     source=json.loads((BUNDLE/'Contents/Resources/GlyphsSDK-SOURCE.json').read_text())
@@ -138,6 +138,7 @@ def build(output):
         dict(sbom['packages'][3],SPDXID='SPDXRef-MatchingEngine',versionInfo='0.2.0-dev.1'),
         dict(sbom['packages'][3],SPDXID='SPDXRef-MatchingEngine020',versionInfo='0.2.0'),
         dict(sbom['packages'][3],SPDXID='SPDXRef-MatchingEngine021',versionInfo='0.2.1'),
+        dict(sbom['packages'][3],SPDXID='SPDXRef-MatchingEngine022',versionInfo='0.2.2'),
         dict(name='dekink-glyphs4 native candidate mathematics and evaluator',SPDXID='SPDXRef-Dekink',
              versionInfo='f6c33d969732716698e8a10e0714e1ec4b74a118',downloadLocation='https://github.com/thierryc/dekink-glyphs4',
              filesAnalyzed=False,licenseConcluded='Apache-2.0',licenseDeclared='Apache-2.0',
@@ -146,6 +147,7 @@ def build(output):
         dict(spdxElementId='SPDXRef-Companion',relationshipType='DEPENDS_ON',relatedSpdxElement='SPDXRef-MatchingEngine'),
         dict(spdxElementId='SPDXRef-Companion',relationshipType='DEPENDS_ON',relatedSpdxElement='SPDXRef-MatchingEngine020'),
         dict(spdxElementId='SPDXRef-Companion',relationshipType='DEPENDS_ON',relatedSpdxElement='SPDXRef-MatchingEngine021'),
+        dict(spdxElementId='SPDXRef-Companion',relationshipType='DEPENDS_ON',relatedSpdxElement='SPDXRef-MatchingEngine022'),
         dict(spdxElementId='SPDXRef-Companion',relationshipType='CONTAINS',relatedSpdxElement='SPDXRef-Dekink')])
     write_json(resources/'sbom.spdx.json',sbom)
     archive=output/('beztrace-glyphs-'+version+'-build'+str(build_number)+'-macos-universal.zip')
@@ -171,9 +173,9 @@ def build(output):
         'platform':{'minimumMacOS':'13.0','architectures':['arm64','x86_64'],
                     'glyphsBundleIdentifier':'com.GeorgSeifert.Glyphs4','glyphsMajorVersion':4,'minimumGlyphsBuild':4107,
                     'python':{'minimumVersion':'3.9','provider':'Glyphs Python runtime','modules':['GlyphsApp','objc','AppKit','Foundation','Quartz']}},
-        'engine':{'name':'beztrace','versions':['0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4','0.1.1','0.2.0-dev.1','0.2.0','0.2.1'],'bundled':False,'schemaVersions':[1],'pathDataVersions':[2],
+        'engine':{'name':'beztrace','versions':['0.1.0','0.1.1-dev.1','0.1.1-dev.2','0.1.1-dev.3','0.1.1-dev.4','0.1.1','0.2.0-dev.1','0.2.0','0.2.1','0.2.2'],'bundled':False,'schemaVersions':[1],'pathDataVersions':[2],
                   'defaultExecutable':'/Library/Application Support/beztrace/bin/beztrace',
-                  'releaseUrl':'https://github.com/thierryc/beztrace/releases/tag/v0.1.0'},
+                  'releaseUrl':'https://github.com/thierryc/beztrace/releases/tag/v0.2.2'},
         'installation':{'root':'glyphs4ApplicationSupport','relativePath':'Plugins/Beztrace.glyphsPlugin',
                         'requiresRelaunch':True,'sharedEngineRemoval':False},
         'qualification':{'nativeTestedBuilds':[],'status':'development-unqualified'},
