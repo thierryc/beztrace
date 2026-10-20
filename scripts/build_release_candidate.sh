@@ -128,8 +128,10 @@ See WORKFLOW.md for tolerance, point limits, retracing and smart comparison.
 
 Use a new output directory for each run. No Python or Glyphs runtime is needed.
 Native font application, HOI, Undo/Redo and save/reopen are outside this tool.
-The released Glyphs companion requires its supported 0.1.1 engine separately.
-Installing this engine does not upgrade that companion.
+The separately versioned Glyphs companion must explicitly support this engine.
+Companion 0.2.1/build 26 supports engine 0.2.2 and persistent engine selection.
+Installing this engine does not upgrade the companion. Earlier companions may
+require a separate supported executable; preserve independent installations.
 """)
 (support / 'run-example.sh').write_text('''#!/bin/sh
 set -eu
