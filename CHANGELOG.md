@@ -1,5 +1,11 @@
 # Changelog
 
+## Companion 0.2.2/build 27 — release preparation
+
+- Add eight-point horizontal sidebar padding so native focus rings stay visible.
+- Fit controls within the scroll viewport with overlay or legacy scrollbars.
+- Keep engine 0.2.2, geometry, contracts and font-editing behavior unchanged.
+
 ## Engine 0.2.2 / companion 0.2.1 build 26 — 2026-10-20
 
 - Retain macOS 13+ universal arm64/x86_64 engine and companion distributions.

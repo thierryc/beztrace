@@ -1,5 +1,10 @@
 # Beztrace for Glyphs
 
+Companion **0.2.2/build 27** adds eight-point padding around sidebar controls so
+the focus border remains visible, including when a legacy scrollbar is shown.
+It uses the separately distributed engine 0.2.2. Qualification status and exact
+artifact hashes are recorded in its release manifest.
+
 **0.2.1/build 26** provides the four-mode tracing and matching dialog, verified
 fitting and smoothing, and persistent engine selection. Install the separately
 released **engine 0.2.2** for matching. JSON schema 1 and path data 2 are unchanged;
